@@ -1,0 +1,101 @@
+<!DOCTYPE HTML >
+<html>
+
+<head>
+    <title>登陆界面</title>
+    <meta charset="UTF-8" />
+    <!--  VUE -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- elementUI -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        #app {
+            width: 500px;
+            margin: 200px auto;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <el-form status-icon :model="loginInfo" :rules="rules" ref="loginFrom" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="账号" prop="employeeUsername">
+            <el-input type="text" v-model="loginInfo.employeeUsername" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="employeePassword">
+            <el-input type="password" v-model="loginInfo.employeePassword" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="submit">提交</el-button>
+            <el-button>重置</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            loginInfo: {},
+            rules: {
+                employeeUsername: [{
+                    required: true,
+                    message: '请输入用户名',
+                    trigger: 'blur'
+                },
+                    {
+                        min: 3,
+                        max: 10,
+                        message: '长度在 3 到 10 个字符',
+                        trigger: 'blur'
+                    }
+                ],
+                employeePassword: [{
+                    required: true,
+                    message: '请输入密码',
+                    trigger: 'blur'
+                },
+                    {
+                        min: 3,
+                        max: 10,
+                        message: '长度在 3 到 10 个字符',
+                        trigger: 'blur'
+                    }
+                ]
+            }
+        },
+        methods: {
+            submit: function() {
+                this.$refs["loginFrom"].validate(function(valid) {
+                    if (valid) {
+                        axios.post('emp/login', app.loginInfo)
+                            .then(function(response) {
+                                // response.data.code
+                                if (response.data.code == 200) {
+                                    window.location.href = "toHome";
+                                } else if (response.data.code == 300) {
+                                    app.$notify({
+                                        title: '警告',
+                                        message: response.data.msg,
+                                        type: 'warning'
+                                    });
+                                } else {
+                                    app.$notify.error({
+                                        title: '登录失败',
+                                        message: response.data.msg
+                                    });
+                                }
+
+                            });
+                    }
+
+                });
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.breach.huajinbao.mapper.base.IEmployeeMapper">
+
+    <!--员工登录  -->
+    <!--<select id="empLogin" resultType="int">
+
+	</select>-->
+
+    <!-- 查询员工信息 -->
+    <select id="getEmpByLoginID" resultType="com.breach.common.entity.EmployeeInfo">
+	   select * from employee_info where employee_account_id = #{id}
+	</select>
+
+    <!--获取员工权限  -->
+    <resultMap type="map" id="perMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <!--
+          {id:id,name:name,subMenu:[]}
+         -->
+        <collection column="{permission_id=id, role_id=rid}" property="subMenu" javaType="list" select="getSubMenu"/>
+    </resultMap>
+
+    <select id="getPermission" resultMap="perMap">
+	  select
+	  DISTINCT
+	  p1.id as id,
+	  p1.name as name,
+	  rp.role_id as rid
+	  from employee_role_permission as rp
+	  INNER JOIN
+	  employee_permission as p
+	  ON rp.permission_id = p.id
+	  INNER JOIN
+	  employee_permission as p1
+	  ON p.parent_id = p1.id
+	  where rp.role_id = #{roleID}
+	</select>
+
+    <select id="getSubMenu" parameterType="map" resultType="map">
+	  select
+	  p.id as id ,
+	  p.name as label,
+	  p.url as url
+	  from employee_role_permission as rp
+	  INNER JOIN
+	  employee_permission as p
+	  on rp.permission_id = p.id
+	  where p.parent_id = #{permission_id} and rp.role_id = #{role_id}
+	</select>
+
+    <!-- 分页+查询 -->
+    <sql id="empQuery">
+        <where>
+            <if test="name != null and name != ''">
+                and e.employee_name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                and e.employee_hiredate &gt; #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                and e.employee_hiredate &lt; #{endDate}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getEmp" resultType="map">
+        select e.id ,
+        e.employee_name as name,
+        e.employee_telephone as telephone,
+        e.employee_hiredate as hiredate,
+        e.employee_state as state,
+        d.name as dname,
+        r.name as rname
+        from employee_info e INNER JOIN department d on e.department_id = d.id
+        INNER JOIN employee_role r ON e.employee_role_id = r.id
+        <include refid="empQuery"/>
+        limit #{page},#{count}
+    </select>
+
+    <select id="getEmpTotal" resultType="java.lang.Integer">
+        select count(*) c from employee_info e
+        <include refid="empQuery"/>
+    </select>
+
+    <!-- 查询部门    角色 -->
+    <select id="getDept" resultType="map">
+	      select id, name from department
+	</select>
+    <select id="getRole" resultType="map">
+	      select id, name from employee_role
+	</select>
+
+    <!-- 添加新账号 -->
+    <insert id="addLoginAccount" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	    insert into
+	    employee_account
+	    values (
+	    null,
+	    #{employeeUsername},
+	    #{employeePassword}
+	    )
+	</insert>
+
+    <!-- 添加新员工 -->
+    <insert id="addEmp">
+	    insert into employee_info (
+	    employee_name,
+	    employee_telephone,
+	    department_id,
+	    employee_role_id,
+	    employee_state,
+	    employee_account_id
+	    )
+	    values (
+	    #{employeeName},
+	    #{employeeTelephone},
+	    #{departmentId},
+	    #{employeeRoleId},
+	    #{employeeState},
+	    #{employeeAccountId}
+	    )
+	</insert>
+
+    <!-- 删除员工 -->
+    <delete id="deleteEmp">
+        delete
+        employee_info,
+        employee_account
+        from employee_info
+        left join employee_account
+        on employee_info.employee_account_id = employee_account.id
+        where employee_info.id
+        in
+        <foreach collection="array" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据id获取员工 -->
+    <select id="getEmpByID" resultType="com.breach.common.entity.EmployeeInfo">
+	   select *  from employee_info where id = #{id}
+	</select>
+
+    <!-- 修改员工 -->
+    <update id="editEmp">
+	    update
+	    employee_info
+	    set
+	    employee_name=#{employeeName},
+	    employee_telephone=#{employeeTelephone},
+	    department_id=#{departmentId},
+	    employee_role_id=#{employeeRoleId},
+	    employee_state=#{employeeState}
+	    where
+	    id=#{id}
+	</update>
+
+</mapper>
+
+
+
+
+

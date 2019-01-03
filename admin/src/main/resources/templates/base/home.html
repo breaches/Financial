@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>后台管理</title>
+	<meta charset="UTF-8" />
+	<!--  VUE -->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<!-- elementUI -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<!-- axios -->
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<style>
+		html,
+		body {
+			margin:0;
+			height: 100%;
+		}
+		.el-header {
+			background-color: #23262e;
+			color: #333;
+
+		}
+		.el-aside {
+			background-color: #545c64;
+			color: #333;
+		}
+		.el-main {
+			color: #333;
+			margin: 0;
+			padding: 0;
+		}
+		#app,
+		#app>.el-container,
+		.el-tab-pane {
+			height: 100%;
+		}
+		.el-tabs__content{
+			height: 85%;
+		}
+	</style>
+</head>
+
+<body>
+<div id="app">
+
+	<el-container>
+		<el-header>
+			<h1 style="color:white;">欢迎来到德莱联盟</h1>
+		</el-header>
+		</el-header>
+		<el-container>
+
+			<el-aside width="200px">
+
+
+				<el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+
+					<el-submenu v-for="menu in menus" :index="menu.id">
+						<template slot="title">
+							<i class="el-icon-location"></i>
+							<span>{{menu.name}}</span>
+						</template>
+
+						<el-menu-item-group>
+							<!-- submenu: {id:1,label:标题,url:http://www} -->
+							<el-menu-item v-for="subMenu in menu.subMenu" @click="addTab(subMenu)" :index="subMenu.id">{{subMenu.label}}</el-menu-item>
+						</el-menu-item-group>
+					</el-submenu>
+
+				</el-menu>
+
+
+
+			</el-aside>
+
+			<el-main>
+				<el-tabs v-model="editableTabsValue"  type="border-card" closable @tab-remove="removeTab"    style="width: 99%;height: 99%;">
+					<el-tab-pane key="0" label="欢迎页" name="0">
+						欢迎
+					</el-tab-pane>
+
+					<el-tab-pane v-for="(item, index) in tabs" :key="item.id" :label="item.label" :name="item.id">
+						<iframe  :src="item.url" style="width: 100%;height: 100%;border:0;" ></iframe>
+					</el-tab-pane>
+
+				</el-tabs>
+
+			</el-main>
+
+		</el-container>
+	</el-container>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            menus: [],
+            tabs: [],
+            editableTabsValue:"0"
+        },
+        methods: {
+            addTab: function(currentMenu) {
+                if(this.tabs.indexOf(currentMenu) == -1){
+                    this.tabs.push(currentMenu);
+                }
+                this.editableTabsValue = currentMenu.id;
+            },
+            removeTab:function(targetName){
+                var tabs = this.tabs;
+                var activeName = this.editableTabsValue;
+                if(activeName === targetName) {
+                    tabs.forEach(function(tab, index){
+                        if(tab.id == targetName) {
+                            var nextTab = tabs[index + 1] || tabs[index - 1];
+                            if(nextTab) {
+                                activeName = nextTab.id;
+                            }else{
+                                activeName = "0";
+                            }
+                        }
+                    });
+                }
+                this.editableTabsValue = activeName;
+
+                this.tabs = tabs.filter(function(tab) {
+                    return tab.id != targetName;
+                });
+
+            }
+        }
+    });
+
+
+    axios.post('emp/getPermission')
+        .then(function(response) {
+            app.menus = response.data;
+        });
+</script>
+</body>
+</html>
