@@ -23,6 +23,7 @@ public class EmployeeController {
     @Autowired
     private IEmployeeService empService;
 
+    //test2
     @RequestMapping("/login")
     public Result empLogin(@RequestBody EmployeeAccount login) {
         return empService.empLogin(login);
