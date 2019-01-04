@@ -50,7 +50,7 @@ public class EmployeeController {
     public Result addEmp(@RequestBody EmployeeInfo e) {
         return empService.addEmp(e);
     }
-
+    //wwwww
     @RequestMapping("/deleteEmp")
     public Result deleteEmp(@RequestBody int[] ids) {
         return empService.deleteEmp(ids);
