@@ -29,6 +29,7 @@ public class EmployeeController {
         return empService.empLogin(login);
     }
 
+    // chen
     @RequestMapping("/getPermission")
     public List<Map> getPermission() {
         return empService.getPermission();
