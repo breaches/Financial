@@ -1,6 +1,6 @@
 package com.breach.common.mapper;
 
-import com.breach.common.entity.ConsumerAccount;
+import com.breach.common.entity.ConsumerEducation;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author shaokang
  * @since 2019-01-04
  */
-public interface IConsumerAccountMapper extends BaseMapper<ConsumerAccount> {
+public interface IConsumerEducationMapper extends BaseMapper<ConsumerEducation> {
 
 }

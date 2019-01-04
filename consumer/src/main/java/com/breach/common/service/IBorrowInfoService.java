@@ -1,6 +1,6 @@
 package com.breach.common.service;
 
-import com.breach.common.entity.ConsumerAccount;
+import com.breach.common.entity.BorrowInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author shaokang
  * @since 2019-01-04
  */
-public interface IConsumerAccountService extends IService<ConsumerAccount> {
+public interface IBorrowInfoService extends IService<BorrowInfo> {
 
 }

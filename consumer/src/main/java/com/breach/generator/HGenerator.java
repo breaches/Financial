@@ -23,7 +23,14 @@ public class HGenerator {
         String packageName = "com.breach.common";
         String[] tables = {
                 "consumer_account",
-                "consumer_info"
+                "consumer_info",
+                "consumer_address",
+                "consumer_car",
+                "consumer_card",
+                "consumer_education",
+                "consumer_house",
+                "borrow_info",
+                "lender_info"
         };
         generateByTables(packageName, tables);
     }
