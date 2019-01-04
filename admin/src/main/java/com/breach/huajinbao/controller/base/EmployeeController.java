@@ -19,9 +19,11 @@ import com.breach.huajinbao.service.base.IEmployeeService;
 @RequestMapping("/emp")
 public class EmployeeController {
 
+    // test
     @Autowired
     private IEmployeeService empService;
 
+    //test2
     @RequestMapping("/login")
     public Result empLogin(@RequestBody EmployeeAccount login) {
         return empService.empLogin(login);
