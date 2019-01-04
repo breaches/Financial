@@ -10,7 +10,8 @@ public class MapController {
 	public String toHome(){
 		return "base/home";
 	}
-	
+
+	// shaokang
 	@RequestMapping("/toEmp")
 	public String toEmp(){
 		return "base/employee";
