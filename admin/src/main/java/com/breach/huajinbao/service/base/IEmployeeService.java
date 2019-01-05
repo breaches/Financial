@@ -27,7 +27,7 @@ public interface IEmployeeService {
 	/***
 	 * 分页 +  搜索 获取员工
 	 * @param query
-	 * @return
+	 * @return wanghehe test
 	 */
 	Map getEmp(EmployeeQuery query);
 
