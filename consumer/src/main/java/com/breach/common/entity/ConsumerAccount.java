@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-04
+ * @since 2019-01-07
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,14 +27,25 @@ public class ConsumerAccount extends Model<ConsumerAccount> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    /**
+     * 用户账号
+     */
     private String consumerUsername;
 
+    /**
+     * 用户密码
+     */
     private String consumerPassword;
 
     /**
      * 创建时间
      */
     private LocalDateTime createTime;
+
+    /**
+     * 账号状态 0：冻结 1：可登录
+     */
+    private Boolean state;
 
 
     @Override
