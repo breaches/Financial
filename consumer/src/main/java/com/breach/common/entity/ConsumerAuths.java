@@ -10,11 +10,10 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 账户表
-包含该用户的：全部余额，可用余额，冻结金额，
-全部余额 = 可用余额 + 冻结金额
-可用余额 = 全部余额 - 冻结金额
-冻结金额 = 投标空缺期
+ * 用户登录授权表
+目前两种方式直接进行登录：
+用户名
+手机号码
  * </p>
  *
  * @author shaokang
@@ -23,12 +22,28 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ConsumerAccount extends Model<ConsumerAccount> {
+public class ConsumerAuths extends Model<ConsumerAuths> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    /**
+     * 用户名
+     */
+    private String username;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 关联用户信息表，当前账号绑定的是哪个用户
+     */
+    private Integer consumerId;
+
 
     @Override
     protected Serializable pkVal() {

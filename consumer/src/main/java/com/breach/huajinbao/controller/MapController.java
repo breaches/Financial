@@ -12,22 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MapController {
 
-    /** 登录 shaokang **/
-    @RequestMapping("/login")
-    public String login() {
-        return "/sign/login";
+    /** 主页 shaokang **/
+    @RequestMapping("/index")
+    public String index1() {
+        return "index";
     }
 
-    /** 注册 shaokang **/
-    @RequestMapping("/register")
-    public String register() {
-        return "/sign/register";
-    }
-
-    /** 个人中心 shaokang **/
-    @RequestMapping("/account")
-    public String account() {
-        return "/sign/account";
+    /** 主页 shaokang **/
+    @RequestMapping("/")
+    public String index2() {
+        return "index";
     }
 
 }

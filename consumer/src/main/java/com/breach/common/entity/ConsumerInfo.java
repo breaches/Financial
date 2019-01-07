@@ -27,6 +27,11 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
     private Integer id;
 
     /**
+     * 用户名
+     */
+    private String nickname;
+
+    /**
      * 用户姓名
      */
     private String name;
@@ -37,6 +42,16 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
     private Boolean sex;
 
     /**
+     * 绑定的手机号码
+     */
+    private String phone;
+
+    /**
+     * 表示当前用户的状态 1：正常 2：冻结
+     */
+    private Integer state;
+
+    /**
      * 是否有房
      */
     private Boolean isHouse;
@@ -45,11 +60,6 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
      * 婚姻状态
      */
     private Boolean isMarry;
-
-    /**
-     * 关联用户身份证表
-     */
-    private Integer cardId;
 
     /**
      * 关联用户地址表
@@ -64,7 +74,19 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
     /**
      * 关联vip信息表 超级用户 VIP
      */
-    private Integer supperConsumer;
+    private Integer vipId;
+
+    /**
+     * 关联用户身份证表
+     */
+    private Integer cardId;
+
+    private Integer carId;
+
+    /**
+     * 住房认证后的外表关联
+     */
+    private Integer houseId;
 
 
     @Override

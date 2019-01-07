@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 账户表
+包含该用户的：全部余额，可用余额，冻结金额，
+全部余额 = 可用余额 + 冻结金额
+可用余额 = 全部余额 - 冻结金额
+冻结金额 = 投标空缺期 服务实现类
  * </p>
  *
  * @author shaokang

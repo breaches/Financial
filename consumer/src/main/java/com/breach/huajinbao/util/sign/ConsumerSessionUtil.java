@@ -1,6 +1,7 @@
 package com.breach.huajinbao.util.sign;
 
 import com.breach.common.entity.ConsumerAccount;
+import com.breach.common.entity.ConsumerAuths;
 import com.breach.huajinbao.sysconst.ISystemConsts;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -34,15 +35,15 @@ public final class ConsumerSessionUtil {
      * @param
      * @return
      */
-    public static ConsumerAccount getConsumer() {
-        return (ConsumerAccount) getSession().getAttribute(ISystemConsts.CONSUMER_SESSION);
+    public static ConsumerAuths getConsumer() {
+        return (ConsumerAuths) getSession().getAttribute(ISystemConsts.CONSUMER_SESSION);
     }
     
     /***
      * 存储当前登陆用户到 session 中
      * @param consumerAccount
      */
-    public static void setConsumer(ConsumerAccount consumerAccount) {
+    public static void setConsumer(ConsumerAuths consumerAccount) {
         getSession().setAttribute(ISystemConsts.CONSUMER_SESSION, consumerAccount);
     }
 

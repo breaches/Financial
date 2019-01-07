@@ -1,0 +1,464 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: #f7f7f7;
+}
+
+::-webkit-scrollbar { /*隐藏滚轮*/
+    display: none;
+}
+
+/*html, body {width: 100%;max-width: 960px;}
+
+@media only screen and (max-width: 1024px) {
+    html, body {width: 800px;}
+}
+
+@media only screen and (max-width: 800px) {
+    html, body {width: 100%;max-width: 790px;}
+}*/
+
+/*********************************/
+
+/*header*/
+#header {
+    font-size: 14px;
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+}
+
+#header_main {
+    overflow: hidden;
+    width: 1150px;
+    display: block;
+    margin: 0 auto;
+}
+
+#logo {
+    float: left;
+}
+
+#nav {
+    float: left;
+    padding: 0px 30px;
+}
+
+#user {
+    float: right;
+}
+
+#logo img {
+    height: 60px;
+    width: auto;
+}
+
+#nav li {
+    float: left;
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 50px;
+}
+
+#nav li a {
+    color: #ffffff;
+}
+
+#nav li a:hover {
+    color: #f53a31;
+}
+
+/*user按钮*/
+#user a {
+    width: 68px;
+    height: 33px;
+    float: right;
+    border: #f53a31 solid 1px;
+    color: #f53a31;
+    margin-top: 7px;
+    text-align: center;
+    line-height: 33px;
+    font-size: 14px;
+}
+
+#user a:hover {
+    color: #ffffff;
+    background-color: #f53a31;
+}
+
+/*banner*/
+
+#banner .doo {
+    /*padding-bottom:100%;*/
+}
+
+#banner .doo img {
+    /*position:absolute;*/
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: auto;
+}
+
+/*data 数据展示*/
+#sk-data-box .sk-data-area {
+    width: 1150px;
+    height: 175px;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+#sk-data-box .sk-data-area dl {
+    float: left;
+    padding: 50px 0px;
+    width: 25%;
+}
+
+@font-face {
+    /* font-properties */
+    font-family: PingFang;
+    src: url('../font/PingFang Light.ttf')
+}
+
+#sk-data-box .sk-data-area dt big {
+    font-size: 30px;
+    margin-right: 2px;
+    font-family: 'PingFang';
+}
+
+/*描述信息安全描述*/
+#sk-des-box {
+    width: 100%;
+    background-color: #ffffff;
+}
+
+#sk-des-box dt {
+    margin-top: 10px;
+    display: inline-block;
+    width: 57px;
+    height: 50px;
+    background-image: url('../images/home_z.png');
+}
+
+#sk-des-main {
+    margin: 0 auto;
+    width: 1150px;
+    display: block;
+    overflow: hidden;
+}
+
+#sk-des-main .sk-des-clear {
+    float: left;
+    padding: 135px 0px;
+    width: 25%;
+    text-align: center;
+}
+
+/*精灵图标*/
+#sk-des-main .des-child1 dt {
+    background-position: -2px 0px;
+}
+
+#sk-des-main .des-child2 dt {
+    background-position: -2px -53px;
+}
+
+#sk-des-main .des-child3 dt {
+    background-position: -2px -106px;
+}
+
+#sk-des-main .des-child4 dt {
+    background-position: -2px -159px;
+}
+
+#sk-des-main .sk-des-clear dd p {
+    font-size: 13px;
+    color: #a8a8a8;
+}
+
+#sk-des-main .sk-des-clear dd p big {
+    font-size: 16px;
+    font-family: '黑体';
+    line-height: 60px;
+    display: inline-block;
+    padding-top: 20px;
+    color: #424242;
+    border-bottom: #f53a31 solid 2px;
+    margin-bottom: 15px;
+}
+
+#sk-offer-main > div.sk-offer-item.sk-register > a > h3 {
+    color: #f69600;
+    border-bottom: 0;
+}
+
+#sk-offer-main > div.sk-offer-item.sk-register > a > div > p:nth-child(1) > big {
+    color: #f53a31;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+#sk-offer-main > div.sk-offer-item.sk-register > a > div > p:nth-child(2) {
+    width: 100%;
+    text-align: center;
+}
+
+#sk-offer-main > div.sk-offer-item.sk-register > a > div > p:nth-child(2) > span {
+    font-size: 14px;
+    width: 71px;
+    height: 23px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    border: #f9342d solid 1px;
+    line-height: 21px;
+    color: #f53a31;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    margin: 0 25px;
+}
+
+#sk-offer-box #sk-offer-main .sk-register .sk-register-btn {
+    width: 325px;
+    background-color: #ffd000;
+    -webkit-box-shadow: 1px 1px 0 #ffe573 inset;
+    box-shadow: 1px 1px 0 #ffe573 inset;
+    color: #eb0a00;
+    text-shadow: 1px 1px 1px #fff384;
+    letter-spacing: 3px;
+}
+
+/*offer*/
+#sk-offer-box {
+    padding: 100px 0px;
+}
+
+#sk-offer-box #sk-offer-main {
+    width: 1150px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 10px 0px;
+}
+
+#sk-offer-box #sk-offer-main .sk-offer-item {
+    float: left;
+    position: relative;
+}
+
+#sk-offer-box #sk-offer-main .sk-b, #sk-offer-main .sk-a {
+    background-color: #fff;
+    height: 344px;
+    width: 331px;
+}
+
+#sk-offer-box #sk-offer-main .sk-a {
+    margin: 0px 10px;
+}
+
+#sk-offer-box .sk-register {
+    width: 467px;
+    height: 344px;
+    background: url('../images/register-enter-bj.png') no-repeat 0 0;
+}
+
+#sk-offer-box .sk-offer-item h3 {
+    width: 179px;
+    margin: 9px auto 0;
+    display: block;
+    text-align: center;
+    line-height: 58px;
+    font-size: 18px;
+    color: #000;
+    position: relative;
+    font-weight: normal;
+}
+
+#sk-offer-box .sk-offer-item h3:after {
+    background: #e1e1e1;
+    bottom: 0;
+    content: '';
+    height: 2px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    position: absolute;
+    width: 70px;
+}
+
+#sk-offer-box #sk-offer-main .sk-offer-btn {
+    width: 250px;
+    height: 40px;
+    border: #f53a31 solid 1px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 40px;
+    color: #f53a31;
+    cursor: pointer;
+    font-size: 16px;
+    background: 0 0;
+}
+
+#sk-offer-box #sk-offer-main .sk-offer-content {
+    height: 204px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-top: 22px;
+}
+
+#sk-offer-box .sk-offer-content > p em {
+    color: #f53a31;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#sk-offer-box .sk-offer-content p {
+    font-size: 16px;
+    color: #a8a8a8;
+    line-height: 36px;
+    text-align: center;
+}
+
+#sk-offer-box .sk-offer-content p big {
+    font-size: 62px;
+    color: #f53a31;
+    line-height: 80px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 6px;
+}
+
+#sk-offer-box .offer-block {
+    width: 50px;
+    height: 50px;
+    background: #333;
+}
+
+#sk-offer-box .sk-a:hover, #sk-offer-box .sk-b:hover {
+    -webkit-transition: transform 0.8s;
+    -o-transition: transform 0.8s;
+    transition: transform 0.8s;
+    -webkit-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    -o-transform: translateY(-5px);
+    transform: translateY(-5px);
+    -moz-box-shadow: 0px 1px 10px -1px #c3c3c3;
+    -webkit-box-shadow: 0px 1px 10px -1px #c3c3c3;
+    box-shadow: 0px 1px 10px -1px #c3c3c3;
+}
+
+/*foot*/
+#foot {
+    padding: 50px 0px;
+    background: #2c2c2e;
+}
+
+#foot .sk-foot-main {
+    width: 1150px;
+    display: block;
+    margin: 0 auto;
+}
+
+#foot .left {
+    float: left;
+    font-size: 12px;
+}
+
+#foot .right {
+    float: right;
+    width: 270px;
+}
+
+#foot .clear {
+    overflow: hidden;
+}
+
+#foot .n-link {
+    padding-top: 18px;
+    padding-bottom: 10px;
+}
+
+#foot .n-link a {
+    display: inline-block;
+    width: auto;
+    overflow: hidden;
+    margin: 0 2px;
+    height: 31px;
+}
+
+#foot .n-link a img {
+    float: left;
+    height: 31px;
+}
+
+#foot .sk-foot-left p {
+    color: #a8a8a8;
+}
+
+#foot .sk-foot-left p span {
+    margin-left: 13px;
+}
+
+#foot .sk-foot-left p a {
+    margin-left: 15px;
+    color: #a8a8a8;
+}
+
+#foot .right dt {
+    float: left;
+}
+
+#foot .right dd {
+    float: left;
+    margin-left: 16px;
+}
+
+#foot .right .n-text {
+    font-size: 14px;
+    color: #a8a8a8;
+}
+
+#foot .right .n-tel {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+}
+
+#foot .right .n-tel small {
+    font-size: 12px;
+    color: #a8a8a8;
+    margin-left: 6px;
+}
+
+#foot .right img {
+    width: 82px;
+}
+
+#foot .right .sk-icon a {
+    color: #999999;
+}
+
+#foot .right .sk-icon {
+    margin: 7px 0px;
+}
+
+#foot .right .n-text {
+    padding: 6px 0px;
+}

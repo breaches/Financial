@@ -14,6 +14,7 @@ public interface ISystemConsts {
     /* AJAX 异步请求结果 */
     /** AJAX 请求成功 **/
     Integer AJAX_SUCCESS = 200;
+    /** AJAX  **/
     /** AJAX 请求失败 **/
     Integer AJAX_ERROR = 400;
 }

@@ -1,10 +1,10 @@
 package com.breach.huajinbao.service.sign;
 
-import com.breach.common.entity.ConsumerAccount;
+import com.breach.common.entity.ConsumerAuths;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 
 public interface ISignInService {
 
-    ReturnUtil login(ConsumerAccount consumerAccount);
+    ReturnUtil login(ConsumerAuths consumerAuths);
 
 }

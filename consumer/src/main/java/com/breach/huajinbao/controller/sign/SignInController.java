@@ -1,9 +1,10 @@
 package com.breach.huajinbao.controller.sign;
 
-import com.breach.common.entity.ConsumerAccount;
+import com.breach.common.entity.ConsumerAuths;
 import com.breach.huajinbao.service.sign.ISignInService;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +22,8 @@ public class SignInController {
     ISignInService signInService;
 
     @RequestMapping("/login")
-    public ReturnUtil login(ConsumerAccount consumerAccount) {
-        return signInService.login(consumerAccount);
+    public ReturnUtil login(@RequestBody ConsumerAuths consumerAuths) {
+        return signInService.login(consumerAuths);
     }
 
 
