@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan({
         "com.breach.common.mapper",
+        "com.breach.huajinbao.mapper.sign",
         "com.breach.huajinbao.mapper.*"
 })
 public class ConsumerApplication {

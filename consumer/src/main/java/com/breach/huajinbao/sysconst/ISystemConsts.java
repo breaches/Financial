@@ -10,6 +10,8 @@ public interface ISystemConsts {
 
     /** 用户 session 键名 **/
     String CONSUMER_SESSION = "CONSUMER";
+    /** 随机验证码 **/
+    String MESSAGE_RANDOM_CODE = "MESSAGE_RANDOM_CODE";
 
     /* AJAX 异步请求结果 */
     /** AJAX 请求成功 **/

@@ -230,6 +230,18 @@
     color: #9A0000;
 }
 
+#sk-register-send-code {
+    position: relative;
+}
+
+#sk-register-send-code a {
+    position: absolute;
+    right: 11px;
+    top: 11px;
+    color: #757575;
+    font-size: 11px;
+}
+
 
 /*忘记密码业务窗口*/
 

@@ -38,7 +38,7 @@
                 <!-- 登录入口 -->
                 <div id="user">
                     <a v-if="loginBtn" @click="signIn = true" class="sk-login">登录</a>
-                    <div id="userInfo" v-if="userInfo" v-model="user">
+                    <div id="userInfo" v-if="userInfo">
                         <div class="user-info">{{user.username}}</div>
                         <div id="user-topbar-info" v-if="userInfo">
                             <div class="user-info-header"></div>
@@ -334,15 +334,17 @@
             <div id="user-register-main">
                 <div class="with-line with-line-a">注册</div>
                 <div class="user-input">
-                    <input id="regUsername" name="regUsername" class="sk-user-input-style" placeholder="用户名"/>
-                    <div>
-                    <input id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码"/>
+                    <input v-model="registerInfo.username" id="regUsername" name="regUsername" class="sk-user-input-style" placeholder="用户名" maxlength="20"/>
+                    <div id="sk-register-send-code">
+                        <input v-model="registerInfo.phone" id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码" maxlength="11"/>
+                        <a @click="sendMessage" href="javascript:;">发送验证码</a>
                     </div>
-                    <input id="regPassword" name="regPassword" type="password" class="sk-user-input-style"
-                           placeholder="密码"/>
-                    <input id="regRePassword" name="regRePassword" type="password" class="sk-user-input-style"
-                           placeholder="确认密码"/>
-                    <a @click="toRegister" class="sk-user-btn" href="javascript:;">
+                    <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode" class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
+                    <input v-model="registerInfo.password" id="regPassword" name="regPassword" type="password" class="sk-user-input-style"
+                           placeholder="密码" maxlength="20"/>
+                    <input v-model="registerInfo.repassword" id="regRePassword" name="regRePassword" type="password" class="sk-user-input-style"
+                           placeholder="确认密码" maxlength="20"/>
+                    <a @click="register" class="sk-user-btn" href="javascript:;">
                         <span>注册</span>
                     </a>
                 </div>
@@ -413,7 +415,8 @@
             loginBtn: true,
             userInfo: false,
             loginInfo: {},
-            user: {},
+            registerInfo: {}, // 存放注册的信息资料
+            user: {}, // 存放请求到的用户信息资料
             userInfoList: [
                 {title: '个人中心', url: 'http://www.baidu.com'},
                 {title: '退出登录', url: 'http://www.huaban.com'}
@@ -441,8 +444,10 @@
                     url: 'consumer/login',
                     data: app.loginInfo
                 }).then(function (response) {
+                    console.log('--------------------login--------------------')
                     console.log(response)
                     console.log(response.data.object.username)
+                    console.log('---------------------------------------------')
                     app.user.username = response.data.object.username
                     app.user.id = response.data.object.consumerId
                     app.loginBtn = false
@@ -458,7 +463,39 @@
                     app.userInfo = false
                     app.loginBtn = true
                     app.user = {}
+                    console.log('--------------------logout--------------------')
                     console.log(app.user)
+                    console.log('----------------------------------------------')
+                })
+            },
+            sendMessage: function() {
+                // 请求发送短信验证码
+                axios({
+                    method: 'post',
+                    url: 'consumer/register/sendMessage',
+                    data: app.registerInfo
+                }).then(function(response) {
+
+                })
+            },
+            verifyCode: function() {
+                // 提交验证码，验证是否正确
+                axios({
+                    method: 'post',
+                    url: 'consumer/register/verifyCode',
+                    data: app.registerInfo
+                }).then(function(response) {
+
+                })
+            },
+            register: function() {
+                // 提交注册用户的信息数据
+                axios({
+                    method: 'post',
+                    url: 'consumer/register',
+                    data: app.registerInfo
+                }).then(function(response) {
+
                 })
             }
         }
@@ -475,12 +512,16 @@
                 app.user = response.data.user[0]
                 app.loginBtn = false
                 app.userInfo = true
+                console.log('-----------------------------window.onload-----------------------------')
                 console.log('!=null')
                 console.log(app.user)
+                console.log('-----------------------------------------------------------------------')
             } else {
                 app.userInfo = false
                 app.loginBtn = true
+                console.log('-----------------------------window.onload-----------------------------')
                 console.log('==null')
+                console.log('-----------------------------------------------------------------------')
             }
         })
     }

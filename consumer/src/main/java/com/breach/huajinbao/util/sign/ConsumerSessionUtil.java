@@ -1,6 +1,5 @@
 package com.breach.huajinbao.util.sign;
 
-import com.breach.common.entity.ConsumerAccount;
 import com.breach.common.entity.ConsumerAuths;
 import com.breach.huajinbao.sysconst.ISystemConsts;
 import org.springframework.web.context.request.RequestContextHolder;
