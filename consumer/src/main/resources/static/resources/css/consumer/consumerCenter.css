@@ -1,0 +1,164 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+
+
+/*************************************/
+
+/*header*/
+#header {
+    font-size: 14px;
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+}
+
+#header_main {
+    overflow: hidden;
+    width: 1150px;
+    display: block;
+    margin: 0 auto;
+}
+
+#logo {
+    float: left;
+}
+
+#nav {
+    float: left;
+    padding: 0px 30px;
+}
+
+#user {
+    float: right;
+}
+
+#logo img {
+    height: 60px;
+    width: auto;
+}
+
+#nav li {
+    float: left;
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 50px;
+}
+
+#nav li a {
+    color: #444444;
+}
+
+#nav li a:hover {
+    color: #c90000;
+}
+
+/*user按钮*/
+#user > a {
+    width: 68px;
+    height: 33px;
+    float: right;
+    border: #f53a31 solid 1px;
+    color: #f53a31;
+    margin-top: 7px;
+    text-align: center;
+    line-height: 33px;
+    font-size: 14px;
+}
+
+#user > a:hover {
+    color: #ffffff;
+    background-color: #f53a31;
+}
+
+#user-topbar-info {
+    padding: 0px 10px;
+}
+
+#userInfo .user-info {
+    background-color: #f0c78a;
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    min-width: 50px;
+    text-align: right;
+}
+
+#user-topbar-info {
+    width: 240px;
+    background: #f3d19e;
+    height: 500px;
+}
+
+#userInfo .user-info-header {
+    margin-bottom: 2px;
+}
+
+#userInfo .user-info-middle {
+    background-color: #8cc5ff;
+}
+
+#userInfo .user-info-footer {
+    margin-top: 2px;
+}
+
+#userInfo .user-info-footer {
+    overflow: hidden;
+}
+
+#userInfo .user-info-footer-left {
+    float: left;
+}
+
+#userInfo .user-info-footer-right {
+    float: right;
+}
+
+#userInfo .user-info-footer a:hover {
+    color: #c90000;
+}
+
+#userInfo .user-info-footer-right a:hover {
+    color: #c90000;
+    border: 1px solid #c90000;
+}
+
+#userInfo .user-info-footer-left a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    line-height: 35px;
+    width: 70px;
+    text-align: center;
+}
+
+#userInfo .user-info-footer-right a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border: 1px #222 solid;
+}
+
+
+
+
+

@@ -17,7 +17,7 @@
 </head>
 <body>
 <div id="app">
-    <div id="wrapper" class="nui-scroll">
+    <div id="wrapper">
         <!-- 头部 -->
         <div id="header">
             <!-- 放入主图 用来居中 -->
@@ -409,12 +409,12 @@
                     url: ''
                 }
             ],
-            signIn: false,
-            signUp: false,
-            forgets: false,
-            loginBtn: true,
-            userInfo: false,
-            loginInfo: {},
+            signIn: false, // 登录 dialog
+            signUp: false, // 注册 dialog
+            forgets: false, // 忘记密码 dialog
+            loginBtn: true, // 登录按钮
+            userInfo: false, // 用户信息面板 控制是否显示
+            loginInfo: {}, // 存放用户信息
             registerInfo: {}, // 存放注册的信息资料
             user: {}, // 存放请求到的用户信息资料
             userInfoList: [
@@ -452,6 +452,7 @@
                     app.user.id = response.data.object.consumerId
                     app.loginBtn = false
                     app.userInfo = true
+                    window.location.href = 'consumerCenter'
                 });
             },
             // 退出登录

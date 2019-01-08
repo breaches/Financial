@@ -24,4 +24,10 @@ public class MapController {
         return "index";
     }
 
+    /** 主页 shaokang **/
+    @RequestMapping("/consumerCenter")
+    public String consumerCenter() {
+        return "/consumer/consumerCenter";
+    }
+
 }
