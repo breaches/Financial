@@ -37,7 +37,24 @@
                 </div>
                 <!-- 登录入口 -->
                 <div id="user">
-                    <a @click="signIn = true" class="sk-login">登录</a>
+                    <a v-if="loginBtn" @click="signIn = true" class="sk-login">登录</a>
+                    <div id="userInfo" v-if="userInfo" v-model="user">
+                        <div class="user-info">{{user.username}}</div>
+                        <div id="user-topbar-info" v-if="userInfo">
+                            <div class="user-info-header"></div>
+                            <div class="user-info-middle"></div>
+                            <div class="user-info-footer">
+                                <div class="user-info-footer-left">
+                                    <a href="javascript:;">个人中心</a>
+                                </div>
+                                <div class="user-info-footer-right">
+                                    <a @click="logout" href="javascript:;">
+                                        <span>退出登录</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -240,7 +257,7 @@
                             <img src="resources/images/foot/p2p_official_large.jpg">
                         </a>
                     </div>
-                    <p>Copyright©2018-2019 <span>华金宝金科控股集团有限责任公司</span> <a href="#">豫ICP备18045023号-1</a>
+                    <p>Copyright©2018-2019 <span>华金宝个人学习项目使用</span> <a href="http://http://www.miitbeian.gov.cn">豫ICP备18045023号-1</a>
                     </p>
 
                 </div>
@@ -281,8 +298,10 @@
             <div id="user-login-main">
                 <div class="with-line with-line-a">使用手机号/用户名登录</div>
                 <div class="user-input">
-                    <input v-model="loginInfo.username" id="loginUsername" name="loginUsername" class="sk-user-input-style" placeholder="输入手机号或用户名"/>
-                    <input v-model="loginInfo.password" id="loginPassword" name="loginPassword" class="sk-user-input-style" placeholder="密码"/>
+                    <input v-model="loginInfo.username" id="loginUsername" name="loginUsername"
+                           class="sk-user-input-style" placeholder="输入手机号或用户名"/>
+                    <input v-model="loginInfo.password" id="loginPassword" name="loginPassword"
+                           class="sk-user-input-style" placeholder="密码"/>
                     <a @click="login" class="sk-user-btn" href="javascript:;">
                         <span>登录</span>
                     </a>
@@ -316,9 +335,13 @@
                 <div class="with-line with-line-a">注册</div>
                 <div class="user-input">
                     <input id="regUsername" name="regUsername" class="sk-user-input-style" placeholder="用户名"/>
+                    <div>
                     <input id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码"/>
-                    <input id="regPassword" name="regPassword" type="password" class="sk-user-input-style" placeholder="密码"/>
-                    <input id="regRePassword" name="regRePassword" type="password" class="sk-user-input-style" placeholder="确认密码"/>
+                    </div>
+                    <input id="regPassword" name="regPassword" type="password" class="sk-user-input-style"
+                           placeholder="密码"/>
+                    <input id="regRePassword" name="regRePassword" type="password" class="sk-user-input-style"
+                           placeholder="确认密码"/>
                     <a @click="toRegister" class="sk-user-btn" href="javascript:;">
                         <span>注册</span>
                     </a>
@@ -387,7 +410,14 @@
             signIn: false,
             signUp: false,
             forgets: false,
+            loginBtn: true,
+            userInfo: false,
             loginInfo: {},
+            user: {},
+            userInfoList: [
+                {title: '个人中心', url: 'http://www.baidu.com'},
+                {title: '退出登录', url: 'http://www.huaban.com'}
+            ]
 
         },
         methods: {
@@ -400,20 +430,58 @@
                 app.signUp = false
                 app.signIn = true
             },
-            toForget: function() {
+            toForget: function () {
                 app.signIn = false
                 app.forgets = true
             },
             // 登录
-            login: function() {
+            login: function () {
                 axios({
                     method: 'post',
                     url: 'consumer/login',
                     data: app.loginInfo
-                }).then(function(response) {
+                }).then(function (response) {
                     console.log(response)
+                    console.log(response.data.object.username)
+                    app.user.username = response.data.object.username
+                    app.user.id = response.data.object.consumerId
+                    app.loginBtn = false
+                    app.userInfo = true
                 });
+            },
+            // 退出登录
+            logout: function () {
+                axios({
+                    method: 'post',
+                    url: 'consumer/logout'
+                }).then(function (response) {
+                    app.userInfo = false
+                    app.loginBtn = true
+                    app.user = {}
+                    console.log(app.user)
+                })
             }
         }
     })
+</script>
+<script>
+    window.onload = function () {
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (response) {
+            console.log(response)
+            if (response.data.user != null) {
+                app.user = response.data.user[0]
+                app.loginBtn = false
+                app.userInfo = true
+                console.log('!=null')
+                console.log(app.user)
+            } else {
+                app.userInfo = false
+                app.loginBtn = true
+                console.log('==null')
+            }
+        })
+    }
 </script>

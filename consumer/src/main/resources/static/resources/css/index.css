@@ -81,7 +81,7 @@ body {
 }
 
 /*user按钮*/
-#user a {
+#user > a {
     width: 68px;
     height: 33px;
     float: right;
@@ -93,10 +93,83 @@ body {
     font-size: 14px;
 }
 
-#user a:hover {
+#user > a:hover {
     color: #ffffff;
     background-color: #f53a31;
 }
+
+#user-topbar-info {
+    padding: 0px 10px;
+}
+
+#userInfo .user-info {
+    background-color: #f0c78a;
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    min-width: 50px;
+    text-align: right;
+}
+
+#user-topbar-info {
+    width: 240px;
+    background: #f3d19e;
+    height: 500px;
+}
+
+#userInfo .user-info-header {
+    margin-bottom: 2px;
+}
+
+#userInfo .user-info-middle {
+    background-color: #8cc5ff;
+}
+
+#userInfo .user-info-footer {
+    margin-top: 2px;
+}
+
+#userInfo .user-info-footer {
+    overflow: hidden;
+}
+
+#userInfo .user-info-footer-left {
+    float: left;
+}
+
+#userInfo .user-info-footer-right {
+    float: right;
+}
+
+#userInfo .user-info-footer a:hover {
+    color: #c90000;
+}
+
+#userInfo .user-info-footer-right a:hover {
+    color: #c90000;
+    border: 1px solid #c90000;
+}
+
+#userInfo .user-info-footer-left a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    line-height: 35px;
+    width: 70px;
+    text-align: center;
+}
+
+#userInfo .user-info-footer-right a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border: 1px #222 solid;
+}
+
 
 /*banner*/
 

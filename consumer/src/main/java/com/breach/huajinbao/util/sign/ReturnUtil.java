@@ -22,6 +22,8 @@ public class ReturnUtil {
     private String message;
     /** 数据 **/
     private List data;
+    /** 对象 **/
+    private Object object;
 
     public ReturnUtil(Integer code) {
         this.code = code;
@@ -34,8 +36,22 @@ public class ReturnUtil {
     public ReturnUtil(List data) {
         this.data = data;
     }
+    public ReturnUtil(Integer code, List data) {
+        this.code = code;
+        this.data = data;
+    }
     public ReturnUtil(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
+    public ReturnUtil(Integer code, Object object) {
+        this.code = code;
+        this.object = object;
+    }
+    public ReturnUtil(Integer code, String message, Object object) {
+        this.code = code;
+        this.message = message;
+        this.object = object;
+    }
+
 }

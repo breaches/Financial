@@ -1,6 +1,9 @@
 package com.breach.huajinbao.service.sign.impl;
 
+import com.breach.common.entity.ConsumerAuths;
 import com.breach.huajinbao.service.sign.ISignOutService;
+import com.breach.huajinbao.sysconst.ISystemConsts;
+import com.breach.huajinbao.util.sign.ConsumerSessionUtil;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,13 @@ import org.springframework.stereotype.Service;
 public class SignOutServiceImpl implements ISignOutService {
     @Override
     public ReturnUtil logout() {
-
-        return null;
+        ConsumerAuths consumer = ConsumerSessionUtil.getConsumer();
+        if(consumer != null) {
+            // 有登录用户
+            ConsumerSessionUtil.removeConsumer();
+            return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
+        }
+        // 没有登录用户
+        return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
     }
 }

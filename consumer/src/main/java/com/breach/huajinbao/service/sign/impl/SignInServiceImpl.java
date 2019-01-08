@@ -15,6 +15,9 @@ import com.breach.huajinbao.util.sign.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * @program: Financial
  * @description: 登录业务具体实现类
@@ -56,7 +59,7 @@ public class SignInServiceImpl implements ISignInService {
                 if (result != null) { // 如果有结果 则登录正确
                     // 登录成功
                     ConsumerSessionUtil.setConsumer(result);
-                    return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
+                    return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success", result);
                 } else {
                     // 用户名或密码错误 登录失败
                     return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
@@ -76,7 +79,7 @@ public class SignInServiceImpl implements ISignInService {
             if (result != null) {
                 // 登录成功
                 ConsumerSessionUtil.setConsumer(result);
-                return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
+                return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success", result);
             } else {
                 // 登录失败
                 return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
