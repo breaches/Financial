@@ -38,14 +38,16 @@
                 <!-- 登录入口 -->
                 <div id="user">
                     <a v-if="loginBtn" @click="signIn = true" class="sk-login">登录</a>
-                    <div id="userInfo" v-if="userInfo">
-                        <div class="user-info">{{user.username}}</div>
-                        <div id="user-topbar-info" v-if="userInfo">
+                    <div id="userInfo" v-if="user" @mousemove="showUserInfoBar" onmouseleave="" @mouseout="displayUserInfoBar">
+                        <div class="user-info">
+                            <span>{{userInfo.username}}</span>
+                        </div>
+                        <div id="user-topbar-info" v-if="userInfoBar">
                             <div class="user-info-header"></div>
                             <div class="user-info-middle"></div>
                             <div class="user-info-footer">
                                 <div class="user-info-footer-left">
-                                    <a href="javascript:;">个人中心</a>
+                                    <a href="consumerCenter">个人中心</a>
                                 </div>
                                 <div class="user-info-footer-right">
                                     <a @click="logout" href="javascript:;">
@@ -413,10 +415,11 @@
             signUp: false, // 注册 dialog
             forgets: false, // 忘记密码 dialog
             loginBtn: true, // 登录按钮
-            userInfo: false, // 用户信息面板 控制是否显示
+            user: false, // 用户信息面板 控制是否显示
+            userInfoBar: false,
+            userInfo: {},
             loginInfo: {}, // 存放用户信息
             registerInfo: {}, // 存放注册的信息资料
-            user: {}, // 存放请求到的用户信息资料
             userInfoList: [
                 {title: '个人中心', url: 'http://www.baidu.com'},
                 {title: '退出登录', url: 'http://www.huaban.com'}
@@ -444,15 +447,16 @@
                     url: 'consumer/login',
                     data: app.loginInfo
                 }).then(function (response) {
+                    // 登录后隐藏登录按钮 显示用户
                     console.log('--------------------login--------------------')
                     console.log(response)
                     console.log(response.data.object.username)
                     console.log('---------------------------------------------')
-                    app.user.username = response.data.object.username
-                    app.user.id = response.data.object.consumerId
-                    app.loginBtn = false
-                    app.userInfo = true
-                    window.location.href = 'consumerCenter'
+                    app.userInfo.username = response.data.object.username
+                    app.userInfo.id = response.data.object.consumerId
+                    app.signIn = false // 隐藏登录窗口
+                    app.loginBtn = false // 隐藏登录按钮
+                    app.user = true // 显示 user
                 });
             },
             // 退出登录
@@ -461,11 +465,12 @@
                     method: 'post',
                     url: 'consumer/logout'
                 }).then(function (response) {
-                    app.userInfo = false
+                    // 退出登录后隐藏用户 显示登录按钮 并且清空用户信息
+                    app.user = false
                     app.loginBtn = true
-                    app.user = {}
+                    app.userInfo = {}
                     console.log('--------------------logout--------------------')
-                    console.log(app.user)
+                    console.log(app.userInfo)
                     console.log('----------------------------------------------')
                 })
             },
@@ -498,6 +503,12 @@
                 }).then(function(response) {
 
                 })
+            },
+            showUserInfoBar: function() {
+                app.userInfoBar = true
+            },
+            displayUserInfoBar: function() {
+                app.userInfoBar = false
             }
         }
     })
@@ -508,17 +519,22 @@
             method: 'post',
             url: 'consumer/getUserInfoAfterLogin',
         }).then(function (response) {
+            // 页面加载后请求用户信息，判断是否已经登录
+            // 如果登录则 隐藏登录按钮 显示用户
+            // 如果未登录 显示登录按钮 隐藏用户
             console.log(response)
             if (response.data.user != null) {
-                app.user = response.data.user[0]
+                // 已登录
+                app.userInfo = response.data.user[0]
                 app.loginBtn = false
-                app.userInfo = true
+                app.user = true
                 console.log('-----------------------------window.onload-----------------------------')
                 console.log('!=null')
-                console.log(app.user)
+                console.log(app.userInfo)
                 console.log('-----------------------------------------------------------------------')
             } else {
-                app.userInfo = false
+                // 未登录
+                app.user = false
                 app.loginBtn = true
                 console.log('-----------------------------window.onload-----------------------------')
                 console.log('==null')
