@@ -13,7 +13,11 @@
 </head>
 <body>
 <div id="app">
-    <div id="wrapper"></div>
+    <div id="wrapper">
+        <div id=""></div>
+        <div id=""></div>
+        <div id=""></div>
+    </div>
 </div>
 </body>
 </html>
@@ -42,7 +46,7 @@
                 app.userInfo = response.data.user[0]
             } else {
                 // 未登录
-                window.location.href = '/'
+                window.top.location.href = '/'
             }
         })
     }
