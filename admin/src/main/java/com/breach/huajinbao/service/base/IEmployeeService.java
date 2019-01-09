@@ -25,9 +25,9 @@ public interface IEmployeeService {
 	List<Map> getPermission();
 
 	/***
-	 * 分页 +  搜索 获取员工
+	 * 分页 +  搜索 获取员工aaaaaaaaaaaaadfsaf
 	 * @param query
-	 * @return wanghehe test
+	 * @return wanghehe test  hao zhaofuqiang test
 	 */
 	Map getEmp(EmployeeQuery query);
 

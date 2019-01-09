@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.breach.huajinbao.mapper.zfq.IRoleMapper">
+
+    <!--员工登录  -->
+    <!--<select id="empLogin" resultType="int">
+
+	</select>-->
+
+    <!-- 查询员工信息 -->
+
+
+
+    <!-- 分页+查询 -->
+    <sql id="getEmp">
+        <where>
+            <if test="name != null and name != ''">
+                and name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="description != null and description != '' ">
+                and description like CONCAT ('%',{description},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="getEmp" resultType="map">
+        select * from employee_role
+        <include refid="getEmp"/>
+        limit #{page},#{count}
+    </select>
+
+    <select id="getEmpTotal" resultType="java.lang.Integer">
+        select count(*) c from employee_role e
+        <include refid="getEmp"/>
+    </select>
+
+
+    <insert id="addRole">
+        insert  into
+        employee_role
+        (name,description)
+        values
+        (
+        #{name},
+        #{description}
+        )
+    </insert>
+        <delete id="deleteRole">
+
+        delete  from
+
+        employee_role
+
+        where id in
+        <foreach collection="array" item="id"  open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+
+        </delete>
+
+        <select id="getEditRole" resultType="com.breach.huajinbao.vo.EmpRole">
+            select  * from
+            employee_role
+            where id =#{id}
+
+
+
+        </select>
+        <update id="editRole">
+
+            update employee_role
+            set
+            name=#{name},
+            description=#{description}
+            where
+	        id=#{id}
+        </update>
+
+
+
+</mapper>
+
+
+
+
+
