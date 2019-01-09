@@ -40,11 +40,16 @@
                     <a v-if="loginBtn" @click="signIn = true" class="sk-login">登录</a>
                     <div id="userInfo" v-if="user" @mousemove="showUserInfoBar" onmouseleave="" @mouseout="displayUserInfoBar">
                         <div class="user-info">
-                            <span>{{userInfo.username}}</span>
+                            <img class="hat_index" src="resources/images/tou.png" />
                         </div>
                         <div id="user-topbar-info" v-if="userInfoBar">
-                            <div class="user-info-header"></div>
+                            <!-- 头部 -->
+                            <div class="user-info-header">
+                                <span>{{userInfo.username}}</span>
+                            </div>
+                            <!-- 主体 -->
                             <div class="user-info-middle"></div>
+                            <!-- 底部 -->
                             <div class="user-info-footer">
                                 <div class="user-info-footer-left">
                                     <a href="consumerCenter">个人中心</a>
@@ -395,11 +400,11 @@
         data: {
             //
             nav: [
-                {title: '首页', url: 'http://www.baidu.com'},
-                {title: '我要出借', url: 'http://www.huaban.com'},
-                {title: '我要借款', url: 'http://www.huaban.com'},
-                {title: '信息披露', url: 'http://www.huaban.com'},
-                {title: '关于我们', url: 'http://www.huaban.com'}
+                {title: '首页', url: '/'},
+                {title: '我要出借', url: '#'},
+                {title: '我要借款', url: '#'},
+                {title: '信息披露', url: '#'},
+                {title: '关于我们', url: '#'}
             ],
             banner: [
                 {
