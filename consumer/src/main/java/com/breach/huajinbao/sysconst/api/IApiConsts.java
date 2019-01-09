@@ -17,4 +17,9 @@ public interface IApiConsts {
     String TEMPLATE_PHONE_BIND = "TP19010810";
     /** 【支付验证码】 验证码模板 **/
     String TEMPLATE_PAY = "TP1901088";
+
+    /** 【正面/头像面】 身份证图片扫描接口 **/
+    String IDCARD_FRONT = "front";
+    /** 【反面/国徽面】 身份证图片扫描接口 **/
+    String IDCARD_BACK = "back";
 }
