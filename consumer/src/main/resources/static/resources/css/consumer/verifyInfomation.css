@@ -1,23 +1,151 @@
-.avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    background-color: #ffffff;
+    min-height: 600px;
+    max-width: 1150px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*******************************/
+
+
+#header {
+    height: 80px;
+    border-bottom: 1px solid #ccc;
+}
+#step {
+    width: 600px;
+    margin: 0 auto;
+}
+
+
+#middle {
+    margin: 20px auto;
+    min-height: 500px;
+}
+
+#middle .sk-container-id-card-upload {
+    width: 360px;
+}
+
+#middle .sk-container-id-card-upload, #middle .sk-container-id-card-sample {
+    float: left;
+}
+
+#middle .sk-container-id-card {
     overflow: hidden;
+    position: relative;
+    margin: 50px 0px;
 }
-.avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
+#middle .sk-container-id-card-sample {
+    position: absolute;
+    bottom: 30px;
+    left: 400px;
+    font-size: 12px;
 }
-.avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
+
+#middle .sk-container-id-card-sample a {
+    color: #409EFF;
+    /*font-size: 14px;*/
+}
+
+#middle .sk-id-card-480 {
+    width: 100px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+}
+
+#middle .sk-id-card-1080-container {
+    position: absolute;
+}
+
+#sk-id-card- {
+    position: relative;
+    width: 850px;
+    margin: 0 auto;
+}
+.sk-id-card-1080-front {
+    top: 180px;
+    right: 135px;
+}
+.sk-id-card-1080-back {
+    top: 65px;
+    right: 135px;
+}
+
+#middle #sk-id-card- .sk-id-card-header-title p {
+    font-size: 12px;
+    line-height: 22px;
+    margin: 0 20px 10px;
+    padding: 5px 10px;
+    vertical-align: middle;
+    color: #003b80;
+    border: 1px solid #97c7ff;
+    border-radius: 0;
+    background: #e5f0ff;
+    position: relative;
+}
+
+#middle #sk-id-card- .sk-id-card-header-content h2 {
+    font-size: 16px;
+    color: #171d25;
+    padding-left: 20px;
+    line-height: 16px;
+}
+.sk-required:before {
+    content: '*';
+    color: #dd4b39;
+    font-size: 12px;
+}
+
+#middle #sk-id-card-content {
+    width: 560px;
+    margin: 0 auto;
+}
+
+#middle .sk-id-card-header-content .sub {
+    font-size: 14px;
+    color: #a2a2a2;
+    font-weight: 400;
+}
+
+#middle .sk-id-card-header-content .sk-id-card-header-desc {
+    font-size: 14px;
+    color: #74777c;
+    line-height: 21px;
+}
+
+.aaaa {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.sk-id-card-header-desc{
+    padding-left: 20px;
+}
+
+#foot {
     text-align: center;
 }
+
+
+/*** 身份证上传样式 ***/
+.upload-id-card {
+    position: relative;
+}
+
 .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

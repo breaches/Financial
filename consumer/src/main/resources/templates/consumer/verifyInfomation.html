@@ -4,10 +4,20 @@
     <meta charset="UTF-8">
     <title>实名认证</title>
     <!--  VUE -->
-    <script src="resources/lib/js/vue.js"></script>
-    <!-- element -->
+    <!--<script src="resources/lib/js/vue.js"></script>
+    &lt;!&ndash; element &ndash;&gt;
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    &lt;!&ndash; axios &ndash;&gt;
+    <script src="resources/lib/js/axios.js"></script>
+    -->
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="resources/css/consumer/verifyInfomation.css">
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <!--<link rel="stylesheet" href="resources/lib/css/index.css">-->
+    <script src="resources/lib/js/index.js"></script>
     <!-- axios -->
     <script src="resources/lib/js/axios.js"></script>
 </head>
@@ -15,26 +25,166 @@
 <div id="app">
     <div id="wrapper">
         <!--头-->
-        <div id="header"></div>
+        <div id="header">
+            <div id="step">
+                <el-steps :active="active" finish-status="success" space="200px" align-center="true">
+                    <el-step title="填写资料" icon="el-icon-upload" description=""></el-step>
+                    <el-step title="上传身份证" icon="el-icon-edit-outline" description=""></el-step>
+                    <el-step title="确认上传" icon="el-icon-check" description=""></el-step>
+                </el-steps>
+            </div>
+        </div>
         <!--主体-->
         <div id="middle">
-            <el-upload
-                    class="upload-demo"
-                    drag
-                    :show-file-list="false"
-                    :on-success="frontImageHandleAvatarSuccess"
-                    :before-upload="frontImageBeforeAvatarUpload"
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-                <img v-if="frontImageVisit" :src="frontImageUrl" class="avatar">
-            </el-upload>
+
+            <transition name="el-zoom-in-left">
+                <div v-show="showUpLoad" class="transition-box">
+                    <!-- 显示填写资料的页面 -->
+
+                </div>
+            </transition>
+
+            <transition name="el-zoom-in-left">
+                <div v-show="showUpLoad" class="transition-box">
+                    <div id="sk-id-card-">
+                        <div id="sk-id-card-header">
+                            <div class="sk-id-card-header-title">
+                                <p>将证件原件清洗拍照或彩色扫描后上传，图片后缀必须为.jpg/.jpeg/.png/.gif的一种，大小5M内。</p>
+                            </div>
+                            <div class="sk-id-card-header-content">
+                                <h2 class="sk-required aaaa">
+                                    <span>
+                                        <span>上传 </span>
+                                        <span style="color:#008CFF;">袁韶康</span>
+                                        <span> 的身份证</span>
+                                        <span class="sub">
+                                            <span>（主办人，证件号码：</span>
+                                            <span>412723199902040039</span>
+                                            <span>）</span>
+                                        </span>
+                                    </span>
+                                </h2>
+                                <div class="sk-id-card-header-desc">
+                                    <p>身份证需要正反两面，请将身份证分开两次上传；</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sk-id-card-content">
+                            <div class="sk-container-id-card">
+                                <!-- 上传身份证 -->
+                                <div class="sk-container-id-card-upload">
+                                    <el-upload
+                                            class="upload-id-card"
+                                            drag
+                                            :show-file-list="false"
+                                            :on-success="frontImageHandleAvatarSuccess"
+                                            :on-error="frontImageHandleAvatarError"
+                                            :on-progress="frontImageHandleAvatarProgress"
+                                            :before-upload="frontImageBeforeAvatarUpload"
+                                            :data="{type:'front'}"
+                                            :auto-upload="true"
+                                            action="https://jsonplaceholder.typicode.com/posts/"
+                                            v-loading="frontLoading"
+                                            element-loading-text="拼命加载中"
+                                            element-loading-background="rgba(245, 245, 245, 0.8)">
+                                        <i class="el-icon-upload"></i>
+                                        <div class="el-upload__text">将正面拖到此处，或<em>点击上传</em></div>
+                                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2Mb</div>
+                                        <img v-if="frontImageVisit" :src="frontImageUrl" class="avatar">
+                                    </el-upload>
+                                </div>
+                                <!-- 身份证示例图 -->
+                                <div class="sk-container-id-card-sample">
+                                    <p>
+                                        <img class="sk-id-card-480" src="resources/images/sample/id-front.jpg" alt="">
+                                    </p>
+                                    <p>
+                                        示例 <a @click="showFront1080" href="javascript:;">查看大图</a>
+                                    </p>
+                                </div>
+                                <div v-if="visitFront1080" class="sk-id-card-1080-container">
+
+                                </div>
+                            </div>
+                            <div class="sk-container-id-card">
+                                <!-- 上传身份证 -->
+                                <div class="sk-container-id-card-upload">
+                                    <el-upload
+                                            class="upload-id-card"
+                                            drag
+                                            :show-file-list="false"
+                                            :on-success="frontImageHandleAvatarSuccess"
+                                            :on-error="frontImageHandleAvatarError"
+                                            :on-progress="frontImageHandleAvatarProgress"
+                                            :before-upload="frontImageBeforeAvatarUpload"
+                                            :data="{type:'front'}"
+                                            :auto-upload="true"
+                                            action="https://jsonplaceholder.typicode.com/posts/"
+                                            v-loading="frontLoading"
+                                            element-loading-text="拼命加载中"
+                                            element-loading-background="rgba(245, 245, 245, 0.8)">
+                                        <i class="el-icon-upload"></i>
+                                        <div class="el-upload__text">将反面拖到此处，或<em>点击上传</em></div>
+                                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2Mb</div>
+                                        <img v-if="frontImageVisit" :src="frontImageUrl" class="avatar">
+                                    </el-upload>
+                                </div>
+                                <!-- 身份证示例图 -->
+                                <div class="sk-container-id-card-sample">
+                                    <p>
+                                        <img class="sk-id-card-480" src="resources/images/sample/id-back.jpg" alt="">
+                                    </p>
+                                    <p>
+                                        示例 <a @click="showBack1080" href="javascript:;">查看大图</a>
+                                    </p>
+                                </div>
+                                <div v-if="visitBack1080" class="sk-id-card-1080-container">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+
+
+
         </div>
         <!--脚-->
-        <div id="foot"></div>
+        <div id="foot">
+            <div>
+                <el-button style="margin-top: 12px;" @click="next">{{nextButton.title}}</el-button>
+                <el-button @click="showUpLoad = !showUpLoad"></el-button>
+            </div>
+        </div>
+
     </div>
+
+    <!-- 对话框 -->
+    <!-- 正面身份证 -->
+    <el-dialog
+            :visible.sync="visitFront1080"
+            width="546px"
+            :close-on-click-modal="true"
+            :lock-scroll="true"
+            :before-close="disableFront1080"
+            center>
+        <div id="user-forget-header">
+            <img class="sk-id-card-1080 sk-id-card-1080-front" src="resources/images/sample/id-front.jpg" alt="">
+        </div>
+    </el-dialog>
+    <!-- 反面身份证 -->
+    <el-dialog
+            :visible.sync="visitBack1080"
+            width="546px"
+            :close-on-click-modal="true"
+            :lock-scroll="true"
+            :before-close="disableBack1080"
+            center>
+            <img class="sk-id-card-1080 sk-id-card-1080-back"
+                 src="resources/images/sample/id-back.jpg" alt="">
+    </el-dialog>
+
 </div>
 </body>
 </html>
@@ -42,29 +192,75 @@
     var app = new Vue({
         el: '#app',
         data: {
+            showUpLoad: true,
+            visitFront1080: false,
+            visitBack1080: false,
             userInfo: {},
             frontImageVisit: false,
             frontImageUrl: '',
+            frontLoading: false,
             backImageUrl: '',
+            active: 0,
+            nextButton: {
+                title: '下一步'
+            }
         },
         methods: {
-            frontImageHandleAvatarSuccess: function(response, file, fileList) {
+            next() {
+                if(this.active < 3) {
+                    this.active ++
+                    if (this.active >= 2) {
+                        this.nextButton.title = '确认实名信息'
+                    } else {
+                        this.nextButton.title = '下一步'
+                    }
+                    if(this.active === 3) {
+                        //我要发送提交请求了
+                    }
+                } else {
+                    //该提交了，别下一步了
+                }
+            },
+            frontImageHandleAvatarSuccess: function (response, file, fileList) {
                 // 文件上传成功后的钩子
+                this.frontLoading = false;
                 app.frontImageVisit = true;
                 app.frontImageUrl = URL.createObjectURL(file.raw);
+                this.$message.success('上传成功！');
             },
-            frontImageBeforeAvatarUpload: function(file) {
+            frontImageHandleAvatarError: function (err, file, fileList) {
+                this.frontLoading = false
+                this.$message.error('上传失败！');
+            },
+            frontImageHandleAvatarProgress: function (event, file, fileList) {
+                this.frontLoading = true
+            },
+            frontImageBeforeAvatarUpload: function (file) {
                 // 文件上传之前
-                const isJPG = file.type === 'image/jpeg';
+                const isJPEG = file.type === 'image/jpeg';
+                const isPGN = file.type === 'image/png';
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
-                if (!isJPG) {
-                    this.$message.error('上传图片只能是 JPG 格式!');
+                if (!isJPEG && !isPGN) {
+                    this.$message.error('请上传 JPG/JPEG/PNG 格式!');
+                } else {
+                    if (!isLt2M) {
+                        this.$message.error('上传图片大小不能超过 2MB!');
+                    }
+                    return (isJPEG || isPGN) && isLt2M;
                 }
-                if (!isLt2M) {
-                    this.$message.error('上传图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
+            },
+            showFront1080: function () {
+                app.visitFront1080 = true
+            },
+            disableFront1080: function () {
+                app.visitFront1080 = false
+            },
+            showBack1080: function () {
+                app.visitBack1080 = true
+            },
+            disableBack1080: function () {
+                app.visitBack1080 = false
             }
         }
     })
