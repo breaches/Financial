@@ -24,10 +24,16 @@ public class MapController {
         return "index";
     }
 
-    /** 主页 shaokang **/
+    /** 用户个人中心 shaokang **/
     @RequestMapping("/consumerCenter")
     public String consumerCenter() {
         return "/consumer/consumerCenter";
+    }
+
+    /** 用户实名认证页面 shaokang **/
+    @RequestMapping("/verifyInfomation")
+    public String verifyInfomation() {
+        return "/consumer/verifyInfomation";
     }
 
 }
