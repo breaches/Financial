@@ -88,18 +88,14 @@
                         </div>
                     </div>
                     <div class="tabs">
-                        <a href="#" class="tab">我的投标</a>
-                        <a href="#" class="tab">投标记录</a>
-                        <a href="#" class="tab">投标记录</a>
-                        <a href="#" class="tab">投标记录</a>
-                        <a href="#" class="tab">投标记录</a>
+                        <a v-for="item in tabs" :href="item.url" class="tab" target="center_main">{{item.title}}</a>
                         <div class="search-hint"></div>
                     </div>
                 </div>
                 <!-- 主要内容 导航 内容 -->
                 <div id="user_center_main">
                     <div id="aaa" class="sort-lists clearfix sortable">
-
+                        <iframe id="main" name="center_main" src="" frameborder="0" style="width: 100%;height: 100%;border:0;"></iframe>
                     </div>
                 </div>
             </div>
@@ -163,11 +159,24 @@
         el: '#app',
         data: {
             nav: [
-                {title: '首页', url: 'http://www.baidu.com'},
-                {title: '我要出借', url: 'http://www.huaban.com'},
-                {title: '我要借款', url: 'http://www.huaban.com'},
-                {title: '信息披露', url: 'http://www.huaban.com'},
-                {title: '关于我们', url: 'http://www.huaban.com'}
+                {title: '首页', url: '/'},
+                {title: '我要出借', url: '#'},
+                {title: '我要借款', url: '#'},
+                {title: '信息披露', url: '#'},
+                {title: '关于我们', url: '#'}
+            ],
+            tabs: [
+                {title: '账户总览', url: 'http://www.baidu.com'},
+                {title: '充值', url: 'http://www.douban.com'},
+                {title: '提现', url: 'http://www.zhihu.com'},
+                {title: '还款', url: 'http://www.huaban.com'},
+                {title: '资金记录', url: '/'},
+                {title: '投资记录', url: '#'},
+                {title: '我的招标', url: '#'},
+                {title: '实名认证', url: '#'},
+                {title: '房屋认证', url: '#'},
+                {title: '车辆认证', url: '#'},
+                {title: '系统通知', url: '#'}
             ],
             user: true, // 存放请求到的用户信息资料
             userInfoBar: false, // 用户信息面板 控制是否显示
@@ -221,3 +230,12 @@
         })
     }
 </script>
+
+<script>
+    var main = document.getElementById('main')
+    main.onload = function () {
+        var height = main.contentDocument.documentElement.scrollHeight
+        main.style.height = height + 'px'
+    }
+</script>
+
