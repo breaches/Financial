@@ -6,8 +6,10 @@
     <!--  VUE -->
     <script src="resources/lib/js/vue.js"></script>
     <!-- elementUI -->
-    <link rel="stylesheet" href="resources/lib/css/index.css">
-    <script src="resources/lib/js/index.js"></script>
+    <!--<link rel="stylesheet" href="resources/lib/css/index.css">-->
+    <!--<script src="resources/lib/js/index.js"></script>-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- axios -->
     <script src="resources/lib/js/axios.js"></script>
     <!-- 个人 -->
@@ -297,6 +299,7 @@
             width="520px"
             :close-on-click-modal="false"
             :lock-scroll="false"
+            :before-close="loginDialogClose"
             center>
         <div slot="title" id="user-login-header">
             <img src="./resources/images/logo/510-220-font-logo.png" alt="">
@@ -307,7 +310,7 @@
                 <div class="user-input">
                     <input v-model="loginInfo.username" id="loginUsername" name="loginUsername"
                            class="sk-user-input-style" placeholder="输入手机号或用户名"/>
-                    <input v-model="loginInfo.password" id="loginPassword" name="loginPassword"
+                    <input v-model="loginInfo.password" @keyup.enter="login" id="loginPassword" name="loginPassword"
                            class="sk-user-input-style" placeholder="密码"/>
                     <a @click="login" class="sk-user-btn" href="javascript:;">
                         <span>登录</span>
@@ -322,7 +325,7 @@
                     <a @click="toForget" href="javascript:;">忘记密码»</a>
                 </div>
                 <div class="sk-login-register">
-                    <span>还没有金号？</span><a @click="toRegister" href="javascript:;">点击注册»</a>
+                    <span>还没有账号？</span><a @click="toRegister" href="javascript:;">点击注册»</a>
                 </div>
             </div>
         </div>
@@ -333,6 +336,7 @@
             width="520px"
             :close-on-click-modal="false"
             :lock-scroll="false"
+            :before-close="registerDialogClose"
             center>
         <div slot="title" id="user-register-header">
             <img src="./resources/images/logo/510-220-font-logo.png" alt="">
@@ -349,7 +353,7 @@
                     <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode" class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
                     <input v-model="registerInfo.password" id="regPassword" name="regPassword" type="password" class="sk-user-input-style"
                            placeholder="密码" maxlength="20"/>
-                    <input v-model="registerInfo.repassword" id="regRePassword" name="regRePassword" type="password" class="sk-user-input-style"
+                    <input v-model="registerInfo.repassword" @keyup.enter="register" id="regRePassword" name="regRePassword" type="password" class="sk-user-input-style"
                            placeholder="确认密码" maxlength="20"/>
                     <a @click="register" class="sk-user-btn" href="javascript:;">
                         <span>注册</span>
@@ -371,6 +375,7 @@
             width="520px"
             :close-on-click-modal="false"
             :lock-scroll="false"
+            :before-close="forgetDialogClose"
             center>
         <div slot="title" id="user-forget-header">
             <img src="./resources/images/logo/510-220-font-logo.png" alt="">
@@ -379,7 +384,7 @@
             <div id="user-forget-main">
                 <div class="with-line with-line-a">找回密码</div>
                 <div class="user-input">
-                    <input id="forgetUsername" name="regUsername" class="sk-user-input-style" placeholder="手机号码"/>
+                    <input v-model="forgetInfo.phone" id="forgetPhone" name="forgetPhone" class="sk-user-input-style" placeholder="手机号码"/>
                     <a @click="toForget" class="sk-user-btn" href="javascript:;">
                         <span>重置</span>
                     </a>
@@ -429,6 +434,7 @@
             userInfo: {},
             loginInfo: {}, // 存放用户信息
             registerInfo: {}, // 存放注册的信息资料
+            forgetInfo: {},
             userInfoList: [
                 {title: '个人中心', url: 'http://www.baidu.com'},
                 {title: '退出登录', url: 'http://www.huaban.com'}
@@ -439,15 +445,36 @@
             // 对话框切换
             toRegister: function () {
                 app.signIn = false
+                app.loginInfo = {}
                 app.signUp = true
             },
             toLogin: function () {
                 app.signUp = false
+                app.registerInfo = {}
                 app.signIn = true
             },
             toForget: function () {
                 app.signIn = false
+                app.forgetInfo = {}
                 app.forgets = true
+            },
+            registerDialogClose: function(done) {
+                setTimeout(_ => {
+                    app.registerInfo = {}
+                }, 100)
+                done()
+            },
+            loginDialogClose: function(done) {
+                setTimeout(function() {
+                    app.loginInfo = {}
+                }, 100)
+                done()
+            },
+            forgetDialogClose: function(done) {
+                setTimeout(_ => {
+                    app.forgetInfo = {}
+                }, 100)
+                done()
             },
             // 登录
             login: function () {
