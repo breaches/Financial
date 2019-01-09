@@ -24,7 +24,7 @@ public class MapController {
         return "index";
     }
 
-    /** 用户个人中心 shaokang **/
+    /** 主页 shaokang **/
     @RequestMapping("/consumerCenter")
     public String consumerCenter() {
         return "/consumer/consumerCenter";
@@ -34,6 +34,11 @@ public class MapController {
     @RequestMapping("/verifyInfomation")
     public String verifyInfomation() {
         return "/consumer/verifyInfomation";
+    }
+
+    @RequestMapping("/myborrow")
+    public String myborrow() {
+        return "/consumer/myborrow";
     }
 
 }
