@@ -30,4 +30,9 @@ public class MapController {
         return "/consumer/consumerCenter";
     }
 
+    @RequestMapping("/myborrow")
+    public String myborrow() {
+        return "/consumer/myborrow";
+    }
+
 }
