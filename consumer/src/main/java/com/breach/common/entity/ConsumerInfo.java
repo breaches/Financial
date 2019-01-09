@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-03
+ * @since 2019-01-07
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,7 +26,67 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    /**
+     * 用户名
+     */
+    private String nickname;
+
+    /**
+     * 用户姓名
+     */
     private String name;
+
+    /**
+     * 性别 0：女 1：男
+     */
+    private Boolean sex;
+
+    /**
+     * 绑定的手机号码
+     */
+    private String phone;
+
+    /**
+     * 表示当前用户的状态 1：正常 2：冻结
+     */
+    private Integer state;
+
+    /**
+     * 是否有房
+     */
+    private Boolean isHouse;
+
+    /**
+     * 婚姻状态
+     */
+    private Boolean isMarry;
+
+    /**
+     * 关联用户地址表
+     */
+    private Integer addressId;
+
+    /**
+     * 关联用户学历信息表
+     */
+    private Integer educationId;
+
+    /**
+     * 关联vip信息表 超级用户 VIP
+     */
+    private Integer vipId;
+
+    /**
+     * 关联用户身份证表
+     */
+    private Integer cardId;
+
+    private Integer carId;
+
+    /**
+     * 住房认证后的外表关联
+     */
+    private Integer houseId;
 
 
     @Override

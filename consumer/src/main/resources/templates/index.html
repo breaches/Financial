@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>华金宝金融服务平台</title>
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <!--<link rel="stylesheet" href="resources/lib/css/index.css">-->
+    <!--<script src="resources/lib/js/index.js"></script>-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- axios -->
+    <script src="resources/lib/js/axios.js"></script>
+    <!-- 个人 -->
+    <link rel="stylesheet" href="resources/css/index.css">
+    <link rel="stylesheet" href="resources/css/login.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+    <div id="wrapper">
+        <!-- 头部 -->
+        <div id="header">
+            <!-- 放入主图 用来居中 -->
+            <div id="header_main">
+                <!-- logo -->
+                <div id="logo">
+                    <img src="resources/images/logo/logo.png" height="150" width="300"/>
+                </div>
+                <!-- 导航菜单 -->
+                <div id="nav">
+                    <ul>
+                        <li v-for="(item, index) in nav" :key="index">
+                            <a target="_blank" :href="item.url">{{item.title}}</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- 登录入口 -->
+                <div id="user">
+                    <a v-if="loginBtn" @click="signIn = true" class="sk-login">登录</a>
+                    <div id="userInfo" v-if="user" @mousemove="showUserInfoBar" onmouseleave="" @mouseout="displayUserInfoBar">
+                        <div class="user-info">
+                            <img class="hat_index" src="resources/images/tou.png" />
+                        </div>
+                        <div id="user-topbar-info" v-if="userInfoBar">
+                            <!-- 头部 -->
+                            <div class="user-info-header">
+                                <span>{{userInfo.username}}</span>
+                            </div>
+                            <!-- 主体 -->
+                            <div class="user-info-middle"></div>
+                            <!-- 底部 -->
+                            <div class="user-info-footer">
+                                <div class="user-info-footer-left">
+                                    <a href="consumerCenter">个人中心</a>
+                                </div>
+                                <div class="user-info-footer-right">
+                                    <a @click="logout" href="javascript:;">
+                                        <span>退出登录</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- banner 图 -->
+        <div id="banner">
+            <!--<div class="doo">
+                <a href="">
+                    <img src="resources/images/banner/201901051942.jpg"/>
+                </a>
+            </div>-->
+            <el-carousel indicator-position="outside" height="481px">
+                <el-carousel-item v-for="item in banner" :key="item" class="doo">
+                    <a href="#">
+                        <img :src="item.image"/>
+                    </a>
+                </el-carousel-item>
+            </el-carousel>
+        </div>
+        <!-- data 数据展示 -->
+        <div id="sk-data-box">
+            <div class="sk-data-area">
+                <dl>
+                    <dt>
+                        <big class="sk-data-num">7000</big>
+                        万
+                    </dt>
+                    <dd>集团累计服务注册用户</dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <big class="sk-data-num">7000</big>
+                        万笔
+                    </dt>
+                    <dd>累计借贷笔数</dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <big class="sk-data-num">2000</big>亿元
+                    </dt>
+                    <dd>累计借贷金额</dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <big class="sk-data-num">0</big>
+                        年
+                        <big class="sk-data-num">4</big>
+                        天
+                        <big class="sk-data-num">0</big>
+                        时
+                        <big class="sk-data-num">0</big>
+                        分
+                        <big class="sk-data-num">0</big>
+                        秒
+                    </dt>
+                    <dd>集团已持续安全运营时间</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 主内容 -->
+        <div id="container">
+            <!-- 安全保障等描述信息 -->
+            <div id="sk-des-box">
+                <div id="sk-des-main">
+                    <div class="sk-des-clear des-child1">
+                        <dl>
+                            <dt></dt>
+                            <dd>
+                                <div>
+                                    <p>
+                                        <big>十二年积淀</big>
+                                    </p>
+                                    <p>
+                                        载誉十二年<br/>
+                                        6000多万用户的信赖
+                                    </p>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="sk-des-clear des-child2">
+                        <dl>
+                            <dt></dt>
+                            <dd>
+                                <div>
+                                    <p>
+                                        <big>金融科技</big>
+                                    </p>
+                                    <p>
+                                        火眼征信，彩虹评级<br/>
+                                        多方位举措风险监测
+                                    </p>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="sk-des-clear des-child3">
+                        <dl>
+                            <dt></dt>
+                            <dd>
+                                <div>
+                                    <p>
+                                        <big>用户至上</big>
+                                    </p>
+                                    <p>
+                                        粉丝文化，创新式体验<br/>
+                                        多方位深度互动
+                                    </p>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="sk-des-clear des-child4">
+                        <dl>
+                            <dt></dt>
+                            <dd>
+                                <div>
+                                    <p>
+                                        <big>安全保障</big>
+                                    </p>
+                                    <p>
+                                        信息技术等级保护<br/>
+                                        三级备案企业
+                                    </p>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <!-- 注册信息 -->
+            <div id="sk-offer-box">
+                <div id="sk-offer-main">
+                    <div class="sk-offer-item sk-register">
+                        <a href="">
+                            <h3>注册即得新手大礼包</h3>
+                            <div class="sk-offer-content">
+                                <p>
+                                    <big>新手好礼</big>
+                                </p>
+                                <p>
+                                    <span>限时专享</span>
+                                </p>
+                            </div>
+                            <span class="sk-register-btn sk-offer-btn">立即注册</span>
+                        </a>
+                    </div>
+                    <div class="sk-offer-item sk-a">
+                        <a href="">
+                            <!-- icon -->
+                            <h3>新手专享</h3>
+                            <div class="sk-offer-content">
+                                <p class="">
+                                    <big>12.0</big>
+                                    <em>%</em>
+                                </p>
+                                <p>
+                                    期望年化回报率
+                                </p>
+                                <p>
+                                    网贷信息中介服务由华金服提供
+                                </p>
+                            </div>
+                            <span class="sk-offer-btn">立即出借</span>
+                        </a>
+                    </div>
+                    <div class="sk-offer-item sk-b">
+                        <a href="">
+                            <!-- icon -->
+                            <h3>新手礼包</h3>
+                            <div class="sk-offer-content"></div>
+                            <span class="sk-offer-btn">立即领取</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 脚部 -->
+        <div id="foot">
+            <div class="sk-foot-main clear">
+                <div class="sk-foot-left left">
+                    <div class="n-link">
+                        <a href="http://www.itrust.org.cn/home/index/itrust_certifi/wm/19671944XX.html" target="_blank">
+                            <img src="resources/images/foot/index-integrity-icon.png" alt="">
+                        </a>
+                        <a href="http://gawa.bjchy.gov.cn/websearch/" target="_blank">
+                            <img src="resources/images/foot/jingcha.png" alt="">
+                        </a>
+                        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=*.9fgroup.com&amp;lang=zh_cn"
+                           target="_blank">
+                            <img src="resources/images/foot/norton.png" alt="">
+                        </a>
+                        <a href="http://webscan.360.cn/index/checkwebsite/url/www.9fgroup.com"
+                           name="6d18753f3a834479ee835f4f9bc009ec">
+                            <img src="resources/images/foot/360.png" alt="">
+                        </a>
+                        <a id="_pingansec_bottomimagelarge_p2p"
+                           href="http://si.trustutn.org/info?sn=420180312000632784551&amp;certType=4">
+                            <img src="resources/images/foot/p2p_official_large.jpg">
+                        </a>
+                    </div>
+                    <p>Copyright©2018-2019 <span>华金宝个人学习项目使用</span> <a href="http://http://www.miitbeian.gov.cn">豫ICP备18045023号-1</a>
+                    </p>
+
+                </div>
+                <dl class="right">
+                    <dt><img src="resources/images/foot/huajinbao.png" alt=""></dt>
+                    <dd>
+                        <div class="sk-icon">
+                            <a target="_blank" href="javascript;;">
+                                <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+                            </a>
+                            <a target="_blank" href="javascript;;">
+                                <i class="fa fa-qq fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <p class="n-text">QQ群：</p>
+                        <p class="n-tel">965903855
+                            <small>9:30-21:00</small>
+                        </p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 弹出层 -->
+    <!-- 登录层 -->
+    <el-dialog
+            :visible.sync="signIn"
+            width="520px"
+            :close-on-click-modal="false"
+            :lock-scroll="false"
+            :before-close="loginDialogClose"
+            center>
+        <div slot="title" id="user-login-header">
+            <img src="./resources/images/logo/510-220-font-logo.png" alt="">
+        </div>
+        <div id="user-login">
+            <div id="user-login-main">
+                <div class="with-line with-line-a">使用手机号/用户名登录</div>
+                <div class="user-input">
+                    <input v-model="loginInfo.username" id="loginUsername" name="loginUsername"
+                           class="sk-user-input-style" placeholder="输入手机号或用户名"/>
+                    <input v-model="loginInfo.password" @keyup.enter="login" id="loginPassword" name="loginPassword"
+                           class="sk-user-input-style" placeholder="密码"/>
+                    <a @click="login" class="sk-user-btn" href="javascript:;">
+                        <span>登录</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div slot="footer" id="user-login-foot">
+            <div id="sk-login-cc">
+                <div class="sk-login-forget">
+                    <a @click="toForget" href="javascript:;">忘记密码»</a>
+                </div>
+                <div class="sk-login-register">
+                    <span>还没有账号？</span><a @click="toRegister" href="javascript:;">点击注册»</a>
+                </div>
+            </div>
+        </div>
+    </el-dialog>
+    <!-- 注册层 -->
+    <el-dialog
+            :visible.sync="signUp"
+            width="520px"
+            :close-on-click-modal="false"
+            :lock-scroll="false"
+            :before-close="registerDialogClose"
+            center>
+        <div slot="title" id="user-register-header">
+            <img src="./resources/images/logo/510-220-font-logo.png" alt="">
+        </div>
+        <div id="user-register">
+            <div id="user-register-main">
+                <div class="with-line with-line-a">注册</div>
+                <div class="user-input">
+                    <input v-model="registerInfo.username" id="regUsername" name="regUsername" class="sk-user-input-style" placeholder="用户名" maxlength="20"/>
+                    <div id="sk-register-send-code">
+                        <input v-model="registerInfo.phone" id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码" maxlength="11"/>
+                        <a @click="sendMessage" href="javascript:;">发送验证码</a>
+                    </div>
+                    <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode" class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
+                    <input v-model="registerInfo.password" id="regPassword" name="regPassword" type="password" class="sk-user-input-style"
+                           placeholder="密码" maxlength="20"/>
+                    <input v-model="registerInfo.repassword" @keyup.enter="register" id="regRePassword" name="regRePassword" type="password" class="sk-user-input-style"
+                           placeholder="确认密码" maxlength="20"/>
+                    <a @click="register" class="sk-user-btn" href="javascript:;">
+                        <span>注册</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div slot="footer" id="user-register-foot">
+            <div id="sk-register-cc">
+                <div class="sk-register-to-login">
+                    <span>已有账号？</span><a @click="toLogin" href="javascript:;">点击登录»</a>
+                </div>
+            </div>
+        </div>
+    </el-dialog>
+    <!-- 找回密码层 -->
+    <el-dialog
+            :visible.sync="forgets"
+            width="520px"
+            :close-on-click-modal="false"
+            :lock-scroll="false"
+            :before-close="forgetDialogClose"
+            center>
+        <div slot="title" id="user-forget-header">
+            <img src="./resources/images/logo/510-220-font-logo.png" alt="">
+        </div>
+        <div id="user-forget">
+            <div id="user-forget-main">
+                <div class="with-line with-line-a">找回密码</div>
+                <div class="user-input">
+                    <input v-model="forgetInfo.phone" id="forgetPhone" name="forgetPhone" class="sk-user-input-style" placeholder="手机号码"/>
+                    <a @click="toForget" class="sk-user-btn" href="javascript:;">
+                        <span>重置</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div slot="footer" id="user-forget-foot">
+
+        </div>
+    </el-dialog>
+    <!-- 弹出层 -->
+</div>
+</body>
+</html>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            //
+            nav: [
+                {title: '首页', url: '/'},
+                {title: '我要出借', url: '#'},
+                {title: '我要借款', url: '#'},
+                {title: '信息披露', url: '#'},
+                {title: '关于我们', url: '#'}
+            ],
+            banner: [
+                {
+                    image: './resources/images/banner/201901051942.jpg',
+                    url: ''
+                },
+                {
+                    image: './resources/images/banner/201901070944.jpeg',
+                    url: ''
+                },
+                {
+                    image: './resources/images/banner/201901090955.jpeg',
+                    url: ''
+                }
+            ],
+            signIn: false, // 登录 dialog
+            signUp: false, // 注册 dialog
+            forgets: false, // 忘记密码 dialog
+            loginBtn: true, // 登录按钮
+            user: false, // 用户信息面板 控制是否显示
+            userInfoBar: false,
+            userInfo: {},
+            loginInfo: {}, // 存放用户信息
+            registerInfo: {}, // 存放注册的信息资料
+            forgetInfo: {},
+            userInfoList: [
+                {title: '个人中心', url: 'http://www.baidu.com'},
+                {title: '退出登录', url: 'http://www.huaban.com'}
+            ]
+
+        },
+        methods: {
+            // 对话框切换
+            toRegister: function () {
+                app.signIn = false
+                app.loginInfo = {}
+                app.signUp = true
+            },
+            toLogin: function () {
+                app.signUp = false
+                app.registerInfo = {}
+                app.signIn = true
+            },
+            toForget: function () {
+                app.signIn = false
+                app.forgetInfo = {}
+                app.forgets = true
+            },
+            registerDialogClose: function(done) {
+                setTimeout(_ => {
+                    app.registerInfo = {}
+                }, 100)
+                done()
+            },
+            loginDialogClose: function(done) {
+                setTimeout(function() {
+                    app.loginInfo = {}
+                }, 100)
+                done()
+            },
+            forgetDialogClose: function(done) {
+                setTimeout(_ => {
+                    app.forgetInfo = {}
+                }, 100)
+                done()
+            },
+            // 登录
+            login: function () {
+                axios({
+                    method: 'post',
+                    url: 'consumer/login',
+                    data: app.loginInfo
+                }).then(function (response) {
+                    // 登录后隐藏登录按钮 显示用户
+                    console.log('--------------------login--------------------')
+                    console.log(response)
+                    console.log(response.data.object.username)
+                    console.log('---------------------------------------------')
+                    app.userInfo.username = response.data.object.username
+                    app.userInfo.id = response.data.object.consumerId
+                    app.signIn = false // 隐藏登录窗口
+                    app.loginBtn = false // 隐藏登录按钮
+                    app.user = true // 显示 user
+                });
+            },
+            // 退出登录
+            logout: function () {
+                axios({
+                    method: 'post',
+                    url: 'consumer/logout'
+                }).then(function (response) {
+                    // 退出登录后隐藏用户 显示登录按钮 并且清空用户信息
+                    app.user = false
+                    app.loginBtn = true
+                    app.userInfo = {}
+                    console.log('--------------------logout--------------------')
+                    console.log(app.userInfo)
+                    console.log('----------------------------------------------')
+                })
+            },
+            sendMessage: function() {
+                // 请求发送短信验证码
+                axios({
+                    method: 'post',
+                    url: 'consumer/register/sendMessage',
+                    data: app.registerInfo
+                }).then(function(response) {
+
+                })
+            },
+            verifyCode: function() {
+                // 提交验证码，验证是否正确
+                axios({
+                    method: 'post',
+                    url: 'consumer/register/verifyCode',
+                    data: app.registerInfo
+                }).then(function(response) {
+
+                })
+            },
+            register: function() {
+                // 提交注册用户的信息数据
+                axios({
+                    method: 'post',
+                    url: 'consumer/register',
+                    data: app.registerInfo
+                }).then(function(response) {
+
+                })
+            },
+            showUserInfoBar: function() {
+                app.userInfoBar = true
+            },
+            displayUserInfoBar: function() {
+                app.userInfoBar = false
+            }
+        }
+    })
+</script>
+<script>
+    window.onload = function () {
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (response) {
+            // 页面加载后请求用户信息，判断是否已经登录
+            // 如果登录则 隐藏登录按钮 显示用户
+            // 如果未登录 显示登录按钮 隐藏用户
+            console.log(response)
+            if (response.data.user != null) {
+                // 已登录
+                app.userInfo = response.data.user[0]
+                app.loginBtn = false
+                app.user = true
+                console.log('-----------------------------window.onload-----------------------------')
+                console.log('!=null')
+                console.log(app.userInfo)
+                console.log('-----------------------------------------------------------------------')
+            } else {
+                // 未登录
+                app.user = false
+                app.loginBtn = true
+                console.log('-----------------------------window.onload-----------------------------')
+                console.log('==null')
+                console.log('-----------------------------------------------------------------------')
+            }
+        })
+    }
+</script>

@@ -1,0 +1,473 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: 0px;
+}
+
+
+
+/*************************************/
+
+/*header*/
+#header {
+    font-size: 14px;
+    /*position: absolute;*/
+    z-index: 5;
+    width: 100%;
+    box-shadow: 0 1px 0 rgba(0,0,0,.06);
+    background-color: #ffffff;
+}
+
+#header_main {
+    overflow: hidden;
+    width: 1496px;
+    display: block;
+    margin: 0 auto;
+    background-color: #ffffff;
+}
+
+#logo {
+    float: left;
+}
+
+#nav {
+    float: left;
+    padding: 0px 30px;
+}
+
+#user {
+    float: right;
+}
+
+#logo {
+    padding-top: 12px;
+}
+
+#logo img {
+    height: 30px;
+    width: auto;
+}
+
+#nav li {
+    float: left;
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 50px;
+}
+
+#nav li a {
+    color: #444444;
+}
+
+#nav li a:hover {
+    color: #c90000;
+}
+
+/*user按钮*/
+#user > a {
+    width: 68px;
+    height: 33px;
+    float: right;
+    border: #f53a31 solid 1px;
+    color: #f53a31;
+    margin-top: 7px;
+    text-align: center;
+    line-height: 33px;
+    font-size: 14px;
+}
+
+#user > a:hover {
+    color: #ffffff;
+    background-color: #f53a31;
+}
+
+#user-topbar-info {
+    padding: 0px 10px;
+}
+
+#userInfo .user-info {
+    background-color: #f0c78a;
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    min-width: 50px;
+    text-align: right;
+}
+
+#user-topbar-info {
+    width: 240px;
+    background: #f3d19e;
+    height: 500px;
+}
+
+#userInfo .user-info-header {
+    margin-bottom: 2px;
+}
+
+#userInfo .user-info-middle {
+    background-color: #8cc5ff;
+}
+
+#userInfo .user-info-footer {
+    margin-top: 2px;
+}
+
+#userInfo .user-info-footer {
+    overflow: hidden;
+}
+
+#userInfo .user-info-footer-left {
+    float: left;
+}
+
+#userInfo .user-info-footer-right {
+    float: right;
+}
+
+#userInfo .user-info-footer a:hover {
+    color: #c90000;
+}
+
+#userInfo .user-info-footer-right a:hover {
+    color: #c90000;
+    border: 1px solid #c90000;
+}
+
+#userInfo .user-info-footer-left a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    line-height: 35px;
+    width: 70px;
+    text-align: center;
+}
+
+#userInfo .user-info-footer-right a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border: 1px #222 solid;
+}
+
+
+/***************** user_card *****************/
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+#user_center {
+    width: 1150px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#user_card {
+    background-color: #ffffff;
+    position: relative;
+    margin-top: 60px;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.02), 0 4px 8px 0 rgba(0,0,0,.02);
+}
+
+#user_card .hat {
+    width: 150px;
+    height: 100px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.02), 0 4px 8px 0 rgba(0,0,0,.02);
+    position: absolute;
+    left: 15px;
+    top: -40px;
+}
+
+#user_card .inner {
+    height: 170px;
+    background: #fff;
+    position: relative;
+    padding-left: 180px;
+}
+
+#user_card .hat_img {
+    background: #fff;
+    border-radius: 4px;
+    position: absolute;
+    left: 20px;
+    top: -35px;
+    width: 140px;
+}
+
+#user_card .img {
+    position: relative;
+    height: 140px;
+}
+
+#user_card img {
+    max-height: 140px;
+    max-width: 140px;
+}
+
+#user_card .hat_line {
+    margin: 20px 0 10px;
+    line-height: 1;
+    position: relative;
+}
+
+#user_card .username {
+    font-size: 24px;
+    font-weight: 700;
+    color: #444;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#user_card .introduction {
+    font-size: 12px;
+    line-height: 12px;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+#user_card .about {
+    color: #777;
+    line-height: 1.5;
+    word-wrap: break-word;
+    height: 42px;
+    overflow: hidden;
+    padding-right: 20px;
+    margin-bottom: 10px;
+}
+
+#user_card .action-buttons {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+#user_card .action-buttons .btn {
+    margin-left: 10px;
+}
+
+.btn {
+    display: inline-block;
+    line-height: 1;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 0 12px;
+    height: 28px;
+    line-height: 28px;
+    background: #ededed;
+    border: 1px solid #ededed;
+    cursor: pointer;
+    text-decoration: none;
+    color: #444;
+    white-space: nowrap;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    text-align: center;
+    box-shadow: 0 0 0 transparent;
+}
+
+.btn i {
+    vertical-align: middle;
+}
+
+.btn:hover {
+    border: 1px solid #d9d9d9;
+    background: #d9d9d9;
+    color: #444;
+    text-decoration: none;
+    box-shadow: none;
+}
+
+#user_card .action-buttons .setting .icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('../../../resources/images/ic-setting.svg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+}
+
+#user_card .tabs {
+    background: #fff;
+    border-top: 1px solid #EDEDED;
+    position: relative;
+}
+
+#user_card .tabs .tab {
+    font-size: 14px;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 20px;
+    color: #777;
+    display: inline-block;
+    text-decoration: none;
+}
+
+#user_card .tabs .active {
+    background: #fff;
+    color: #444;
+    font-weight: 700;
+}
+
+#user_card > div.tabs a:hover {
+    background: #fff;
+    color: #444;
+    font-weight: 700;
+}
+
+#user_center_main {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.02), 0 4px 8px 0 rgba(0,0,0,.02);
+}
+
+#user_center .sort-lists {
+    display: block;
+    /*margin-left: -16px!important;*/
+    zoom: 1;
+}
+
+#aaa {
+    position: relative;
+    min-height: 500px;
+    margin: 16px auto;
+}
+
+
+
+
+
+
+
+
+/*************foot**************/
+/*foot*/
+body {
+    padding-bottom: -185px;
+}
+#foot {
+    padding: 50px 0px;
+    background: #2c2c2e;
+    /*position: absolute;*/
+    bottom: 0;
+    width: 100%;
+}
+
+#foot .sk-foot-main {
+    width: 1496px;
+    display: block;
+    margin: 0 auto;
+}
+
+#foot .left {
+    float: left;
+    font-size: 12px;
+}
+
+#foot .right {
+    float: right;
+    width: 270px;
+}
+
+#foot .clear {
+    overflow: hidden;
+}
+
+#foot .n-link {
+    padding-top: 18px;
+    padding-bottom: 10px;
+}
+
+#foot .n-link a {
+    display: inline-block;
+    width: auto;
+    overflow: hidden;
+    margin: 0 2px;
+    height: 31px;
+}
+
+#foot .n-link a img {
+    float: left;
+    height: 31px;
+}
+
+#foot .sk-foot-left p {
+    color: #a8a8a8;
+}
+
+#foot .sk-foot-left p span {
+    margin-left: 13px;
+}
+
+#foot .sk-foot-left p a {
+    margin-left: 15px;
+    color: #a8a8a8;
+}
+
+#foot .right dt {
+    float: left;
+}
+
+#foot .right dd {
+    float: left;
+    margin-left: 16px;
+}
+
+#foot .right .n-text {
+    font-size: 14px;
+    color: #a8a8a8;
+}
+
+#foot .right .n-tel {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+}
+
+#foot .right .n-tel small {
+    font-size: 12px;
+    color: #a8a8a8;
+    margin-left: 6px;
+}
+
+#foot .right img {
+    width: 82px;
+}
+
+#foot .right .sk-icon a {
+    color: #999999;
+}
+
+#foot .right .sk-icon {
+    margin: 7px 0px;
+}
+
+#foot .right .n-text {
+    padding: 6px 0px;
+}
+
+
+

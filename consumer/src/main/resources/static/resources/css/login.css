@@ -1,0 +1,340 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+#user-login-header {
+    margin: 0 auto;
+}
+
+#user-login-header > img {
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+#user-login {
+    width: 286px;
+    margin: 0 auto;
+}
+
+#user-login-main {
+
+}
+
+#user-login-main .with-line {
+    font-size: 16px;
+    color: #999;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+#user-login-main .with-line-a {
+    margin-bottom: 10px;
+}
+
+#user-login-main .with-line:before {
+    content: "";
+    border-top: 1px solid #ededed;
+    display: block;
+    position: absolute;
+    width: 50px;
+    top: 8px;
+    left: 0;
+}
+
+#user-login-main .with-line:after {
+    content: "";
+    border-top: 1px solid #ededed;
+    display: block;
+    position: absolute;
+    width: 50px;
+    top: 8px;
+    right: 0;
+}
+
+#user-login-main .sk-user-input-style {
+    display: inline-block;
+    padding: 0 10px;
+    height: 38px;
+    font-size: 16px;
+    line-height: 1;
+    color: #777;
+    background: #FCFCFC;
+    border: 1px solid #CCC;
+    border-radius: 2px;
+    width: 250px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .05);
+    -webkit-transition: color .2s linear, border-color .3s linear;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    outline: none;
+}
+
+#user-login-main .sk-user-btn {
+    display: block;
+    font-size: 18px;
+    padding: 0 15px;
+    border-radius: 3px;
+    height: 36px;
+    line-height: 36px;
+    text-shadow: none;
+    background: #EC414D;
+    color: #fff;
+    box-shadow: none;
+    border: 1px solid #EC414D;
+    text-align: center;
+}
+
+#user-login-main .sk-user-btn:hover {
+    border-color: #E31725;
+    background: #E31725;
+    color: #fff;
+}
+
+#user-login-main .sk-user-btn span {
+    font-size: 18px;
+    line-height: 36px;
+}
+
+#sk-login-cc > div.sk-login-forget {
+    float: left;
+}
+
+#sk-login-cc > div.sk-login-register {
+    float: right;
+}
+
+#sk-login-cc {
+    overflow: hidden;
+    padding: 0px 97px;
+}
+
+#sk-login-cc a {
+    font-size: 14px;
+    color: #9A0000;
+}
+
+
+
+
+
+/*注册业务窗口*/
+#user-register-header {
+    margin: 0 auto;
+}
+
+#user-register-header > img {
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+#user-register {
+    width: 286px;
+    margin: 0 auto;
+}
+
+
+#user-register-main .with-line {
+
+    font-size: 16px;
+    color: #999;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+#user-register-main .with-line-a {
+    margin-bottom: 10px;
+}
+
+#user-register-main .with-line:before {
+    content: "";
+    border-top: 1px solid #ededed;
+    display: block;
+    position: absolute;
+    width: 50px;
+    top: 8px;
+    left: 0;
+}
+
+#user-register-main .with-line:after {
+    content: "";
+    border-top: 1px solid #ededed;
+    display: block;
+    position: absolute;
+    width: 50px;
+    top: 8px;
+    right: 0;
+}
+
+#user-register-main .sk-user-input-style {
+    display: inline-block;
+    padding: 0 10px;
+    height: 38px;
+    font-size: 16px;
+    line-height: 1;
+    color: #777;
+    background: #FCFCFC;
+    border: 1px solid #CCC;
+    border-radius: 2px;
+    width: 250px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .05);
+    -webkit-transition: color .2s linear, border-color .3s linear;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    outline: none;
+}
+
+#user-register-main .sk-user-btn {
+    display: block;
+    font-size: 18px;
+    padding: 0 15px;
+    border-radius: 3px;
+    height: 36px;
+    line-height: 36px;
+    text-shadow: none;
+    background: #EC414D;
+    color: #fff;
+    box-shadow: none;
+    border: 1px solid #EC414D;
+    text-align: center;
+}
+
+#user-register-main .sk-user-btn:hover {
+    border-color: #E31725;
+    background: #E31725;
+    color: #fff;
+}
+
+#user-register-main .sk-user-btn span {
+    font-size: 18px;
+    line-height: 36px;
+}
+
+#sk-register-cc .sk-register-to-login {
+    float: right;
+}
+
+#sk-register-cc {
+    overflow: hidden;
+    padding: 0px 97px;
+}
+
+#sk-register-cc a {
+    font-size: 14px;
+    color: #9A0000;
+}
+
+#sk-register-send-code {
+    position: relative;
+}
+
+#sk-register-send-code a {
+    position: absolute;
+    right: 11px;
+    top: 11px;
+    color: #757575;
+    font-size: 11px;
+}
+
+
+/*忘记密码业务窗口*/
+
+#user-forget-header {
+    margin: 0 auto;
+}
+
+#user-forget-header > img {
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+#user-forget {
+    width: 286px;
+    margin: 0 auto;
+}
+
+
+#user-forget-main .with-line {
+
+    font-size: 16px;
+    color: #999;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+#user-forget-main .with-line-a {
+    margin-bottom: 10px;
+}
+
+#user-forget-main .with-line:before {
+    content: "";
+    border-top: 1px solid #ededed;
+    display: block;
+    position: absolute;
+    width: 50px;
+    top: 8px;
+    left: 0;
+}
+
+#user-forget-main .with-line:after {
+    content: "";
+    border-top: 1px solid #ededed;
+    display: block;
+    position: absolute;
+    width: 50px;
+    top: 8px;
+    right: 0;
+}
+
+#user-forget-main .sk-user-input-style {
+    display: inline-block;
+    padding: 0 10px;
+    height: 38px;
+    font-size: 16px;
+    line-height: 1;
+    color: #777;
+    background: #FCFCFC;
+    border: 1px solid #CCC;
+    border-radius: 2px;
+    width: 250px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .05);
+    -webkit-transition: color .2s linear, border-color .3s linear;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    outline: none;
+}
+
+#user-forget-main .sk-user-btn {
+    display: block;
+    font-size: 18px;
+    padding: 0 15px;
+    border-radius: 3px;
+    height: 36px;
+    line-height: 36px;
+    text-shadow: none;
+    background: #EC414D;
+    color: #fff;
+    box-shadow: none;
+    border: 1px solid #EC414D;
+    text-align: center;
+}
+
+#user-forget-main .sk-user-btn:hover {
+    border-color: #E31725;
+    background: #E31725;
+    color: #fff;
+}
+
+#user-forget-main .sk-user-btn span {
+    font-size: 18px;
+    line-height: 36px;
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <link rel="stylesheet" href="resources/lib/css/index.css">
+    <script src="resources/lib/js/index.js"></script>
+    <!-- axios -->
+    <script src="resources/lib/js/axios.js"></script>
+    <!-- 个人 -->
+    <link rel="stylesheet" href="resources/css/consumer/consumerCenter.css">
+</head>
+<body>
+
+<div id="app">
+    <div id="wrapper">
+        <!-- 头部 -->
+        <div id="header">
+            <!-- 放入主图 用来居中 -->
+            <div id="header_main">
+                <!-- logo -->
+                <div id="logo">
+                    <img src="resources/images/logo/logo-youse-lo.png" height="150" width="300"/>
+                </div>
+                <!-- 导航菜单 -->
+                <div id="nav">
+                    <ul>
+                        <li v-for="(item, index) in nav" :key="index">
+                            <a target="_blank" :href="item.url">{{item.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 用户信息简单展示 -->
+                <div id="user">
+                    <div id="userInfo" v-if="user">
+                        <div class="user-info">{{userInfo.username}}</div>
+                        <div id="user-topbar-info" v-if="userInfoBar">
+                            <div class="user-info-header"></div>
+                            <div class="user-info-middle"></div>
+                            <div class="user-info-footer">
+                                <div class="user-info-footer-left">
+                                    <a href="consumerCenter">个人中心</a>
+                                </div>
+                                <div class="user-info-footer-right">
+                                    <a @click="logout" href="javascript:;">
+                                        <span>退出登录</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主要内容 -->
+        <div id="content">
+            <div id="user_center">
+                <!-- 用户的简单数据 -->
+                <div id="user_card">
+                    <!--  -->
+                    <div class="hat"></div>
+                    <div class="inner card_content clearfix">
+                        <div class="hat_img">
+                            <div class="img">
+                                <img src="resources/images/tou.png"/>
+                            </div>
+                        </div>
+                        <div class="hat_line">
+                            <div class="username">sakoa</div>
+                        </div>
+                        <ul class="introduction"></ul>
+                        <div class="about clearfix">
+                            <span>余额 66666</span>
+                            <span>余额 66666</span>
+                            <span>余额 66666</span>
+                            <span>余额 66666</span>
+                            <span>余额 66666</span>
+                            <span>余额 66666</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="setting btn btn14">
+                                <i class="icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tabs">
+                        <a v-for="item in tabs" :href="item.url" class="tab" target="center_main">{{item.title}}</a>
+                        <div class="search-hint"></div>
+                    </div>
+                </div>
+                <!-- 主要内容 导航 内容 -->
+                <div id="user_center_main">
+                    <div id="aaa" class="sort-lists clearfix sortable">
+                        <iframe id="main" name="center_main" src="" frameborder="0" style="width: 100%;height: 100%;border:0;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 脚部 -->
+        <div id="foot">
+            <div class="sk-foot-main clear">
+                <div class="sk-foot-left left">
+                    <div class="n-link">
+                        <a href="http://www.itrust.org.cn/home/index/itrust_certifi/wm/19671944XX.html" target="_blank">
+                            <img src="resources/images/foot/index-integrity-icon.png" alt="">
+                        </a>
+                        <a href="http://gawa.bjchy.gov.cn/websearch/" target="_blank">
+                            <img src="resources/images/foot/jingcha.png" alt="">
+                        </a>
+                        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=*.9fgroup.com&amp;lang=zh_cn"
+                           target="_blank">
+                            <img src="resources/images/foot/norton.png" alt="">
+                        </a>
+                        <a href="http://webscan.360.cn/index/checkwebsite/url/www.9fgroup.com"
+                           name="6d18753f3a834479ee835f4f9bc009ec">
+                            <img src="resources/images/foot/360.png" alt="">
+                        </a>
+                        <a id="_pingansec_bottomimagelarge_p2p"
+                           href="http://si.trustutn.org/info?sn=420180312000632784551&amp;certType=4">
+                            <img src="resources/images/foot/p2p_official_large.jpg">
+                        </a>
+                    </div>
+                    <p>Copyright©2018-2019 <span>华金宝个人学习项目使用</span> <a href="http://http://www.miitbeian.gov.cn">豫ICP备18045023号-1</a>
+                    </p>
+
+                </div>
+                <dl class="right">
+                    <dt><img src="resources/images/foot/huajinbao.png" alt=""></dt>
+                    <dd>
+                        <div class="sk-icon">
+                            <a target="_blank" href="javascript;;">
+                                <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+                            </a>
+                            <a target="_blank" href="javascript;;">
+                                <i class="fa fa-qq fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <p class="n-text">QQ群：</p>
+                        <p class="n-tel">965903855
+                            <small>9:30-21:00</small>
+                        </p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            nav: [
+                {title: '首页', url: '/'},
+                {title: '我要出借', url: '#'},
+                {title: '我要借款', url: '#'},
+                {title: '信息披露', url: '#'},
+                {title: '关于我们', url: '#'}
+            ],
+            tabs: [
+                {title: '账户总览', url: 'http://www.baidu.com'},
+                {title: '充值', url: 'http://www.douban.com'},
+                {title: '提现', url: 'http://www.zhihu.com'},
+                {title: '还款', url: 'http://www.huaban.com'},
+                {title: '资金记录', url: '/'},
+                {title: '投资记录', url: '#'},
+                {title: '我的招标', url: '#'},
+                {title: '实名认证', url: '#'},
+                {title: '房屋认证', url: '#'},
+                {title: '车辆认证', url: '#'},
+                {title: '系统通知', url: '#'}
+            ],
+            user: true, // 存放请求到的用户信息资料
+            userInfoBar: false, // 用户信息面板 控制是否显示
+            userInfo: {}, // 用户的信息
+        },
+        methods: {
+            // 退出登录
+            logout: function () {
+                axios({
+                    method: 'post',
+                    url: 'consumer/logout'
+                }).then(function (response) {
+                    // 退出登录之后 清空用户信息
+                    app.userInfo = {}
+                    console.log('--------------------logout--------------------')
+                    console.log(app.userInfo)
+                    console.log('----------------------------------------------')
+                    window.location.href = "index"
+                })
+            }
+        }
+    })
+</script>
+
+<script>
+    window.onload = function () {
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (response) {
+            // 加载用户信息
+            //
+            console.log(response)
+            if (response.data.user != null) {
+                // 把用户的信息存入 userInfo 并且显示 顶部的个人...
+                app.userInfo = response.data.user[0]
+                app.userInfoBar = false
+                app.user = true
+                console.log('-----------------------------window.onload-----------------------------')
+                console.log('!=null')
+                console.log(app.userInfo)
+                console.log('-----------------------------------------------------------------------')
+            } else {
+                // 登录失败
+                app.user = false
+                console.log('-----------------------------window.onload-----------------------------')
+                console.log('==null')
+                console.log('-----------------------------------------------------------------------')
+                window.location.href = "index"
+            }
+        })
+    }
+</script>
+
+<script>
+    var main = document.getElementById('main')
+    main.onload = function () {
+        var height = main.contentDocument.documentElement.scrollHeight
+        main.style.height = height + 'px'
+    }
+</script>
+

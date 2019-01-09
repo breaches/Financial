@@ -10,7 +10,6 @@
 
     <!-- Maven项目之间不仅存在多模块的聚合关系，而且Maven项目之间还可以存在相互继承的关系。 Maven项目之间的继承关系通过<parent>表示
     将当前项目作为 spring-huajinbao-starter-parent 的子项目 -->
-    <!-- Inherit defaults from Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -86,6 +85,17 @@
             <artifactId>velocity-engine-core</artifactId>
             <version>${velocity-engine-core.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

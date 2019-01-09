@@ -22,8 +22,8 @@ public class HGenerator {
     public static void main(String[] args) {
         String packageName = "com.breach.common";
         String[] tables = {
-                "consumer_account",
-                "consumer_info"
+                "consumer_auths",
+                "consumer_info",
         };
         generateByTables(packageName, tables);
     }
