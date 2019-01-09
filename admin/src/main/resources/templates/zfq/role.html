@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>employee.html</title>
+	<meta charset="UTF-8"/>
+	<!--  VUE -->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<!-- elementUI -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<!-- axios -->
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+<div id="app">
+	<!-- 工具条  -->
+	<div>
+
+			<!--增删查-->
+		<el-button type="primary" icon="el-icon-plus" @click="showDialog" circle></el-button>
+		<el-button type="danger" icon="el-icon-delete" @click="deleteRole" circle></el-button>
+		角色:
+		<el-input v-model="empQuery.name" placeholder="请输入内容" clearable style="width:200px"></el-input>
+		描述:
+		<el-input v-model="empQuery.description" placeholder="请输入内容" clearable style="width:200px"></el-input>
+		<el-button icon="el-icon-search" @click="empSearch" circle></el-button>
+
+	</div>
+
+	<el-table :data="tableData" @selection-change="handleSelectionChange" stripe style="width: 100%">
+		<el-table-column type="index"></el-table-column>
+		<el-table-column type="selection" width="55"></el-table-column>
+		<el-table-column prop="id" label="角色编号" width="180"></el-table-column>
+		<el-table-column prop="name" label="角色名称" width="180"></el-table-column>
+		<el-table-column prop="description" label="描述" width="180"></el-table-column>
+		<el-table-column label="操作">
+			<template slot-scope="scope">
+				<el-button size="mini" type="success" @click="handleEdit(scope.row)">编辑</el-button>
+			</template>
+		</el-table-column>
+
+	</el-table>
+	<div>
+		<el-pagination @size-change="handleSizeChange" :current-page="empQuery.page"
+					   @current-change="handleCurrentChange"
+					   :page-sizes="[3, 6, 9, 12]" :page-size="100" layout="total, sizes, prev, pager, next, jumper"
+					   :total="empTotal">
+		</el-pagination>
+	</div>
+
+
+
+
+	<el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+		<el-form status-icon :model="empInfo" ref="loginFrom" label-width="100px" class="demo-ruleForm">
+			<el-input type="hidden" v-model="empInfo.id" autocomplete="off"></el-input>
+			<el-form-item label="角色名称" prop="name">
+				<el-input type="text" v-model="empInfo.name" autocomplete="off"></el-input>
+			</el-form-item>
+			<el-form-item label="角色描述" prop="description">
+				<el-input type="text" v-model="empInfo.description" autocomplete="off"></el-input>
+			</el-form-item>
+
+
+
+		</el-form>
+
+
+		<span slot="footer" class="dialog-footer">
+					<el-button @click="dialogVisible = false">取 消</el-button>
+					<el-button type="primary" @click="changeEmp">确 定</el-button>
+				</span>
+	</el-dialog>
+
+
+
+</div>
+
+
+<script type="text/javascript">
+
+    var app = new Vue({
+        el: "#app",
+        data: {
+            tableData: [],
+            empQuery: {
+                page: 1,
+                count: 3,
+                name: "",
+                beginDate: "",
+                endDate: ""
+            },
+            empTotal: 0,
+            dialogVisible: false,
+            empInfo: {},
+            deleteArr: [],
+        },
+        methods: {
+            handleSizeChange: function (val) {
+                this.empQuery.count = val;
+                this.empQuery.page = 1;
+                reload();
+            },
+            handleCurrentChange: function (val) {
+                this.empQuery.page = val;
+                reload();
+            },
+            empSearch: function () {
+                reload();
+            },
+            showDialog: function () {
+                this.dialogVisible = true;
+                this.empInfo = {};
+            },
+            changeEmp: function () {
+                var url = "";
+
+                if (this.empInfo.id == null) {
+                    url = 'role/addrole';
+                } else {
+                    url = "role/editRole";
+                    app.empInfo.employeeHiredate=null;
+
+                    console.log('nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
+                    console.log(app.empInfo)
+                    console.log('nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
+                }
+
+                axios.post(url, app.empInfo)
+                    .then(function (response) {
+                        app.dialogVisible = false;
+                        app.$message({
+                            message: response.data.msg,
+                            type: 'success'
+                        });
+                        reload();
+                    });
+
+            },
+
+            handleEdit: function (emp) {
+                axios.get('role/getEditRole?id=' + emp.id)
+                    .then(function (response) {
+                        app.empInfo = response.data;
+                        app.dialogVisible = true;
+                    });
+
+            },
+            deleteRole: function () {
+
+                if (app.deleteArr.length > 0) {
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        var ids = [];
+                        for (var index in app.deleteArr) {
+                            ids.push(app.deleteArr[index].id);
+                        }
+                        axios.post('role/deleteRole', ids)
+                            .then(function (response) {
+                                app.empQuery.page = 1;
+                                reload();
+                            });
+                    });
+                } else {
+                    app.$message.error('请至少选中一行');
+                }
+
+            },
+            handleSelectionChange: function (val) {
+                this.deleteArr = val;
+            }
+
+
+
+
+        }
+    });
+
+    function reload() {
+        axios.post('role/getRole', app.empQuery)
+            .then(function (response) {
+                app.tableData = response.data.empData;
+                app.empTotal = response.data.empTotal;
+            });
+    }
+
+    reload();
+
+
+
+</script>
+</body>
+</html>

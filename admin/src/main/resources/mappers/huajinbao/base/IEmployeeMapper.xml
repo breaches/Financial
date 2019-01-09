@@ -13,8 +13,9 @@
 
     <!-- 查询员工信息 -->
     <select id="getEmpByLoginID" resultType="com.breach.common.entity.EmployeeInfo">
-	   select * from employee_info where employee_account_id = #{id}
-	</select>
+select * from employee_info where employee_account_id = #{id}
+
+</select>
 
     <!--获取员工权限  -->
     <resultMap type="map" id="perMap">
