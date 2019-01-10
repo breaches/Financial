@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>微信充值</title>
+    <meta charset="UTF-8"/>
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <script src="resources/lib/js/index.js"></script>
+    <!-- axios -->
+    <script src="resources/lib/js/axios.js"></script>
+    <style type="text/css">
+
+        #app{
+            margin-left: 150px;
+
+
+        }
+
+        .tixing{
+            margin-left: 85px;
+
+
+        }
+        #app-input{
+            margin:30px 0px 48px 0px ;
+
+
+        }
+        #app-submit{
+            margin:0px 0px 15px 0px ;
+
+        }
+        .xieyi{
+            margin:0px 0px 3px 0px ;
+        }
+        p{
+            margin:0px 0px 0px 0px ;
+
+        }
+        .app-text{
+            background:#FFF5E7;
+            margin:60px 0px 0px 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <h2>微信支付:</h2>
+    <div style="height: 80px"></div>
+</div>
+
+<div id="app">
+
+    <div id="app-input" >
+        充值金额： <el-input v-model="input" placeholder="单笔大于0" style="width: 200px"></el-input><br/>
+        <span class="tixing" style="font-size: 13px">华金宝提醒您，充值金额超过50000元时，请切换到网银充值</span>
+    </div>
+
+    <div id="app-submit">
+        <span class="xieyi" style="font-size: 13px"><input type="checkbox" checked="true">记住我 我同意并接受华金宝相关的<a href="#">电子协议</a></span><br/>
+        <el-button  style="width:350px"  @click="submit"  type="danger">充值</el-button>
+    </div>
+
+    <!-- 弹框 -->
+    <el-dialog title="充值页面"   :before-close="handleClose"  :visible.sync="dialogVisible" width="600px">
+
+
+
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">关闭</el-button>
+            <el-button type="primary" >提交</el-button>
+        </div>
+    </el-dialog>
+
+
+</div>
+<div class="app-text">
+    <span style="color: red">*</span>温馨提示：
+    <p> 1. 投资人充值过程全程免费，不收取任何手续费。</p>
+    <p> 2. 为防止套现，所充资金必须经投标回款后才能提现。</p>
+    <p>3. 使用快捷支付进行充值，可能会受到不同银行的限制，如需大额充值请使用网银充值进行操作。</p>
+    <p>4. 充值/提现必须为银行借记卡，不支持存折、信用卡充值。</p>
+    <p>5. 严禁利用充值功能进行信用卡套现、转账、洗钱等行为，一经发现，将封停账号30天。</p>
+    <p>6. 充值期间，请勿关闭浏览器，待充值成功并返回首页后，所充资金才能入账，如有疑问，请联系客服。</p>
+    <p>7. 充值需开通银行卡网上支付功能，如有疑问请咨询开户行客服。</p>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data:{
+            input:"",
+            checked:true,
+            dialogVisible:false,
+        },
+
+        methods:{
+            handleClose(done) {
+                this.$confirm('确认关闭充值页面吗？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {});
+            },
+            submit:function () {
+
+                axios.post("#", app.input)
+                    .then(function (response) {
+                        app.dialogVisible = true;
+
+
+                    });
+            }
+
+        },
+
+    });
+</script>
+<script>
+    window.onload = function () {
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (response) {
+            // 页面加载后请求用户信息，判断是否已经登录
+            // 如果登录则 隐藏登录按钮 显示用户
+            // 如果未登录 显示登录按钮 隐藏用户
+            console.log(response)
+            if (response.data.user != null) {
+                // 已登录
+                app.userInfo = response.data.user[0]
+            } else {
+                // 未登录
+                window.location.href = '/'
+            }
+        })
+    }
+</script>
+
+
+</body>
+</html>
+
