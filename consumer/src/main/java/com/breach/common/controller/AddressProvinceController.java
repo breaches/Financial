@@ -7,15 +7,15 @@ import org.springframework.stereotype.Controller;
 
 /**
  * <p>
- *  前端控制器
+ * 该实体为行政区域划分等级 前端控制器
  * </p>
  *
  * @author shaokang
  * @since 2019-01-10
  */
 @Controller
-@RequestMapping("/consumerInfo")
-public class ConsumerInfoController {
+@RequestMapping("/addressProvince")
+public class AddressProvinceController {
 
 }
 

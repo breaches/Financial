@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-07
+ * @since 2019-01-10
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -47,6 +47,11 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
     private String phone;
 
     /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
      * 表示当前用户的状态 1：正常 2：冻结
      */
     private Integer state;
@@ -60,6 +65,11 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
      * 婚姻状态
      */
     private Boolean isMarry;
+
+    /**
+     * 用户关联的账户信息
+     */
+    private Integer accountId;
 
     /**
      * 关联用户地址表

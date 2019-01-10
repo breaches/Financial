@@ -10,10 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户登录授权表
-目前两种方式直接进行登录：
-用户名
-手机号码
+ * 该实体为行政区域划分等级
  * </p>
  *
  * @author shaokang
@@ -22,37 +19,32 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ConsumerAuths extends Model<ConsumerAuths> {
+public class AddressCity extends Model<AddressCity> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private String id;
 
     /**
-     * 用户名
+     * 城市代码
      */
-    private String username;
+    @TableId(value = "code_city", type = IdType.AUTO)
+    private String codeCity;
 
     /**
-     * 密码
+     * 城市名
      */
-    private String password;
+    private String name;
 
     /**
-     * 关联用户信息表，当前账号绑定的是哪个用户
+     * 所属省份的省份代码
      */
-    private Integer consumerId;
-
-    /**
-     * 客户状态 1：可用 2：冻结
-     */
-    private Integer state;
+    private String codeProvince;
 
 
     @Override
     protected Serializable pkVal() {
-        return this.id;
+        return this.codeCity;
     }
 
 }

@@ -28,31 +28,65 @@
         <div id="header">
             <div id="step">
                 <el-steps :active="active" finish-status="success" space="200px" align-center="true">
-                    <el-step title="填写资料" icon="el-icon-upload" description=""></el-step>
-                    <el-step title="上传身份证" icon="el-icon-edit-outline" description=""></el-step>
+                    <el-step title="填写资料" icon="el-icon-edit-outline" description=""></el-step>
+                    <el-step title="上传身份证" icon="el-icon-upload" description=""></el-step>
                     <el-step title="确认上传" icon="el-icon-check" description=""></el-step>
                 </el-steps>
             </div>
         </div>
         <!--主体-->
         <div id="middle">
+            <div id="sk-verify-box">
+                <div class="sk-verify-content" style="width: 425px; padding-right: 100px;">
+                    <transition name="el-fade-in-linear">
+                        <div v-show="showEdit" class="transition-box">
+                            <!-- 显示填写资料的页面 -->
+                            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
-            <transition name="el-zoom-in-left">
-                <div v-show="showUpLoad" class="transition-box">
-                    <!-- 显示填写资料的页面 -->
+                                <el-form-item label="姓名" prop="name">
+                                    <el-input v-model="ruleForm.name"></el-input>
+                                </el-form-item>
 
+                                <el-form-item label="身份证号码" prop="name">
+                                    <el-input v-model="ruleForm.name"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="学历" prop="name">
+                                    <el-select v-model="education" clearable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in educations"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="地址" prop="name">
+                                    <el-cascader
+                                            expand-trigger="hover"
+                                            :options="regions"
+                                            :change-on-select="false"
+                                            @active-item-change="regionHandleItemChange"
+                                    >
+                                    </el-cascader>
+                                </el-form-item>
+                                <el-form-item label="详细地址" prop="name">
+                                    <el-input v-model="ruleForm.name"></el-input>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </transition>
                 </div>
-            </transition>
-
-            <transition name="el-zoom-in-left">
-                <div v-show="showUpLoad" class="transition-box">
-                    <div id="sk-id-card-">
-                        <div id="sk-id-card-header">
-                            <div class="sk-id-card-header-title">
-                                <p>将证件原件清洗拍照或彩色扫描后上传，图片后缀必须为.jpg/.jpeg/.png/.gif的一种，大小5M内。</p>
-                            </div>
-                            <div class="sk-id-card-header-content">
-                                <h2 class="sk-required aaaa">
+                <div class="sk-verify-content">
+                    <transition name="el-fade-in-linear">
+                        <div v-show="showUpLoad" class="transition-box">
+                            <div id="sk-id-card-">
+                                <div id="sk-id-card-header">
+                                    <div class="sk-id-card-header-title">
+                                        <p>将证件原件清洗拍照或彩色扫描后上传，图片后缀必须为.jpg/.jpeg/.png/.gif的一种，大小5M内。</p>
+                                    </div>
+                                    <div class="sk-id-card-header-content">
+                                        <h2 class="sk-required aaaa">
                                     <span>
                                         <span>上传 </span>
                                         <span style="color:#008CFF;">袁韶康</span>
@@ -63,101 +97,108 @@
                                             <span>）</span>
                                         </span>
                                     </span>
-                                </h2>
-                                <div class="sk-id-card-header-desc">
-                                    <p>身份证需要正反两面，请将身份证分开两次上传；</p>
+                                        </h2>
+                                        <div class="sk-id-card-header-desc">
+                                            <p>身份证需要正反两面，请将身份证分开两次上传；</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="sk-id-card-content">
+                                    <div class="sk-container-id-card">
+                                        <!-- 上传身份证 -->
+                                        <div class="sk-container-id-card-upload">
+                                            <el-upload
+                                                    class="upload-id-card"
+                                                    drag
+                                                    :show-file-list="false"
+                                                    :on-success="frontImageHandleAvatarSuccess"
+                                                    :on-error="frontImageHandleAvatarError"
+                                                    :on-progress="frontImageHandleAvatarProgress"
+                                                    :before-upload="frontImageBeforeAvatarUpload"
+                                                    :data="{type:'front'}"
+                                                    :auto-upload="true"
+                                                    action="https://jsonplaceholder.typicode.com/posts/"
+                                                    v-loading="frontLoading"
+                                                    element-loading-text="拼命加载中"
+                                                    element-loading-background="rgba(245, 245, 245, 0.8)">
+                                                <i class="el-icon-upload"></i>
+                                                <div class="el-upload__text">将正面拖到此处，或<em>点击上传</em></div>
+                                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2Mb</div>
+                                                <img v-if="frontImageVisit" :src="frontImageUrl" class="avatar">
+                                            </el-upload>
+                                        </div>
+                                        <!-- 身份证示例图 -->
+                                        <div class="sk-container-id-card-sample">
+                                            <p>
+                                                <img class="sk-id-card-480" src="resources/images/sample/id-front.jpg"
+                                                     alt="">
+                                            </p>
+                                            <p>
+                                                示例 <a @click="showFront1080" href="javascript:;">查看大图</a>
+                                            </p>
+                                        </div>
+                                        <div v-if="visitFront1080" class="sk-id-card-1080-container">
+
+                                        </div>
+                                    </div>
+                                    <div class="sk-container-id-card">
+                                        <!-- 上传身份证 -->
+                                        <div class="sk-container-id-card-upload">
+                                            <el-upload
+                                                    class="upload-id-card"
+                                                    drag
+                                                    :show-file-list="false"
+                                                    :on-success="frontImageHandleAvatarSuccess"
+                                                    :on-error="frontImageHandleAvatarError"
+                                                    :on-progress="frontImageHandleAvatarProgress"
+                                                    :before-upload="frontImageBeforeAvatarUpload"
+                                                    :data="{type:'front'}"
+                                                    :auto-upload="true"
+                                                    action="https://jsonplaceholder.typicode.com/posts/"
+                                                    v-loading="frontLoading"
+                                                    element-loading-text="拼命加载中"
+                                                    element-loading-background="rgba(245, 245, 245, 0.8)">
+                                                <i class="el-icon-upload"></i>
+                                                <div class="el-upload__text">将反面拖到此处，或<em>点击上传</em></div>
+                                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2Mb</div>
+                                                <img v-if="frontImageVisit" :src="frontImageUrl" class="avatar">
+                                            </el-upload>
+                                        </div>
+                                        <!-- 身份证示例图 -->
+                                        <div class="sk-container-id-card-sample">
+                                            <p>
+                                                <img class="sk-id-card-480" src="resources/images/sample/id-back.jpg"
+                                                     alt="">
+                                            </p>
+                                            <p>
+                                                示例 <a @click="showBack1080" href="javascript:;">查看大图</a>
+                                            </p>
+                                        </div>
+                                        <div v-if="visitBack1080" class="sk-id-card-1080-container">
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="sk-id-card-content">
-                            <div class="sk-container-id-card">
-                                <!-- 上传身份证 -->
-                                <div class="sk-container-id-card-upload">
-                                    <el-upload
-                                            class="upload-id-card"
-                                            drag
-                                            :show-file-list="false"
-                                            :on-success="frontImageHandleAvatarSuccess"
-                                            :on-error="frontImageHandleAvatarError"
-                                            :on-progress="frontImageHandleAvatarProgress"
-                                            :before-upload="frontImageBeforeAvatarUpload"
-                                            :data="{type:'front'}"
-                                            :auto-upload="true"
-                                            action="https://jsonplaceholder.typicode.com/posts/"
-                                            v-loading="frontLoading"
-                                            element-loading-text="拼命加载中"
-                                            element-loading-background="rgba(245, 245, 245, 0.8)">
-                                        <i class="el-icon-upload"></i>
-                                        <div class="el-upload__text">将正面拖到此处，或<em>点击上传</em></div>
-                                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2Mb</div>
-                                        <img v-if="frontImageVisit" :src="frontImageUrl" class="avatar">
-                                    </el-upload>
-                                </div>
-                                <!-- 身份证示例图 -->
-                                <div class="sk-container-id-card-sample">
-                                    <p>
-                                        <img class="sk-id-card-480" src="resources/images/sample/id-front.jpg" alt="">
-                                    </p>
-                                    <p>
-                                        示例 <a @click="showFront1080" href="javascript:;">查看大图</a>
-                                    </p>
-                                </div>
-                                <div v-if="visitFront1080" class="sk-id-card-1080-container">
-
-                                </div>
-                            </div>
-                            <div class="sk-container-id-card">
-                                <!-- 上传身份证 -->
-                                <div class="sk-container-id-card-upload">
-                                    <el-upload
-                                            class="upload-id-card"
-                                            drag
-                                            :show-file-list="false"
-                                            :on-success="frontImageHandleAvatarSuccess"
-                                            :on-error="frontImageHandleAvatarError"
-                                            :on-progress="frontImageHandleAvatarProgress"
-                                            :before-upload="frontImageBeforeAvatarUpload"
-                                            :data="{type:'front'}"
-                                            :auto-upload="true"
-                                            action="https://jsonplaceholder.typicode.com/posts/"
-                                            v-loading="frontLoading"
-                                            element-loading-text="拼命加载中"
-                                            element-loading-background="rgba(245, 245, 245, 0.8)">
-                                        <i class="el-icon-upload"></i>
-                                        <div class="el-upload__text">将反面拖到此处，或<em>点击上传</em></div>
-                                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2Mb</div>
-                                        <img v-if="frontImageVisit" :src="frontImageUrl" class="avatar">
-                                    </el-upload>
-                                </div>
-                                <!-- 身份证示例图 -->
-                                <div class="sk-container-id-card-sample">
-                                    <p>
-                                        <img class="sk-id-card-480" src="resources/images/sample/id-back.jpg" alt="">
-                                    </p>
-                                    <p>
-                                        示例 <a @click="showBack1080" href="javascript:;">查看大图</a>
-                                    </p>
-                                </div>
-                                <div v-if="visitBack1080" class="sk-id-card-1080-container">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </transition>
                 </div>
-            </transition>
-
-
-
+                <div class="sk-verify-content">
+                    <transition name="el-fade-in-linear">
+                        <div v-show="showModify" class="transition-box">
+                            <!-- 显示填写资料的页面 -->
+                            修改确认提交
+                        </div>
+                    </transition>
+                </div>
+            </div>
         </div>
         <!--脚-->
         <div id="foot">
-            <div>
+            <div id="foot-bar">
                 <el-button style="margin-top: 12px;" @click="next">{{nextButton.title}}</el-button>
-                <el-button @click="showUpLoad = !showUpLoad"></el-button>
             </div>
         </div>
-
     </div>
 
     <!-- 对话框 -->
@@ -181,46 +222,42 @@
             :lock-scroll="true"
             :before-close="disableBack1080"
             center>
-            <img class="sk-id-card-1080 sk-id-card-1080-back"
-                 src="resources/images/sample/id-back.jpg" alt="">
+        <img class="sk-id-card-1080 sk-id-card-1080-back"
+             src="resources/images/sample/id-back.jpg" alt="">
     </el-dialog>
 
 </div>
 </body>
 </html>
+
+
 <script>
     var app = new Vue({
         el: '#app',
         data: {
-            showUpLoad: true,
+            userInfo: {},
+            educations: [],
+            education: [],
+            regions: [],
+            region: [],
+            ruleForm: {},
+            showEdit: true,
+            showUpLoad: false,
+            showModify: false,
             visitFront1080: false,
             visitBack1080: false,
-            userInfo: {},
             frontImageVisit: false,
             frontImageUrl: '',
             frontLoading: false,
             backImageUrl: '',
             active: 0,
+            vals:[],
+            val: [],
             nextButton: {
                 title: '下一步'
             }
         },
         methods: {
-            next() {
-                if(this.active < 3) {
-                    this.active ++
-                    if (this.active >= 2) {
-                        this.nextButton.title = '确认实名信息'
-                    } else {
-                        this.nextButton.title = '下一步'
-                    }
-                    if(this.active === 3) {
-                        //我要发送提交请求了
-                    }
-                } else {
-                    //该提交了，别下一步了
-                }
-            },
             frontImageHandleAvatarSuccess: function (response, file, fileList) {
                 // 文件上传成功后的钩子
                 this.frontLoading = false;
@@ -229,10 +266,12 @@
                 this.$message.success('上传成功！');
             },
             frontImageHandleAvatarError: function (err, file, fileList) {
+                // 文件上传失败
                 this.frontLoading = false
                 this.$message.error('上传失败！');
             },
             frontImageHandleAvatarProgress: function (event, file, fileList) {
+                // 文件处理
                 this.frontLoading = true
             },
             frontImageBeforeAvatarUpload: function (file) {
@@ -251,16 +290,64 @@
                 }
             },
             showFront1080: function () {
+                // 显示高清头像面身份证
                 app.visitFront1080 = true
             },
             disableFront1080: function () {
+                // 隐藏高清头像面身份证
                 app.visitFront1080 = false
             },
             showBack1080: function () {
+                // 显示高清国徽面身份证
                 app.visitBack1080 = true
             },
             disableBack1080: function () {
+                // 隐藏高清国徽面身份证
                 app.visitBack1080 = false
+            },
+            regionHandleItemChange: function () {
+                // 每次级联菜单改变时 用来请求子地址
+                this.vals = getCascaderObj(this.val, this.regions)
+                console.log(this.vals)
+            },
+            next() {
+                // 下一步按钮
+                // 下一步 - 下一步 - 确认提交
+                if (this.active < 3) {
+                    this.active++
+
+                    if (this.active == 0) {
+                        app.showUpLoad = false
+                        app.showModify = false
+                        setTimeout(function () {
+                            app.showEdit = true
+                        }, 500)
+                    }
+                    if (this.active == 1) {
+                        app.showEdit = false
+                        app.showModify = false
+                        setTimeout(function () {
+                            app.showUpLoad = true
+                        }, 500)
+                    }
+                    if (this.active == 2) {
+                        app.showEdit = false
+                        app.showUpLoad = false
+                        setTimeout(function () {
+                            app.showModify = true
+                        }, 500)
+                    }
+                    if (this.active >= 2) {
+                        this.nextButton.title = '确认实名信息'
+                    } else {
+                        this.nextButton.title = '下一步'
+                    }
+                    if (this.active === 3) {
+                        //我要发送提交请求了
+                    }
+                } else {
+                    //该提交了，别下一步了
+                }
             }
         }
     })
@@ -268,6 +355,7 @@
 
 <script>
     window.onload = function () {
+        // 判断是否登录
         axios({
             method: 'post',
             url: 'consumer/getUserInfoAfterLogin',
@@ -284,5 +372,63 @@
                 window.top.location.href = '/'
             }
         })
+        // 获取省份数据
+        axios({
+            method: 'post',
+            url: 'verify/listAllProvince'
+        }).then(function (response) {
+            app.regions = []
+            for (var i = 0; i < response.data.data.length; i++) {
+                app.regions.push(
+                    {
+                        label: response.data.data[i].name,
+                        value: response.data.data[i].codeProvince,
+                        children: [{label:666}]
+                    }
+                )
+            }
+            app.aaa = app.regions
+            var foot = app.regions
+            console.log(foot)
+            console.log(app.regions)
+        })
+    }
+</script>
+
+<!--遍历选项 获取选中的数据-->
+<script>
+    function getCascaderObj(val, opt) {
+        return val.map(function (value, index, array) {
+            for (var itm of opt) {
+                if (itm.value == value) {
+                    opt = itm.children;
+                    return itm;
+                }
+            }
+            return null;
+        });
+    }
+</script>
+
+<script>
+    function findProvince(regions, target) {
+        return regions.find(function(province) {
+            if(province.value==target) {
+                return province;
+            }
+        })
+    }
+
+    function findCity(regions, target) {
+        var re = {}
+        regions.find(function(province) {
+            return province.children.find(function(city) {
+                if(city.value==target) {
+                    re = city
+                    return city
+                }
+            })
+        })
+        return re
     }
 </script>

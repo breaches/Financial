@@ -24,6 +24,9 @@ public class HGenerator {
         String[] tables = {
                 "consumer_auths",
                 "consumer_info",
+                "address_province",
+                "address_city",
+                "address_area"
         };
         generateByTables(packageName, tables);
     }
