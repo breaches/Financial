@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.breach.huajinbao.mapper.audit.IAuditMapper">
+
+
+
+    <!-- 查询待审核信息 -->
+	<!-- 分页+查询 -->
+	<sql id="auditQuery">
+		<where>
+			<if test="name != null and name != ''">
+				and e.bidding_name  like CONCAT('%',#{name},'%')
+			</if>
+			<if test="beginDate != null and beginDate != '' ">
+				and e.bidding_time &gt;  #{beginDate}
+			</if>
+			<if test="endDate != null and endDate != '' ">
+				and e.bidding_time &lt;  #{endDate}
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="getauditTenderee" resultType="map">
+		select bidding_id id,user_id uid ,bidding_name name ,bidding_time time ,bidding_verifier verifyid,bidding_verify_time verifytime, state  from user_bidding_info e
+		<include refid="auditQuery" />
+		limit #{page},#{count}
+	</select>
+
+	<select id="getAuditTotal" resultType="java.lang.Integer">
+		select count(*) c from user_bidding_info e
+		<include refid="auditQuery" />
+	</select>
+
+</mapper>
+
+
+
+
+

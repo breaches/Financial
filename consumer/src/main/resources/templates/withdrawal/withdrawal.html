@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>提现页面</title>
+    <meta charset="UTF-8"/>
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <script src="resources/lib/js/index.js"></script>
+    <!-- axios -->
+    <script src="resources/lib/js/axios.js"></script>
+    <style type="text/css">
+
+        #app{
+            margin-left: 150px;
+        }
+
+        .tixing{
+            margin-left: 85px;
+
+
+        }
+        #app-input{
+            margin:30px 0px 48px 0px ;
+
+
+        }
+        #app-submit {
+            margin: 0px 0px 15px 83px;
+
+        }
+        .app-text{
+            background:#FFF5E7;
+            margin:60px 0px 0px 20px;
+
+        }
+        #demo , #demo1 , #demo2{
+            margin:35px 0px 30px 0px ;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <h2>填写提现金额:</h2>
+
+</div>
+
+<div id="app">
+    <div id="demo" >
+        可用金额：<span style="color: red">{{demo}}<span>
+    </div>
+
+    <div id="app-input" >
+      提现金额： <el-input v-model="input" placeholder="单笔大于0" style="width: 200px"></el-input>
+    </div>
+
+    <div id="demo1" >
+        提现费用：<span style="color: red">{{demo}}<span>
+    </div>
+
+    <div id="demo2" >
+        实际到账金额：<span style="color: red">{{demo}}<span>
+    </div>
+
+
+    <div id="app-submit">
+        <el-button  style="width:200px"  @click="submit"  type="primary">提现</el-button>
+    </div>
+
+    <!-- 弹框 -->
+    <el-dialog title="充值页面"   :before-close="handleClose"  :visible.sync="dialogVisible" width="600px">
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">关闭</el-button>
+            <el-button type="primary" >提交</el-button>
+        </div>
+    </el-dialog>
+
+
+</div>
+<div class="app-text">
+    <span style="color: red">*</span>温馨提示：<br/>
+    1、用户需在完成身份认证、开通丰付托管账户并绑定银行卡后，方可申请提现；<br/>
+    2、请务必在提现时使用持卡人与身份认证一致的银行卡号，且确保填写信息准确无误；<br/>
+    3、工作日当天16:00前提交的提现申请将在当天处理，默认为T+1到账；<br/>
+    4、提现金额单笔上限为50万元，单日累计总额不可超过100万元；<br/>
+    5、提现手续费为提现金额的0.1%，最低每笔2元，100元封顶，手续费由第三方托管账户收取，用户自行承担。<br/>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data:{
+            input:"",
+            checked:true,
+            dialogVisible:false,
+            demo:"假100000",
+
+        },
+
+        methods:{
+            handleClose(done) {
+                this.$confirm('确认关闭充值页面吗？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {});
+            },
+            submit:function () {
+
+                axios.post("#", app.input)
+                    .then(function (response) {
+                        app.dialogVisible = true;
+
+
+                    });
+            }
+
+        },
+
+    });
+</script>
+<script>
+    window.onload = function () {
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (response) {
+            // 页面加载后请求用户信息，判断是否已经登录
+            // 如果登录则 隐藏登录按钮 显示用户
+            // 如果未登录 显示登录按钮 隐藏用户
+            console.log(response)
+            if (response.data.user != null) {
+                // 已登录
+                app.userInfo = response.data.user[0]
+            } else {
+                // 未登录
+                window.location.href = '/'
+            }
+        })
+    }
+</script>
+
+
+</body>
+</html>
+
