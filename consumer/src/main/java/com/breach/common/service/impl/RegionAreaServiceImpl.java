@@ -1,8 +1,8 @@
 package com.breach.common.service.impl;
 
-import com.breach.common.entity.AddressCity;
-import com.breach.common.mapper.IAddressCityMapper;
-import com.breach.common.service.IAddressCityService;
+import com.breach.common.entity.RegionArea;
+import com.breach.common.mapper.IRegionAreaMapper;
+import com.breach.common.service.IRegionAreaService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-11
  */
 @Service
-public class AddressCityServiceImpl extends ServiceImpl<IAddressCityMapper, AddressCity> implements IAddressCityService {
+public class RegionAreaServiceImpl extends ServiceImpl<IRegionAreaMapper, RegionArea> implements IRegionAreaService {
 
 }

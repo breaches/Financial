@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-10
+ * @since 2019-01-11
  */
 public interface IAddressProvinceService extends IService<AddressProvince> {
 

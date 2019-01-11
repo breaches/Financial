@@ -1,6 +1,6 @@
 package com.breach.common.mapper;
 
-import com.breach.common.entity.AddressCity;
+import com.breach.common.entity.RegionArea;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author shaokang
  * @since 2019-01-11
  */
-public interface IAddressCityMapper extends BaseMapper<AddressCity> {
+public interface IRegionAreaMapper extends BaseMapper<RegionArea> {
 
 }

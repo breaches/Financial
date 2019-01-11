@@ -1,6 +1,6 @@
 package com.breach.common.service;
 
-import com.breach.common.entity.AddressCity;
+import com.breach.common.entity.RegionCity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author shaokang
  * @since 2019-01-11
  */
-public interface IAddressCityService extends IService<AddressCity> {
+public interface IRegionCityService extends IService<RegionCity> {
 
 }

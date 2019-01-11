@@ -7,18 +7,15 @@ import org.springframework.stereotype.Controller;
 
 /**
  * <p>
- * 用户登录授权表
-目前两种方式直接进行登录：
-用户名
-手机号码 前端控制器
+ * 该实体为行政区域划分等级 前端控制器
  * </p>
  *
  * @author shaokang
  * @since 2019-01-11
  */
 @Controller
-@RequestMapping("/consumerAuths")
-public class ConsumerAuthsController {
+@RequestMapping("/regionArea")
+public class RegionAreaController {
 
 }
 

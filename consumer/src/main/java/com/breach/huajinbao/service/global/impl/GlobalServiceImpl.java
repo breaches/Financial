@@ -3,6 +3,7 @@ package com.breach.huajinbao.service.global.impl;
 import com.breach.common.entity.ConsumerAuths;
 import com.breach.common.mapper.IAddressProvinceMapper;
 import com.breach.common.mapper.IConsumerAuthsMapper;
+import com.breach.common.mapper.IRegionProvinceMapper;
 import com.breach.huajinbao.service.global.IGlobalService;
 import com.breach.huajinbao.util.global.GlobalData;
 import com.breach.huajinbao.util.global.JsonUtil;
@@ -28,7 +29,7 @@ public class GlobalServiceImpl implements IGlobalService {
     @Autowired
     IConsumerAuthsMapper consumerAuthsMapper;
     @Autowired
-    IAddressProvinceMapper addressProvinceMapper;
+    IRegionProvinceMapper regionProvinceMapper;
 
     @Override
     public GlobalData getUserInfoAfterLogin() {
