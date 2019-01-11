@@ -26,7 +26,9 @@ public class HGenerator {
                 "consumer_info",
                 "region_province",
                 "region_city",
-                "region_area"
+                "region_area",
+                "consumer_education",
+                "consumer_income_range"
         };
         generateByTables(packageName, tables);
     }

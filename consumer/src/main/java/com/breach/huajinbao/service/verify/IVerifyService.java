@@ -1,5 +1,7 @@
 package com.breach.huajinbao.service.verify;
 
+import com.breach.common.entity.RegionCity;
+import com.breach.common.entity.RegionProvince;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 
 /**
@@ -12,5 +14,13 @@ public interface IVerifyService {
     ReturnUtil listAllProvince();
 
     ReturnUtil listAllRegions();
+
+    ReturnUtil getListAllCity(RegionProvince regionProvince);
+
+    ReturnUtil getListAllArea(RegionCity regionCity);
+
+    ReturnUtil listAllEducation();
+
+    ReturnUtil listAllIncome();
 
 }

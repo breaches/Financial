@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 该实体为行政区域划分等级
+ * 
  * </p>
  *
  * @author shaokang
@@ -19,32 +19,19 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class AddressCity extends Model<AddressCity> {
+public class ConsumerEducation extends Model<ConsumerEducation> {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
-    /**
-     * 城市代码
-     */
-    @TableId(value = "code_city", type = IdType.AUTO)
-    private String codeCity;
-
-    /**
-     * 城市名
-     */
-    private String name;
-
-    /**
-     * 所属省份的省份代码
-     */
-    private String codeProvince;
+    private String educationType;
 
 
     @Override
     protected Serializable pkVal() {
-        return this.codeCity;
+        return this.id;
     }
 
 }

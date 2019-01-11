@@ -10,41 +10,31 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 该实体为行政区域划分等级
+ * 
  * </p>
  *
  * @author shaokang
- * @since 2019-01-10
+ * @since 2019-01-11
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class AddressArea extends Model<AddressArea> {
+public class ConsumerIncomeRange extends Model<ConsumerIncomeRange> {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     /**
-     * 地区代码
+     * 表示消费者收入范围
      */
-    @TableId(value = "code_area", type = IdType.AUTO)
-    private String codeArea;
-
-    /**
-     * 地区名
-     */
-    private String name;
-
-    /**
-     * 所属城市的城市代码
-     */
-    private String codeCity;
+    private String range;
 
 
     @Override
     protected Serializable pkVal() {
-        return this.codeArea;
+        return this.id;
     }
 
 }
