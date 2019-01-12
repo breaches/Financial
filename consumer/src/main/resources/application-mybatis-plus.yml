@@ -1,0 +1,11 @@
+mybatis-plus:
+  global-config:
+    db-config:
+      # 主键类型
+      id-type: auto
+      field-strategy: not_empty
+      table-underline: true
+logging:
+  level:
+    com.breach.common.mapper: debug
+    com.breach.huajinbao.mapper.*: debug

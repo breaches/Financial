@@ -14,8 +14,8 @@ import org.springframework.stereotype.Controller;
  * @since 2019-01-12
  */
 @Controller
-@RequestMapping("/consumerEducation")
-public class ConsumerEducationController {
+@RequestMapping("/consumerActivateVerifyRecord")
+public class ConsumerActivateVerifyRecordController {
 
 }
 

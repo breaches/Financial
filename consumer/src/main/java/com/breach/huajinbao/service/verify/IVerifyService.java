@@ -1,8 +1,11 @@
 package com.breach.huajinbao.service.verify;
 
+import com.breach.common.entity.ConsumerActivateVerifyRecord;
 import com.breach.common.entity.RegionCity;
 import com.breach.common.entity.RegionProvince;
 import com.breach.huajinbao.util.sign.ReturnUtil;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @program: Financial
@@ -23,4 +26,11 @@ public interface IVerifyService {
 
     ReturnUtil listAllIncome();
 
+    ReturnUtil uploadFront(MultipartFile file, String type);
+
+    ReturnUtil uploadBack(MultipartFile file, String type);
+
+    ReturnUtil finalSubmit(ConsumerActivateVerifyRecord consumerActivateVerifyRecord);
+
+    ReturnUtil idCard(ConsumerActivateVerifyRecord consumerActivateVerifyRecord);
 }

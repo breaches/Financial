@@ -1,6 +1,6 @@
 package com.breach.common.mapper;
 
-import com.breach.common.entity.ConsumerIncomeRange;
+import com.breach.common.entity.ConsumerActivateVerifyRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author shaokang
  * @since 2019-01-12
  */
-public interface IConsumerIncomeRangeMapper extends BaseMapper<ConsumerIncomeRange> {
+public interface IConsumerActivateVerifyRecordMapper extends BaseMapper<ConsumerActivateVerifyRecord> {
 
 }

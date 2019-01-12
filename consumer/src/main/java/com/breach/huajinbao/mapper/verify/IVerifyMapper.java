@@ -1,6 +1,8 @@
 package com.breach.huajinbao.mapper.verify;
 
+import com.breach.common.entity.ConsumerActivateVerifyRecord;
 import com.breach.common.entity.ConsumerIncomeRange;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

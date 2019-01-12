@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-11
+ * @since 2019-01-12
  */
 public interface IConsumerAuthsMapper extends BaseMapper<ConsumerAuths> {
 

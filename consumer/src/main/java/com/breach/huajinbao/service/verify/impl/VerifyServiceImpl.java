@@ -3,12 +3,17 @@ package com.breach.huajinbao.service.verify.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.breach.common.entity.*;
 import com.breach.common.mapper.*;
+import com.breach.huajinbao.sysconst.api.IApiConsts;
+import com.breach.huajinbao.util.global.*;
 import com.breach.huajinbao.mapper.verify.IVerifyMapper;
 import com.breach.huajinbao.service.verify.IVerifyService;
 import com.breach.huajinbao.sysconst.ISystemConsts;
+import com.breach.huajinbao.util.sign.ConsumerSessionUtil;
 import com.breach.huajinbao.util.sign.ReturnUtil;
+import org.apache.http.HttpEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,6 +23,7 @@ import java.util.List;
  * @author: shaokang
  * @create: 2019-01-10 19:28
  **/
+@SuppressWarnings(value = "all") // 消除代码重复黄线警告
 @Service
 public class VerifyServiceImpl implements IVerifyService {
 
@@ -32,7 +38,7 @@ public class VerifyServiceImpl implements IVerifyService {
     @Autowired
     IConsumerEducationMapper consumerEducationMapper;
     @Autowired
-    private IConsumerIncomeRangeMapper consumerIncomeRangeMapper;
+    IConsumerActivateVerifyRecordMapper consumerActivateVerifyRecordMapper;
 
 
     @Override
@@ -108,5 +114,107 @@ public class VerifyServiceImpl implements IVerifyService {
         System.out.println("******************************************************");
 
         return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, data);
+    }
+
+    /**
+     * 上传正面身份证
+     *
+     * @param file
+     * @param type
+     * @return
+     */
+    @Override
+    public ReturnUtil uploadFront(MultipartFile file, String type) {
+        if (GlobalConsumerUtil.isLogin()) {
+            if (file != null) {
+                String url = null;
+                try {
+                    url = AliOSSUtil.upload(file, ConsumerSessionUtil.getConsumer().getUsername());
+                    System.out.println("URL -> " + url);
+                    return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "seccess", url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // 上传的过程中抛出了异常
+                    return new ReturnUtil(ISystemConsts.AJAX_ERROR, "upload error");
+                }
+            }
+            // 文件是空的
+
+        }
+        // 未登录
+        return new ReturnUtil(ISystemConsts.AJAX_ERROR, "not login");
+    }
+
+    /**
+     * 上传背面身份证
+     *
+     * @param file
+     * @param type
+     * @return
+     */
+    @Override
+    public ReturnUtil uploadBack(MultipartFile file, String type) {
+        if (GlobalConsumerUtil.isLogin()) {
+            if (file != null) {
+                String url = null;
+                try {
+                    url = AliOSSUtil.upload(file, ConsumerSessionUtil.getConsumer().getUsername());
+                    // 上传成功
+                    System.out.println("URL -> " + url);
+                    return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "seccess", url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // 上传的过程中抛出了异常
+                    return new ReturnUtil(ISystemConsts.AJAX_ERROR, "upload error");
+                }
+            }
+            // 文件是空的
+
+        }
+        // 未登录
+        return new ReturnUtil(ISystemConsts.AJAX_ERROR, "not login");
+    }
+
+    /**
+     * 提交资料
+     *
+     * @param consumerActivateVerifyRecord
+     * @return
+     */
+    @Override
+    public ReturnUtil finalSubmit(ConsumerActivateVerifyRecord consumerActivateVerifyRecord) {
+        if (GlobalConsumerUtil.isLogin()) {
+            // 已登录
+            // 把数据插入数据库
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.println("consumer 提交过来的资料");
+            System.out.println(consumerActivateVerifyRecord);
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            // 设置用户审额单号 设置用户id 设置时间
+            consumerActivateVerifyRecord.setRecordNumber(SerialUtil.getRecordNumber());
+            consumerActivateVerifyRecord.setConsumerId(ConsumerSessionUtil.getConsumer().getConsumerId());
+            consumerActivateVerifyRecord.setCreateTime(TimeUtil.getSqlTimeStamp());
+            consumerActivateVerifyRecord.setState(ISystemConsts.CONSUMER_ACTIVATE_VERIFY_RECORD_STATE_UNAUDITED);
+            int insert = consumerActivateVerifyRecordMapper.insert(consumerActivateVerifyRecord);
+            return new ReturnUtil(insert);
+        }
+        return new ReturnUtil(ISystemConsts.AJAX_IS_NOT_LOGIN, "error");
+
+    }
+
+    @Override
+    public ReturnUtil idCard(ConsumerActivateVerifyRecord consumerActivateVerifyRecord) {
+        if (GlobalConsumerUtil.isLogin()) {
+            // 登录
+            System.out.println(consumerActivateVerifyRecord);
+            HttpEntity verify = IdVerifyUtil.verify(
+                    IApiConsts.APPCODE_ID_VERIFY_SHAOKANG,
+                    consumerActivateVerifyRecord.getName(),
+                    consumerActivateVerifyRecord.getCode()
+            );
+            return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, verify);
+        }
+        // 未登录
+        return new ReturnUtil(ISystemConsts.AJAX_IS_NOT_LOGIN, "error");
     }
 }
