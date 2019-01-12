@@ -97,7 +97,7 @@
         </dependency>
 
         <!-- 七牛上传图片 -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
             <version>7.2.11</version>
@@ -109,24 +109,20 @@
             <version>3.3.1</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.6.2</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>happy-dns-java</artifactId>
             <version>0.1.4</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
+        </dependency>-->
 
         <!-- 阿里云 -->
         <dependency>
@@ -165,6 +161,15 @@
             <artifactId>tomcat-tribes</artifactId>
             <version>7.0.47</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.4</version>
+            <classifier>jdk15</classifier> <!--必须加入这个-->
+        </dependency>
+
 
 
     </dependencies>

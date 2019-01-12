@@ -196,22 +196,31 @@ public class VerifyServiceImpl implements IVerifyService {
             consumerActivateVerifyRecord.setCreateTime(TimeUtil.getSqlTimeStamp());
             consumerActivateVerifyRecord.setState(ISystemConsts.CONSUMER_ACTIVATE_VERIFY_RECORD_STATE_UNAUDITED);
             int insert = consumerActivateVerifyRecordMapper.insert(consumerActivateVerifyRecord);
-            return new ReturnUtil(insert);
+            return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, insert);
         }
         return new ReturnUtil(ISystemConsts.AJAX_IS_NOT_LOGIN, "error");
 
     }
 
+    /**
+     * 身份证验证
+     * @param consumerActivateVerifyRecord
+     * @return
+     */
     @Override
     public ReturnUtil idCard(ConsumerActivateVerifyRecord consumerActivateVerifyRecord) {
         if (GlobalConsumerUtil.isLogin()) {
             // 登录
             System.out.println(consumerActivateVerifyRecord);
             HttpEntity verify = IdVerifyUtil.verify(
-                    IApiConsts.APPCODE_ID_VERIFY_SHAOKANG,
-                    consumerActivateVerifyRecord.getName(),
-                    consumerActivateVerifyRecord.getCode()
+                    IApiConsts.APPCODE_ID_VERIFY_SHAOKANG, // 选择 appcode
+                    consumerActivateVerifyRecord.getName(), // 获取姓名
+                    consumerActivateVerifyRecord.getCode() // 获取身份证号码
             );
+            System.out.println(verify);
+
+            verify.toString();
+
             return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, verify);
         }
         // 未登录

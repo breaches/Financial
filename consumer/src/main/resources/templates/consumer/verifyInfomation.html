@@ -370,7 +370,7 @@
                 }],
                 code: [{
                     required: true,
-                    message: '请输入您的真实身份证号码',
+                    message: '请您输入身份证号码',
                     trigger: 'blur'
                 }, {
                     min: 18,
@@ -378,20 +378,29 @@
                     message: '请输入18位身份证号码',
                     trigger: 'blur'
                 }, {
+                    /** element ui 表单自定义验证规则 https://segmentfault.com/q/1010000014182784?utm_source=tag-newest **/
                     validator: function (rule, value, callback) {
-/*
-                        axios({
-                            method: 'post',
-                            url: 'verify/idCard',
-                            data: app.recordInfo
-                        }).then(function (response) {
-                            if (response.data.code != 200) {
-                                callback("请输入本人的身份证号码")
+                        if (checkIDCard(value)) {
+                            // 因子算法验证通过
+                            // 因子算法通过后 进一步验证身份证是否符合年龄
+                            if(getAge(value) < 18) {
+                                // 年龄小于 18 岁
+                                return callback(new Error('未满18岁'))
                             } else {
-                                console.log(response)
-
+                                // 年满 18 周岁，进一步去后台请求 判断姓名与身份证号码是否一致 是否是一个人的
+                                axios({
+                                    method: 'post',
+                                    url: 'verify/idCard',
+                                    data: app.recordInfo
+                                }).then(function(response) {
+                                    // 判断回调函数
+                                    console.log(response)
+                                })
                             }
-                        })*/
+                        } else {
+                            // 验证没有通过
+                            return callback(new Error('请输入正确的身份证号码'))
+                        }
                     },
                     trigger: 'blur'
                 }],
@@ -580,10 +589,12 @@
                 // 下一步 - 下一步 - 确认提交
                 // 默认为0
                 /** 四种状态 0：显示编辑页 1：显示上传页（编辑页完成） 2：显示第三页（上传页完成） 3：显示已提交或者别的什么（确认提交已完成） **/
+                /** 0 1 2 3    showEdit         showUpload               showModify                    可能会增加页面（已提交）  未来还会有 （已认证）     **/
                 if (app.active < 3) {
-                    app.active++ /** 点击按钮后 active ++ **/
+                    app.active++
+                    /** 点击按钮后 active ++ **/
 
-                    /** 进入判断后 判断 active 是否为 0 **/
+                    /** 满足 active < 3 时 进一步判断 active++ 后 是否为 0 **/
                     if (app.active == 0) {
                         // 第一步 显示填写资料页面
                         app.showUpLoad = false
@@ -593,9 +604,10 @@
                             app.showEdit = true
                         }, 500)
                     } else if (app.active == 1) {
+                        /** 如果 active 为 1 显示上传页面 第二页 **/
                         // 第二步 将要显示上传身份证页面
                         console.log('下一步click')
-                        /** 如果 active **/
+                        /** 如果 active 通过表单验证 **/
                         app.$refs["recordFrom"].validate(function (valid) {
                             console.log('验证')
                             // 下一步按钮触发的时候验证整个表单
@@ -612,20 +624,19 @@
                                     message: '通过'
                                 });
                             } else {
+                                /*** 如果没有通过表单验证 需要置 active 为0 显示edit ***/
                                 app.$notify({
                                     title: '标题名称',
                                     message: '我没通过表单验证'
                                 });
+                                app.showUpLoad = false
+                                app.showModify = false
+                                app.showEdit = true
                                 app.active = 0
                             }
                         });
-                        app.showEdit = false
-                        app.showModify = false
-                        setTimeout(function () {
-                            app.showUpLoad = true
-                        }, 500)
-
                     } else if (this.active == 2) {
+                        /** 如果 active 为2  应该显示第三页了**/
                         // 第三步 显示确认信息页面
                         this.$message('我到第三步了，显示最后一个页面');
                         app.showEdit = false
@@ -633,13 +644,16 @@
                         setTimeout(function () {
                             app.showModify = true
                         }, 500)
-                    } else if (this.active >= 2) {
-                        this.nextButton.title = '确认实名信息'
+                    }
+                    /** 这里的 if 判断是控制按钮的显示状态 **/
+                    if (this.active >= 2) {
+                        this.nextButton.title = '我确认提交审额资料'
                         this.$message('this.active >= 2');
                     } else {
                         this.nextButton.title = '下一步'
                         this.$message('下一步');
                     }
+
                     if (this.active === 3) {
                         //我要发送提交请求了
                         app.nextButtonDisable = true
@@ -650,17 +664,21 @@
                             data: app.recordInfo
                         }).then(function (response) {
                             console.log(response)
-                            if (response.data.message == 'success') {
+                            if (response.data.code == 200) {
                                 // 成功
+                                app.nextButtonDisable = true
                                 app.$message('提交成功，请耐心等待审核')
                             } else {
                                 // 失败
                                 app.nextButtonDisable = false
+                                app.active = 2
+                                /** 重置步骤条到 第二步 上传成功 **/
                                 app.$message('提交失败，请重新提交')
                             }
                         })
                     }
                 } else {
+                    /** !active < 3 3以上 **/
                     //该提交了，别下一步了
                     app.nextButtonDisable = true
                     this.$message('该提交了，别继续点了');
@@ -670,12 +688,14 @@
                         data: app.recordInfo
                     }).then(function (response) {
                         console.log(response)
-                        if (response.data.message == 'success') {
+                        if (response.data.code == 200) {
                             // 成功
                             app.$message('提交成功，请耐心等待审核')
                         } else {
                             // 失败
                             app.nextButtonDisable = false
+                            app.active = 2
+                            /** 重置步骤条到 第二步 上传成功 **/
                             app.$message('提交失败，请重新提交')
                         }
                     })
@@ -872,5 +892,84 @@
             })
         })
         return re
+    }
+</script>
+
+<script>
+    // 身份证算法模块
+    // 身份证号码加权因子算法 https://www.cnblogs.com/pelli/p/6112996.html
+    // 函数参数必须是字符串，因为二代身份证号码是十八位，而在javascript中，十八位的数值会超出计算范围，造成不精确的结果，导致最后两位和计算的值不一致，从而该函数出现错误。
+    // 详情查看javascript的数值范围
+    function checkIDCard(idcode) {
+        // 加权因子
+        var weight_factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+        // 校验码
+        var check_code = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+
+        var code = idcode + "";
+        var last = idcode[17];//最后一个
+
+        var seventeen = code.substring(0, 17);
+
+        // ISO 7064:1983.MOD 11-2
+        // 判断最后一位校验码是否正确
+        var arr = seventeen.split("");
+        var len = arr.length;
+        var num = 0;
+        for (var i = 0; i < len; i++) {
+            num = num + arr[i] * weight_factor[i];
+        }
+
+        // 获取余数
+        var resisue = num % 11;
+        var last_no = check_code[resisue];
+
+        // 格式的正则
+        // 正则思路
+        /*
+        第一位不可能是0
+        第二位到第六位可以是0-9
+        第七位到第十位是年份，所以七八位为19或者20
+        十一位和十二位是月份，这两位是01-12之间的数值
+        十三位和十四位是日期，是从01-31之间的数值
+        十五，十六，十七都是数字0-9
+        十八位可能是数字0-9，也可能是X
+        */
+        var idcard_patter = /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
+
+        // 判断格式是否正确
+        var format = idcard_patter.test(idcode);
+
+        // 返回验证结果，校验码和格式同时正确才算是合法的身份证号码
+        return last === last_no && format ? true : false;
+    }
+
+    function getAge(identityCard) {
+        var len = (identityCard + "").length;
+        if (len == 0) {
+            return 0;
+        } else {
+            if ((len != 15) && (len != 18))//身份证号码只能为15位或18位其它不合法
+            {
+                return 0;
+            }
+        }
+        var strBirthday = "";
+        if (len == 18)//处理18位的身份证号码从号码中得到生日和性别代码
+        {
+            strBirthday = identityCard.substr(6, 4) + "/" + identityCard.substr(10, 2) + "/" + identityCard.substr(12, 2);
+        }
+        if (len == 15) {
+            strBirthday = "19" + identityCard.substr(6, 2) + "/" + identityCard.substr(8, 2) + "/" + identityCard.substr(10, 2);
+        }
+        //时间字符串里，必须是“/”
+        var birthDate = new Date(strBirthday);
+        var nowDateTime = new Date();
+        var age = nowDateTime.getFullYear() - birthDate.getFullYear();
+        //再考虑月、天的因素;.getMonth()获取的是从0开始的，这里进行比较，不需要加1
+        if (nowDateTime.getMonth() < birthDate.getMonth() || (nowDateTime.getMonth() == birthDate.getMonth() && nowDateTime.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
     }
 </script>

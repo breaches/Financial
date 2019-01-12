@@ -1,5 +1,6 @@
 package com.breach.huajinbao.util.global;
 
+import com.breach.api.idno.IdCard;
 import com.breach.api.message.HttpUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,6 +42,10 @@ public class IdVerifyUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public static IdCard jsonStringToObject() {
         return null;
     }
 
