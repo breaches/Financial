@@ -1,32 +1,15 @@
 package com.breach.huajinbao.controller.verify;
 
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.model.UploadFileRequest;
 import com.breach.common.entity.ConsumerActivateVerifyRecord;
 import com.breach.common.entity.RegionCity;
 import com.breach.common.entity.RegionProvince;
 import com.breach.huajinbao.service.verify.IVerifyService;
-import com.breach.huajinbao.sysconst.api.IApiConsts;
-import com.breach.huajinbao.util.global.GlobalConsumerUtil;
-import com.breach.huajinbao.util.sign.ConsumerSessionUtil;
 import com.breach.huajinbao.util.sign.ReturnUtil;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * @program: Financial
