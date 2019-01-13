@@ -29,4 +29,14 @@ public interface ISystemConsts {
     /** 未通过 **/
     Integer CONSUMER_ACTIVATE_VERIFY_RECORD_STATE_NO_PASS = 3;
 
+    /** 用户申请额度的状态 **/
+    /** 【未申请】 1 **/
+    Integer CONSUMER_INFO_VERIFY_STATE_NEVER = 1;
+    /** 【已审额】 2 **/
+    Integer CONSUMER_INFO_VERIFY_STATE_WAIT = 2;
+    /** 【未通过】 3 **/
+    Integer CONSUMER_INFO_VERIFY_STATE_NO_PASS = 3;
+    /** 【已通过】 4 **/
+    Integer CONSUMER_INFO_VERIFY_STATE_PASS = 4;
+
 }

@@ -1,6 +1,7 @@
 package com.breach.huajinbao.service.verify.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.breach.api.idno.IdCard;
 import com.breach.common.entity.*;
 import com.breach.common.mapper.*;
 import com.breach.huajinbao.sysconst.api.IApiConsts;
@@ -39,6 +40,8 @@ public class VerifyServiceImpl implements IVerifyService {
     IConsumerEducationMapper consumerEducationMapper;
     @Autowired
     IConsumerActivateVerifyRecordMapper consumerActivateVerifyRecordMapper;
+    @Autowired
+    IConsumerInfoMapper consumerInfoMapper;
 
 
     @Override
@@ -211,19 +214,38 @@ public class VerifyServiceImpl implements IVerifyService {
     public ReturnUtil idCard(ConsumerActivateVerifyRecord consumerActivateVerifyRecord) {
         if (GlobalConsumerUtil.isLogin()) {
             // 登录
-            System.out.println(consumerActivateVerifyRecord);
-            HttpEntity verify = IdVerifyUtil.verify(
+            String verify = IdVerifyUtil.verify(
                     IApiConsts.APPCODE_ID_VERIFY_SHAOKANG, // 选择 appcode
                     consumerActivateVerifyRecord.getName(), // 获取姓名
                     consumerActivateVerifyRecord.getCode() // 获取身份证号码
             );
-            System.out.println(verify);
 
-            verify.toString();
+            IdCard idCard = IdVerifyUtil.jsonStringToObject(verify);
+        System.out.println(idCard);
 
-            return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, verify);
+            if(idCard.getRespCode().equals(IApiConsts.ID_CARD_VERIFY_SUCCESS) /** 如果包含 0000 **/
+                    || idCard.getRespCode() == IApiConsts.ID_CARD_VERIFY_SUCCESS
+            ) {
+                // 验证成功
+                return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, idCard);
+            } else  {
+                // 验证出了问题
+                return new ReturnUtil(ISystemConsts.AJAX_ERROR, idCard);
+            }
         }
         // 未登录
+        return new ReturnUtil(ISystemConsts.AJAX_IS_NOT_LOGIN, "error");
+    }
+
+    @Override
+    public ReturnUtil verifyState() {
+        if(GlobalConsumerUtil.isLogin()) {
+            ConsumerInfo queryConsumerInfo = new ConsumerInfo();
+            queryConsumerInfo.setId(ConsumerSessionUtil.getConsumer().getConsumerId());
+            ConsumerInfo consumerInfo = consumerInfoMapper.selectOne(new QueryWrapper<>(queryConsumerInfo));
+            System.out.println(consumerInfo);
+            return new ReturnUtil(consumerInfo.getVerifyState(), consumerInfo);
+        }
         return new ReturnUtil(ISystemConsts.AJAX_IS_NOT_LOGIN, "error");
     }
 }

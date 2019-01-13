@@ -23,10 +23,22 @@
 </head>
 <body>
 <div id="app">
+    <div id="sk-top" style="position:absolute;z-index:99;background-color: #ffffff; height: 100%;width: 100%;">
+        要显示最上层显示的div内容
+    </div>
     <div id="wrapper">
         <!--头-->
-        <div id="header">
-            <div id="step">
+        <div v-if="visitWait">
+            <!--已提交，请耐心等待-->
+            已提交申请，请耐心等待
+        </div>
+        <div v-if="visitPass">
+            <!--您的审额已通过，如需提额请提交您的个人征信报告-->
+            您的额度申请已通过，如需提额请提交您的个人征信报告
+        </div>
+
+        <div v-if="visitSubmit" id="header">
+            <div v-if="visitStep" id="step">
                 <el-steps :active="active" finish-status="success" space="200px" align-center="true">
                     <el-step title="填写资料" icon="el-icon-edit-outline" description=""></el-step>
                     <el-step title="上传身份证" icon="el-icon-upload" description=""></el-step>
@@ -36,7 +48,7 @@
         </div>
         <!--主体-->
         <div id="middle">
-            <div id="sk-verify-box">
+            <div v-if="" id="sk-verify-box">
                 <div class="sk-verify-content" style="width: 425px; padding-right: 100px;">
                     <transition name="el-fade-in-linear">
                         <div v-show="showEdit" class="transition-box">
@@ -165,8 +177,6 @@
                                     <el-input v-model="recordInfo.contactsRelation"
                                               placeholder="例如：父子/夫妻/兄弟"></el-input>
                                 </el-form-item>
-
-
                             </el-form>
                         </div>
                     </transition>
@@ -183,11 +193,11 @@
                                         <h2 class="sk-required aaaa">
                                     <span>
                                         <span>上传 </span>
-                                        <span style="color:#008CFF;">袁韶康</span>
+                                        <span style="color:#008CFF;">{{recordInfo.name}}</span>
                                         <span> 的身份证</span>
                                         <span class="sub">
                                             <span>（主办人，证件号码：</span>
-                                            <span>412723199902040039</span>
+                                            <span>{{recordInfo.code}}</span>
                                             <span>）</span>
                                         </span>
                                     </span>
@@ -281,14 +291,139 @@
                     <transition name="el-fade-in-linear">
                         <div v-show="showModify" class="transition-box">
                             <!-- 显示填写资料的页面 -->
-                            修改确认提交
+                            <!-- 显示填写资料的页面 -->
+                            <el-form :model="recordInfo" :rules="recordRef" ref="recordFrom1" label-width="100px"
+                                     class="demo-ruleForm" size="mini">
+
+                                <el-form-item label="姓名" prop="name">
+                                    <el-input v-model="recordInfo.name" :disabled="true" placeholder="请输入姓名"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="身份证号码" prop="code">
+                                    <el-input v-model="recordInfo.code" :disabled="true" placeholder="请您输入正确的身份证号码"
+                                              maxlength="18"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="银行卡号码" prop="bankCode">
+                                    <el-input v-model="recordInfo.bankCode" placeholder="请您输入正确的银行卡号码"
+                                              maxlength="18"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="地区" prop="codeArea">
+                                    <el-col :span="8">
+                                        <el-select @change="loadCity" v-model="recordInfo.codeProvince"
+                                                   placeholder="省份">
+                                            <el-option
+                                                    v-for="item in province"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="8">
+                                        <el-select @change="loadArea" v-model="recordInfo.codeCity" placeholder="城市">
+                                            <el-option
+
+                                                    v-for="item in city"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="8">
+                                        <el-select v-model="recordInfo.codeArea" id="selectArea" placeholder="地区">
+                                            <el-option
+                                                    v-for="item in area"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                </el-form-item>
+
+                                <el-form-item label="详细地址" prop="address">
+                                    <el-input v-model="recordInfo.address" placeholder="请您输入最近的联系地址"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="学历" prop="educationId">
+                                    <el-select v-model="recordInfo.educationId" clearable placeholder="请选择学历">
+                                        <el-option
+                                                v-for="item in educationOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+                                <el-form-item label="月收入" prop="incomeRangeId">
+                                    <el-select v-model="recordInfo.incomeRangeId" placeholder="请选择您的月收入范围">
+                                        <el-option
+                                                v-for="item in incomeOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+                                <el-form-item label="是否单身" prop="isSingle">
+                                    <el-select v-model="recordInfo.isSingle" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in singleOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+                                <el-form-item label="是否有房" prop="isHaveHouse">
+                                    <el-select v-model="recordInfo.isHaveHouse" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in houseOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+                                <el-form-item label="是否有车" prop="isHaveCar">
+                                    <el-select v-model="recordInfo.isHaveCar" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in carOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+
+                                <el-form-item label="紧急联系人姓名" prop="contactsName">
+                                    <el-input v-model="recordInfo.contactsName" placeholder="请输入紧急联系人的姓名"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="紧急联系方式" prop="contactsPhone">
+                                    <el-input v-model="recordInfo.contactsPhone" placeholder="请输入紧急联系人的联系方式"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="紧急联系人关系" prop="contactsRelation">
+                                    <el-input v-model="recordInfo.contactsRelation"
+                                              placeholder="例如：父子/夫妻/兄弟"></el-input>
+                                </el-form-item>
+                            </el-form>
                         </div>
                     </transition>
                 </div>
             </div>
         </div>
         <!--脚-->
-        <div id="foot">
+        <div v-if="visitSubmit" id="foot">
             <div id="foot-bar">
                 <el-button @click="next" :disabled="nextButtonDisable" style="margin-top: 12px;">{{nextButton.title}}
                 </el-button>
@@ -330,6 +465,10 @@
     var app = new Vue({
         el: '#app',
         data: {
+            visitStep: false,
+            visitSubmit: false,
+            visitWait: false,
+            visitPass: false,
             userInfo: {}, /** 页面加载的时候就请求到的用户信息，一般存放 id 与 username **/
             education: [], /** 页面加载的是就请求到的所有学历数据 **/
             province: [], /** 页面加载的时候就请求到的所有省份数据 **/
@@ -380,26 +519,31 @@
                 }, {
                     /** element ui 表单自定义验证规则 https://segmentfault.com/q/1010000014182784?utm_source=tag-newest **/
                     validator: function (rule, value, callback) {
-                        if (checkIDCard(value)) {
-                            // 因子算法验证通过
-                            // 因子算法通过后 进一步验证身份证是否符合年龄
-                            if(getAge(value) < 18) {
-                                // 年龄小于 18 岁
-                                return callback(new Error('未满18岁'))
+                        // 在提交到后台进行验证是否本人之前，一定要保证姓名是已经输入进去的
+                        if (app) {
+                            if (checkIDCard(value)) {
+                                // 因子算法验证通过
+                                // 因子算法通过后 进一步验证身份证是否符合年龄
+                                if (getAge(value) < 18) {
+                                    // 年龄小于 18 岁
+                                    return callback(new Error('未满18岁'))
+                                } else {
+                                    // 验证是否输入了姓名
+                                    if (app.recordInfo.name == '') {
+                                        // 姓名是空的
+                                        return callback(new Error('请输入姓名'))
+                                    } else {
+                                        // 通过
+
+                                    }
+                                }
                             } else {
-                                // 年满 18 周岁，进一步去后台请求 判断姓名与身份证号码是否一致 是否是一个人的
-                                axios({
-                                    method: 'post',
-                                    url: 'verify/idCard',
-                                    data: app.recordInfo
-                                }).then(function(response) {
-                                    // 判断回调函数
-                                    console.log(response)
-                                })
+                                // 加权因子算法验证没有通过 身份证号码输入有问题
+                                return callback(new Error('请输入正确的身份证号码'))
                             }
                         } else {
-                            // 验证没有通过
-                            return callback(new Error('请输入正确的身份证号码'))
+                            // 没有输入姓名
+                            return callback(new Error('请您先输入姓名'))
                         }
                     },
                     trigger: 'blur'
@@ -414,39 +558,9 @@
                     message: '请输入 16-18 位储蓄卡',
                     trigger: 'blur'
                 }],
-                codeArea: [{
-                    required: true,
-                    message: '请选择省份',
-                    trigger: 'blur'
-                }],
                 address: [{
                     required: true,
                     message: '请填写详细地址',
-                    trigger: 'blur'
-                }],
-                educationId: [{
-                    required: true,
-                    message: '请选择学历',
-                    trigger: 'blur'
-                }],
-                incomeRangeId: [{
-                    required: true,
-                    message: '请选择收入范围',
-                    trigger: 'blur'
-                }],
-                isSingle: [{
-                    required: true,
-                    message: '请选择是否单身',
-                    trigger: 'blur'
-                }],
-                isHaveHouse: [{
-                    required: true,
-                    message: '请选择是否有房',
-                    trigger: 'blur'
-                }],
-                isHaveCar: [{
-                    required: true,
-                    message: '请选择是否有车',
                     trigger: 'blur'
                 }],
                 contactsName: [{
@@ -599,16 +713,15 @@
                         // 第一步 显示填写资料页面
                         app.showUpLoad = false
                         app.showModify = false
-                        setTimeout(function () {
+                        //setTimeout(function () {
                             // 延时显示
                             app.showEdit = true
-                        }, 500)
-                    } else if (app.active == 1) {
-                        /** 如果 active 为 1 显示上传页面 第二页 **/
+                        //}, 500)
+                    }
+                    if (this.active == 1) {
                         // 第二步 将要显示上传身份证页面
                         console.log('下一步click')
-                        /** 如果 active 通过表单验证 **/
-                        app.$refs["recordFrom"].validate(function (valid) {
+                        app.$refs["recordFrom"].validate(function(valid) {
                             console.log('验证')
                             // 下一步按钮触发的时候验证整个表单
                             if (valid) {
@@ -624,21 +737,27 @@
                                     message: '通过'
                                 });
                             } else {
-                                /*** 如果没有通过表单验证 需要置 active 为0 显示edit ***/
                                 app.$notify({
                                     title: '标题名称',
                                     message: '我没通过表单验证'
                                 });
-                                app.showUpLoad = false
-                                app.showModify = false
-                                app.showEdit = true
-                                app.active = 0
+                                app.active=0
                             }
                         });
-                    } else if (this.active == 2) {
+                        // 如果这里active被设为0 则没有通过 如果为1 显示upload
+                        if(app.active == 1) {
+                            // 显示
+                            app.showEdit = false
+                            app.showModify = false
+                            setTimeout(function () {
+                                app.showUpLoad = true
+                            }, 500)
+                        }
+
+                    } else if (app.active == 2) {
                         /** 如果 active 为2  应该显示第三页了**/
                         // 第三步 显示确认信息页面
-                        this.$message('我到第三步了，显示最后一个页面');
+                        app.$message('我到第三步了，显示最后一个页面');
                         app.showEdit = false
                         app.showUpLoad = false
                         setTimeout(function () {
@@ -646,18 +765,18 @@
                         }, 500)
                     }
                     /** 这里的 if 判断是控制按钮的显示状态 **/
-                    if (this.active >= 2) {
-                        this.nextButton.title = '我确认提交审额资料'
-                        this.$message('this.active >= 2');
+                    if (app.active >= 2) {
+                        app.nextButton.title = '我确认提交审额资料'
+                        app.$message('this.active >= 2');
                     } else {
-                        this.nextButton.title = '下一步'
-                        this.$message('下一步');
+                        app.nextButton.title = '下一步'
+                        //app.$message('下一步');
                     }
 
-                    if (this.active === 3) {
+                    if (app.active === 3) {
                         //我要发送提交请求了
                         app.nextButtonDisable = true
-                        this.$message('我要发送请求了');
+                        app.$message('我要发送请求了');
                         axios({
                             method: 'post',
                             url: 'verify/finalSubmit',
@@ -681,7 +800,7 @@
                     /** !active < 3 3以上 **/
                     //该提交了，别下一步了
                     app.nextButtonDisable = true
-                    this.$message('该提交了，别继续点了');
+                    app.$message('该提交了，别继续点了');
                     axios({
                         method: 'post',
                         url: 'verify/finalSubmit',
@@ -705,8 +824,10 @@
     })
 </script>
 
+<!-- 页面初加载的时候 -->
 <script>
     window.onload = function () {
+        skTop(false)
         // 判断是否登录
         axios({
             method: 'post',
@@ -718,6 +839,7 @@
             console.log(response)
             if (response.data.user != null) {
                 // 已登录
+
                 app.userInfo = response.data.user[0]
 
                 initEducation()
@@ -725,7 +847,52 @@
                 // 初始化省份
                 initProvince()
 
-                app.showEdit = true
+
+                axios({
+                    method: 'post',
+                    url: 'verify/verifyState'
+                }).then(function(response) {
+                    console.log(response)
+                    var state = response.data.code
+                    console.log(state)
+                    /**
+                     * 1 未审额
+                     * 2 已审额
+                     * 3 已通过
+                     * 4 未通过
+                     */
+                    if(state == 1) {
+                        // 未审额
+                        skTop(false)
+                        console.log('未审额')
+                        app.visitSubmit = true // 显示审额表单
+                        app.visitStep = true // 显示步骤条
+                        app.showEdit = true // 显示审额表单
+                    } else if (state == 2) {
+                        // 已审额
+                        skTop(false)
+                        console.log('已审额')
+                        app.visitWait = true
+                        app.visitStep = false
+                        document.getElementById('middle').style.height='0px'
+                        document.getElementById('middle').style.minHeight='0px'
+                    } else if(state == 3) {
+                        // 未通过
+                        skTop(false)
+                        console.log('未通过')
+                        app.visitSubmit = true
+                        app.visitStep = true
+                        app.showEdit = true // 显示审额表单
+                    } else if(state == 4) {
+                        // 已通过
+                        skTop(false)
+                        console.log('已通过')
+                        app.visitPass = true
+                        app.visitStep = false
+                        document.getElementById('middle').style.height='0px'
+                        document.getElementById('middle').style.minHeight='0px'
+                    }
+                })
 
 
             } else {
@@ -739,6 +906,14 @@
 </script>
 
 <script>
+
+    function skTop(visit) {
+        if(visit) {
+            // 显示
+        }else {
+            document.getElementById('sk-top').style.display = 'none'
+        }
+    }
 
     function initIncome() {
         // 获取省份数据

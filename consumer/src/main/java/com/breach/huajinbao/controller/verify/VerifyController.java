@@ -85,6 +85,11 @@ public class VerifyController {
     public ReturnUtil finalSubmit(@RequestBody ConsumerActivateVerifyRecord consumerActivateVerifyRecord) {
         return verifyService.finalSubmit(consumerActivateVerifyRecord);
     }
+
+    @RequestMapping("/verifyState")
+    public ReturnUtil verifyState() {
+        return verifyService.verifyState();
+    }
     
 
 

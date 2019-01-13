@@ -2,14 +2,13 @@ package com.breach.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
-
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import javax.ws.rs.GET;
 
 /**
  * <p>
@@ -17,15 +16,11 @@ import javax.ws.rs.GET;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-12
+ * @since 2019-01-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class ConsumerActivateVerifyRecord extends Model<ConsumerActivateVerifyRecord> {
 
     private static final long serialVersionUID = 1L;
@@ -67,6 +62,11 @@ public class ConsumerActivateVerifyRecord extends Model<ConsumerActivateVerifyRe
      * 年龄
      */
     private Integer age;
+
+    /**
+     * 生日
+     */
+    private LocalDate birthday;
 
     /**
      * 省份

@@ -2,6 +2,7 @@ package com.breach.huajinbao.util.global;
 
 import com.breach.api.idno.IdCard;
 import com.breach.api.message.HttpUtils;
+import net.sf.json.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public class IdVerifyUtil {
 
-    public static HttpEntity verify(String appCode, String name, String idNo) {
+    public static String verify(String appCode, String name, String idNo) {
         String host = "https://idenauthen.market.alicloudapi.com";
         String path = "/idenAuthentication";
         String method = "POST";
@@ -37,16 +38,23 @@ public class IdVerifyUtil {
              */
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
             //获取response的body
-            System.out.println(EntityUtils.toString(response.getEntity()));
-            return response.getEntity();
+            String x = EntityUtils.toString(response.getEntity());
+            System.out.println(x);
+            return x;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static IdCard jsonStringToObject() {
-        return null;
+    public static IdCard jsonStringToObject(String idInfo) {
+        // String idInfo = "{\"name\":\"xxx\",\"idNo\":\"xxx\",\"respMessage\":\"xxx\",\"respCode\":\"xxx\",\"province\":\"xxx\",\"city\":\"xxx\",\"county\":\"xxx\",\"birthday\":\"xxx\",\"sex\":\"xxx\",\"age\":\"xxx\"}";
+        // 把 json 字符串转为 json
+        JSONObject jsonObject = JSONObject.fromObject(idInfo);
+        // 把 json 对象转为 bean 对象
+        IdCard idCard = (IdCard) JSONObject.toBean(jsonObject, IdCard.class);
+
+        return idCard;
     }
 
 }

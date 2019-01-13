@@ -32,6 +32,9 @@ public interface IApiConsts {
     /** 【身份证二要素校验】 韶康 **/
     String APPCODE_ID_VERIFY_SHAOKANG = "7be28c7a8c2e4dc2a4a2706eb412747d";
 
+    /** 身份证二要素校验代码 **/
+    String ID_CARD_VERIFY_SUCCESS = "0000";
+
     /** 【Ali OSS】 endpoint **/
     String ALI_OSS_ENDPOINT = "oss-cn-beijing.aliyuncs.com";
     /** 【Ali OSS】 AK **/
