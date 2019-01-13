@@ -35,4 +35,8 @@ public class MapController {
         return "/consumer/myborrow";
     }
 
+    @RequestMapping("/SystemMessage")
+    public String SystemMessage() {
+        return "/consumer/SystemMessage";
+    }
 }

@@ -40,7 +40,7 @@ public class HGenerator {
      * @param tableNames
      */
     private static void generateByTables(String packageName, String... tableNames) {
-        String projectPath = System.getProperty("user.dir");
+        final String projectPath = System.getProperty("user.dir");
 
         // 1.全局配置
         GlobalConfig globalConfig = new GlobalConfig();
