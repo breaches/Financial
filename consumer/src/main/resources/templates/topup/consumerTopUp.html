@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>充值中心</title>
+    <meta charset="UTF-8"/>
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <script src="resources/lib/js/index.js"></script>
+    <!-- axios -->
+    <script src="resources/lib/js/axios.js"></script>
+    <style type="text/css">
+
+        #left {
+            background-color: #ffffff;
+            color: #000000;
+            text-align: center;
+            width: 200px;
+            line-height: 40px;
+            height:800px;
+            float: left;
+
+        }
+
+        #main {
+            width: 934px;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 5px;
+            height:800px;
+            float: left;
+        }
+        .img{
+            width:128px;
+            height: 60px;
+
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="app">
+
+
+        <!--left-->
+        <div id="left"  >
+            请选择充值方式：<br/>
+            <!-- 导航菜单 -->
+            <div width="200px">
+                <a  href="zhifubao" class="tab" target="left-page"><img src="resources/images/topup/zhifb.jpg" class="img" /></a><br/>
+                <a  href="weixin" class="tab" target="left-page"><img src="resources/images/topup/weixin.jpg" class="img" /></a><br/>
+                <a  href="yinlian" class="tab" target="left-page"><img src="resources/images/topup/yinlian.jpg" class="img" /></a>
+
+            </div>
+
+        </div>
+
+        <!--right-->
+        <div id="main">
+
+
+                <iframe  name="left-page" src="/zhifubao"  frameborder="0" style="width: 99%;height: 99%;border:0;">
+
+
+
+                </iframe>
+
+
+
+
+
+
+        </div>
+
+</div>
+
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data:{
+            userInfo:{},
+            radio:"1",
+
+        },
+
+        methods:{
+
+        },
+
+    });
+</script>
+<script>
+    window.onload = function () {
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (response) {
+            // 页面加载后请求用户信息，判断是否已经登录
+            // 如果登录则 隐藏登录按钮 显示用户
+            // 如果未登录 显示登录按钮 隐藏用户
+            console.log(response)
+            if (response.data.user != null) {
+                // 已登录
+                app.userInfo = response.data.user[0]
+            } else {
+                // 未登录
+                window.location.href = '/'
+            }
+        })
+    }
+</script>
+
+
+</body>
+</html>
+

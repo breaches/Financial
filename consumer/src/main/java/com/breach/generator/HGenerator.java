@@ -24,6 +24,12 @@ public class HGenerator {
         String[] tables = {
                 "consumer_auths",
                 "consumer_info",
+                "region_province",
+                "region_city",
+                "region_area",
+                "consumer_education",
+                "consumer_income_range",
+                "consumer_activate_verify_record"
         };
         generateByTables(packageName, tables);
     }

@@ -85,6 +85,15 @@
             <artifactId>velocity-engine-core</artifactId>
             <version>${velocity-engine-core.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.6</version>
+        </dependency>
+        <!--短信接口-->
+
+
+
 
     </dependencies>
 
@@ -104,5 +113,8 @@
             </plugin>
         </plugins>
     </build>
+
+
+
 
 </project>

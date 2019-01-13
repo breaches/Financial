@@ -30,6 +30,12 @@ public class MapController {
         return "/consumer/consumerCenter";
     }
 
+    /** 用户实名认证页面 shaokang **/
+    @RequestMapping("/verifyInfomation")
+    public String verifyInfomation() {
+        return "/consumer/verifyInfomation";
+    }
+
     @RequestMapping("/myborrow")
     public String myborrow() {
         return "/consumer/myborrow";

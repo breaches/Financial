@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.breach.huajinbao.mapper.verify.IVerifyMapper">
+
+    <!-- 查询待审核信息 -->
+    <!-- 分页+查询 -->
+    <sql id="Query">
+        <where>
+            <if test="name != null and name != ''">
+                and  c.name  like CONCAT('%',#{name},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                and  c.verify_time &gt;  #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                and  c.verify_time &lt;  #{endDate}
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="getAuthentication" resultType="map">
+        select id,name,verify_time time,state from consumer_info_verify c
+        <include refid="Query" />
+        limit #{page},#{count}
+    </select>
+
+    <select id="geTotal" resultType="java.lang.Integer">
+        select count(*) count from  consumer_info_verify  c
+    </select>
+
+
+
+
+</mapper>
+
+
+
+
+

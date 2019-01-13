@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-07
+ * @since 2019-01-12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -43,6 +43,11 @@ public class ConsumerAuths extends Model<ConsumerAuths> {
      * 关联用户信息表，当前账号绑定的是哪个用户
      */
     private Integer consumerId;
+
+    /**
+     * 客户状态 1：可用 2：冻结
+     */
+    private Integer state;
 
 
     @Override

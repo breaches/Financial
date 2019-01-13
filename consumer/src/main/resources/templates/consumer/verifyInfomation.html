@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实名认证</title>
+    <!--  VUE -->
+    <!--<script src="resources/lib/js/vue.js"></script>
+    &lt;!&ndash; element &ndash;&gt;
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    &lt;!&ndash; axios &ndash;&gt;
+    <script src="resources/lib/js/axios.js"></script>
+    -->
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="resources/css/consumer/verifyInfomation.css">
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <!--<link rel="stylesheet" href="resources/lib/css/index.css">-->
+    <script src="resources/lib/js/index.js"></script>
+    <!-- axios -->
+    <script src="resources/lib/js/axios.js"></script>
+</head>
+<body>
+<div id="app">
+    <div id="wrapper">
+        <!--头-->
+        <div id="header">
+            <div id="step">
+                <el-steps :active="active" finish-status="success" space="200px" align-center="true">
+                    <el-step title="填写资料" icon="el-icon-edit-outline" description=""></el-step>
+                    <el-step title="上传身份证" icon="el-icon-upload" description=""></el-step>
+                    <el-step title="确认上传" icon="el-icon-check" description=""></el-step>
+                </el-steps>
+            </div>
+        </div>
+        <!--主体-->
+        <div id="middle">
+            <div id="sk-verify-box">
+                <div class="sk-verify-content" style="width: 425px; padding-right: 100px;">
+                    <transition name="el-fade-in-linear">
+                        <div v-show="showEdit" class="transition-box">
+                            <!-- 显示填写资料的页面 -->
+                            <el-form :model="recordInfo" :rules="recordRef" ref="recordFrom" label-width="100px"
+                                     class="demo-ruleForm" size="mini">
+
+                                <el-form-item label="姓名" prop="name">
+                                    <el-input v-model="recordInfo.name" placeholder="请输入姓名"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="身份证号码" prop="code">
+                                    <el-input v-model="recordInfo.code" placeholder="请您输入正确的身份证号码"
+                                              maxlength="18"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="银行卡号码" prop="bankCode">
+                                    <el-input v-model="recordInfo.bankCode" placeholder="请您输入正确的银行卡号码"
+                                              maxlength="18"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="地区" prop="codeArea">
+                                    <el-col :span="8">
+                                        <el-select @change="loadCity" v-model="recordInfo.codeProvince"
+                                                   placeholder="省份">
+                                            <el-option
+                                                    v-for="item in province"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="8">
+                                        <el-select @change="loadArea" v-model="recordInfo.codeCity" placeholder="城市">
+                                            <el-option
+
+                                                    v-for="item in city"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="8">
+                                        <el-select v-model="recordInfo.codeArea" id="selectArea" placeholder="地区">
+                                            <el-option
+                                                    v-for="item in area"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                </el-form-item>
+
+                                <el-form-item label="详细地址" prop="address">
+                                    <el-input v-model="recordInfo.address" placeholder="请您输入最近的联系地址"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="学历" prop="educationId">
+                                    <el-select v-model="recordInfo.educationId" clearable placeholder="请选择学历">
+                                        <el-option
+                                                v-for="item in educationOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+                                <el-form-item label="月收入" prop="incomeRangeId">
+                                    <el-select v-model="recordInfo.incomeRangeId" placeholder="请选择您的月收入范围">
+                                        <el-option
+                                                v-for="item in incomeOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+                                <el-form-item label="是否单身" prop="isSingle">
+                                    <el-select v-model="recordInfo.isSingle" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in singleOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+                                <el-form-item label="是否有房" prop="isHaveHouse">
+                                    <el-select v-model="recordInfo.isHaveHouse" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in houseOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+                                <el-form-item label="是否有车" prop="isHaveCar">
+                                    <el-select v-model="recordInfo.isHaveCar" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in carOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+
+
+                                <el-form-item label="紧急联系人姓名" prop="contactsName">
+                                    <el-input v-model="recordInfo.contactsName" placeholder="请输入紧急联系人的姓名"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="紧急联系方式" prop="contactsPhone">
+                                    <el-input v-model="recordInfo.contactsPhone" placeholder="请输入紧急联系人的联系方式"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="紧急联系人关系" prop="contactsRelation">
+                                    <el-input v-model="recordInfo.contactsRelation"
+                                              placeholder="例如：父子/夫妻/兄弟"></el-input>
+                                </el-form-item>
+
+
+                            </el-form>
+                        </div>
+                    </transition>
+                </div>
+                <div class="sk-verify-content" style="">
+                    <transition name="el-fade-in-linear">
+                        <div v-show="showUpLoad" class="transition-box">
+                            <div id="sk-id-card-">
+                                <div id="sk-id-card-header">
+                                    <div class="sk-id-card-header-title">
+                                        <p>将证件原件清洗拍照或彩色扫描后上传，图片后缀必须为.jpg/.jpeg/.png/.gif的一种，大小5M内。</p>
+                                    </div>
+                                    <div class="sk-id-card-header-content">
+                                        <h2 class="sk-required aaaa">
+                                    <span>
+                                        <span>上传 </span>
+                                        <span style="color:#008CFF;">袁韶康</span>
+                                        <span> 的身份证</span>
+                                        <span class="sub">
+                                            <span>（主办人，证件号码：</span>
+                                            <span>412723199902040039</span>
+                                            <span>）</span>
+                                        </span>
+                                    </span>
+                                        </h2>
+                                        <div class="sk-id-card-header-desc">
+                                            <p>身份证需要正反两面，请将身份证分开两次上传；</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="sk-id-card-content">
+                                    <div class="sk-container-id-card">
+                                        <!-- 上传身份证 -->
+                                        <div class="sk-container-id-card-upload">
+                                            <el-upload
+                                                    class="upload-id-card"
+                                                    drag
+                                                    :show-file-list="false"
+                                                    :on-success="frontImageHandleAvatarSuccess"
+                                                    :on-error="frontImageHandleAvatarError"
+                                                    :on-progress="frontImageHandleAvatarProgress"
+                                                    :before-upload="frontImageBeforeAvatarUpload"
+                                                    :data="{type:'front'}"
+                                                    :auto-upload="true"
+                                                    action="/verify/uploadFront"
+                                                    v-loading="frontLoading"
+                                                    element-loading-text="拼命加载中"
+                                                    element-loading-background="rgba(245, 245, 245, 0.8)">
+                                                <i class="el-icon-upload"></i>
+                                                <div class="el-upload__text">将正面拖到此处，或<em>点击上传</em></div>
+                                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2Mb</div>
+                                                <img v-if="frontImageVisit" :src="frontImageUrl" class="avatar">
+                                            </el-upload>
+                                        </div>
+                                        <!-- 身份证示例图 -->
+                                        <div class="sk-container-id-card-sample">
+                                            <p>
+                                                <img class="sk-id-card-480" src="resources/images/sample/id-front.jpg"
+                                                     alt="">
+                                            </p>
+                                            <p>
+                                                示例 <a @click="showFront1080" href="javascript:;">查看大图</a>
+                                            </p>
+                                        </div>
+                                        <div v-if="visitFront1080" class="sk-id-card-1080-container">
+
+                                        </div>
+                                    </div>
+                                    <div class="sk-container-id-card">
+                                        <!-- 上传身份证 -->
+                                        <div class="sk-container-id-card-upload">
+                                            <el-upload
+                                                    class="upload-id-card"
+                                                    drag
+                                                    :show-file-list="false"
+                                                    :on-success="backImageHandleAvatarSuccess"
+                                                    :on-error="backImageHandleAvatarError"
+                                                    :on-progress="backImageHandleAvatarProgress"
+                                                    :before-upload="backImageBeforeAvatarUpload"
+                                                    :data="{type:'back'}"
+                                                    :auto-upload="true"
+                                                    action="/verify/uploadBack"
+                                                    v-loading="backLoading"
+                                                    element-loading-text="拼命加载中"
+                                                    element-loading-background="rgba(245, 245, 245, 0.8)">
+                                                <i class="el-icon-upload"></i>
+                                                <div class="el-upload__text">将反面拖到此处，或<em>点击上传</em></div>
+                                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2Mb</div>
+                                                <img v-if="backImageVisit" :src="backImageUrl" class="avatar">
+                                            </el-upload>
+                                        </div>
+                                        <!-- 身份证示例图 -->
+                                        <div class="sk-container-id-card-sample">
+                                            <p>
+                                                <img class="sk-id-card-480" src="resources/images/sample/id-back.jpg"
+                                                     alt="">
+                                            </p>
+                                            <p>
+                                                示例 <a @click="showBack1080" href="javascript:;">查看大图</a>
+                                            </p>
+                                        </div>
+                                        <div v-if="visitBack1080" class="sk-id-card-1080-container">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                </div>
+                <div class="sk-verify-content">
+                    <transition name="el-fade-in-linear">
+                        <div v-show="showModify" class="transition-box">
+                            <!-- 显示填写资料的页面 -->
+                            修改确认提交
+                        </div>
+                    </transition>
+                </div>
+            </div>
+        </div>
+        <!--脚-->
+        <div id="foot">
+            <div id="foot-bar">
+                <el-button @click="next" :disabled="nextButtonDisable" style="margin-top: 12px;">{{nextButton.title}}
+                </el-button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 对话框 -->
+    <!-- 正面身份证 -->
+    <el-dialog
+            :visible.sync="visitFront1080"
+            width="546px"
+            :close-on-click-modal="true"
+            :lock-scroll="true"
+            :before-close="disableFront1080"
+            center>
+        <div id="user-forget-header">
+            <img class="sk-id-card-1080 sk-id-card-1080-front" src="resources/images/sample/id-front.jpg" alt="">
+        </div>
+    </el-dialog>
+    <!-- 反面身份证 -->
+    <el-dialog
+            :visible.sync="visitBack1080"
+            width="546px"
+            :close-on-click-modal="true"
+            :lock-scroll="true"
+            :before-close="disableBack1080"
+            center>
+        <img class="sk-id-card-1080 sk-id-card-1080-back"
+             src="resources/images/sample/id-back.jpg" alt="">
+    </el-dialog>
+
+</div>
+</body>
+</html>
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            userInfo: {}, /** 页面加载的时候就请求到的用户信息，一般存放 id 与 username **/
+            education: [], /** 页面加载的是就请求到的所有学历数据 **/
+            province: [], /** 页面加载的时候就请求到的所有省份数据 **/
+            city: [], /** 存放请求到的所有所属城市 **/
+            area: [], /** 存放请求到的所有所属地区 **/
+            region: [], /** 目前并没有用到这个 **/
+            recordInfo: {
+                /** 存放表单数据 **/
+                name: '',
+                code: '',
+                bankCode: '',
+                codeProvince: '',
+                codeCity: '',
+                codeArea: '',
+                address: '',
+                educationId: '',
+                incomeRangeId: '',
+                isSingle: '',
+                isHaveHouse: '',
+                isHaveCar: '',
+                contactsName: '',
+                contactsPhone: '',
+                contactsRelation: '',
+                idCardFrontImage: '',
+                idCardBackImage: ''
+            },
+            educationOptions: [], /** 页面加载的时候就请求到的学历可选列表 **/
+            incomeOptions: [], /** 页面加载的时候就请求到的收入可选列表 **/
+            singleOptions: [{label: '否', value: 0}, {label: '是', value: 1}], /** 表示是否单身 固定下拉列表的数据 **/
+            houseOptions: [{label: '否', value: 0}, {label: '是', value: 1}], /** 表示是否有房 固定下拉列表的数据 **/
+            carOptions: [{label: '否', value: 0}, {label: '是', value: 1}], /** 表示是否有车 固定下拉列表的数据 **/
+            recordRef: {
+                /**************************************** 表单验证规则 开始 ****************************************/
+                name: [{
+                    required: true,
+                    message: '请输入您的真实姓名',
+                    trigger: 'blur'
+                }],
+                code: [{
+                    required: true,
+                    message: '请您输入身份证号码',
+                    trigger: 'blur'
+                }, {
+                    min: 18,
+                    max: 18,
+                    message: '请输入18位身份证号码',
+                    trigger: 'blur'
+                }, {
+                    /** element ui 表单自定义验证规则 https://segmentfault.com/q/1010000014182784?utm_source=tag-newest **/
+                    validator: function (rule, value, callback) {
+                        if (checkIDCard(value)) {
+                            // 因子算法验证通过
+                            // 因子算法通过后 进一步验证身份证是否符合年龄
+                            if(getAge(value) < 18) {
+                                // 年龄小于 18 岁
+                                return callback(new Error('未满18岁'))
+                            } else {
+                                // 年满 18 周岁，进一步去后台请求 判断姓名与身份证号码是否一致 是否是一个人的
+                                axios({
+                                    method: 'post',
+                                    url: 'verify/idCard',
+                                    data: app.recordInfo
+                                }).then(function(response) {
+                                    // 判断回调函数
+                                    console.log(response)
+                                })
+                            }
+                        } else {
+                            // 验证没有通过
+                            return callback(new Error('请输入正确的身份证号码'))
+                        }
+                    },
+                    trigger: 'blur'
+                }],
+                bankCode: [{
+                    required: true,
+                    message: '请输入您的银行卡号码',
+                    trigger: 'blur'
+                }, {
+                    min: 16,
+                    max: 19,
+                    message: '请输入 16-18 位储蓄卡',
+                    trigger: 'blur'
+                }],
+                codeArea: [{
+                    required: true,
+                    message: '请选择省份',
+                    trigger: 'blur'
+                }],
+                address: [{
+                    required: true,
+                    message: '请填写详细地址',
+                    trigger: 'blur'
+                }],
+                educationId: [{
+                    required: true,
+                    message: '请选择学历',
+                    trigger: 'blur'
+                }],
+                incomeRangeId: [{
+                    required: true,
+                    message: '请选择收入范围',
+                    trigger: 'blur'
+                }],
+                isSingle: [{
+                    required: true,
+                    message: '请选择是否单身',
+                    trigger: 'blur'
+                }],
+                isHaveHouse: [{
+                    required: true,
+                    message: '请选择是否有房',
+                    trigger: 'blur'
+                }],
+                isHaveCar: [{
+                    required: true,
+                    message: '请选择是否有车',
+                    trigger: 'blur'
+                }],
+                contactsName: [{
+                    required: true,
+                    message: '请填写紧急联系人姓名',
+                    trigger: 'blur'
+                }],
+                contactsPhone: [{
+                    required: true,
+                    message: '请填写紧急联系方式',
+                    trigger: 'blur'
+                }],
+                contactsRelation: [{
+                    required: true,
+                    message: '请填写紧急联系人关系',
+                    trigger: 'blur'
+                }]/**************************************** 表单验证规则 结束 ****************************************/
+            },
+            showEdit: false, /****** 是否显示填写资料 ******/
+            showUpLoad: false, /****** 是否显示上传资料 ******/
+            showModify: false, /****** 是否显示确认提交资料 ******/
+            visitFront1080: false, /****** 是否显示身份证正面人物头像大图 ******/
+            visitBack1080: false, /****** 是否显示身份证背面国徽头像大图 ******/
+            frontImageVisit: false, /****** 是否显示已上传的身份证正面图片 ******/
+            backImageVisit: false, /****** 是否显示已上传的身份证背面图片 ******/
+            frontLoading: false, /****** 上传文件的时候是否显示加载中 ******/
+            backLoading: false, /****** 上传文件的时候是否显示加载中 ******/
+            frontImageUrl: '', /****** 这里是上传的身份证正面图片路径 ******/
+            backImageUrl: '', /****** 这里是上传身份证背面路径 ******/
+            active: 0, /** 四种状态 0：显示编辑页 1：显示上传页（编辑页完成） 2：显示第三页（上传页完成） 3：显示已提交或者别的什么（确认提交已完成）  **/
+            vals: [],
+            val: [],
+            nextButton: {
+                title: '下一步'
+            },
+            nextButtonDisable: false,
+        },
+        methods: {
+            loadCity: function (obj) {
+                console.log(obj)
+                initCity()
+                //app.recordInfo.codeCity = null
+                app.recordInfo.codeCity = ''
+                app.recordInfo.codeArea = ''
+            },
+            loadArea: function (obj) {
+                //app.recordInfo.codeArea = null
+                console.log(obj)
+                initArea()
+                app.recordInfo.codeArea = ''
+            },
+            frontImageHandleAvatarSuccess: function (response, file, fileList) {
+                // 文件上传成功后的钩子
+                app.frontLoading = false;
+                app.frontImageVisit = true;
+                app.frontImageUrl = URL.createObjectURL(file.raw);
+                app.recordInfo.idCardFrontImage = response.object
+                this.$message.success('上传成功！');
+            },
+            backImageHandleAvatarSuccess: function (response, file, fileList) {
+                // 文件上传成功后的钩子
+                app.backLoading = false;
+                app.backImageVisit = true;
+                app.backImageUrl = URL.createObjectURL(file.raw);
+                app.recordInfo.idCardBackImage = response.object
+                this.$message.success('上传成功！');
+            },
+            frontImageHandleAvatarError: function (err, file, fileList) {
+                // 文件上传失败
+                this.frontLoading = false
+                this.$message.error('上传失败！');
+            },
+            backImageHandleAvatarError: function (err, file, fileList) {
+                // 文件上传失败
+                this.backLoading = false
+                this.$message.error('上传失败！');
+            },
+            frontImageHandleAvatarProgress: function (event, file, fileList) {
+                // 文件处理
+                this.frontLoading = true
+            },
+            backImageHandleAvatarProgress: function (event, file, fileList) {
+                // 文件处理
+                this.backLoading = true
+            },
+            frontImageBeforeAvatarUpload: function (file) {
+                // 文件上传之前
+                const isJPEG = file.type === 'image/jpeg';
+                const isPGN = file.type === 'image/png';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPEG && !isPGN) {
+                    this.$message.error('请上传 JPG/JPEG/PNG 格式!');
+                } else {
+                    if (!isLt2M) {
+                        this.$message.error('上传图片大小不能超过 2MB!');
+                    }
+                    return (isJPEG || isPGN) && isLt2M;
+                }
+            },
+            backImageBeforeAvatarUpload: function (file) {
+                // 文件上传之前
+                const isJPEG = file.type === 'image/jpeg';
+                const isPGN = file.type === 'image/png';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPEG && !isPGN) {
+                    this.$message.error('请上传 JPG/JPEG/PNG 格式!');
+                } else {
+                    if (!isLt2M) {
+                        this.$message.error('上传图片大小不能超过 2MB!');
+                    }
+                    return (isJPEG || isPGN) && isLt2M;
+                }
+            },
+            showFront1080: function () {
+                // 显示高清头像面身份证
+                app.visitFront1080 = true
+            },
+            disableFront1080: function () {
+                // 隐藏高清头像面身份证
+                app.visitFront1080 = false
+            },
+            showBack1080: function () {
+                // 显示高清国徽面身份证
+                app.visitBack1080 = true
+            },
+            disableBack1080: function () {
+                // 隐藏高清国徽面身份证
+                app.visitBack1080 = false
+            },
+            regionHandleItemChange: function () {
+                // 每次级联菜单改变时 用来请求子地址
+                this.vals = getCascaderObj(this.val, this.regions);
+                this.vals = getCascaderObj(this.val, this.regions)
+                console.log(this.vals)
+            },
+            next() {
+                // 下一步按钮
+                // 下一步 - 下一步 - 确认提交
+                // 默认为0
+                /** 四种状态 0：显示编辑页 1：显示上传页（编辑页完成） 2：显示第三页（上传页完成） 3：显示已提交或者别的什么（确认提交已完成） **/
+                /** 0 1 2 3    showEdit         showUpload               showModify                    可能会增加页面（已提交）  未来还会有 （已认证）     **/
+                if (app.active < 3) {
+                    app.active++
+                    /** 点击按钮后 active ++ **/
+
+                    /** 满足 active < 3 时 进一步判断 active++ 后 是否为 0 **/
+                    if (app.active == 0) {
+                        // 第一步 显示填写资料页面
+                        app.showUpLoad = false
+                        app.showModify = false
+                        setTimeout(function () {
+                            // 延时显示
+                            app.showEdit = true
+                        }, 500)
+                    } else if (app.active == 1) {
+                        /** 如果 active 为 1 显示上传页面 第二页 **/
+                        // 第二步 将要显示上传身份证页面
+                        console.log('下一步click')
+                        /** 如果 active 通过表单验证 **/
+                        app.$refs["recordFrom"].validate(function (valid) {
+                            console.log('验证')
+                            // 下一步按钮触发的时候验证整个表单
+                            if (valid) {
+                                console.log('开始验证')
+                                // 通过验证则显示下一页 - > 显示上传身份证页面
+                                app.showEdit = false
+                                app.showModify = false
+                                setTimeout(function () {
+                                    app.showUpLoad = true
+                                }, 500)
+                                app.$notify({
+                                    title: '标题名称',
+                                    message: '通过'
+                                });
+                            } else {
+                                /*** 如果没有通过表单验证 需要置 active 为0 显示edit ***/
+                                app.$notify({
+                                    title: '标题名称',
+                                    message: '我没通过表单验证'
+                                });
+                                app.showUpLoad = false
+                                app.showModify = false
+                                app.showEdit = true
+                                app.active = 0
+                            }
+                        });
+                    } else if (this.active == 2) {
+                        /** 如果 active 为2  应该显示第三页了**/
+                        // 第三步 显示确认信息页面
+                        this.$message('我到第三步了，显示最后一个页面');
+                        app.showEdit = false
+                        app.showUpLoad = false
+                        setTimeout(function () {
+                            app.showModify = true
+                        }, 500)
+                    }
+                    /** 这里的 if 判断是控制按钮的显示状态 **/
+                    if (this.active >= 2) {
+                        this.nextButton.title = '我确认提交审额资料'
+                        this.$message('this.active >= 2');
+                    } else {
+                        this.nextButton.title = '下一步'
+                        this.$message('下一步');
+                    }
+
+                    if (this.active === 3) {
+                        //我要发送提交请求了
+                        app.nextButtonDisable = true
+                        this.$message('我要发送请求了');
+                        axios({
+                            method: 'post',
+                            url: 'verify/finalSubmit',
+                            data: app.recordInfo
+                        }).then(function (response) {
+                            console.log(response)
+                            if (response.data.code == 200) {
+                                // 成功
+                                app.nextButtonDisable = true
+                                app.$message('提交成功，请耐心等待审核')
+                            } else {
+                                // 失败
+                                app.nextButtonDisable = false
+                                app.active = 2
+                                /** 重置步骤条到 第二步 上传成功 **/
+                                app.$message('提交失败，请重新提交')
+                            }
+                        })
+                    }
+                } else {
+                    /** !active < 3 3以上 **/
+                    //该提交了，别下一步了
+                    app.nextButtonDisable = true
+                    this.$message('该提交了，别继续点了');
+                    axios({
+                        method: 'post',
+                        url: 'verify/finalSubmit',
+                        data: app.recordInfo
+                    }).then(function (response) {
+                        console.log(response)
+                        if (response.data.code == 200) {
+                            // 成功
+                            app.$message('提交成功，请耐心等待审核')
+                        } else {
+                            // 失败
+                            app.nextButtonDisable = false
+                            app.active = 2
+                            /** 重置步骤条到 第二步 上传成功 **/
+                            app.$message('提交失败，请重新提交')
+                        }
+                    })
+                }
+            }
+        }
+    })
+</script>
+
+<script>
+    window.onload = function () {
+        // 判断是否登录
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (response) {
+            // 页面加载后请求用户信息，判断是否已经登录
+            // 如果登录则 隐藏登录按钮 显示用户
+            // 如果未登录 显示登录按钮 隐藏用户
+            console.log(response)
+            if (response.data.user != null) {
+                // 已登录
+                app.userInfo = response.data.user[0]
+
+                initEducation()
+                initIncome()
+                // 初始化省份
+                initProvince()
+
+                app.showEdit = true
+
+
+            } else {
+                // 未登录
+                window.top.location.href = '/'
+            }
+        })
+
+
+    }
+</script>
+
+<script>
+
+    function initIncome() {
+        // 获取省份数据
+        axios({
+            method: 'post',
+            url: 'verify/listAllIncome'
+        }).then(function (response) {
+            app.incomeOptions = []
+            for (var i = 0; i < response.data.data.length; i++) {
+                app.incomeOptions.push(
+                    {
+                        label: response.data.data[i].range,
+                        value: response.data.data[i].id,
+                    }
+                )
+            }
+        })
+    }
+
+    function initEducation() {
+        // 获取省份数据
+        axios({
+            method: 'post',
+            url: 'verify/listAllEducation'
+        }).then(function (response) {
+            app.educationOptions = []
+            for (var i = 0; i < response.data.data.length; i++) {
+                app.educationOptions.push(
+                    {
+                        label: response.data.data[i].educationType,
+                        value: response.data.data[i].id,
+                    }
+                )
+            }
+        })
+    }
+
+    function initArea() {
+        //127.0.0.1/verify/getListAllCity
+        axios({
+            method: 'post',
+            url: 'verify/getListAllArea',
+            data: {
+                "codeCity": app.recordInfo.codeCity
+            }
+        }).then(function (response) {
+            console.log(response)
+            app.area = []
+            for (var i = 0; i < response.data.data.length; i++) {
+                app.area.push(
+                    {
+                        label: response.data.data[i].name,
+                        value: response.data.data[i].codeArea
+                    }
+                )
+            }
+        })
+    }
+
+    function initCity() {
+        //127.0.0.1/verify/getListAllCity
+        axios({
+            method: 'post',
+            url: 'verify/getListAllCity',
+            data: {
+                "codeProvince": app.recordInfo.codeProvince
+            }
+        }).then(function (response) {
+            console.log(response)
+            app.city = []
+            for (var i = 0; i < response.data.data.length; i++) {
+                app.city.push(
+                    {
+                        label: response.data.data[i].name,
+                        value: response.data.data[i].codeCity
+                    }
+                )
+            }
+        })
+    }
+
+    function initProvince() {
+        // 获取省份数据
+        axios({
+            method: 'post',
+            url: 'verify/listAllProvince'
+        }).then(function (response) {
+            app.province = []
+            for (var i = 0; i < response.data.data.length; i++) {
+                app.province.push(
+                    {
+                        label: response.data.data[i].name,
+                        value: response.data.data[i].codeProvince
+                    }
+                )
+            }
+        })
+        /*
+        // 获取省份数据
+        axios({
+            method: 'post',
+            url: 'verify/listAllProvince'
+        }).then(function (response) {
+            app.regions = []
+            for (var i = 0; i < response.data.data.length; i++) {
+                app.regions.push(
+                    {
+                        label: response.data.data[i].name,
+                        value: response.data.data[i].codeProvince,
+                        children: [{label:666}]
+                    }
+                )
+            }
+        })
+        */
+    }
+</script>
+
+<!--遍历选项 获取选中的数据-->
+<script>
+    function getCascaderObj(val, opt) {
+        return val.map(function (value, index, array) {
+            for (var itm of opt) {
+                if (itm.value == value) {
+                    opt = itm.children;
+                    return itm;
+                }
+            }
+            return null;
+        });
+    }
+</script>
+
+<script>
+    function findProvince(regions, target) {
+        return regions.find(function (province) {
+            if (province.value == target) {
+                return province;
+            }
+        })
+    }
+
+    function findCity(regions, target) {
+        var re = {}
+        regions.find(function (province) {
+            return province.children.find(function (city) {
+                if (city.value == target) {
+                    re = city
+                    return city
+                }
+            })
+        })
+        return re
+    }
+</script>
+
+<script>
+    // 身份证算法模块
+    // 身份证号码加权因子算法 https://www.cnblogs.com/pelli/p/6112996.html
+    // 函数参数必须是字符串，因为二代身份证号码是十八位，而在javascript中，十八位的数值会超出计算范围，造成不精确的结果，导致最后两位和计算的值不一致，从而该函数出现错误。
+    // 详情查看javascript的数值范围
+    function checkIDCard(idcode) {
+        // 加权因子
+        var weight_factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+        // 校验码
+        var check_code = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+
+        var code = idcode + "";
+        var last = idcode[17];//最后一个
+
+        var seventeen = code.substring(0, 17);
+
+        // ISO 7064:1983.MOD 11-2
+        // 判断最后一位校验码是否正确
+        var arr = seventeen.split("");
+        var len = arr.length;
+        var num = 0;
+        for (var i = 0; i < len; i++) {
+            num = num + arr[i] * weight_factor[i];
+        }
+
+        // 获取余数
+        var resisue = num % 11;
+        var last_no = check_code[resisue];
+
+        // 格式的正则
+        // 正则思路
+        /*
+        第一位不可能是0
+        第二位到第六位可以是0-9
+        第七位到第十位是年份，所以七八位为19或者20
+        十一位和十二位是月份，这两位是01-12之间的数值
+        十三位和十四位是日期，是从01-31之间的数值
+        十五，十六，十七都是数字0-9
+        十八位可能是数字0-9，也可能是X
+        */
+        var idcard_patter = /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
+
+        // 判断格式是否正确
+        var format = idcard_patter.test(idcode);
+
+        // 返回验证结果，校验码和格式同时正确才算是合法的身份证号码
+        return last === last_no && format ? true : false;
+    }
+
+    function getAge(identityCard) {
+        var len = (identityCard + "").length;
+        if (len == 0) {
+            return 0;
+        } else {
+            if ((len != 15) && (len != 18))//身份证号码只能为15位或18位其它不合法
+            {
+                return 0;
+            }
+        }
+        var strBirthday = "";
+        if (len == 18)//处理18位的身份证号码从号码中得到生日和性别代码
+        {
+            strBirthday = identityCard.substr(6, 4) + "/" + identityCard.substr(10, 2) + "/" + identityCard.substr(12, 2);
+        }
+        if (len == 15) {
+            strBirthday = "19" + identityCard.substr(6, 2) + "/" + identityCard.substr(8, 2) + "/" + identityCard.substr(10, 2);
+        }
+        //时间字符串里，必须是“/”
+        var birthDate = new Date(strBirthday);
+        var nowDateTime = new Date();
+        var age = nowDateTime.getFullYear() - birthDate.getFullYear();
+        //再考虑月、天的因素;.getMonth()获取的是从0开始的，这里进行比较，不需要加1
+        if (nowDateTime.getMonth() < birthDate.getMonth() || (nowDateTime.getMonth() == birthDate.getMonth() && nowDateTime.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+</script>
