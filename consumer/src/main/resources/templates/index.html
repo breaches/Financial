@@ -348,7 +348,8 @@
                     <input v-model="registerInfo.username" id="regUsername" name="regUsername" class="sk-user-input-style" placeholder="用户名" maxlength="20"/>
                     <div id="sk-register-send-code">
                         <input v-model="registerInfo.phone" id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码" maxlength="11"/>
-                        <a @click="sendMessage" href="javascript:;">发送验证码</a>
+                        <a v-show="visitSendMessage" @click="sendMessage" href="javascript:;">发送验证码</a>
+                        <a v-show="!visitSendMessage"><span>{{lastTime}}</span>秒后发送短信</a>
                     </div>
                     <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode" class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
                     <input v-model="registerInfo.password" id="regPassword" name="regPassword" type="password" class="sk-user-input-style"
@@ -425,6 +426,8 @@
                     url: ''
                 }
             ],
+            visitSendMessage: true,
+            lastTime: 0,
             signIn: false, // 登录 dialog
             signUp: false, // 注册 dialog
             forgets: false, // 忘记密码 dialog
@@ -517,6 +520,20 @@
                     url: 'consumer/register/sendMessage',
                     data: app.registerInfo
                 }).then(function(response) {
+                    console.log('短信 -> ')
+                    console.log(response)
+                    app.visitSendMessage = false
+                    app.lastTime = 60
+                    var time = setInterval(function() {
+                            // 倒计时
+                            app.lastTime --
+                            console.log(app.lastTime)
+                            if(app.lastTime <= 0) {
+                                app.visitSendMessage = true
+                                clearInterval(time)
+                            }
+                        }, 1000)
+
 
                 })
             },
