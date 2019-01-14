@@ -29,7 +29,8 @@ public class HGenerator {
                 "region_area",
                 "consumer_education",
                 "consumer_income_range",
-                "consumer_activate_verify_record"
+                "consumer_activate_verify_record",
+                "consumer_card"
         };
         generateByTables(packageName, tables);
     }

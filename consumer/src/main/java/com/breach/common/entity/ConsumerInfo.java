@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-13
+ * @since 2019-01-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -99,7 +99,7 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
     private Integer houseId;
 
     /**
-     * 用户审额的状态 1：未审额/从未申请 2：已提交/待审核/已申请 3：通过 4：未通过
+     * 用户审额的状态 1：未审额/从未申请 2：已提交/待审核/已申请 3：未通过 4：已通过
      */
     private Integer verifyState;
 

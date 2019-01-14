@@ -39,4 +39,10 @@ public interface ISystemConsts {
     /** 【已通过】 4 **/
     Integer CONSUMER_INFO_VERIFY_STATE_PASS = 4;
 
+    /** 验证 认证 **/
+    /** 身份信息可以使用，目前没有被占用 **/
+    Integer VERIFY_ID_INFO_ENABLE = 1001;
+    /** 身份信息不可用，已被占用 **/
+    Integer VERIFY_ID_INFO_DISABLE = 1002;
+
 }

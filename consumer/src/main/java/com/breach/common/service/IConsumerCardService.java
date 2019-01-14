@@ -1,6 +1,6 @@
 package com.breach.common.service;
 
-import com.breach.common.entity.ConsumerIncomeRange;
+import com.breach.common.entity.ConsumerCard;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author shaokang
  * @since 2019-01-14
  */
-public interface IConsumerIncomeRangeService extends IService<ConsumerIncomeRange> {
+public interface IConsumerCardService extends IService<ConsumerCard> {
 
 }

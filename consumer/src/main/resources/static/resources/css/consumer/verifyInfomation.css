@@ -19,6 +19,10 @@ a {
 
 /*******************************/
 
+#sk-breadcrumb {
+    padding: 16px 0;
+    padding-left: 16px;
+}
 
 #header {
     height: 80px;
@@ -131,6 +135,11 @@ a {
     width: 777px;
 }
 
+#middle .sk-zz {
+    width: 425px;
+    padding-right: 100px;
+}
+
 .aaaa {
     margin-top: 30px;
     margin-bottom: 20px;
@@ -164,4 +173,114 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+
+/**已提交 等待**/
+#wait {
+    position: relative;
+    overflow: hidden;
+}
+
+#wait #sk-wait-box {
+    width: 530px;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+#wait #sk-wait-box .sk-wait-icon img {
+    width: 50px;
+}
+
+#wait .sk-wait-content {
+    margin-left: 20px;
+}
+
+#wait .sk-wait-content, #wait .sk-pass-icon {
+    float: left;
+}
+
+#wait .sk-wait-icon {
+    padding-top: 7px;
+}
+
+#wait .sk-wait-content .sk-wait-title {
+    font-family: PingFangTC-Medium, "Helvetica Neue", Helvetica, Arial;
+    font-size: 18px;
+    color: rgb(55, 61, 65);
+    line-height: 50px;
+    padding-top: 7px;
+    margin-bottom: 10px;
+}
+
+#wait .sk-wait-content .sk-wait-detail {
+    font-size: 12px;
+    color: #73777a;
+}
+
+#wait .sk-wait-title {
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 15px;
+}
+
+#wait .sk-wait-detail p {
+    height: 30px;
+    line-height: 30px;
+}
+
+/** 通过 **/
+#pass {
+    position: relative;
+    overflow: hidden;
+}
+
+#pass #sk-pass-box {
+    width: 530px;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+#pass #sk-pass-box .sk-pass-icon img {
+    width: 50px;
+}
+
+#pass .sk-pass-content {
+    margin-left: 20px;
+}
+
+#pass .sk-pass-content {
+    float: left;
+}
+#sk-wait-box > div.sk-wait-icon {
+    float: left;
+}
+
+#pass .sk-pass-icon {
+    padding-top: 7px;
+}
+
+#pass .sk-pass-content .sk-pass-title {
+    font-family: PingFangTC-Medium, "Helvetica Neue", Helvetica, Arial;
+    font-size: 18px;
+    color: rgb(55, 61, 65);
+    line-height: 50px;
+    padding-top: 7px;
+    margin-bottom: 10px;
+}
+
+#pass .sk-pass-content .sk-pass-detail {
+    font-size: 12px;
+    color: #73777a;
+}
+
+#pass .sk-pass-title {
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 15px;
+}
+
+#pass .sk-pass-detail p {
+    height: 30px;
+    line-height: 30px;
 }

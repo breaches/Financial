@@ -89,7 +89,9 @@ public class SignUpServiceImpl implements ISignUpService {
         consumerInfo.setPhone(phone);
         consumerInfo.setNickname(username);
 
-        signUpMapper.addConsumer(consumerInfo);
+        System.out.println(consumerInfo);
+        // signUpMapper.addConsumer(consumerInfo);
+        consumerInfoMapper.insert(consumerInfo);
 
         System.out.println("-----------------------------------------------");
         System.out.println("插入客户信息后");

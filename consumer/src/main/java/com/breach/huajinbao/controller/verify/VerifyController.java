@@ -86,9 +86,15 @@ public class VerifyController {
         return verifyService.finalSubmit(consumerActivateVerifyRecord);
     }
 
+    /** 查询用户的认证/审额状态 **/
     @RequestMapping("/verifyState")
     public ReturnUtil verifyState() {
         return verifyService.verifyState();
+    }
+
+    @RequestMapping("/verifyIdCardExist")
+    public ReturnUtil verifyIdCardExist(@RequestBody ConsumerActivateVerifyRecord consumerActivateVerifyRecord) {
+        return verifyService.verifyIdCardExist(consumerActivateVerifyRecord);
     }
     
 

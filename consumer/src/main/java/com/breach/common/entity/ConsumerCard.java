@@ -2,6 +2,7 @@ package com.breach.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -10,10 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户登录授权表
-目前两种方式直接进行登录：
-用户名
-手机号码
+ * 
  * </p>
  *
  * @author shaokang
@@ -22,7 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ConsumerAuths extends Model<ConsumerAuths> {
+public class ConsumerCard extends Model<ConsumerCard> {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,24 +28,54 @@ public class ConsumerAuths extends Model<ConsumerAuths> {
     private Integer id;
 
     /**
-     * 用户名
+     * 真实姓名
      */
-    private String username;
+    private String name;
 
     /**
-     * 密码
+     * 身份证号码
      */
-    private String password;
+    private String code;
 
     /**
-     * 关联用户信息表，当前账号绑定的是哪个用户
+     * 性别 0：女 1：男
      */
-    private Integer consumerId;
+    private Boolean sex;
 
     /**
-     * 客户状态 1：可用 2：冻结
+     * 出生日期
      */
-    private Integer state;
+    private LocalDate brithday;
+
+    /**
+     * 省份
+     */
+    private String province;
+
+    /**
+     * 城市
+     */
+    private String city;
+
+    /**
+     * 地区
+     */
+    private String area;
+
+    /**
+     * 身份证正面照
+     */
+    private String frontImage;
+
+    /**
+     * 身份证反面照
+     */
+    private String backImage;
+
+    /**
+     * 证件状态 0：失效 1：有效
+     */
+    private Boolean state;
 
 
     @Override

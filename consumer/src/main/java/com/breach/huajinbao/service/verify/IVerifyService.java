@@ -35,4 +35,5 @@ public interface IVerifyService {
 
     ReturnUtil verifyState();
 
+    ReturnUtil verifyIdCardExist(ConsumerActivateVerifyRecord consumerActivateVerifyRecord);
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-13
+ * @since 2019-01-14
  */
 @Service
 public class RegionCityServiceImpl extends ServiceImpl<IRegionCityMapper, RegionCity> implements IRegionCityService {
