@@ -30,7 +30,9 @@ public class HGenerator {
                 "consumer_education",
                 "consumer_income_range",
                 "consumer_activate_verify_record",
-                "consumer_card"
+                "consumer_card",
+                "consumer_questionnaire",
+                "consumer_account"
         };
         generateByTables(packageName, tables);
     }

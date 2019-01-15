@@ -19,6 +19,22 @@ body {
     display: none;
 }
 
+@font-face {font-family: 'number';
+    src: url('//at.alicdn.com/t/webfont_8rx50qoili7.eot'); /* IE9*/
+    src: url('//at.alicdn.com/t/webfont_8rx50qoili7.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('//at.alicdn.com/t/webfont_8rx50qoili7.woff') format('woff'), /* chrome、firefox */
+    url('//at.alicdn.com/t/webfont_8rx50qoili7.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('//at.alicdn.com/t/webfont_8rx50qoili7.svg#思源黑体-极细') format('svg'); /* iOS 4.1- */
+}
+
+.web-font-number {
+    font-family: "number" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 /*html, body {width: 100%;max-width: 960px;}
 
 @media only screen and (max-width: 1024px) {
@@ -224,7 +240,8 @@ body {
 #sk-data-box .sk-data-area dt big {
     font-size: 30px;
     margin-right: 2px;
-    font-family: 'PingFang';
+    /*font-family: 'PingFang';*/
+    font-family: number;
 }
 
 /*描述信息安全描述*/

@@ -91,3 +91,10 @@ fabric.properties
 *.iml
 out
 gen
+/consumer/src/main/java/com/breach/common/mapper/impl/
+!/consumer/src/main/java/com/breach/common/mapper/impl/*
+
+/admin/src/main/java/com/breach/common/mapper/impl/
+!/admin/src/main/java/com/breach/common/mapper/impl/*
+/admin/src/main/java/com/breach/common/mapper/impl/DepartmentMapper.xml
+!/admin/src/main/java/com/breach/common/mapper/impl/DepartmentMapper.xml

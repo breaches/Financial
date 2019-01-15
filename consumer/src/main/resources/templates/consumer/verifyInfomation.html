@@ -12,19 +12,19 @@
     <script src="resources/lib/js/axios.js"></script>
     -->
     <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="resources/css/consumer/verifyInfomation.css">
+    <link rel="stylesheet" href="../resources/css/consumer/verifyInfomation.css">
     <!--  VUE -->
-    <script src="resources/lib/js/vue.js"></script>
+    <script src="../resources/lib/js/vue.js"></script>
     <!-- elementUI -->
     <!--<link rel="stylesheet" href="resources/lib/css/index.css">-->
-    <script src="resources/lib/js/index.js"></script>
+    <script src="../resources/lib/js/index.js"></script>
     <!-- axios -->
-    <script src="resources/lib/js/axios.js"></script>
+    <script src="../resources/lib/js/axios.js"></script>
 </head>
 <body>
 <div id="app">
     <div id="sk-top" style="position:absolute;z-index:99;background-color: #ffffff; height: 100%;width: 100%;">
-        要显示最上层显示的div内容
+        <!--要显示最上层显示的div内容-->
     </div>
     <div id="wrapper">
         <!--头-->
@@ -40,7 +40,7 @@
             <div id="wait">
                 <div id="sk-wait-box">
                     <div class="sk-wait-icon">
-                        <img src="resources/images/wait.png" alt=""/>
+                        <img src="../resources/images/wait.png" alt=""/>
                     </div>
                     <div class="sk-wait-content">
                         <div class="sk-wait-title">
@@ -64,7 +64,7 @@
             <div id="pass">
                 <div id="sk-pass-box">
                     <div class="sk-pass-icon">
-                        <img src="resources/images/success.png" alt=""/>
+                        <img src="../resources/images/success.png" alt=""/>
                     </div>
                     <div class="sk-pass-content">
                         <div class="sk-pass-title">
@@ -282,7 +282,7 @@
                                         <!-- 身份证示例图 -->
                                         <div class="sk-container-id-card-sample">
                                             <p>
-                                                <img class="sk-id-card-480" src="resources/images/sample/id-front.jpg"
+                                                <img class="sk-id-card-480" src="../resources/images/sample/id-front.jpg"
                                                      alt="">
                                             </p>
                                             <p>
@@ -319,7 +319,7 @@
                                         <!-- 身份证示例图 -->
                                         <div class="sk-container-id-card-sample">
                                             <p>
-                                                <img class="sk-id-card-480" src="resources/images/sample/id-back.jpg"
+                                                <img class="sk-id-card-480" src="../resources/images/sample/id-back.jpg"
                                                      alt="">
                                             </p>
                                             <p>
@@ -497,7 +497,7 @@
             :before-close="disableFront1080"
             center>
         <div id="user-forget-header">
-            <img class="sk-id-card-1080 sk-id-card-1080-front" src="resources/images/sample/id-front.jpg" alt="">
+            <img class="sk-id-card-1080 sk-id-card-1080-front" src="../resources/images/sample/id-front.jpg" alt="">
         </div>
     </el-dialog>
     <!-- 反面身份证 -->
@@ -509,7 +509,7 @@
             :before-close="disableBack1080"
             center>
         <img class="sk-id-card-1080 sk-id-card-1080-back"
-             src="resources/images/sample/id-back.jpg" alt="">
+             src="../resources/images/sample/id-back.jpg" alt="">
     </el-dialog>
 
 </div>
@@ -595,10 +595,10 @@
                                         // 去校验唯一性，数据库中是否有别人占用此身份信息
                                         axios({
                                             method: 'post',
-                                            url: 'verify/verifyIdCardExist',
+                                            url: '/verify/verifyIdCardExist',
                                             data: app.recordInfo
                                         }).then(function (response) {
-                                            console.log('verifyIdCardExist -> ', response)
+                                            console.log('/verifyIdCardExist -> ', response)
                                             var reCode = response.data.code
                                             if (reCode == 1002) {
                                                 // 被占用
@@ -614,7 +614,7 @@
                                                     // 如果通过则把姓名与身份证号码发送到后台使用api进行校验
                                                     axios({
                                                         method: 'post',
-                                                        url: 'verify/idCard',
+                                                        url: '/verify/idCard',
                                                         data: app.recordInfo
                                                     }).then(function (response) {
                                                         // 判断回调函数
@@ -757,13 +757,13 @@
                 // 文件上传之前
                 const isJPEG = file.type === 'image/jpeg';
                 const isPGN = file.type === 'image/png';
-                const isLt2M = file.size / 1024 / 1024 < 2;
+                const isLt2M = file.size / 1024 / 1024 < 5;
 
                 if (!isJPEG && !isPGN) {
                     this.$message.error('请上传 JPG/JPEG/PNG 格式!');
                 } else {
                     if (!isLt2M) {
-                        this.$message.error('上传图片大小不能超过 2MB!');
+                        this.$message.error('上传图片大小不能超过 5MB!');
                     }
                     return (isJPEG || isPGN) && isLt2M;
                 }
@@ -772,13 +772,13 @@
                 // 文件上传之前
                 const isJPEG = file.type === 'image/jpeg';
                 const isPGN = file.type === 'image/png';
-                const isLt2M = file.size / 1024 / 1024 < 2;
+                const isLt2M = file.size / 1024 / 1024 < 5;
 
                 if (!isJPEG && !isPGN) {
                     this.$message.error('请上传 JPG/JPEG/PNG 格式!');
                 } else {
                     if (!isLt2M) {
-                        this.$message.error('上传图片大小不能超过 2MB!');
+                        this.$message.error('上传图片大小不能超过 5MB!');
                     }
                     return (isJPEG || isPGN) && isLt2M;
                 }
@@ -886,7 +886,7 @@
                         app.$message('我要发送请求了');
                         axios({
                             method: 'post',
-                            url: 'verify/finalSubmit',
+                            url: '/verify/finalSubmit',
                             data: app.recordInfo
                         }).then(function (response) {
                             console.log(response)
@@ -915,7 +915,7 @@
                     app.$message('该提交了，别继续点了');
                     axios({
                         method: 'post',
-                        url: 'verify/finalSubmit',
+                        url: '/verify/finalSubmit',
                         data: app.recordInfo
                     }).then(function (response) {
                         console.log(response)
@@ -947,7 +947,7 @@
         // 判断是否登录
         axios({
             method: 'post',
-            url: 'consumer/getUserInfoAfterLogin',
+            url: '/consumer/getUserInfoAfterLogin',
         }).then(function (response) {
             // 页面加载后请求用户信息，判断是否已经登录
             // 如果登录则 隐藏登录按钮 显示用户
@@ -966,7 +966,7 @@
 
                 axios({
                     method: 'post',
-                    url: 'verify/verifyState'
+                    url: '/verify/verifyState'
                 }).then(function (response) {
                     console.log(response)
                     var state = response.data.code
@@ -1038,7 +1038,7 @@
         // 获取省份数据
         axios({
             method: 'post',
-            url: 'verify/listAllIncome'
+            url: '/verify/listAllIncome'
         }).then(function (response) {
             app.incomeOptions = []
             for (var i = 0; i < response.data.data.length; i++) {
@@ -1056,7 +1056,7 @@
         // 获取省份数据
         axios({
             method: 'post',
-            url: 'verify/listAllEducation'
+            url: '/verify/listAllEducation'
         }).then(function (response) {
             app.educationOptions = []
             for (var i = 0; i < response.data.data.length; i++) {
@@ -1074,7 +1074,7 @@
         //127.0.0.1/verify/getListAllCity
         axios({
             method: 'post',
-            url: 'verify/getListAllArea',
+            url: '/verify/getListAllArea',
             data: {
                 "codeCity": app.recordInfo.codeCity
             }
@@ -1096,7 +1096,7 @@
         //127.0.0.1/verify/getListAllCity
         axios({
             method: 'post',
-            url: 'verify/getListAllCity',
+            url: '/verify/getListAllCity',
             data: {
                 "codeProvince": app.recordInfo.codeProvince
             }
@@ -1118,7 +1118,7 @@
         // 获取省份数据
         axios({
             method: 'post',
-            url: 'verify/listAllProvince'
+            url: '/verify/listAllProvince'
         }).then(function (response) {
             app.province = []
             for (var i = 0; i < response.data.data.length; i++) {
