@@ -7,6 +7,11 @@ a{
     text-decoration: none;
 }
 
+body{
+    overflow: hidden;
+}
+
+
 /************************************/
 
 #logo {
@@ -104,7 +109,34 @@ a{
 
 /*****/
 
+.text-center {
+    text-align: center;
+}
 
+/*****/
+
+#banner {
+    font-size: 0px;
+}
+
+#product .product-header-title {
+    font-size: 44px;
+    font-family: 'Microsoft YaHei';
+    color: #fff;
+    line-height: 1.771;
+    letter-spacing: 6px;
+}
+
+#product .product-header-detail {
+    font-size: 20px;
+    font-family: 'Microsoft YaHei';
+    color: #fff;
+    line-height: 1.7;
+}
+
+#product .product-header-detail span {
+    margin: 0 15px;
+}
 
 
 /*****/
