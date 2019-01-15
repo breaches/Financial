@@ -35,17 +35,32 @@ a{
     width: 240px;
     background: #ffffff;
     height: 300px;
-    box-shadow: 0px 0px 1px #ccc;
+    box-shadow: 0px 1px 8px 0 #dadada30;
     margin-right: 20px;
     margin-bottom: 20px;
+    position: absolute;
+    right: 212px;
+    top: 50px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #userInfo .user-info-header {
     margin-bottom: 2px;
+    padding-bottom: 3px;
+}
+
+#userInfo .user-info-middle {
+    background-color: #a4bad0;
+    min-height: 200px;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
 }
 
 #userInfo .user-info-footer {
     overflow: hidden;
+    padding-top: 3px;
 }
 
 #userInfo .user-info-footer-left {
@@ -58,7 +73,7 @@ a{
     display: block;
     line-height: 35px;
     width: 70px;
-    text-align: center;
+    text-align: left;
 }
 
 #userInfo .user-info-footer-right {
@@ -74,19 +89,17 @@ a{
     line-height: 35px;
     text-align: center;
     border: 1px #222 solid;
-}
-
-#layer {
 
 }
 
-#layer #user-topbar-info {
-    float: right;
+#user-topbar-info {
+    display: none;
 }
 
-.sk-bind-user-topbar-info{
-    background: #333333;
+#userInfo:hover #user-topbar-info {
+    display: block;
 }
+
 
 
 /*****/

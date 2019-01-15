@@ -200,6 +200,10 @@ a {
     float: left;
 }
 
+#sk-pass-box > div.sk-pass-icon {
+    float: left;
+}
+
 #wait .sk-wait-icon {
     padding-top: 7px;
 }
