@@ -11,8 +11,8 @@ import lombok.ToString;
 @ToString
 public class Questionnaire {
     private int consumer_id;
-    private int age;    //年龄
-    private String userincome;  //可支配收入
+    private String age;    //年龄
+    private String income;  //可支配收入
     private String layout;      //收入可用于投资的比例
     private String experience;  //投资经验
     private String target;      //投资的目标

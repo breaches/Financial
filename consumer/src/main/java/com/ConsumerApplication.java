@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan({
         "com.breach.common.mapper",
         "com.breach.huajinbao.mapper.sign",
-        "com.breach.huajinbao.mapper.*"
+        "com.breach.huajinbao.mapper.*",
+        "com.breach.huajinbao.mapper.quest"
 })
 @EnableTransactionManagement
 public class ConsumerApplication {

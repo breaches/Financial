@@ -14,6 +14,7 @@ public class RequestServiceImpl implements IRequestService {
 
     @Override
     public void quest(Questionnaire q) {
+        System.out.println("q -> " + q);
         mapper.Quest(q);
     }
 }

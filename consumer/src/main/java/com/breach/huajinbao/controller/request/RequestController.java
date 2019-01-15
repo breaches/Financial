@@ -13,7 +13,7 @@ public class RequestController {
     @Autowired
     private IRequestService quest;
 
-    @RequestMapping("quest")
+    @RequestMapping("/quest")
     public void quest(@RequestBody Questionnaire q){
          quest.quest(q);
     }
