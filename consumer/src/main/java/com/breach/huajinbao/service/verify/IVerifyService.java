@@ -4,7 +4,6 @@ import com.breach.common.entity.ConsumerActivateVerifyRecord;
 import com.breach.common.entity.RegionCity;
 import com.breach.common.entity.RegionProvince;
 import com.breach.huajinbao.util.sign.ReturnUtil;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -33,4 +32,8 @@ public interface IVerifyService {
     ReturnUtil finalSubmit(ConsumerActivateVerifyRecord consumerActivateVerifyRecord);
 
     ReturnUtil idCard(ConsumerActivateVerifyRecord consumerActivateVerifyRecord);
+
+    ReturnUtil verifyState();
+
+    ReturnUtil verifyIdCardExist(ConsumerActivateVerifyRecord consumerActivateVerifyRecord);
 }
