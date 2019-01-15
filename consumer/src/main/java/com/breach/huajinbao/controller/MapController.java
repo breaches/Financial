@@ -41,4 +41,9 @@ public class MapController {
         return "/consumer/myborrow";
     }
 
+    @RequestMapping("/question")
+    public String question(){
+        return "/consumer/Questionnaire";
+    }
+
 }
