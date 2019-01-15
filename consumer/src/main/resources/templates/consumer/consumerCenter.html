@@ -74,12 +74,42 @@
                         </div>
                         <ul class="introduction"></ul>
                         <div class="about clearfix">
-                            <span>余额 66666</span>
-                            <span>余额 66666</span>
-                            <span>余额 66666</span>
-                            <span>余额 66666</span>
-                            <span>余额 66666</span>
-                            <span>余额 66666</span>
+                            <div>
+                                <img src="resources/images/idv.png" alt="" width="20px">
+                                <span>已通过实名认证</span>
+                            </div>
+                        </div>
+                        <div id="consumer-amount-box" class="clearfix">
+                            <div class="consumer-amount">
+                                <div>
+                                    账户余额
+                                    <span>{{amountInfo.availableBalance}}</span>
+                                </div>
+                            </div>
+                            <div class="consumer-amount">
+                                <div>
+                                    我的额度
+                                    <span>{{amountInfo.creditBalance}}</span>
+                                </div>
+                            </div>
+                            <div class="consumer-amount">
+                                <div>
+                                    冻结资金
+                                    <span>{{amountInfo.frozenCapital}}</span>
+                                </div>
+                            </div>
+                            <div class="consumer-amount">
+                                <div>
+                                    待收本金
+                                    <span>{{amountInfo.principalMoney}}</span>
+                                </div>
+                            </div>
+                            <div class="consumer-amount">
+                                <div>
+                                    待收红利
+                                    <span>{{amountInfo.principalIncome}}</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="action-buttons">
                             <a href="#" class="setting btn btn14">
@@ -95,7 +125,8 @@
                 <!-- 主要内容 导航 内容 -->
                 <div id="user_center_main">
                     <div id="aaa" class="sort-lists clearfix sortable">
-                        <iframe id="main" name="center_main" src="" frameborder="0" style="width: 100%;height: 100%;border:0;"></iframe>
+                        <iframe id="main" name="center_main" src="" frameborder="0"
+                                style="width: 100%;height: 100%;border:0;"></iframe>
                     </div>
                 </div>
             </div>
@@ -173,7 +204,7 @@
                 {title: '资金记录', url: '/'},
                 {title: '投资记录', url: '#'},
                 {title: '我的招标', url: 'myborrow'},
-                {title: '实名认证', url: 'verifyInfomation'},
+                {title: '实名认证', url: '/consumerCenter/verifyInfomation'},
                 {title: '房屋认证', url: '#'},
                 {title: '车辆认证', url: '#'},
                 {title: '系统通知', url: '#'}
@@ -184,6 +215,14 @@
             user: true, // 存放请求到的用户信息资料
             userInfoBar: false, // 用户信息面板 控制是否显示
             userInfo: {}, // 用户的信息
+            amountInfo: { // 账户信息
+                creditAmount: '',
+                creditBalance: '',
+                availableBalance: '',
+                principalMoney: '',
+                principalIncome: '',
+                frozenCapital: ''
+            }
         },
         methods: {
             // 退出登录
@@ -215,6 +254,7 @@
             console.log(response)
             if (response.data.user != null) {
                 // 把用户的信息存入 userInfo 并且显示 顶部的个人...
+                initAmount()
                 app.userInfo = response.data.user[0]
                 app.userInfoBar = false
                 app.user = true
@@ -231,6 +271,37 @@
                 window.location.href = "index"
             }
         })
+    }
+</script>
+
+<script>
+    function initAmount() {
+        if(isLogin()) {
+            axios({
+                method: 'post',
+                url: 'consumer/getAmount'
+            }).then(function(response) {
+                console.log(response)
+                app.amountInfo.creditAmount = parseFloat(response.data.object.creditAmount).toFixed(2) // 总信用额度
+                app.amountInfo.creditBalance = parseFloat(response.data.object.creditBalance).toFixed(2) // 信用余额
+                app.amountInfo.availableBalance = parseFloat(response.data.object.availableBalance).toFixed(2) // 可用余额
+                app.amountInfo.principalMoney = parseFloat(response.data.object.principalMoney).toFixed(2) // 待收本金
+                app.amountInfo.principalIncome = parseFloat(response.data.object.principalIncome).toFixed(2) // 待收红利
+                app.amountInfo.frozenCapital = parseFloat(response.data.object.frozenCapital).toFixed(2) // 冻结资金
+            })
+        }
+    }
+
+    function isLogin() {
+        var username = app.userInfo.username
+        if(username == '') {
+            // 如果等于空
+            window.top.location.href = '/'
+            return false
+        } else {
+            // 如果不等于空，已登陆
+            return true
+        }
     }
 </script>
 

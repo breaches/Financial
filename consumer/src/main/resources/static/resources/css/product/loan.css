@@ -1,0 +1,146 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    overflow: hidden;
+}
+
+
+/************************************/
+
+#logo {
+    width: 105px;
+}
+#userInfo .user-info {
+    color: #ffffff;
+    margin-right: 20px;
+     background-color: #ffffff;
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    min-width: 50px;
+    text-align: right;
+}
+
+#userInfo .hat_index {
+    width: 42px;
+    vertical-align: middle;
+    border: 1px solid #fff;
+    border-radius: 50px;
+    background-color: #fff;
+}
+
+#user-topbar-info {
+    width: 240px;
+    background: #ffffff;
+    height: 300px;
+    box-shadow: 0px 1px 8px 0 #dadada30;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    position: absolute;
+    right: 212px;
+    top: 50px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#userInfo .user-info-header {
+    margin-bottom: 2px;
+    padding-bottom: 3px;
+}
+
+#userInfo .user-info-middle {
+    background-color: #a4bad0;
+    min-height: 200px;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+#userInfo .user-info-footer {
+    overflow: hidden;
+    padding-top: 3px;
+}
+
+#userInfo .user-info-footer-left {
+    float: left;
+}
+
+#userInfo .user-info-footer-left a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    line-height: 35px;
+    width: 70px;
+    text-align: left;
+}
+
+#userInfo .user-info-footer-right {
+    float: right;
+}
+
+#userInfo .user-info-footer-right a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border: 1px #222 solid;
+
+}
+
+#user-topbar-info {
+    display: none;
+}
+
+#userInfo:hover #user-topbar-info {
+    display: block;
+}
+
+
+
+/*****/
+
+.text-center {
+    text-align: center;
+}
+
+/*****/
+
+#banner {
+    font-size: 0px;
+}
+
+#product .product-header-title {
+    font-size: 44px;
+    font-family: 'Microsoft YaHei';
+    color: #fff;
+    line-height: 1.771;
+    letter-spacing: 6px;
+}
+
+#product .product-header-detail {
+    font-size: 20px;
+    font-family: 'Microsoft YaHei';
+    color: #fff;
+    line-height: 1.7;
+}
+
+#product .product-header-detail span {
+    margin: 0 15px;
+}
+
+
+/*****/
+
+#content{
+    min-height: 772px;
+}

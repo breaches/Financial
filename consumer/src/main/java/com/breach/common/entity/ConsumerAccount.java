@@ -1,5 +1,6 @@
 package com.breach.common.entity;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -18,7 +19,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-07
+ * @since 2019-01-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,6 +30,37 @@ public class ConsumerAccount extends Model<ConsumerAccount> {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    /**
+     * 信用额度，总信用额度，总共可用的信用额度，赊账金额
+     */
+    private BigDecimal creditAmount;
+
+    /**
+     * 信用额度，剩余额度
+     */
+    private BigDecimal creditBalance;
+
+    /**
+     * 可用余额，包括充值、还我的钱、收益
+     */
+    private BigDecimal availableBalance;
+
+    /**
+     * 表示借出去的钱，还有多少未还给我，每还一次这里都会进行一次更新
+     */
+    private BigDecimal principalMoney;
+
+    /**
+     * 主要入息，也就是将要收的红利，利润，收益。每收到一笔收益，这里都会进行更新
+     */
+    private BigDecimal principalIncome;
+
+    /**
+     * 冻结资金
+     */
+    private BigDecimal frozenCapital;
+
 
     @Override
     protected Serializable pkVal() {

@@ -22,4 +22,9 @@ public class GlobalController {
     public GlobalData getUserInfoAfterLogin() {
         return globalService.getUserInfoAfterLogin();
     }
+
+    @RequestMapping("/consumer/getAmount")
+    public GlobalData getAmount() {
+        return globalService.getAmount();
+    }
 }

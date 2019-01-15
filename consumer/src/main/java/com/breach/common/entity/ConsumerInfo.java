@@ -56,6 +56,8 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
      */
     private Integer state;
 
+    private Boolean isCar;
+
     /**
      * 是否有房
      */
@@ -90,13 +92,6 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
      * 关联用户身份证表
      */
     private Integer cardId;
-
-    private Integer carId;
-
-    /**
-     * 住房认证后的外表关联
-     */
-    private Integer houseId;
 
     /**
      * 用户审额的状态 1：未审额/从未申请 2：已提交/待审核/已申请 3：未通过 4：已通过

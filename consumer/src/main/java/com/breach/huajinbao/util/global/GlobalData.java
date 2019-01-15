@@ -21,6 +21,7 @@ public class GlobalData {
     private List user;
     private List news;
     private List borrow;
+    private Object object;
 
     public GlobalData(Integer code) {
         this.code = code;
@@ -38,6 +39,15 @@ public class GlobalData {
         this.code = code;
         this.message = message;
         this.user = user;
+    }
+
+    public GlobalData(Integer code, Object object) {
+        this.code = code;
+        this.object = object;
+    }
+
+    public GlobalData(Object object) {
+        this.object = object;
     }
 
     public GlobalData setUserData(List userData) {
