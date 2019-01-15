@@ -24,8 +24,4 @@
         #{mood}
         )
     </insert>
-
-    <select id="qqq" resultType="map">
-        select * from consumer_questionnaire
-    </select>
 </mapper>

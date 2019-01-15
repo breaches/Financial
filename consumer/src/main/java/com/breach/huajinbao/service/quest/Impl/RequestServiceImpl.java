@@ -6,9 +6,6 @@ import com.breach.huajinbao.service.quest.IRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-
 @Service
 public class RequestServiceImpl implements IRequestService {
 
@@ -20,12 +17,4 @@ public class RequestServiceImpl implements IRequestService {
         System.out.println("q -> " + q);
         mapper.Quest(q);
     }
-
-    @Override
-    public List<Map<String, Object>> qqq() {
-
-        return mapper.qqq();
-    }
-
-
 }

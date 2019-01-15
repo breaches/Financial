@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- elementUI -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+<style type="text/css">
+    .q {
+        width: 800px;
+        margin: 0 auto;
+
+    }
+
+    .w {
+
+        padding-right: 75px;
+        padding-bottom: 60px;
+        padding-top: 30px;
+    }
+
+    .e {
+        border-bottom: 1px #CCCCCC solid;
+        padding-bottom: 75px;
+    }
+</style>
+<div id="app">
+    <div class="q">
+        <h1 style="text-align: center">出借人风险承受能力评估调查问卷</h1>
+        <p class="e">为了便于您了解自身的风险承受能力，选择合适的出借标的和服务，请您填写以下风险承受能力评估问卷。下列问题可
+            协助评估您对出借标的和服务的风险承受能力， 请您根据自身情况认真选择。评估结果仅供参考，不构成出借建议。为
+            了及时了解您的风险承受能力，我们建议您持续做好动态评估，我们承诺对您的所有个人资料保密。</p>
+
+        <el-form :model="quest" :rules="rules" ref="quest"  class="demo-ruleForm">
+
+            <!--<el-form-item label="特殊资源" prop="resource">
+                <el-radio-group v-model="ruleForm.resource">
+                    <el-radio label="线上品牌商赞助"></el-radio>
+                    <el-radio label="线下场地免费"></el-radio>
+                </el-radio-group>
+            </el-form-item>-->
+            <h4>1.您的年龄？
+                <el-form-item  prop="age" >
+                <el-radio-group v-model="quest.age">
+                    <el-radio class="w"  label="60岁以上"></el-radio>
+                    <el-radio class="w" label="51到60岁"></el-radio>
+                    <el-radio class="w" label="31到50岁"></el-radio>
+                    <el-radio class="w" label="18到30岁"></el-radio>
+                </el-radio-group>
+                </el-form-item>
+            </h4>
+
+
+            <h4>2.您家庭可支配收入大概是多少？
+                <el-form-item  prop="income" >
+                <el-radio-group v-model="quest.income">
+                    <el-radio class="w" label="20万以下"></el-radio>
+                    <el-radio class="w" label="20万-100万"></el-radio>
+                    <el-radio class="w" label="100万-300万"></el-radio>
+                    <el-radio class="w" label="300万以上"></el-radio>
+                </el-radio-group>
+                 </el-form-item>
+            </h4>
+            <h4>3.在您每年的家庭收入中，可用于投资的比例为？
+                <el-form-item  prop="layout" >
+                <el-radio-group v-model="quest.layout">
+                    <el-radio class="w" label="10%一下"></el-radio>
+                    <el-radio class="w" label="10%-25%"></el-radio>
+                    <el-radio class="w" label="25%-50%"></el-radio>
+                    <el-radio class="w" label="50%以上"></el-radio>
+                </el-radio-group>
+                </el-form-item>
+            </h4>
+
+
+            <h4>4. 您有多少年投资股票、基金、P2P、外汇及其他各类金融产品的投资经验？
+                <el-form-item  prop="experience" >
+                <el-radio-group v-model="quest.experience">
+                    <el-radio class="w" label="没有经验"></el-radio>
+                    <el-radio class="w" label="少于2年"></el-radio>
+                    <el-radio class="w" label="2-5年"></el-radio>
+                    <el-radio class="w" label="5年以上"></el-radio>
+                </el-radio-group>
+                </el-form-item>
+            </h4>
+
+            <h4>5. 您的投资目标是？
+                <el-form-item  prop="target" >
+                <el-radio-group v-model="quest.target">
+                    <el-radio class="w" label="只投资银行存款或购买国债等低风险且收益较稳定的产品"></el-radio>
+                    <el-radio class="w" label="除银行外，少部分投资基金、P2P、股票等产品"></el-radio>
+                    <el-radio class="w" label="资产均匀分布在国债、股票、基金、P2P等理财产品中"></el-radio>
+                    <el-radio class="w" label="大部分投资于基金、P2P、股票、期货、外汇等投资项目中，较少银行存款"></el-radio>
+                </el-radio-group>
+                </el-form-item>
+            </h4>
+
+            <h4>6. 您偏好的投资期限是多久？
+                <el-form-item  prop="timeLimit" >
+                <el-radio-group v-model="quest.timeLimit">
+                    <el-radio class="w" label="6个月及以下"></el-radio>
+                    <el-radio class="w" label="6个月~1年"></el-radio>
+                    <el-radio class="w" label="1年~3年"></el-radio>
+                    <el-radio class="w" label="5年及5年以上"></el-radio>
+                </el-radio-group>
+                </el-form-item>
+            </h4>
+
+            <h4>7. 您的投资出现何种程度的波动时，您会呈现明显的焦虑？
+                <el-form-item  prop="mood" >
+                <el-radio-group v-model="quest.mood">
+                    <el-radio class="w" label="本金无损失，但收益未达预期"></el-radio>
+                    <el-radio class="w" label="本金10％以内的损失"></el-radio>
+                    <el-radio class="w" label="本金10-30％的损失"></el-radio>
+                    <el-radio class="w" label="本金30％以上损失"></el-radio>
+                </el-radio-group>
+                </el-form-item>
+            </h4>
+        </el-form>
+        <el-button type="primary" :plain="true" @click="select" round>提交</el-button>
+
+        <p>0000{{quest}}</p>
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            quest: {
+                age:"",
+            },
+            rules: {
+                age:{required: true,message: "×"},
+                income:{required: true,message:"×"},
+                layout:{required:true,message:"×"},
+                experience:{required:true,message:"×"},
+                target:{required:true,message:"×"},
+                timeLimit:{required:true,message:"×"},
+                mood:{required:true,message:"×"}
+            }
+
+
+        },
+        methods: {
+            select: function () {
+                this.$refs["quest"].validate((valid) => {
+                    if (valid) {
+                        axios.post('/quest', app.quest)
+                            .then(function (response) {
+                            });
+
+                    } else {
+                        this.$message({
+                            message: '你的问卷没有填写完整哦',
+                            type: 'warning'
+                        });
+                    }
+                });
+
+            },
+
+        },
+
+    })
+</script>
+</body>
+</html>
