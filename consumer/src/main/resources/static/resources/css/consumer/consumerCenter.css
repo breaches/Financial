@@ -356,6 +356,19 @@ iframe {
     margin: 16px auto;
 }
 
+#consumer-amount-box {
+    overflow: hidden;
+}
+
+#consumer-amount-box .consumer-amount {
+    float: left;
+    width: 150px;
+}
+
+#consumer-amount-box .consumer-amount span {
+    font-size: 12px;
+    color: #777;
+}
 
 
 

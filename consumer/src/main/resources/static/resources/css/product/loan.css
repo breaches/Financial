@@ -1,0 +1,15 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+a{
+    text-decoration: none;
+}
+
+/************************************/
+
+
+#content{
+    min-height: 772px;
+}
