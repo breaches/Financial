@@ -19,6 +19,54 @@
         [v-cloak] {
             display: none;
         }
+        .sk-layer {
+            width: 1496px;
+            margin: 0 auto;
+            font-size: 14px;
+            position: relative;
+        }
+        .user-topbar-info {
+            width: 240px;
+            background: #ffffff;
+            height: 300px;
+            box-shadow: 0px 0px 1px #ccc;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            position: absolute;
+            right: 0;
+            padding: 0px 10px;
+        }
+        .user-info-header {
+            margin-bottom: 2px;
+        }
+        .user-info-footer {
+            overflow: hidden;
+        }
+        .user-info-footer-left {
+            float: left;
+        }
+        .user-info-footer-left a{
+            color: #222;
+            text-decoration: none;
+            display: block;
+            line-height: 35px;
+            width: 70px;
+            text-align: center;
+        }
+        .user-info-footer-right {
+            float: right;
+        }
+        .user-info-footer-right a {
+            color: #222;
+            text-decoration: none;
+            display: block;
+            width: 70px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            border: 1px #222 solid;
+        }
+
     </style>
 </head>
 <body>
@@ -43,40 +91,63 @@
                 </div>
                 <!-- 用户信息简单展示 -->
                 <div v-cloak id="user">
-                    <a v-if="loginBtn" @click="visitSignIn = true" class="sk-login">登录</a>
-                    <div v-cloak id="userInfo" v-if="isLogin" @mousemove="userInfoBar = true" onmouseleave=""
+                    <a v-if="loginBtn" @click="visitLogin = true" class="sk-login">登录</a>
+                    <div v-cloak id="userInfo" v-if="isLogin" @mousemove="userInfoBar = true"
                          @mouseout="userInfoBar = false">
                         <div class="user-info">
                             <img class="hat_index" src="../resources/images/tou.png"/>
-                        </div>
-                        <div id="user-topbar-info" v-if="userInfoBar">
-                            <!-- 头部 -->
-                            <div class="user-info-header">
-                                <span v-cloak>{{userInfo.username}}</span>
-                            </div>
-                            <!-- 主体 -->
-                            <div class="user-info-middle"></div>
-                            <!-- 底部 -->
-                            <div class="user-info-footer">
-                                <div class="user-info-footer-left">
-                                    <a href="consumerCenter">个人中心</a>
-                                </div>
-                                <div class="user-info-footer-right">
-                                    <a @click="logout" href="javascript:;">
-                                        <span>退出登录</span>
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div v-cloak :class="['sk-layer']">
+            <div @mousemove="userInfoBar = true" @mouseout="userInfoBar = false" v-if="userInfoBar" :class="['user-topbar-info']">
+                <!-- 头部 -->
+                <div @mousemove="userInfoBar = true" @mouseout="userInfoBar = false" :class="['user-info-header']">
+                    <span @mousemove="userInfoBar = true" @mouseout="userInfoBar = false" v-cloak :style="'display: inline-block'">{{userInfo.username}}</span>
+                </div>
+                <!-- 主体 -->
+                <div @mousemove="userInfoBar = true" @mouseout="userInfoBar = false" :class="['user-info-middle']" ></div>
+                <!-- 底部 -->
+                <div @mousemove="userInfoBar = true" @mouseout="userInfoBar = false" :class="['user-info-footer']">
+                    <div :class="['user-info-footer-left']">
+                        <a href="consumerCenter">个人中心</a>
+                    </div>
+                    <div :class="['user-info-footer-right']">
+                        <a @click="logout" href="javascript:;">
+                            <span>退出登录</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div v-cloak id="sk-layer" :style="'position: absolute; width: 1496px; left: 0; right: 0px; margin: auto; font-size: 14px'">
+            <div @mousemove="userInfoBar = true" @mouseout="userInfoBar = false" v-if="userInfoBar" id="user-topbar-info" :style="'float: right'">
+                &lt;!&ndash; 头部 &ndash;&gt;
+                <div :class="'user-info-header'" :style="'margin-bottom: 2px;'">
+                    <span v-cloak>{{userInfo.username}}</span>
+                </div>
+                &lt;!&ndash; 主体 &ndash;&gt;
+                <div :class="'user-info-middle'" :style="''"></div>
+                &lt;!&ndash; 底部 &ndash;&gt;
+                <div :class="'user-info-footer'" :style="'overflow: hidden;'">
+                    <div :class="'user-info-footer-left'" :style="'float: left;'">
+                        <a href="consumerCenter" :style="'color: #222;text-decoration: none;display: block;line-height: 35px;width: 70px;text-align: center;'">个人中心</a>
+                    </div>
+                    <div :class="'user-info-footer-right'" :style="'float: right;'">
+                        <a @click="logout" href="javascript:;" :style="'color: #222;text-decoration: none;display: block;width: 70px;height: 35px;line-height: 35px;text-align: center;border: 1px #222 solid;'">
+                            <span>退出登录</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>-->
 
         <!-- 主要内容 -->
         <div id="content">
             <div id="user_center">
-                <a v-for="item in products" :href="item.url">{{item.title}}</a>
+                <a v-cloak v-for="item in products" :href="item.url">{{item.title}}</a>
             </div>
         </div>
 
@@ -133,7 +204,7 @@
     <!----------------------------------------- 弹出层 ----------------------------------------->
     <!-- 登录层 -->
     <el-dialog
-            :visible.sync="visitSignIn"
+            :visible.sync="visitLogin"
             width="520px"
             :close-on-click-modal="false"
             :lock-scroll="false"
@@ -170,7 +241,7 @@
     </el-dialog>
     <!-- 注册层 -->
     <el-dialog
-            :visible.sync="visitSignUp"
+            :visible.sync="visitRegister"
             width="520px"
             :close-on-click-modal="false"
             :lock-scroll="false"
@@ -257,7 +328,7 @@
                 {title: '关于我们', url: '#'}
             ],
             products: [
-                {title: '信用贷', url: 'product/loan/creditOfBorrow'},
+                {title: '信用贷', url: '/product/borrow/creditOfBorrow'},
                 {title: 'you', url: '#'},
                 {title: 'iii', url: '#'},
                 {title: 'liuliuliu', url: '#'}
@@ -266,8 +337,8 @@
             loginInfo: {},
             registerInfo: {},
             forgetInfo: {},
-            visitSignIn: false,
-            visitSignUp: false,
+            visitLogin: false,
+            visitRegister: false,
             visitForget: false,
             visitSendMessage: true,
             loginBtn: false,
@@ -277,26 +348,55 @@
         },
         methods: {
             toForget: function () {
+                app.visitRegister = false
+                app.visitLogin = false
+                app.visitForget = true
+                app.forgetInfo = {}
             },
             toRegister: function () {
+                app.visitForget = false
+                app.visitLogin = false
+                app.visitRegister = true
+                app.registerInfo = {}
             },
             toLogin: function () {
+                app.visitForget = false
+                app.visitRegister = false
+                app.visitLogin = true
+                app.loginInfo = {}
             },
             login: function () {
+                login()
             },
             logout: function () {
+                logout()
             },
             register: function () {
+                register()
             },
             loginDialogClose: function () {
+                setTimeout(_ => {
+                    initAllDialogInfo()
+                }, 100)
+                done()
             },
             registerDialogClose: function () {
+                setTimeout(_ => {
+                    initAllDialogInfo()
+                }, 100)
+                done()
             },
             forgetDialogClose: function () {
+                setTimeout(_ => {
+                    initAllDialogInfo()
+                }, 100)
+                done()
             },
             sendMessage: function () {
+                sendRegisterSmsCode()
             },
             verifyCode: function () {
+                verifyCode()
             }
         }
     })
@@ -305,6 +405,112 @@
 <script>
     window.onload = function () {
         initUser()
+    }
+
+    function verifyCode() {
+        axios({
+            method: 'post',
+            url: '/consumer/register/verifyCode',
+            data: app.registerInfo
+        }).then(function (response) {
+
+        })
+    }
+
+    function sendRegisterSmsCode() {
+        axios({
+            method: 'post',
+            url: '/consumer/register/sendMessage',
+            data: app.registerInfo
+        }).then(function (response) {
+            app.visitSendMessage = false
+            app.lastTime = 60
+            var time = setInterval(function () {
+                app.lastTime--
+                console.log(app.lastTime)
+                if (app.lastTime <= 0) {
+                    app.visitSendMessage = true
+                    clearInterval(time)
+                }
+            }, 1000)
+        })
+    }
+
+    function register() {
+        axios({
+            method: 'post',
+            url: 'consumer/register/verifyCode',
+            data: app.registerInfo
+        }).then(function (response) {
+            visitAllDialog(false)
+        })
+    }
+
+    function logout() {
+        axios({
+            method: 'post',
+            url: '/consumer/logout'
+        }).then(function (response) {
+            app.isLogin = false
+            app.loginBtn = true
+            initAllDialogInfo()
+            initUserInfo()
+        })
+    }
+
+    function login() {
+        axios({
+            method: 'post',
+            url: '/consumer/login',
+            data: app.loginInfo
+        }).then(function (response) {
+            app.userInfo.username = response.data.object.username
+            app.userInfo.id = response.data.object.consumerId
+            app.visitLogin = false // 隐藏登录窗口
+            app.loginBtn = false // 隐藏登录按钮
+            app.isLogin = true // 已登录
+            initAllDialogInfo()
+        });
+    }
+
+    function visitAllDialog(boolean) {
+        visitLogin(boolean)
+        visitRegister(boolean)
+        visitForget(boolean)
+    }
+
+    function visitForget(boolean) {
+        app.visitForget = boolean
+    }
+
+    function visitRegister(boolean) {
+        app.visitRegister = boolean
+    }
+
+    function visitLogin(boolean) {
+        app.visitLogin = boolean
+    }
+
+    function initUserInfo() {
+        app.userInfo = {}
+    }
+
+    function initAllDialogInfo() {
+        initLoginInfo()
+        initRegisterInfo()
+        initForgetInfo()
+    }
+
+    function initLoginInfo() {
+        app.loginInfo = {}
+    }
+
+    function initRegisterInfo() {
+        app.registerInfo = {}
+    }
+
+    function initForgetInfo() {
+        app.forgetInfo = {}
     }
 
     function initUser() {

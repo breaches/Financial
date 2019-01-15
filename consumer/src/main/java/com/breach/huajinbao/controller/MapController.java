@@ -48,9 +48,9 @@ public class MapController {
     }
 
     /** 产品/信贷 shaokang **/
-    @RequestMapping("/product/loan/creditOfBorrow")
+    @RequestMapping("/product/borrow/creditOfBorrow")
     public String creditOfLoans() {
-        return "/product/creditOfBorrow";
+        return "/product/borrow/creditOfBorrow";
     }
 
 }

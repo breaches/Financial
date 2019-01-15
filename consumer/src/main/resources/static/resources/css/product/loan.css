@@ -9,6 +9,92 @@ a{
 
 /************************************/
 
+#logo {
+    width: 105px;
+}
+#userInfo .user-info {
+    color: #ffffff;
+    margin-right: 20px;
+     background-color: #ffffff;
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    min-width: 50px;
+    text-align: right;
+}
+
+#userInfo .hat_index {
+    width: 42px;
+    vertical-align: middle;
+    border: 1px solid #fff;
+    border-radius: 50px;
+    background-color: #fff;
+}
+
+#user-topbar-info {
+    width: 240px;
+    background: #ffffff;
+    height: 300px;
+    box-shadow: 0px 0px 1px #ccc;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+#userInfo .user-info-header {
+    margin-bottom: 2px;
+}
+
+#userInfo .user-info-footer {
+    overflow: hidden;
+}
+
+#userInfo .user-info-footer-left {
+    float: left;
+}
+
+#userInfo .user-info-footer-left a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    line-height: 35px;
+    width: 70px;
+    text-align: center;
+}
+
+#userInfo .user-info-footer-right {
+    float: right;
+}
+
+#userInfo .user-info-footer-right a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border: 1px #222 solid;
+}
+
+#layer {
+
+}
+
+#layer #user-topbar-info {
+    float: right;
+}
+
+.sk-bind-user-topbar-info{
+    background: #333333;
+}
+
+
+/*****/
+
+
+
+
+/*****/
 
 #content{
     min-height: 772px;
