@@ -35,7 +35,7 @@ public class MapController {
         return "/consumer/myborrow";
     }
 
-    /** 产品 展示借款/借贷产品 shaokang **/
+    /** 产品 展示借款（借出）/借贷产品 shaokang **/
     @RequestMapping("/product/loan")
     public String product() {
         return "/product/loan";
@@ -51,6 +51,18 @@ public class MapController {
     @RequestMapping("/product/borrow/creditOfBorrow")
     public String creditOfLoans() {
         return "/product/borrow/creditOfBorrow";
+    }
+
+    /** 产品/信贷（借入） 散标 shaokang **/
+    @RequestMapping("/product/borrow/personBorrowBid")
+    public String personBorrow() {
+        return "/product/borrow/personBorrowBid";
+    }
+
+    /** 产品/信贷（借入） 散标 shaokang **/
+    @RequestMapping("/product/loan/personBid")
+    public String personBid() {
+        return "/product/loan/personBid";
     }
 
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>我要借钱</title>
+    <title>我要出借</title>
     <!--  VUE -->
     <script src="../resources/lib/js/vue.js"></script>
     <!-- elementUI -->
@@ -12,7 +12,6 @@
     <!-- axios -->
     <script src="../resources/lib/js/axios.js"></script>
     <!-- 个人 -->
-    <!--<link rel="stylesheet" href="../resources/css/consumer/consumerCenter.css">-->
     <link rel="stylesheet" href="../resources/css/product/loan.css">
     <link rel="stylesheet" href="../resources/css/login.css">
     <style>
@@ -22,7 +21,6 @@
     </style>
 </head>
 <body>
-<!-- 发标 -->
 <div id="app">
     <div id="wrapper">
         <!-- 头部 -->
@@ -75,135 +73,16 @@
                 </div>
             </div>
         </div>
-
+        <!-- banner -->
         <div id="banner">
-            <img src="../resources/images/banner/jk_banner1.jpg" alt="">
+            <!--<img src="../resources/images/banner/jk_banner1.jpg" alt="">-->
         </div>
+
         <!-- 主要内容 -->
         <div id="content">
-            <div id="product">
-                <!--<div class="product-header text-center">
-                    <div class="product-header-title">快速借款</div>
-                    <div class="product-header-detail">
-                        <span>简单便捷</span>
-                        <span>多种额度</span>
-                        <span>及时高效</span>
-                    </div>
-                </div>-->
-                <div class="product-block">
-                    <div class="product-block-box">
-                        <div class="product-block-left">
-                            <img src="../resources/images/jkIcon01.png" alt="">
-                        </div>
-                        <ul class="product-block-right">
-                            <li>
-                                <div class="top-text">成功借款人数</div>
-                                <div class="bottom-num">
-                                    <span class="counter">410886</span>
-                                    <span class="unit">人</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="top-text">成功借款金额</div>
-                                <div class="bottom-num">
-                                    <span class="counter">10033957943</span>
-                                    <span class="unit">元</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="top-text">平均满标时间</div>
-                                <div class="bottom-num"><span>4.23</span><span class="unit">小时</span></div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="product-content">
-                    <div class="product-wrap-box">
-                        <div class="product-title">借款产品</div>
-                        <div class="product-english-title">LOAN PRODUCTS</div>
-                        <div class="product-list-box">
-                            <ul class="product-list-ul clearfix">
-                                <li>
-                                    <div class="list-wrap-box">
-                                        <div class="left-img">
-                                            <img class="product-detail-icon" src="../resources/images/credit-icon.png" alt="">
-                                        </div>
-                                        <div class="right-text">
-                                            <div class="big-title">信用贷</div>
-                                            <div class="reminder-title"><span class="first-span">无抵押</span><span>快速授信放款</span></div>
-                                            <div class="content">
-                                                <p> 多享金汇信用借款，适用自然人（非法人或组织）个人消费目的</p>
-                                                <p>的贷款。仅需3步即可完成申请：大数据风控</p>
-                                                <p>体系进行审核，放款到账。</p>
-                                            </div>
-                                            <a class="bottom-btn" href="http://www.duoxiang.com" target="_blank">查看详情</a>
-                                        </div>
-                                        <img src="/front/resource/images/new/itemBg.png" alt="" class="bottom-back-img">
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-wrap-box" style="float: right">
-                                        <div class="left-img">
-                                            <img class="product-detail-icon" src="../resources/images/san-icon.png" alt="">
-                                        </div>
-                                        <div class="right-text">
-                                            <div class="big-title">散标</div>
-                                            <div class="reminder-title"><span>快速筹款，筹得放心</span></div>
-                                            <div class="content">
-                                                <p>散标主要包括信用借款、消费分期借款、房产抵押借款、车辆抵押借款等项目。</p>
-                                                <p>散标项目对应逾期借款均由其资产推荐方提供代偿或回购。</p>
-                                            </div>
-                                            <a class="bottom-btn" href="http://wpa.b.qq.com/cgi/wpa.php?ln=2&amp;uin=1206751678" target="_blank">在线咨询</a>
-                                        </div>
-                                        <img src="/front/resource/images/new/itemBg.png" alt="" class="bottom-back-img">
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-wrap-box">
-                                        <div class="left-img">
-                                            <img class="product-detail-icon" src="/front/resource/images/new/jkIcon04.png" alt="">
-                                        </div>
-                                        <div class="right-text">
-                                            <div class="big-title">经营贷</div>
-                                            <div class="reminder-title"><span>助力微小中实体企业融资</span></div>
-                                            <div class="content">
-                                                <p>面向中小企业主或个体工商户的贷款业务产品，借款用途</p>
-                                                <p> 主要用于企业或个体生产经营的贷款，规模性系统性的扶</p>
-                                                <p>助小微企业。</p>
-                                            </div>
-                                            <a class="bottom-btn" href="http://wpa.b.qq.com/cgi/wpa.php?ln=2&amp;uin=1206751678" target="_blank">在线咨询</a>
-                                        </div>
-                                        <img src="/front/resource/images/new/itemBg.png" alt="" class="bottom-back-img">
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-wrap-box" style="float: right">
-                                        <div class="left-img">
-                                            <img class="product-detail-icon" src="/front/resource/images/new/jkIcon05.png" alt="">
-                                        </div>
-                                        <div class="right-text">
-                                            <div class="big-title">通用贷</div>
-                                            <div class="reminder-title"><span>为用户需求个性定制产品</span></div>
-                                            <div class="content">
-                                                <p>通用贷是为有贷款需求的客户量身打造定制化贷款产品。根</p>
-                                                <p>据借款人的融资金额、期限需求，以及借款人的资质情况提</p>
-                                                <p>供个性化的借款服务方案。</p>
-                                            </div>
-                                            <a class="bottom-btn" href="http://wpa.b.qq.com/cgi/wpa.php?ln=2&amp;uin=1206751678" target="_blank">在线咨询</a>
-                                        </div>
-                                        <img src="/front/resource/images/new/itemBg.png" alt="" class="bottom-back-img">
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-icon"></div>
-            </div>
-            <div id="common-issue">
-                <img class="a" src="../resources/images/66666.jpg" alt=""
-                     style="margin-bottom: 280px; margin-top: 200px;">
-                <img class="b" src="../resources/images/alalal.png" alt="" style="margin-bottom: 200px;">
+            <div id="content-box">
+                <!--在这里写页面标签-->
+                <a href="/product/loan/personBid">散标</a>
             </div>
         </div>
 
@@ -382,12 +261,6 @@
                 {title: '我要借款', url: '#'},
                 {title: '信息披露', url: '#'},
                 {title: '关于我们', url: '#'}
-            ],
-            products: [
-                {title: '信用贷', url: '/product/borrow/creditOfBorrow'},
-                {title: 'you', url: '#'},
-                {title: 'iii', url: '#'},
-                {title: 'liuliuliu', url: '#'}
             ],
             lastTime: 60,
             loginInfo: {},
