@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>我要借钱</title>
+    <title>我要出借</title>
     <!--  VUE -->
     <script src="../resources/lib/js/vue.js"></script>
     <!-- elementUI -->
@@ -12,7 +12,6 @@
     <!-- axios -->
     <script src="../resources/lib/js/axios.js"></script>
     <!-- 个人 -->
-    <link rel="stylesheet" href="../resources/css/consumer/consumerCenter.css">
     <link rel="stylesheet" href="../resources/css/product/loan.css">
     <link rel="stylesheet" href="../resources/css/login.css">
     <style>
@@ -22,7 +21,6 @@
     </style>
 </head>
 <body>
-<!-- 发标 -->
 <div id="app">
     <div id="wrapper">
         <!-- 头部 -->
@@ -47,7 +45,7 @@
                     <a v-if="loginBtn" @click="visitLogin = true" class="sk-login">登录</a>
                     <div id="userInfo" v-if="isLogin">
                         <div class="user-info">
-                            <img class="hat_index" src="../resources/images/tou.png" />
+                            <img class="hat_index" src="../resources/images/tou.png"/>
                         </div>
                         <div id="user-topbar-info">
                             <!-- 头部 -->
@@ -75,27 +73,16 @@
                 </div>
             </div>
         </div>
-
+        <!-- banner -->
         <div id="banner">
-            <img src="../resources/images/banner/jk_banner.jpg" alt="">
+            <!--<img src="../resources/images/banner/jk_banner1.jpg" alt="">-->
         </div>
+
         <!-- 主要内容 -->
         <div id="content">
-            <div id="product">
-                <div class="product-header text-center">
-                    <div class="product-header-title">快速借款</div>
-                    <div class="product-header-detail">
-                        <span>简单便捷</span>
-                        <span>多种额度</span>
-                        <span>及时高效</span>
-                    </div>
-                </div>
-                <div class="product-block"></div>
-                <div class="product-content"></div>
-                <div class="product-icon"></div>
-            </div>
-            <div id="common-issue">
-                <img src="../resources/images/banner/alalal.png" alt="">
+            <div id="content-box">
+                <!--在这里写页面标签-->
+                <a href="/product/loan/personBid">散标</a>
             </div>
         </div>
 
@@ -274,12 +261,6 @@
                 {title: '我要借款', url: '#'},
                 {title: '信息披露', url: '#'},
                 {title: '关于我们', url: '#'}
-            ],
-            products: [
-                {title: '信用贷', url: '/product/borrow/creditOfBorrow'},
-                {title: 'you', url: '#'},
-                {title: 'iii', url: '#'},
-                {title: 'liuliuliu', url: '#'}
             ],
             lastTime: 60,
             loginInfo: {},
