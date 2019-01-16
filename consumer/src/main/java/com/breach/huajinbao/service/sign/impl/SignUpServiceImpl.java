@@ -93,6 +93,7 @@ public class SignUpServiceImpl implements ISignUpService {
         // signUpMapper.addConsumer(consumerInfo);
         consumerInfoMapper.insert(consumerInfo);
 
+
         System.out.println("-----------------------------------------------");
         System.out.println("插入客户信息后");
         System.out.println(consumerInfo);
