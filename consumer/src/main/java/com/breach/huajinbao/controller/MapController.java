@@ -46,4 +46,9 @@ public class MapController {
         return "/consumer/Questionnaire";
     }
 
+    @RequestMapping("/endquest")
+    public String endquest(){
+        return "/consumer/endquest";
+    }
+
 }

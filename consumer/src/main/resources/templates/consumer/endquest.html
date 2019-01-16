@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- elementUI -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<style>
+    .a{
+        text-align:center ;
+    }
+    .s{
+        font-size: 30px;
+    }
+</style>
+<body>
+
+<div id="app">
+    <div class="a">
+        <img src="../../static/resources/images/success.png" height="70" width="70"/>
+        <p class="s">您的类型是:</p>
+        <b id="second">5</b>秒后返回主页
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {}
+    })
+
+</script>
+
+<!--<script type="text/javascript">
+
+    var sec = document.getElementById("second");
+    var i = 5;
+    var timer = setInterval(function(){
+        i&#45;&#45;;
+        sec.innerHTML = i;
+        if(i==1){
+            window.location.href = "/index";
+        }
+    },1000);
+
+    function goBack(){
+        window.history.go(-1);
+    }
+</script>-->
+
+
+</body>
+</html>

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-14
+ * @since 2019-01-15
  */
 @Service
 public class ConsumerIncomeRangeServiceImpl extends ServiceImpl<IConsumerIncomeRangeMapper, ConsumerIncomeRange> implements IConsumerIncomeRangeService {

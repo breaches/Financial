@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-14
+ * @since 2019-01-15
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -36,7 +36,7 @@ public class ConsumerQuestionnaire extends Model<ConsumerQuestionnaire> {
     /**
      * 您家庭可支配收入大概是多少？
      */
-    private String consumerIncome;
+    private String income;
 
     /**
      * 在您每年的家庭收入中，可用于投资的比例为？
@@ -62,6 +62,11 @@ public class ConsumerQuestionnaire extends Model<ConsumerQuestionnaire> {
      * 您的投资出现何种程度的波动时，您会呈现明显的焦虑？
      */
     private String mood;
+
+    /**
+    * 类型
+    */
+    private String type;
 
 
     @Override

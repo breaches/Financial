@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-14
+ * @since 2019-01-15
  */
 public interface IConsumerCardMapper extends BaseMapper<ConsumerCard> {
 
