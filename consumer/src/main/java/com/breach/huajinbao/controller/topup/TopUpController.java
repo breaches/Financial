@@ -1,43 +1,37 @@
 package com.breach.huajinbao.controller.topup;
 
-import org.springframework.stereotype.Controller;
+import com.breach.huajinbao.service.topup.ITopUpSerivice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
- * @Description: 充值页面跳转
- * @Param:
- * @return:  
- * @Author: wanghe
- * @Date:
- */ 
-@Controller
+ * Created by wanghehe on 2019年01月11日
+ * 支付宝充值控制层
+ */
+@RequestMapping("/ipay")
+@RestController
 public class TopUpController {
 
-    /** 充值页面 wanghe **/
-    @RequestMapping("/topup")
-    public String index1() {
-        return "topup/consumerTopUp";
-    }
-    /** 支付宝充值 **/
-    @RequestMapping("/zhifubao")
-    public String index2() {
-        return "topup/consumer_zhifubao";
-    }
-    /** 微信充值 **/
-    @RequestMapping("/weixin")
-    public String index3() {
-        return "topup/consumer_weixin";
-    }
-    /** 银联充值 **/
-    @RequestMapping("/yinlian")
-    public String index4() {
-        return "topup/consumer_yinlian";
+
+    @Autowired
+    private ITopUpSerivice topUpSerivice;
+
+    /**
+     * 生成充值订单编号
+     * @param
+     * @return
+     *
+     */
+    @RequestMapping("/orderNumber")
+    public String orderNumber(){
+
+        return topUpSerivice.orderNumber();
+
     }
 
-    /** 提现页面 **/
-    @RequestMapping("/withdrawalpage")
-    public String index5() {
-        return "withdrawal/withdrawal";
-    }
+
 
 }

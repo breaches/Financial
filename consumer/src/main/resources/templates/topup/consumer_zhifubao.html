@@ -56,7 +56,7 @@
 <div id="app">
 
     <div id="app-input" >
-      充值金额： <el-input v-model="input" placeholder="单笔大于0" style="width: 200px"></el-input><br/>
+      充值金额： <el-input v-model="money" placeholder="单笔大于0" style="width: 200px"></el-input><br/>
     <span class="tixing" style="font-size: 13px">华金宝提醒您，充值金额超过50000元时，请切换到网银充值</span>
     </div>
 
@@ -66,13 +66,12 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="充值页面"   :before-close="handleClose"  :visible.sync="dialogVisible" width="600px">
-
+    <el-dialog title="充值"   :before-close="handleClose"  :visible.sync="dialogVisible" width="400px">
 
 
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">关闭</el-button>
-            <el-button type="primary" >提交</el-button>
+            <el-button type="primary"  >提交</el-button>
         </div>
     </el-dialog>
 
@@ -93,9 +92,13 @@
     var app = new Vue({
         el: "#app",
         data:{
-            input:"",
+            money:"",
             checked:true,
             dialogVisible:false,
+            TopUpInfo:{},
+
+
+
         },
 
         methods:{
@@ -107,13 +110,14 @@
                     .catch(_ => {});
             },
             submit:function () {
+                if(app.input!=""){
+                    axios.post("#")
+                        .then(function (response) {
+                            app.dialogVisible = true;
+                            app.TopUpID= response.data;
+                        });
+                }
 
-                axios.post("#", app.input)
-                    .then(function (response) {
-                        app.dialogVisible = true;
-
-
-                    });
             }
 
         },
@@ -135,7 +139,7 @@
                 app.userInfo = response.data.user[0]
             } else {
                 // 未登录
-                window.location.href = '/'
+                window.top.location.href = '/'
             }
         })
     }

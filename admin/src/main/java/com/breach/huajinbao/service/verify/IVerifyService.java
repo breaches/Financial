@@ -1,5 +1,7 @@
 package com.breach.huajinbao.service.verify;
 
+import com.breach.common.entity.ConsumerActivateVerifyRecord;
+import com.breach.huajinbao.util.verify.Result;
 import com.breach.huajinbao.util.verify.VerifyQuery;
 
 import java.util.Map;
@@ -13,4 +15,10 @@ public interface IVerifyService {
 
 
     Map<String, Object> getUserInfo(VerifyQuery info);
+
+    Map<String,Object> getDetailed(String record);
+
+    Result submitReInfo(String recordNumber);
+
+    Result submitNoInfo(String recordNumber);
 }
