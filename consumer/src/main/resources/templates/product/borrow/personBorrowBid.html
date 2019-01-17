@@ -20,6 +20,21 @@
             display: none;
         }
     </style>
+    <style scoped>
+        /*.el-input input{
+                border: 1px solid pink;
+        }
+        .el-select .el-input__inner:focus {
+            border-color: red;
+        }
+        .el-input.is-active .el-input__inner, .el-input__inner:focus {
+            border-color: red;
+            outline: 0;
+        }
+        .el-select .el-input.is-focus .el-input__inner {
+            border-color: red;
+        }*/
+    </style>
 </head>
 <body>
 <div id="app">
@@ -83,6 +98,41 @@
         <div id="content">
             <div id="content-box">
                 <!--在这里写页面标签-->
+                <div class="borrow-main">
+                    <div class="borrow-header">
+                        温馨提示：
+                    </div>
+                    <div class="borrow-content">
+                        <el-form v-model="borrowApplyInfo" label-width="100px" class="demo-ruleForm">
+                            <el-form-item label="借款金额">
+                                <el-input v-model="borrowApplyInfo.borrowMoney" placeholder="请输入借款总额"></el-input>
+                            </el-form-item>
+                            <el-form-item label="借款期限">
+                                <el-input v-model="borrowApplyInfo.borrowTimeLimit" placeholder="请输入借款的期限"></el-input>
+                            </el-form-item>
+                            <el-form-item label="年化利率">
+                                <el-input v-model="borrowApplyInfo.lendingRate" placeholder="请输入年化利率"></el-input>
+                            </el-form-item>
+                            <el-form-item label="还款方式">
+                                <el-select v-model="borrowApplyInfo.repayType" placeholder="请选择还款方式">
+                                    <el-option label="等额本息" value="1"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="还款来源">
+                                <el-input v-model="borrowApplyInfo.payment" placeholder="请输入还款来源"></el-input>
+                            </el-form-item>
+                            <el-form-item label="招标天数">
+                                <el-input v-model="borrowApplyInfo.biddingTimeLimit" placeholder="1-15 天招标时间"></el-input>
+                            </el-form-item>
+                            <el-form-item label="借款描述">
+                                <el-input v-model="borrowApplyInfo.borrowDescription" type="textarea" placeholder="请输入借款理由"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button @click="submitApply" type="primary">立即申请</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -274,6 +324,7 @@
             isLogin: false,
             userInfoBar: false,
             userInfo: {},
+            borrowApplyInfo: {}
         },
         methods: {
             toForget: function () {
@@ -303,19 +354,19 @@
             register: function () {
                 register()
             },
-            loginDialogClose: function () {
+            loginDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
                 done()
             },
-            registerDialogClose: function () {
+            registerDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
                 done()
             },
-            forgetDialogClose: function () {
+            forgetDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
@@ -326,6 +377,9 @@
             },
             verifyCode: function () {
                 verifyCode()
+            },
+            submitApply: function(forName) {
+                var b = submitApply(forName)
             }
         }
     })
@@ -334,6 +388,18 @@
 <script>
     window.onload = function () {
         initUser()
+    }
+
+    function submitApply(forName) {
+        //
+        axios({
+            method: 'post',
+            url: '/bid/borrowApply',
+            data: app.borrowApplyInfo
+        }).then(function(response) {
+            //
+            console.log(response)
+        })
     }
 
     function verifyCode() {

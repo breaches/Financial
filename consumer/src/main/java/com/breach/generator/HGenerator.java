@@ -32,7 +32,12 @@ public class HGenerator {
                 "consumer_activate_verify_record",
                 "consumer_card",
                 "consumer_questionnaire",
-                "consumer_account"
+                "consumer_account",
+                "user_borrow_bid_apply_record",
+                "user_borrow_bid_publish_verify",
+                "user_borrow_bid_full_trials",
+                "user_borrow_bid_full_retrials",
+                "user_borrow_bid_abandon_verify"
         };
         generateByTables(packageName, tables);
     }

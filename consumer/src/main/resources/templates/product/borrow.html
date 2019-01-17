@@ -431,19 +431,19 @@
             register: function () {
                 register()
             },
-            loginDialogClose: function () {
+            loginDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
                 done()
             },
-            registerDialogClose: function () {
+            registerDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
                 done()
             },
-            forgetDialogClose: function () {
+            forgetDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
