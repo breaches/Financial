@@ -37,7 +37,8 @@ public class HGenerator {
                 "user_borrow_bid_publish_verify",
                 "user_borrow_bid_full_trials",
                 "user_borrow_bid_full_retrials",
-                "user_borrow_bid_abandon_verify"
+                "user_borrow_bid_abandon_verify",
+                "consumer_repayment_type"
         };
         generateByTables(packageName, tables);
     }

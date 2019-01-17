@@ -114,23 +114,31 @@
                                 <el-input v-model="borrowApplyInfo.lendingRate" placeholder="请输入年化利率"></el-input>
                             </el-form-item>
                             <el-form-item label="还款方式">
-                                <el-select v-model="borrowApplyInfo.repayType" placeholder="请选择还款方式">
-                                    <el-option label="等额本息" value="1"></el-option>
+                                <el-select @change="calculator" v-model="borrowApplyInfo.repayType"
+                                           placeholder="请选择还款方式">
+                                    <el-option v-for="item in repaymentType" :label="item.label" :value="item.id"
+                                               :key="item.id"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="还款来源">
                                 <el-input v-model="borrowApplyInfo.payment" placeholder="请输入还款来源"></el-input>
                             </el-form-item>
                             <el-form-item label="招标天数">
-                                <el-input v-model="borrowApplyInfo.biddingTimeLimit" placeholder="1-15 天招标时间"></el-input>
+                                <el-input v-model="borrowApplyInfo.biddingTimeLimit"
+                                          placeholder="1-15 天招标时间"></el-input>
                             </el-form-item>
                             <el-form-item label="借款描述">
-                                <el-input v-model="borrowApplyInfo.borrowDescription" type="textarea" placeholder="请输入借款理由"></el-input>
+                                <el-input v-model="borrowApplyInfo.borrowDescription" type="textarea"
+                                          placeholder="请输入借款理由"></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button @click="submitApply" type="primary">立即申请</el-button>
                             </el-form-item>
                         </el-form>
+                    </div>
+                    <div>
+                        <!--...-->
+                        <p>利率<span>{{counter.num}}</span></p>
                     </div>
                 </div>
             </div>
@@ -324,7 +332,11 @@
             isLogin: false,
             userInfoBar: false,
             userInfo: {},
-            borrowApplyInfo: {}
+            repaymentType: [],
+            borrowApplyInfo: {},
+            counter: {
+                num: ''
+            }
         },
         methods: {
             toForget: function () {
@@ -378,7 +390,10 @@
             verifyCode: function () {
                 verifyCode()
             },
-            submitApply: function(forName) {
+            calculator: function () {
+                calculator()
+            },
+            submitApply: function (forName) {
                 var b = submitApply(forName)
             }
         }
@@ -388,6 +403,7 @@
 <script>
     window.onload = function () {
         initUser()
+        initRepaymentType()
     }
 
     function submitApply(forName) {
@@ -396,9 +412,55 @@
             method: 'post',
             url: '/bid/borrowApply',
             data: app.borrowApplyInfo
-        }).then(function(response) {
+        }).then(function (response) {
             //
             console.log(response)
+        })
+    }
+
+    function calculator() {
+        //
+        console.log(app.borrowApplyInfo)
+        console.log(app.counter)
+        var type = app.borrowApplyInfo.repayType
+        if (type == 1) {
+            // 等额本息
+        } else if (type = 2) {
+            // 等额本金
+        }
+    }
+
+    /**
+     * 等额本金
+
+     * @param remain 剩余本金
+     * @param ARP 年利率
+     * @param RPM 每月应还本金 repayment principal month
+     */
+    function averageCapital(remain, ARP, RPM) {
+        var result = remain * ((ARP / 12) / 100) // 每月应还利息
+        remain = remain - RPM
+        if (remain > 0) {
+            return averageCapital(remain, ARP, RPM)
+        } else {
+            console.log('end...')
+        }
+    }
+
+    function initRepaymentType() {
+        axios({
+            method: 'post',
+            url: '/bid/getRepayType'
+        }).then(function (response) {
+            console.log(response)
+            var data = response.data.data
+            for (let index in data) {
+                app.repaymentType.push({
+                    id: data[index].id,
+                    label: data[index].repaymentDescription
+                })
+            }
+            ;
         })
     }
 
@@ -525,5 +587,132 @@
                 app.loginBtn = true
             }
         })
+    }
+</script>
+
+<script>
+    // 贷款算法
+    var ACPI = {
+
+        // 等额本息 Average Capital Plus Interest
+
+        /**
+         * 月供
+         * @param principal 贷款总本金
+         * @param rate 年利率
+         * @param period 贷款期数 贷款周期
+         * @returns {number}
+         */
+        getPrincipalAndInterestOfMonth: function (principal, rate, period) {
+            // 〔本金×月利率×(1＋月利率)＾还款月数〕÷〔(1＋月利率)＾还款月数-1〕
+            rate = rate / 12 / 100
+            var result = (principal * rate * Math.pow(1 + rate, period)) / (Math.pow(1 + rate, period) - 1)
+            return parseFloat(result.toFixed(2))
+        },
+
+        /**
+         * 某月的应供本金 / 某期应供本金
+         * @param principal 贷款总本金
+         * @param rate 年利率
+         * @param period 贷款期数
+         * @param whereMonth 哪一期
+         */
+        getMonthlyPaymentsOfPrincipal: function (principal, rate, period, whereMonth) {
+            // 贷款本金×月利率×(1+月利率)^(还款月序号-1)÷〔(1+月利率)^还款月数-1〕
+            rate = rate / 12 / 100
+            var result = principal * rate * Math.pow(1 + rate, whereMonth - 1) / (Math.pow(1 + rate, period) - 1)
+            return parseFloat(result.toFixed(2))
+        },
+
+        /**
+         * 某月的应供利息 / 某期应供利息
+         * @param principal 贷款总本金
+         * @param rate 年利率
+         * @param period 贷款期数
+         * @param whereMonth 哪一期
+         */
+        getMonthlyInterest: function (principal, rate, period, whereMonth) {
+            // 贷款本金×月利率×〔(1+月利率)^还款月数-(1+月利率)^(还款月序号-1)〕÷〔(1+月利率)^还款月数-1〕
+            rate = rate / 12 / 100
+            var result = principal * rate * (Math.pow(1 + rate, period) - Math.pow(1 + rate, whereMonth - 1)) / (Math.pow(1 + rate, period) - 1)
+            return parseFloat(result.toFixed(2))
+        }
+
+
+    }
+
+    var count = 0
+    var sum = 0
+
+    var AC = {
+        // 等额本金 average capital
+
+        /**
+         * 递归算出每个月的应还本金与应还利息
+         * @param remain 剩余还款
+         * @param ARP 年利率
+         * @param RPM 每个月偿还的固定金额
+         * @returns
+         */
+        averageCapital: function averageCapital(remain, ARP, RPM) {
+            count += 1
+            console.log('第 ' + count + ' 个月', '剩余还款：', remain, '利率：', ARP, '每月偿还本金：', RPM)
+            var a = remain * ((ARP / 12) / 100)
+            sum += a
+            console.log('本月应还利息 -> ', a.toFixed(2))
+            console.log('本月应还款 -> ', (a + RPM).toFixed(2))
+            remain = remain - RPM
+            if (remain > 0) {
+                return this.averageCapital(remain, ARP, RPM)
+            } else {
+                console.log('end...')
+            }
+        },
+
+        /**
+         * 月供本息
+         * @param principal 贷款总额
+         * @param rate 年利率
+         * @param period
+         * @returns {number}
+         */
+        getPrincipalAndInterestOfMonth: function (principal, rate, period, howMuchAlso) {
+            // 每月还款金额 = (贷款本金 / 还款月数) + (本金 - 已还本金累计额) * 每月利率
+            rate = rate / 12 / 100
+            var result = (principal / period) + (principal - howMuchAlso) * rate
+            return parseFloat(result.toFixed(2))
+        },
+
+        /**
+         * 每月的固定金额
+         * @param principal
+         * @param period
+         */
+        getMonthlyPaymentsOfPrincipal: function (principal, period) {
+            // 贷款本金÷还款月数
+            var result = principal / period
+            return parseFloat(result.toFixed(2))
+        },
+
+
+        /**
+         * 获取每个月的利率
+         * @param way 选择算法 1 剩余本金*月利率，算法 2 （贷款本金-已归还本金累计额）*月利率
+         * @param principal 贷款总额
+         * @param rate 年利率
+         * @param repayA 剩余本金，剩余未还的本金
+         * @param repayB 已归还本金累计额
+         * @returns {number}
+         */
+        getMonthlyInterest: function(way, principal, rate, repayA, repayB) {
+            rate = rate / 12 / 100
+            if(way = 1) {
+                // 剩余本金×月利率
+                return parseFloat((repayA * rate).toFixed(2))
+            }else {
+                // (贷款本金-已归还本金累计额)×月利率v
+                return parseFloat(((principal - repayB) * rate).toFixed(2))
+            }
+        }
     }
 </script>

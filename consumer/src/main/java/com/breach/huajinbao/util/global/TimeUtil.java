@@ -100,7 +100,7 @@ public class TimeUtil {
                 .withNano(999999999);
     }
 
-    /** 返回当前日期事件，经常用于创建订单的日期时间，创建各种日期等 **/
+    /** 返回当前日期时间，经常用于创建订单的日期时间，创建各种日期等 **/
     public static LocalDateTime getSqlTimeStamp() {
         return convertDateToLDT(new Date());
     }

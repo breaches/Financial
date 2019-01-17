@@ -148,7 +148,7 @@
                                             <img class="product-detail-icon" src="../resources/images/san-icon.png" alt="">
                                         </div>
                                         <div class="right-text">
-                                            <a href="/product/borrow/personBorrowBid"><div class="big-title">散标</div></a>
+                                            <a @click="borrowBidApply" href="javascript:;"><div class="big-title">散标</div></a>
                                             <div class="reminder-title"><span>快速筹款，筹得放心</span></div>
                                             <div class="content">
                                                 <p>散标主要包括信用借款、消费分期借款、房产抵押借款、车辆抵押借款等项目。</p>
@@ -454,6 +454,9 @@
             },
             verifyCode: function () {
                 verifyCode()
+            },
+            borrowBidApply: function() {
+                borrowBidApply()
             }
         }
     })
@@ -462,6 +465,14 @@
 <script>
     window.onload = function () {
         initUser()
+    }
+
+    function borrowBidApply() {
+        if(app.isLogin) {
+            window.location.href = '/product/borrow/personBorrowBid'
+        } else {
+            app.$message.error('请登录后进行操作')
+        }
     }
 
     function verifyCode() {

@@ -26,4 +26,9 @@ public class BidController {
         return bidService.borrowApply(userBorrowBidApplyRecord);
     }
 
+    @RequestMapping("/getRepayType")
+    public ReturnUtil getRepayType() {
+        return bidService.getRepayType();
+    }
+
 }

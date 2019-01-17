@@ -12,4 +12,6 @@ import com.breach.huajinbao.util.sign.ReturnUtil;
 public interface IBidService {
     ReturnUtil borrowApply(UserBorrowBidApplyRecord userBorrowBidApplyRecord);
 
+    ReturnUtil getRepayType();
+
 }
