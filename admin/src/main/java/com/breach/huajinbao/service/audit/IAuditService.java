@@ -1,6 +1,8 @@
 package com.breach.huajinbao.service.audit;
 
 import com.breach.huajinbao.util.audit.AuditQuery;
+import com.breach.huajinbao.util.audit.EditQuery;
+import com.breach.huajinbao.util.audit.PassQuery;
 import com.breach.huajinbao.util.audit.Result;
 
 import java.util.Map;
@@ -15,16 +17,22 @@ public interface IAuditService {
      * @Param:  * @param
      * @return:
      * @Author: wanghe
-     * @Date: 2019/1/5 21:02
+     * @Date:
      */
     Map<String,Object> auditTenderee(AuditQuery audit);
-
     /**
-     * @Description:  招标初审订单信息详情
+     * @Description:  招标初审身份信息详情
      * @Param:  * @param
      * @return:
      * @Author: wanghe
-     * @Date: 2019/1/5 21:02
+     * @Date:
      */
-    Map<String, Object> getAudit();
+    Map<String, Object> getAudit(EditQuery editQuery);
+    /**
+     *  招标通过信息
+     * @param
+     * @return
+     *
+     */
+    Result goPass(PassQuery passQuery);
 }

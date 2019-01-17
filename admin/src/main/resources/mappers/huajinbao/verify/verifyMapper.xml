@@ -6,34 +6,176 @@
 
 <mapper namespace="com.breach.huajinbao.mapper.verify.IVerifyMapper">
 
-    <!-- 查询待审核信息 -->
-    <!-- 分页+查询 -->
+    <!-- 查询待身份认证(额度申请)的表的信息（全部） -->
+    <!-- 分页+查询  （名字，创建开始时间，创建结束时间）  -->
     <sql id="Query">
         <where>
             <if test="name != null and name != ''">
                 and  c.name  like CONCAT('%',#{name},'%')
             </if>
             <if test="beginDate != null and beginDate != '' ">
-                and  c.verify_time &gt;  #{beginDate}
+                and  c.create_time &gt;  #{beginDate}
             </if>
             <if test="endDate != null and endDate != '' ">
-                and  c.verify_time &lt;  #{endDate}
+                and  c.create_time &lt;  #{endDate}
             </if>
         </where>
     </sql>
 
 
     <select id="getAuthentication" resultType="map">
-        select id,name,verify_time time,state from consumer_info_verify c
+        SELECT * FROM consumer_activate_verify_record c
         <include refid="Query" />
         limit #{page},#{count}
     </select>
 
-    <select id="geTotal" resultType="java.lang.Integer">
-        select count(*) count from  consumer_info_verify  c
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(*) count from  consumer_activate_verify_record  c
     </select>
 
 
+
+        <!--查询单个的个体详情-->
+    <select id="getDetailed"  resultType="com.breach.common.entity.ConsumerActivateVerifyRecord">
+
+        select * from  consumer_activate_verify_record where record_number = #{record}
+    </select>
+
+
+
+    <!--查学历getEducation-->
+    <select id="getEducation" resultType="java.lang.String">
+        select  education_type  from consumer_education where id=#{educationId}
+    </select>
+    <!--查收入-->
+    <select id="getIncomeRange" resultType="java.lang.String">
+        select s.range from  consumer_income_range s where  s.id =#{incomeRangeId}
+    </select>
+        <!--现地址-->
+    <select id="getCodeProvince" resultType="java.lang.String">
+    SELECT s.name from region_province s  WHERE s.code_province  =#{codeProvince}
+    </select>
+    <select id="getCodeCity" resultType="java.lang.String">
+    SELECT s.name from region_city s  WHERE s.code_city  =#{codeCity}
+    </select>
+
+    <select id="getCodeArea" resultType="java.lang.String">
+    SELECT s.name from region_area s WHERE s.code_area  =#{codeArea}
+    </select>
+
+    <!-- 添加身份证信息，返回id， -->
+    <insert id="insertConsumerCard" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	    insert into consumer_card(
+	    name,
+	    code,
+	    sex,
+	    brithday,
+	    province,
+	    city,
+	    area,
+	    front_image,
+	    back_image
+	    )
+	    values (
+	    #{name},
+	    #{code},
+	    #{sex},
+	    #{birthday},
+	    #{province},
+	    #{city},
+	    #{area},
+	    #{idCardFrontImage},
+	    #{idCardBackImage}
+	    )
+	</insert>
+
+    <!-- 添加现住址信息，返回id， -->
+    <insert id="insertAddress"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	    insert into consumer_address(
+	    province,
+	    city,
+	    area,
+	    address
+	    )
+	    values (
+	    #{province},
+	    #{city},
+	    #{area},
+	    #{address}
+	    )
+	</insert>
+    <!--修改基本信息-->
+        <update id="updateInfo">
+          update
+          consumer_info
+          set
+          name=#{per.name},
+          sex=#{per.sex},
+          is_car=#{per.isHaveCar},
+          is_house=#{per.isHaveHouse},
+          is_marry=#{per.isSingle},
+          address_id=#{addressId},
+          education_id=#{per.educationId},
+          card_id=#{cardId},
+          verify_state=4
+          where
+          id=#{per.consumerId}
+        </update>
+
+    <!--給提交信息的用户回复消息-->
+    <insert id="insertNews">
+	    insert into consumer_message(
+	    consumer_id,
+	    title,
+	    content,
+	    time,
+	    state
+	    )
+	    values (
+	    #{consumerId},
+	    #{title},
+	    #{content},
+        #{date},
+        1
+	    )
+	</insert>
+
+    <insert id="insertBank">
+	    insert into consumer_bank(
+	    number,
+	    consumer_id
+	    )
+	    values (
+	    #{bankCode},
+	    #{consumerId}
+	    )
+	</insert>
+
+    <!--通过时   修改审核记录的信息（人，时间，审核状态）-->
+    <update id="setStateForConsumer">
+          update
+          consumer_activate_verify_record
+          set
+          employee_id=#{employeeId},
+          state=2,
+          operate_time=#{operateTime}
+
+          where
+          record_number=#{recordNumber}
+        </update>
+
+    <!--不通过时   修改审核记录的信息（人，时间，审核状态）-->
+    <update id="setStateForConsumerAgain">
+          update
+          consumer_activate_verify_record
+          set
+          employee_id=#{employeeId},
+          state=3,
+          operate_time=#{operateTime}
+
+          where
+          record_number=#{recordNumber}
+        </update>
 
 
 </mapper>

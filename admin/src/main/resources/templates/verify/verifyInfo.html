@@ -10,7 +10,16 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .content {
+            overflow: hidden
+
+        }
+
+
+    </style>
 </head>
+
 
 <body>
 
@@ -29,10 +38,11 @@
     <el-table :data="tableData" @selection-change="handleSelectionChange" stripe style="width: 100%">
         <el-table-column type="index"></el-table-column>
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="id" label="编号" width="180"></el-table-column>
-        <el-table-column prop="name" label="用户名" width="180"></el-table-column>
-        <el-table-column prop="time" :formatter="formatDate" label="认证时间" width="180"></el-table-column>
-
+        <el-table-column prop="record_number" label="认证编号" align="center" width="180"></el-table-column>
+        <el-table-column prop="name" label="用户名" align="center" width="180"></el-table-column>
+        <el-table-column prop="create_time" :formatter="formatDate" label="认证时间" width="180"></el-table-column>
+        <el-table-column prop="employee_id" label="审核人id" width="180"></el-table-column>
+        <el-table-column prop="operate_time" :formatter="formatDate" label="审核时间" width="180"></el-table-column>
 
         <el-table-column prop="state" label="状态" :formatter="stateFormatter"></el-table-column>
         <el-table-column label="操作">
@@ -52,53 +62,83 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="认证详情"   :before-close="handleClose"  :visible.sync="dialogVisible" width="850px">
-        <table width="800px"  border="1px" cellpadding="0px"  cellspacing="0px">
-            <tr height="50px">
-                <th>姓名</td>
-                <td>花花</td>
-                <th>性别</td>
-                <td>男</td>
-                <th>身份证号</td>
-                <td colspan="3">411426199706265520</td>
-            </tr>
-            <tr height="50px">
-                <th>学历</td>
-                <td>高中</td>
-                <th>住房</th>
-                <td>有</td>
-                <th>婚姻</td>
-                <td>单身</td>
-                <th>收入</th>
-                <td> 10k</td>
+    <el-dialog title="认证详情" :before-close="handleClose" :visible.sync="dialogVisible" width="60%">
 
-            </tr>
-            <tr  height="50px" >
-                <th>地址</td>
-                <td colspan="7" >花花</td>
+        <div class="content">
+            <div class="left_Info" style="float: left; height: 600px; width:400px">
+                <el-form :model="Info" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="姓名" prop="name">
+                        <el-input v-model="Info.name" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别" prop="name">
+                        <el-input v-model="Info.sex" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证号" prop="name">
+                        <el-input v-model="Info.code" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="地区" prop="name">
+                        <el-input v-model="Info.codeProvince" readonly="true" style="width: 80px"></el-input>
+                        <el-input v-model="Info.codeCity" readonly="true" style="width: 80px"></el-input>
+                        <el-input v-model="Info.codeArea" readonly="true" style="width: 80px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="详细地址" prop="name">
+                        <el-input v-model="Info.address" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="学历" prop="name">
+                        <el-input v-model="Info.educationId" readonly="true"></el-input>
+                    </el-form-item>
 
-            </tr>
-            <tr  height="150px" >
-                <th>身份证正面照</td>
-                <td colspan="3" width="200px"></td>
-                <th>身份证反面照</td>
-                <td colspan="3" width="200px"></td>
-            </tr>
-        </table>
-        <br/>
-        <p>认证是否通过？ 点击 通过 或 不通过<p>
-        <el-radio v-model="radio" label="1"  @change="success" >通过</el-radio>
-        <el-radio v-model="radio" label="2" @change="danger">不通过</el-radio>
-        <el-input
-                type="textarea"
-                :rows="3"
-                placeholder="请输入内容"
-                v-model="textarea">
-        </el-input>
+                </el-form>
+                <div>
+                    <img :src="Info.idCardFrontImage" style="width: 400px ;height: 200px"/>
+                </div>
 
-		<div slot="footer" class="dialog-footer">
-					<el-button @click="dialogVisible = false">关闭</el-button>
-					<el-button type="primary" @click="changeEmp">提交</el-button>
+            </div>
+            <div style="float: left; margin-left:50px;height: 600px; width:400px">
+                <el-form :model="Info" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="是否结婚" prop="name">
+                        <el-input v-model="Info.isSingle" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="是否有房" prop="name">
+                        <el-input v-model="Info.isHaveHouse" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="是否有车" prop="name">
+                        <el-input v-model="Info.isHaveCar" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="紧急联系人" prop="name">
+                        <el-input v-model="Info.contactsName" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="紧急联系方式" prop="name">
+                        <el-input v-model="Info.contactsPhone" readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="与联系人关系" prop="name">
+                        <el-input v-model="Info.contactsRelation" readonly="true"></el-input>
+                    </el-form-item>
+                </el-form>
+
+                <div>
+                    <img :src="Info.idCardBackImage" style="width: 400px ;height: 200px"/>
+                </div>
+
+            </div>
+            <!--选择-->
+            <div style="width: 800px">
+            <br/>
+            <p>认证是否通过？ 点击 通过 或 不通过</p>
+                <el-radio v-model="radio" label="1" @change="success">通过</el-radio>
+                <el-radio v-model="radio" label="2" @change="danger">不通过</el-radio>
+                <el-input
+                        type="textarea"
+                        :rows="3"
+                        placeholder="请输入内容"
+                        v-model="textarea">
+                </el-input>
+            </div>
+        </div>
+
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">关闭</el-button>
+            <el-button type="primary" @click="changeEmp">提交</el-button>
         </div>
     </el-dialog>
 
@@ -116,14 +156,13 @@
                 count: 5,
                 name: "",
                 beginDate: "",
-                endDate: ""
+                endDate: "",
             },
             empTotal: 0,
             dialogVisible: false,
-            empInfo: {},
-            personInfo:{},
-            textarea:"认证成功",
-            radio:"1",
+            textarea: "认证成功",
+            radio: "1",
+            Info: {},
 
 
         },
@@ -133,7 +172,8 @@
                     .then(_ => {
                         done();
                     })
-                    .catch(_ => {});
+                    .catch(_ => {
+                    });
             },
             stateFormatter: function (row, column, cellValue, index) {
                 return cellValue == 1 ? "待处理" : "处理成功";
@@ -157,9 +197,41 @@
                 this.textarea = "@认证成功";
             },
             handleEdit: function (user) {
-                axios.get('verify/getDetailed?id=' + user.id)
+                axios.get("verify/getDetailed?record=" + user.record_number)
                     .then(function (response) {
-                        app.empInfo = response.data;
+                        app.Info = response.data.data;
+                        //app.reInfo=response.data.data;
+                        //console.log(app.reInfo);
+                        app.Info.educationId = response.data.sonInfo1;
+                        app.Info.incomeRangeId = response.data.sonInfo2;
+                        app.Info.codeProvince = response.data.sonInfo3;
+                        app.Info.codeCity = response.data.sonInfo4;
+                        app.Info.codeArea = response.data.sonInfo5;
+
+                        if (app.Info.sex = 1) {
+                            app.Info.sex = "男";
+                        } else {
+                            app.Info.sex = "女"
+                        }
+                        ;
+                        if (app.Info.isHaveCar = true) {
+                            app.Info.isHaveCar = "有";
+                        } else {
+                            app.Info.isHaveCar = "无"
+                        }
+                        ;
+                        if (app.Info.isHaveHouse = true) {
+                            app.Info.isHaveHouse = "有";
+                        } else {
+                            app.Info.isHaveHouse = "无"
+                        }
+                        ;
+                        if (app.Info.isSingle = true) {
+                            app.Info.isSingle = "已婚";
+                        } else {
+                            app.Info.isSingle = "未婚"
+                        }
+                        //显示弹框
                         app.dialogVisible = true;
                     });
 
@@ -167,8 +239,16 @@
             handleSelectionChange: function (val) {
                 this.deleteArr = val;
             },
+
+            //提交通过或不通过的认证信息
             changeEmp: function () {
-                axios.post("audit/editAudit", app.empInfo)
+                var url = "";
+                if (app.radio == 1) {
+                    url = "verify/submitReInfo?recordNumber=" + app.Info.recordNumber;
+                } else {
+                    url = "verify/submitNoInfo?recordNumber=" + app.Info.recordNumber;
+                }
+                axios.get(url)
                     .then(function (response) {
                         app.dialogVisible = false;
                         app.$message({
@@ -178,38 +258,40 @@
                         reload();
                     });
             },
+            //设置时间转换
             formatDate: function (row, column, cellValue, index) {
-                var date = new Date(cellValue);
-                Y = date.getFullYear(),
-                    m = date.getMonth() + 1,
-                    d = date.getDate(),
-                    H = date.getHours(),
-                    i = date.getMinutes(),
-                    s = date.getSeconds();
-                if (m < 10) {
-                    m = '0' + m;
+                if (cellValue != null) {
+                    var date = new Date(cellValue);
+                    Y = date.getFullYear(),
+                        m = date.getMonth() + 1,
+                        d = date.getDate(),
+                        H = date.getHours(),
+                        i = date.getMinutes(),
+                        s = date.getSeconds();
+                    if (m < 10) {
+                        m = '0' + m;
+                    }
+                    if (d < 10) {
+                        d = '0' + d;
+                    }
+                    if (H < 10) {
+                        H = '0' + H;
+                    }
+                    if (i < 10) {
+                        i = '0' + i;
+                    }
+                    if (s < 10) {
+                        s = '0' + s;
+                    }
+                    var t = Y + '-' + m + '-' + d + ' ' + H + ':' + i;
+                    return t;
                 }
-                if (d < 10) {
-                    d = '0' + d;
-                }
-                if (H < 10) {
-                    H = '0' + H;
-                }
-                if (i < 10) {
-                    i = '0' + i;
-                }
-                if (s < 10) {
-                    s = '0' + s;
-                }
-                var t = Y + '-' + m + '-' + d + ' ' + H + ':' + i;
-                return t;
             }
-
 
         }
     });
 
-
+    //表格的信息获取
     function reload() {
         axios.post('verify/getUserInfo', app.empQuery)
             .then(function (response) {

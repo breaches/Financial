@@ -8,34 +8,64 @@
 
 
 
-    <!-- 查询待审核信息 -->
+    <!-- 查询待审核招标信息 -->
 	<!-- 分页+查询 -->
 	<sql id="auditQuery">
 		<where>
 			<if test="name != null and name != ''">
-				and e.bidding_name  like CONCAT('%',#{name},'%')
+				and name like CONCAT('%',#{name},'%')
 			</if>
 			<if test="beginDate != null and beginDate != '' ">
-				and e.bidding_time &gt;  #{beginDate}
+				and create_time &gt;  #{beginDate}
 			</if>
 			<if test="endDate != null and endDate != '' ">
-				and e.bidding_time &lt;  #{endDate}
+				and create_time &lt;  #{endDate}
 			</if>
 		</where>
 	</sql>
 
-
-	<select id="getauditTenderee" resultType="map">
-		select bidding_id id,user_id uid ,bidding_name name ,bidding_time time ,bidding_verifier verifyid,bidding_verify_time verifytime, state  from user_bidding_info e
+	<select id="getAuditTenderee" resultType="map">
+		select * from user_borrow_bid_apply_record where publish_id = 0
 		<include refid="auditQuery" />
 		limit #{page},#{count}
 	</select>
 
 	<select id="getAuditTotal" resultType="java.lang.Integer">
-		select count(*) c from user_bidding_info e
+		select count(*) count  from user_borrow_bid_apply_record
 		<include refid="auditQuery" />
 	</select>
 
+
+	<!--查询单个的个体详情-->
+	<select id="getPerInfo"  resultType="com.breach.common.entity.ConsumerActivateVerifyRecord">
+
+        select * from  consumer_activate_verify_record where consumer_id = #{userId} and state = 2
+    </select>
+
+
+	<!--查学历getEducation-->
+	<select id="getEducation" resultType="java.lang.String">
+        select  education_type  from consumer_education where id=#{educationId}
+    </select>
+	<!--查收入-->
+	<select id="getIncomeRange" resultType="java.lang.String">
+        select s.range from  consumer_income_range s where  s.id =#{incomeRangeId}
+    </select>
+	<!--现地址-->
+	<select id="getCodeProvince" resultType="java.lang.String">
+    SELECT s.name from region_province s  WHERE s.code_province  =#{codeProvince}
+    </select>
+	<select id="getCodeCity" resultType="java.lang.String">
+    SELECT s.name from region_city s  WHERE s.code_city  =#{codeCity}
+    </select>
+
+	<select id="getCodeArea" resultType="java.lang.String">
+    SELECT s.name from region_area s WHERE s.code_area  =#{codeArea}
+    </select>
+	<!--查选中的招标信息getBorrowNumber-->
+	<select id="getBorrowNumber" resultType="map">
+    SELECT * from  user_borrow_bid_apply_record   WHERE  borrow_number=#{borrowNumber}
+    </select>
 </mapper>
 
 

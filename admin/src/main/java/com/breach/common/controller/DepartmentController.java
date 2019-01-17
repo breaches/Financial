@@ -1,8 +1,6 @@
 package com.breach.common.controller;
 
 
-import com.breach.common.mapper.IDepartmentMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -13,13 +11,11 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-03
+ * @since 2019-01-17
  */
 @Controller
 @RequestMapping("/department")
 public class DepartmentController {
-    //@Autowired
-    //IDepartmentMapper departmentMapper;
 
 }
 
