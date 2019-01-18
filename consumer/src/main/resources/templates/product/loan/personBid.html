@@ -15,6 +15,8 @@
     <!--<link rel="stylesheet" href="../../resources/css/consumer/consumerCenter.css">-->
     <link rel="stylesheet" href="../../resources/css/product/loan/personBid.css">
     <link rel="stylesheet" href="../../resources/css/login.css">
+    <link rel="stylesheet" href="../../resources/css/product/loan/base-ab068c2816.css"/>
+    <link rel="stylesheet" href="../../resources/css/product/loan/style-600282d98c.css"/>
     <style>
         [v-cloak] {
             display: none;
@@ -48,7 +50,7 @@
                         <div class="user-info">
                             <img class="hat_index" src="../../resources/images/tou.png"/>
                         </div>
-                        <div id="user-topbar-info">
+                        <div id="user-topbar-info" style="z-index: 99;">
                             <!-- 头部 -->
                             <div class="user-info-header">
                                 用户：<span>{{userInfo.username}}</span>
@@ -83,6 +85,211 @@
         <div id="content">
             <div id="content-box">
                 <!--在这里写页面标签-->
+                <!--产品列表导航-->
+                <div class="product-menu-contanier" id="productMenu">
+                    <ul class="product-menu clearfix">
+                        <li>
+                            <a href="javascript:;" id="menu_optimize">投标工具 (<em id="optimizeCount">0</em>)</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" id="menu_common">散标 (<em id="commonCount">0</em>)</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" id="menu_transfer">转让专区 (<em id="transferCount">0</em>)</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- body内容 -->
+                <div class="main">
+                    <div class="container" id="contanier">
+                        <div class="filtrate" id="filtrateModel">
+                            <div class="content">
+                                <dl data-key="term" class="term">
+                                    <dt>项目期限：</dt>
+                                    <dd class="first-label active"><a v-model="" @click="productTerm" href="javascript:;">不限</a>
+                                    </dd>
+                                    <dd><a @click="productTerm" href="javascript:;" data-min="0" data-max="3">3个月以下</a>
+                                    </dd>
+                                    <dd><a @click="productTerm" href="javascript:;" data-min="3" data-max="6">3-6个月</a>
+                                    </dd>
+                                    <dd><a @click="productTerm" href="javascript:;" data-min="6" data-max="9">6-9个月</a>
+                                    </dd>
+                                    <dd><a @click="productTerm" href="javascript:;" data-min="9"
+                                           data-max="12">9-12个月</a></dd>
+                                    <dd><a @click="productTerm" href="javascript:;" data-min="12" data-max="">12个月以上</a>
+                                    </dd>
+                                </dl>
+                                <dl data-key="annualRate" class="annualRate">
+                                    <dt>参考利率：</dt>
+                                    <dd class="first-label active"><a @click="annualRate" href="javascript:;">不限</a>
+                                    </dd>
+                                    <dd><a @click="annualRate" href="javascript:;" data-min="0" data-max="7">7.00%以下</a>
+                                    </dd>
+                                    <dd><a @click="annualRate" href="javascript:;" data-min="7"
+                                           data-max="8">7.00-8.00%</a></dd>
+                                    <dd><a @click="annualRate" href="javascript:;" data-min="8" data-max="10">8.00-10.00%</a>
+                                    </dd>
+                                    <dd><a @click="annualRate" href="javascript:;" data-min="10"
+                                           data-max="">10.00%以上</a></dd>
+                                </dl>
+                                <dl data-key="repayMode" class="repayMode">
+                                    <dt>还款方式：</dt><!--0-一次性还款，1-等额本息，2-等额本金，3-先息后本，4-等额本息N-1，5-每月还本付息，6-按期还本付息）-->
+                                    <dd class="first-label active"><a @click="repayMode" href="javascript:;">不限</a></dd>
+                                    <dd class=""><a @click="repayMode" href="javascript:;" data-val="1">等额本金</a></dd>
+                                    <dd class=""><a @click="repayMode" href="javascript:;" data-val="2">等额本息</a></dd>
+                                </dl>
+                                <dl data-key="surplusAmount" class="surplusAmount">
+                                    <dt>剩余金额：</dt>
+                                    <dd class="first-label active"><a @click="remainAmount" href="javascript:;">不限</a>
+                                    </dd>
+                                    <dd><a @click="remainAmount" href="javascript:;" data-min=""
+                                           data-max="5000">5千以内</a></dd>
+                                    <dd><a @click="remainAmount" href="javascript:;" data-min="5000" data-max="10000">5千－1万</a>
+                                    </dd>
+                                    <dd><a @click="remainAmount" href="javascript:;" data-min="10000" data-max="50000">1万－5万</a>
+                                    </dd>
+                                    <dd><a @click="remainAmount" href="javascript:;" data-min="50000"
+                                           data-max="">5万以上</a></dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <a name="listStart" class="list-start"></a>
+                            <div class="list-main">
+                                <div class="sorting" id="sortingModel">
+                                    <span @click="normalSort" ref="normalSort" class="sort active" data-val=""
+                                          data-sorttype="0">默认</span>
+                                    <span @click="annualRateSort" ref="annualRateSort" class="sort" data-val=""
+                                          data-sorttype="1">参考利率<i class="icon icon-down"></i></span>
+                                    <span @click="termSort" ref="termSort" class="sort" data-val="" data-sorttype="2">期限<i
+                                            class="icon icon-down"></i></span>
+                                    <span @click="leftAmountSort" ref="leftAmountSort" class="sort" data-val=""
+                                          data-sorttype="4" id="leftAmountSort">剩余金额<i
+                                            class="icon icon-down"></i></span>
+                                </div>
+                                <div id="list">
+                                    <div class="list" id="listModel">
+
+                                        <div class="item sell-out"
+                                             data-href="http://www.xiaoniu88.com/product/common/38227390">
+                                            <div class="info">
+                                                <dl class="title">
+                                                    <dt>小额消费借款</dt>
+                                                    <dd>
+                                                        <a href="javascript:;" title="消费贷D20190116-a2" class="name">消费贷D20190116-a2</a>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="earnings">
+                                                    <dt>11.40<span>%</span></dt>
+                                                    <dd>参考利率<i class="icon icon-question risk-tips"
+                                                               title="小牛在线P2P互联网金融平台所有项目参考利率是在参考同类型工具历史数据得出，<br>并不代表实际收益，市场有风险，出借需谨慎。"></i>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="limit">
+                                                    <dt>18个月<i class="text-tag">1个月可转</i></dt>
+                                                    <dd>期限</dd>
+                                                </dl>
+                                                <dl class="starting-amount">
+                                                    <dt>23,000.00元</dt>
+                                                    <dd>剩余金额</dd>
+                                                </dl>
+                                                <dl class="build-date">
+                                                    <dt>每月还本付息</dt>
+                                                    <dd>还款方式</dd>
+                                                </dl>
+                                                <dl class="operate trading">
+                                                    <dd>成功交易时间</dd>
+                                                    <dd class="datetime">2019-01-16</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="item sell-out"
+                                             data-href="http://www.xiaoniu88.com/product/common/38227380">
+                                            <div class="info">
+                                                <dl class="title">
+                                                    <dt>小额消费借款</dt>
+                                                    <dd>
+                                                        <a href="javascript:;" title="消费贷D20190116-a1" class="name">消费贷D20190116-a1</a>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="earnings">
+                                                    <dt>10.80<span>%</span></dt>
+                                                    <dd>参考利率<i class="icon icon-question risk-tips"
+                                                               title="小牛在线P2P互联网金融平台所有项目参考利率是在参考同类型工具历史数据得出，<br>并不代表实际收益，市场有风险，出借需谨慎。"></i>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="limit">
+                                                    <dt>24个月<i class="text-tag">1个月可转</i></dt>
+                                                    <dd>期限</dd>
+                                                </dl>
+                                                <dl class="starting-amount">
+                                                    <dt>14,180.00元</dt>
+                                                    <dd>剩余金额</dd>
+                                                </dl>
+                                                <dl class="build-date">
+                                                    <dt>每月还本付息</dt>
+                                                    <dd>还款方式</dd>
+                                                </dl>
+                                                <dl class="operate trading">
+                                                    <dd>成功交易时间</dd>
+                                                    <dd class="datetime">2019-01-16</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="item sell-out"
+                                             data-href="http://www.xiaoniu88.com/product/common/38227543">
+                                            <div class="info">
+                                                <dl class="title">
+                                                    <dt>小额消费借款</dt>
+                                                    <dd>
+                                                        <a href="javascript:;" title="消费贷D20190116-a11" class="name">消费贷D20190116-a11</a>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="earnings">
+                                                    <dt>10.80<span>%</span></dt>
+                                                    <dd>参考利率<i class="icon icon-question risk-tips"
+                                                               title="小牛在线P2P互联网金融平台所有项目参考利率是在参考同类型工具历史数据得出，<br>并不代表实际收益，市场有风险，出借需谨慎。"></i>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="limit">
+                                                    <dt>24个月<i class="text-tag">1个月可转</i></dt>
+                                                    <dd>期限</dd>
+                                                </dl>
+                                                <dl class="starting-amount">
+                                                    <dt>0.00元</dt>
+                                                    <dd>剩余金额</dd>
+                                                </dl>
+                                                <dl class="build-date">
+                                                    <dt>每月还本付息</dt>
+                                                    <dd>还款方式</dd>
+                                                </dl>
+                                                <dl class="operate trading">
+                                                    <dd>成功交易时间</dd>
+                                                    <dd class="datetime">2019-01-16</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div id="page">
+                                    <div class="block">
+                                        <span class="demonstration">完整功能</span>
+                                        <el-pagination
+                                                @size-change=""
+                                                @current-change=""
+                                                :current-page="1"
+                                                :page-size="10"
+                                                layout="total, prev, pager, next, jumper"
+                                                :total="400">
+                                        </el-pagination>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -274,6 +481,36 @@
             isLogin: false,
             userInfoBar: false,
             userInfo: {},
+            normalSortControl: 1,
+            annualRateSortControl: 0,
+            termSortControl: 0,
+            leftAmountSortControl: 0
+        },
+        watch: {
+            normalSortControl: {
+                handler: function (val, oldVal) {
+                    normalSortControl(val, oldVal)
+                },
+                deep: true
+            },
+            annualRateSortControl: {
+                handler: function (val, oldVal) {
+                    annualRateSortControl(val, oldVal)
+                },
+                deep: true
+            },
+            termSortControl: {
+                handler: function (val, oldVal) {
+                    termSortControl(val, oldVal)
+                },
+                deep: true
+            },
+            leftAmountSortControl: {
+                handler: function (val, oldVal) {
+                    leftAmountSortControl(val, oldVal)
+                },
+                deep: true
+            }
         },
         methods: {
             toForget: function () {
@@ -326,6 +563,30 @@
             },
             verifyCode: function () {
                 verifyCode()
+            },
+            productTerm: function () {
+                active()
+            },
+            annualRate: function () {
+                active()
+            },
+            repayMode: function () {
+                active()
+            },
+            remainAmount: function () {
+                active()
+            },
+            normalSort: function () {
+                normalSort()
+            },
+            annualRateSort: function () {
+                annualRateSort()
+            },
+            termSort: function () {
+                termSort()
+            },
+            leftAmountSort: function () {
+                leftAmountSort()
             }
         }
     })
@@ -459,5 +720,212 @@
                 app.loginBtn = true
             }
         })
+    }
+</script>
+
+<script>
+    function normalSort() {
+        // 隐藏其余
+        initSortController(1)
+        app.normalSortControl = 1
+        monitorSorController()
+    }
+
+    function annualRateSort() {
+        // 显示参考利率
+        initSortController(2)
+        var flag = app.annualRateSortControl
+
+        if (flag == 0) {
+            // 点击后默认是降序
+            app.annualRateSortControl = 1
+        } else if (flag == 1) {
+            app.annualRateSortControl = 2
+        } else if (flag == 2) {
+            app.annualRateSortControl = 1
+        }
+        monitorSorController()
+    }
+
+    function termSort() {
+        initSortController(3)
+        var flag = app.termSortControl
+        if (flag == 0) {
+            // 点击后默认是降序
+            app.termSortControl = 1
+        } else if (flag == 1) {
+            app.termSortControl = 2
+        } else if (flag == 2) {
+            app.termSortControl = 1
+        }
+        monitorSorController()
+    }
+
+    function leftAmountSort() {
+        initSortController(4)
+        var flag = app.leftAmountSortControl
+        if (flag == 0) {
+            // 点击后默认是降序
+            app.leftAmountSortControl = 1
+        } else if (flag == 1) {
+            app.leftAmountSortControl = 2
+        } else if (flag == 2) {
+            app.leftAmountSortControl = 1
+        }
+        monitorSorController()
+    }
+
+    function normalSortControl(val, oldVal) {
+        // 默认
+        console.log('默认 - 当前 ：%s，修改前：%s', val, oldVal)
+        switch (val) {
+            case 0:
+                // 关闭自己就可以了
+                app.$refs.normalSort.classList.remove('active')
+                break;
+            case 1: // 默认按钮被打开 重置其他按钮/默认
+                app.$refs.normalSort.classList.add('active')
+                break;
+        }
+    }
+
+    function annualRateSortControl(val, oldVal) {
+        // 参考利率
+        console.log('参考利率 - 当前 ：%s，修改前：%s', val, oldVal)
+        switch (val) {
+            case 0:
+                // 重置active操作
+                app.$refs.annualRateSort.classList.remove('active')
+                // 重置图标操作
+                app.$refs.annualRateSort.lastChild.classList.remove('icon-down-active')
+                app.$refs.annualRateSort.lastChild.classList.remove('icon-up-active')
+                app.$refs.annualRateSort.lastChild.classList.add('icon-down')
+                break;
+            case 1: // 降序
+                // 重置active操作
+                app.$refs.annualRateSort.classList.add('active')
+                // 重置图标
+                app.$refs.annualRateSort.lastChild.classList.remove('icon-down')
+                app.$refs.annualRateSort.lastChild.classList.remove('icon-up-active')
+                app.$refs.annualRateSort.lastChild.classList.add('icon-down-active')
+                break;
+            case 2: // 升序
+                // 重置active
+                app.$refs.annualRateSort.classList.add('active')
+                app.$refs.annualRateSort.lastChild.classList.remove('icon-down')
+                app.$refs.annualRateSort.lastChild.classList.remove('icon-down-active')
+                app.$refs.annualRateSort.lastChild.classList.add('icon-up-active')
+                break;
+
+        }
+    }
+
+    function termSortControl(val, oldVal) {
+        // 控制 期限
+        console.log('期限 - 当前 ：%s，修改前：%s', val, oldVal)
+        switch (val) {
+            case 0:
+                // 重置
+                app.$refs.termSort.classList.remove('active')
+                // 图标
+                app.$refs.termSort.lastChild.classList.remove('icon-down-active')
+                app.$refs.termSort.lastChild.classList.remove('icon-up-active')
+                app.$refs.termSort.lastChild.classList.add('icon-down')
+                break;
+            case 1:
+                // 重置
+                app.$refs.termSort.classList.add('active')
+                // 图标
+                app.$refs.termSort.lastChild.classList.remove('icon-down')
+                app.$refs.termSort.lastChild.classList.remove('icon-up-active')
+                app.$refs.termSort.lastChild.classList.add('icon-down-active')
+                break;
+            case 2:
+                // 重置
+                app.$refs.termSort.classList.add('active')
+                // 图标i
+                app.$refs.termSort.lastChild.classList.remove('icon-down')
+                app.$refs.termSort.lastChild.classList.remove('icon-down-active')
+                app.$refs.termSort.lastChild.classList.add('icon-up-active')
+                break;
+        }
+    }
+
+    function leftAmountSortControl(val, oldVal) {
+        // 剩余金额
+        console.log('剩余金额 - 当前 ：%s，修改前：%s', val, oldVal)
+        switch (val) {
+            case 0:
+                // 重置
+                app.$refs.leftAmountSort.classList.remove('active')
+                // init icon
+                app.$refs.leftAmountSort.lastChild.classList.remove('icon-down-active')
+                app.$refs.leftAmountSort.lastChild.classList.remove('icon-up-active')
+                app.$refs.leftAmountSort.lastChild.classList.add('icon-down')
+                break;
+            case 1:
+                // init span
+                app.$refs.leftAmountSort.classList.add('active')
+                // init icon
+                app.$refs.leftAmountSort.lastChild.classList.remove('icon-down')
+                app.$refs.leftAmountSort.lastChild.classList.remove('icon-up-active')
+                app.$refs.leftAmountSort.lastChild.classList.add('icon-down-active')
+                break;
+            case 2:
+                // init span
+                app.$refs.leftAmountSort.classList.add('active')
+                // init icon
+                app.$refs.leftAmountSort.lastChild.classList.remove('icon-down')
+                app.$refs.leftAmountSort.lastChild.classList.remove('icon-down-active')
+                app.$refs.leftAmountSort.lastChild.classList.add('icon-up-active')
+                break;
+        }
+    }
+
+    // 初始化
+    function monitorSorController() {
+        console.log('默认：'+app.normalSortControl, '参考利率：'+ app.annualRateSortControl, '期限：' + app.termSortControl, '剩余金额：' + app.leftAmountSortControl)
+    }
+
+    function initSortController(val) {
+        switch (val) {
+            case 1:
+                // 默认按钮按下
+                app.annualRateSortControl = 0
+                app.termSortControl = 0
+                app.leftAmountSortControl = 0
+                break;
+            case 2:
+                // 参考利率按钮按下
+                app.normalSortControl = 0
+                app.termSortControl = 0
+                app.leftAmountSortControl = 0
+                break;
+            case 3:
+                // 期限按钮被按下
+                app.normalSortControl = 0
+                app.annualRateSortControl = 0
+                app.leftAmountSortControl = 0
+                break;
+            case 4:
+                // 剩余金额被按下
+                app.normalSortControl = 0
+                app.annualRateSortControl = 0
+                app.termSortControl = 0
+                break;
+
+        }
+    }
+
+</script>
+
+<script>
+    function active() {
+        for (item of this.document.activeElement.parentNode.parentNode.children) {
+            item.classList.remove('active')
+        }
+        var ele = document.activeElement
+        var data = this.document.activeElement.dataset
+        ele.parentElement.classList.add('active')
     }
 </script>
