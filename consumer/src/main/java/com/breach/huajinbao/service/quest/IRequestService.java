@@ -11,4 +11,7 @@ import java.util.Map;
 public interface IRequestService {
 
      Map quest1(ConsumerQuestionnaire q);
+
+    String end();
+
 }

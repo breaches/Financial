@@ -12,39 +12,42 @@
     <script src="resources/lib/js/axios.js"></script>
     <style type="text/css">
 
-        #app{
+        #app {
             margin-left: 150px;
 
-
         }
 
-        .tixing{
+        .tixing {
             margin-left: 85px;
 
+        }
+
+        #app-input {
+            margin: 30px 0px 48px 0px;
 
         }
-        #app-input{
-            margin:30px 0px 48px 0px ;
 
-
-        }
-        #app-submit{
-            margin:30px 0px 15px 0px ;
+        #app-submit {
+            margin: 30px 0px 15px 0px;
 
         }
-        .xieyi{
-            margin:0px 0px 3px 0px ;
+
+        .xieyi {
+            margin: 0px 0px 3px 0px;
         }
-        p{
-            margin:0px 0px 0px 0px ;
+
+        p {
+            margin: 0px 0px 0px 0px;
 
         }
-        .app-text{
-            background:#FFF5E7;
-            margin:60px 0px 0px 20px;
+
+        .app-text {
+            background: #FFF5E7;
+            margin: 60px 0px 0px 20px;
 
         }
-        img{
+
+        img {
             width: 100px;
             height: 40px;
 
@@ -56,50 +59,62 @@
 <div>
     <h2>银联支付:</h2>
 
-    <img src="resources/images/topup/black1.png" class="img" />
-    <img src="resources/images/topup/black2.png" class="img" />
-    <img src="resources/images/topup/black3.png" class="img" />
-    <img src="resources/images/topup/black4.png" class="img" />
-    <img src="resources/images/topup/black5.png" class="img" />
-    <img src="resources/images/topup/black6.png" class="img" />
-    <img src="resources/images/topup/black7.png" class="img" />
-    <img src="resources/images/topup/black8.png" class="img" />
-    <img src="resources/images/topup/black9.png" class="img" />
-    <img src="resources/images/topup/black10.png" class="img" />
-    <img src="resources/images/topup/black11.png" class="img" />
-    <img src="resources/images/topup/black12.png" class="img" />
-    <img src="resources/images/topup/black13.png" class="img" />
-    <img src="resources/images/topup/black14.png" class="img" />
-    <img src="resources/images/topup/black15.png" class="img" />
-
+    <img src="resources/images/topup/black1.png" class="img"/>
+    <img src="resources/images/topup/black2.png" class="img"/>
+    <img src="resources/images/topup/black3.png" class="img"/>
+    <img src="resources/images/topup/black4.png" class="img"/>
+    <img src="resources/images/topup/black5.png" class="img"/>
+    <img src="resources/images/topup/black6.png" class="img"/>
+    <img src="resources/images/topup/black7.png" class="img"/>
+    <img src="resources/images/topup/black8.png" class="img"/>
+    <img src="resources/images/topup/black9.png" class="img"/>
+    <img src="resources/images/topup/black10.png" class="img"/>
+    <img src="resources/images/topup/black11.png" class="img"/>
+    <img src="resources/images/topup/black12.png" class="img"/>
+    <img src="resources/images/topup/black13.png" class="img"/>
+    <img src="resources/images/topup/black14.png" class="img"/>
+    <img src="resources/images/topup/black15.png" class="img"/>
 
 
 </div>
 
 <div id="app">
 
-    <div id="app-input" >
-        充值金额： <el-input v-model="input" placeholder="单笔大于0" style="width: 200px"></el-input><br/>
-        <span class="tixing" style="font-size: 13px">华金宝提醒您，充值金额超过50000元时，请切换到网银充值</span>
-    </div>
     <div>
+        <div>
+            <el-radio-group v-model="radio" size="small">
+                <el-radio label="1">使用已绑定的银行卡</el-radio>
+                <el-radio label="2">使用新银行卡</el-radio>
+            </el-radio-group>
 
-        银行卡号： <el-input v-model="input" placeholder="请输入银行卡号" style="width: 200px"></el-input><br/>
+        </div>
+        <el-form :rules="rules" ref="passinfo" :model="passinfo" label-width="100px">
+            <el-form-item label="充值金额" prop="pay">
+                <el-input v-model="passinfo.pay" placeholder="单笔大于0" style="width: 200px"></el-input>
+                <span class="tixing" style="font-size: 13px">华金宝提醒您，充值金额超过50000元时，请切换到网银充值</span>
+            </el-form-item>
+            <el-form-item label="银行卡号" prop="cordid">
+                <el-input v-model="passinfo.cordid" placeholder="请输入银行卡号" style="width: 200px"
+                          minlength="18"></el-input>
+            </el-form-item>
+            <el-form-item label="交易密码" prop="password">
+                <el-input v-model="passinfo.password" placeholder="请输入交易密码" style="width: 200px"></el-input>
+            </el-form-item>
+        </el-form>
+
 
     </div>
     <div id="app-submit">
         <span class="xieyi" style="font-size: 13px"><input type="checkbox" checked="true">记住我 我同意并接受华金宝相关的<a href="#">电子协议</a></span><br/>
-        <el-button  style="width:350px"  @click="submit"  type="danger">充值</el-button>
+        <el-button style=" width:350px" @click="submit" type="danger">充值</el-button>
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="充值页面"   :before-close="handleClose"  :visible.sync="dialogVisible" width="600px">
-
-
-
+    <el-dialog title="充值页面" :before-close="handleClose" :visible.sync="dialogVisible" width="600px">
+        <p>您正在进行充值操作 充值金额{{passinfo.pay}}</p>
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">关闭</el-button>
-            <el-button type="primary" >提交</el-button>
+            <el-button type="primary" @click="comit">提交</el-button>
         </div>
     </el-dialog>
 
@@ -118,34 +133,74 @@
 
 <script type="text/javascript">
     var app = new Vue({
-        el: "#app",
-        data:{
-            input:"",
-            checked:true,
-            dialogVisible:false,
-        },
+            el: "#app",
+            data: {
+                passinfo: {},
+                checked: true,
+                dialogVisible: false,
+                radio: {},
+                rules: {
+                    cordid: [{required: true, message: '不能为空', trigger: 'blur'},
+                        {min: 18, max: 18, message: '卡号错误', trigger: 'blur'}],
 
-        methods:{
-            handleClose(done) {
-                this.$confirm('确认关闭充值页面吗？')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {});
+                    pay: [{required: true, message: '不能为空', trigger: 'blur'},
+                        {pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+$/, message: '不允许输入空格等特殊符号'}],
+
+                    password: [{required: true, message: '不能为空', trigger: 'blur'}]
+                }
             },
-            submit:function () {
 
-                axios.post("#", app.input)
-                    .then(function (response) {
-                        app.dialogVisible = true;
+            methods: {
+                handleClose(done) {
+                    this.$confirm('确认关闭充值页面吗？')
+                        .then(_ => {
+                            done();
+                        })
+                        .catch(_ => {
+                        });
+                },
+                submit: function () {
 
-
+                    this.$refs["passinfo"].validate(function(valid) {
+                        if (valid) {
+                            axios.get("/pass?password=" + app.passinfo.password)
+                                .then(function (response) {
+                                    var state = response.data.code
+                                    if (state == 200) {
+                                        app.dialogVisible = true;
+                                    }
+                                    if (state == 300) {
+                                        app.$message({
+                                            message: '支付密码错误',
+                                            type: 'warning'
+                                        })
+                                    }
+                                });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
                     });
-            }
 
-        },
 
-    });
+                },
+                comit: function () {
+                    axios.get("/recharge?money=" + app.passinfo.pay)
+                        .then(function (response) {
+                            var state = response.data.code
+                            if (state == 110) {
+                                app.dialogVisible = false;
+                                app.$message({
+                                    message: '充值成功,刷新页面以查看余额',
+                                    type: 'success',
+                                });
+                            }
+                        })
+                },
+            },
+
+        })
+    ;
 </script>
 <script>
     window.onload = function () {
@@ -167,7 +222,6 @@
         })
     }
 </script>
-
 
 </body>
 </html>

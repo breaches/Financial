@@ -133,7 +133,6 @@
         el: "#app",
         data: {
             quest: {
-                age: "",
             },
             rules: {
                 age: {required: true, message: "×"},
@@ -149,7 +148,7 @@
         },
         methods: {
             select: function () {
-                this.$refs["quest"].validate((valid) => {
+                this.$refs["quest"].validate(function(valid) {
                     if (valid) {
                         axios.post('/quest1', app.quest)
                             .then(function (response) {

@@ -20,4 +20,9 @@ public class RequestController {
         return quest.quest1(q);
     }
 
+    @RequestMapping("/end")
+    public String endquest(){
+        return quest.end();
+    }
+
 }

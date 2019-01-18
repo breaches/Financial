@@ -18,13 +18,15 @@ public class RequestServiceImpl implements IRequestService {
 
     @Autowired
     private IConsumerQuestionnaireMapper consumerQuestionnaireMapper;
-
+        String s=null;
     @Override
     public Map quest1(ConsumerQuestionnaire q) {
         if(GlobalConsumerUtil.isLogin()) {
             q.setConsumerId(ConsumerSessionUtil.getConsumer().getConsumerId());
-            q.setType(test.test1());
-        consumerQuestionnaireMapper.insert(q);
+            ConsumerQuestionnaire consumerQuestionnaire = q.setType(test.test1());
+            String type = consumerQuestionnaire.getType();
+            s=type;
+            consumerQuestionnaireMapper.insert(q);
         }else {
             HashMap map = new HashMap();
             map.put("cuowu", 200);
@@ -32,6 +34,11 @@ public class RequestServiceImpl implements IRequestService {
 
         }
             return null;
+    }
+
+    @Override
+    public String end() {
+        return s;
     }
 
 

@@ -24,7 +24,7 @@
 <div id="app">
     <div class="a">
         <img src="../../static/resources/images/success.png" height="70" width="70"/>
-        <p class="s">您的类型是:</p>
+        <p class="s">您的类型是:{{type}}</p>
         <b id="second">5</b>秒后返回主页
     </div>
 </div>
@@ -32,17 +32,24 @@
 <script>
     var app = new Vue({
         el: "#app",
-        data: {}
-    })
+        data: {
+            type:"",
+
+        }
+    });
+    axios.post('/end')
+        .then(function (response) {
+           app.type= response.data;
+        });
 
 </script>
 
-<!--<script type="text/javascript">
+<script type="text/javascript">
 
     var sec = document.getElementById("second");
     var i = 5;
     var timer = setInterval(function(){
-        i&#45;&#45;;
+        i--;
         sec.innerHTML = i;
         if(i==1){
             window.location.href = "/index";
@@ -52,7 +59,7 @@
     function goBack(){
         window.history.go(-1);
     }
-</script>-->
+</script>
 
 
 </body>
