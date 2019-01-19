@@ -33,6 +33,7 @@ ul {
     display: block;
     margin: 0 auto;
     background-color: #ffffff;
+    height: 50px;
 }
 
 #logo {
@@ -284,13 +285,60 @@ ul {
 
 #content #content-box {
     min-height: 772px;
-    width: 1320px;
+    /*width: 1320px;*/
     margin: 0 auto;
 }
 
 
 
 /******主体 结束*****/
+
+
+
+/***page**/
+
+#page {
+    position: relative;
+    height: 150px;
+}
+
+#page .page-block {
+    position: absolute;
+    left: 50%;
+}
+
+.el-pagination {
+    position: relative;
+    right: 50%;
+    padding: 60px 0px;
+}
+
+.el-pager li:hover {
+    color: #f53a31;
+}
+
+.el-pager li.active {
+    color: #f53a31;
+    cursor: default;
+}
+
+.el-pagination button:hover {
+    color: #f53a31;
+}
+
+.el-input__inner:focus {
+    border-color: #f53a31;
+    outline: 0;
+}
+
+/**page**/
+
+
+
+
+
+
+
 
 /********************foot begin*********************/
 #foot {
