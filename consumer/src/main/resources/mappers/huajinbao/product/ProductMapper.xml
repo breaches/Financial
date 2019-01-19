@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breach.huajinbao.mapper.product.IProductMapper">
+
+    <select id="disperseBid" resultType="map">
+      select *
+      from user_borrow_bid_apply_record
+      <where>
+          publish_id > 0
+          and trals_id = 0
+          and retrals_id = 0
+          and abandon_id = 0
+      </where>
+    </select>
+
+</mapper>

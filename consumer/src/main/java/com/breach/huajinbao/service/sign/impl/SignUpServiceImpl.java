@@ -3,17 +3,22 @@ package com.breach.huajinbao.service.sign.impl;
 import com.breach.common.entity.ConsumerAccount;
 import com.breach.common.entity.ConsumerAuths;
 import com.breach.common.entity.ConsumerInfo;
+import com.breach.common.mapper.IConsumerAccountMapper;
 import com.breach.common.mapper.IConsumerAuthsMapper;
 import com.breach.common.mapper.IConsumerInfoMapper;
 import com.breach.huajinbao.mapper.sign.ISignUpMapper;
 import com.breach.huajinbao.service.sign.ISignUpService;
 import com.breach.huajinbao.sysconst.ISystemConsts;
 import com.breach.huajinbao.sysconst.api.IApiConsts;
+import com.breach.huajinbao.util.global.GlobalConsumerUtil;
 import com.breach.huajinbao.util.global.MessageUtil;
 import com.breach.huajinbao.util.sign.RegisterData;
 import com.breach.huajinbao.util.sign.ReturnUtil;
+import jdk.nashorn.internal.objects.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 /**
  * @program: Financial
@@ -30,7 +35,8 @@ public class SignUpServiceImpl implements ISignUpService {
     IConsumerInfoMapper consumerInfoMapper;
     @Autowired
     IConsumerAuthsMapper consumerAuthsMapper;
-
+    @Autowired
+    IConsumerAccountMapper consumerAccountMapper;
 
 
     @Override
@@ -42,6 +48,12 @@ public class SignUpServiceImpl implements ISignUpService {
         return null;
     }
 
+    /**
+     * 发短信
+     *
+     * @param registerData
+     * @return
+     */
     @Override
     public ReturnUtil sendMessage(RegisterData registerData) {
         // 发送短信
@@ -54,6 +66,12 @@ public class SignUpServiceImpl implements ISignUpService {
         return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
     }
 
+    /**
+     * 身份验证
+     *
+     * @param registerData
+     * @return
+     */
     @Override
     public ReturnUtil verifyCode(RegisterData registerData) {
         System.out.println("================================================");
@@ -63,7 +81,7 @@ public class SignUpServiceImpl implements ISignUpService {
         String randomCode = MessageUtil.getRandomCode();
         String code = registerData.getCode();
         if (!code.equals("") && code != null) {
-            if(randomCode.equals(code)) {
+            if (randomCode.equals(code)) {
                 // 验证成功 验证码正确
                 return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
             }
@@ -73,6 +91,16 @@ public class SignUpServiceImpl implements ISignUpService {
         return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
     }
 
+    /**
+     * 注册
+     * 把用户信息插入用户信息表
+     * 把账号密码插入授权表
+     * 开通一个空的账户表
+     * 最后把信息表的id给授权表跟账户表
+     *
+     * @param registerData
+     * @return
+     */
     @Override
     public ReturnUtil register(RegisterData registerData) {
         // 把用户的注册信息添加进数据库中
@@ -80,30 +108,28 @@ public class SignUpServiceImpl implements ISignUpService {
         String password = registerData.getPassword();
         String phone = registerData.getPhone();
 
-        // 需要把用户名and密码插入到 consumer_Auths表中
-        // 把username与phone插入到 consumer_info 表中 把返回的id给 consumer_Auths
+        // 初始化用户账户
+        ConsumerAccount consumerAccount = new ConsumerAccount();
+        consumerAccount.setCreditAmount(new BigDecimal(0));
+        consumerAccount.setCreditBalance(new BigDecimal(0));
+        consumerAccount.setAvailableBalance(new BigDecimal(0));
+        consumerAccount.setPrincipalMoney(new BigDecimal(0));
+        consumerAccount.setPrincipalIncome(new BigDecimal(0));
+        consumerAccount.setFrozenCapital(new BigDecimal(0));
+        consumerAccountMapper.insert(consumerAccount);
 
+        // 初始化用户信息
         ConsumerInfo consumerInfo = new ConsumerInfo();
-        ConsumerAuths consumerAuths = new ConsumerAuths();
-
         consumerInfo.setPhone(phone);
         consumerInfo.setNickname(username);
-
-        System.out.println(consumerInfo);
-        // signUpMapper.addConsumer(consumerInfo);
+        consumerInfo.setAccountId(consumerAccount.getId()); // 账户id给用户信息绑定
         consumerInfoMapper.insert(consumerInfo);
 
-
-        System.out.println("-----------------------------------------------");
-        System.out.println("插入客户信息后");
-        System.out.println(consumerInfo);
-        System.out.println("-----------------------------------------------");
-
-        // 保存用户名与密码
+        // 开通授权登陆信息
+        ConsumerAuths consumerAuths = new ConsumerAuths();
         consumerAuths.setUsername(username);
         consumerAuths.setPassword(password);
-        consumerAuths.setConsumerId(consumerInfo.getId());
-
+        consumerAuths.setConsumerId(consumerInfo.getId()); // 用户信息id给授权登录绑定
         consumerAuthsMapper.insert(consumerAuths);
 
         return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "register success");

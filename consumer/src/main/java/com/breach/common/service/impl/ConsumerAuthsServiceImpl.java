@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-14
+ * @since 2019-01-17
  */
 @Service
 public class ConsumerAuthsServiceImpl extends ServiceImpl<IConsumerAuthsMapper, ConsumerAuths> implements IConsumerAuthsService {

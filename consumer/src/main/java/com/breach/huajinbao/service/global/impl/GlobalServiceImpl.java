@@ -39,6 +39,10 @@ public class GlobalServiceImpl implements IGlobalService {
     @Autowired
     IConsumerAccountMapper consumerAccountMapper;
 
+    /**
+     * 获取登陆后用户的信息
+     * @return
+     */
     @Override
     public GlobalData getUserInfoAfterLogin() {
         ConsumerAuths consumer = ConsumerSessionUtil.getConsumer();
@@ -54,6 +58,10 @@ public class GlobalServiceImpl implements IGlobalService {
         return null;
     }
 
+    /**
+     * 获取额度
+     * @return
+     */
     @Override
     public GlobalData getAmount() {
         if(GlobalConsumerUtil.isLogin()) {
