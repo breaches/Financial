@@ -8,7 +8,8 @@
     <!-- elementUI -->
     <link rel="stylesheet" href="../../resources/lib/css/index.css">
     <script src="../../resources/lib/js/index.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
     <!-- axios -->
     <script src="../../resources/lib/js/axios.js"></script>
     <!-- 个人 -->
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="../../resources/css/login.css">
     <link rel="stylesheet" href="../../resources/css/product/loan/base-ab068c2816.css"/>
     <link rel="stylesheet" href="../../resources/css/product/loan/style-600282d98c.css"/>
+    <script src="../../resources/js/ProductConfig.js"></script>
     <style>
         [v-cloak] {
             display: none;
@@ -106,49 +108,61 @@
                             <div class="content">
                                 <dl data-key="term" class="term">
                                     <dt>项目期限：</dt>
-                                    <dd class="first-label active"><a v-model="" @click="productTerm" href="javascript:;">不限</a>
+                                    <dd class="first-label active"><a @click="productTerm"
+                                                                      href="javascript:;" data-val="0">不限</a>
                                     </dd>
-                                    <dd><a @click="productTerm" href="javascript:;" data-min="0" data-max="3">3个月以下</a>
+                                    <dd><a @click="productTerm" href="javascript:;" data-val="1" data-min="0"
+                                           data-max="3">3个月以下</a>
                                     </dd>
-                                    <dd><a @click="productTerm" href="javascript:;" data-min="3" data-max="6">3-6个月</a>
+                                    <dd><a @click="productTerm" href="javascript:;" data-val="2" data-min="3"
+                                           data-max="6">3-6个月</a>
                                     </dd>
-                                    <dd><a @click="productTerm" href="javascript:;" data-min="6" data-max="9">6-9个月</a>
+                                    <dd><a @click="productTerm" href="javascript:;" data-val="3" data-min="6"
+                                           data-max="9">6-9个月</a>
                                     </dd>
-                                    <dd><a @click="productTerm" href="javascript:;" data-min="9"
+                                    <dd><a @click="productTerm" href="javascript:;" data-val="4" data-min="9"
                                            data-max="12">9-12个月</a></dd>
-                                    <dd><a @click="productTerm" href="javascript:;" data-min="12" data-max="">12个月以上</a>
+                                    <dd><a @click="productTerm" href="javascript:;" data-val="5" data-min="12"
+                                           data-max="">12个月以上</a>
                                     </dd>
                                 </dl>
                                 <dl data-key="annualRate" class="annualRate">
                                     <dt>参考利率：</dt>
-                                    <dd class="first-label active"><a @click="annualRate" href="javascript:;">不限</a>
+                                    <dd class="first-label active"><a @click="annualRate"
+                                                                      href="javascript:;" data-val="0">不限</a>
                                     </dd>
-                                    <dd><a @click="annualRate" href="javascript:;" data-min="0" data-max="7">7.00%以下</a>
+                                    <dd><a @click="annualRate" href="javascript:;" data-val="1" data-min="0"
+                                           data-max="8">8.00%以下</a>
                                     </dd>
-                                    <dd><a @click="annualRate" href="javascript:;" data-min="7"
-                                           data-max="8">7.00-8.00%</a></dd>
-                                    <dd><a @click="annualRate" href="javascript:;" data-min="8" data-max="10">8.00-10.00%</a>
+                                    <dd><a @click="annualRate" href="javascript:;" data-val="2" data-min="8"
+                                           data-max="10">8.00-10.00%</a></dd>
+                                    <dd><a @click="annualRate" href="javascript:;" data-val="3" data-min="10"
+                                           data-max="12">10.00-12.00%</a>
                                     </dd>
-                                    <dd><a @click="annualRate" href="javascript:;" data-min="10"
-                                           data-max="">10.00%以上</a></dd>
+                                    <dd><a @click="annualRate" href="javascript:;" data-val="4" data-min="12"
+                                           data-max="">12.00%以上</a></dd>
                                 </dl>
                                 <dl data-key="repayMode" class="repayMode">
                                     <dt>还款方式：</dt><!--0-一次性还款，1-等额本息，2-等额本金，3-先息后本，4-等额本息N-1，5-每月还本付息，6-按期还本付息）-->
-                                    <dd class="first-label active"><a @click="repayMode" href="javascript:;">不限</a></dd>
-                                    <dd class=""><a @click="repayMode" href="javascript:;" data-val="1">等额本金</a></dd>
-                                    <dd class=""><a @click="repayMode" href="javascript:;" data-val="2">等额本息</a></dd>
+                                    <dd class="first-label active"><a @click="repayMode" href="javascript:;"
+                                                                      data-val="0">不限</a></dd>
+                                    <dd class=""><a @click="repayMode" href="javascript:;" data-val="1">等额本息</a></dd>
+                                    <dd class=""><a @click="repayMode" href="javascript:;" data-val="2">等额本金</a></dd>
                                 </dl>
                                 <dl data-key="surplusAmount" class="surplusAmount">
                                     <dt>剩余金额：</dt>
-                                    <dd class="first-label active"><a @click="remainAmount" href="javascript:;">不限</a>
+                                    <dd class="first-label active"><a @click="remainAmount" href="javascript:;"
+                                                                      data-val="0">不限</a>
                                     </dd>
-                                    <dd><a @click="remainAmount" href="javascript:;" data-min=""
+                                    <dd><a @click="remainAmount" href="javascript:;" data-val="1" data-min=""
                                            data-max="5000">5千以内</a></dd>
-                                    <dd><a @click="remainAmount" href="javascript:;" data-min="5000" data-max="10000">5千－1万</a>
+                                    <dd><a @click="remainAmount" href="javascript:;" data-val="2" data-min="5000"
+                                           data-max="20000">5千－2万</a>
                                     </dd>
-                                    <dd><a @click="remainAmount" href="javascript:;" data-min="10000" data-max="50000">1万－5万</a>
+                                    <dd><a @click="remainAmount" href="javascript:;" data-val="3" data-min="20000"
+                                           data-max="50000">2万－5万</a>
                                     </dd>
-                                    <dd><a @click="remainAmount" href="javascript:;" data-min="50000"
+                                    <dd><a @click="remainAmount" href="javascript:;" data-val="4" data-min="50000"
                                            data-max="">5万以上</a></dd>
                                 </dl>
                             </div>
@@ -157,110 +171,43 @@
                             <a name="listStart" class="list-start"></a>
                             <div class="list-main">
                                 <div class="sorting" id="sortingModel">
-                                    <span @click="normalSort" ref="normalSort" class="sort active" data-val=""
-                                          data-sorttype="0">默认</span>
-                                    <span @click="annualRateSort" ref="annualRateSort" class="sort" data-val=""
-                                          data-sorttype="1">参考利率<i class="icon icon-down"></i></span>
-                                    <span @click="termSort" ref="termSort" class="sort" data-val="" data-sorttype="2">期限<i
+                                    <span @click="normalSort" ref="normalSort" class="sort active" data-val="0"
+                                          data-sorttype="0" style="width: 220px; display: inline-block;">默认</span>
+                                    <span @click="annualRateSort" ref="annualRateSort" class="sort" data-val="1"
+                                          data-sorttype="1"  style="display: inline-block; width: 100px">参考利率<i class="icon icon-down"></i></span>
+                                    <span @click="termSort" ref="termSort" class="sort" data-val="2" data-sorttype="2" style="display: inline-block; width: 100px">期限<i
                                             class="icon icon-down"></i></span>
-                                    <span @click="leftAmountSort" ref="leftAmountSort" class="sort" data-val=""
-                                          data-sorttype="4" id="leftAmountSort">剩余金额<i
+                                    <span @click="leftAmountSort" ref="leftAmountSort" class="sort" data-val="3"
+                                          data-sorttype="4" id="leftAmountSort" style="display: inline-block; width: 90px">剩余金额<i
                                             class="icon icon-down"></i></span>
                                 </div>
                                 <div id="list">
                                     <div class="list" id="listModel">
 
-                                        <div class="item sell-out"
-                                             data-href="http://www.xiaoniu88.com/product/common/38227390">
+                                        <div v-for="item in productInfo" class="item sell-out" data-href="">
                                             <div class="info">
                                                 <dl class="title">
                                                     <dt>小额消费借款</dt>
                                                     <dd>
-                                                        <a href="javascript:;" title="消费贷D20190116-a2" class="name">消费贷D20190116-a2</a>
+                                                        <a href="javascript:;" title="消费贷D20190116-a2" class="name">{{item.borrow_number}}</a>
                                                     </dd>
                                                 </dl>
                                                 <dl class="earnings">
-                                                    <dt>11.40<span>%</span></dt>
+                                                    <dt>{{item.lending_rate}}<span>%</span></dt>
                                                     <dd>参考利率<i class="icon icon-question risk-tips"
-                                                               title="小牛在线P2P互联网金融平台所有项目参考利率是在参考同类型工具历史数据得出，<br>并不代表实际收益，市场有风险，出借需谨慎。"></i>
+                                                               title="华金宝P2P互联网金融平台所有项目参考利率是在参考同类型工具历史数据得出，<br>并不代表实际收益，市场有风险，出借需谨慎。"></i>
                                                     </dd>
                                                 </dl>
                                                 <dl class="limit">
-                                                    <dt>18个月<i class="text-tag">1个月可转</i></dt>
+                                                    <dt>{{item.bidding_time_limit}}个月<i class="text-tag">1个月可转</i></dt>
                                                     <dd>期限</dd>
                                                 </dl>
                                                 <dl class="starting-amount">
-                                                    <dt>23,000.00元</dt>
+                                                    <dt>{{item.borrow_money}}.00元</dt>
                                                     <dd>剩余金额</dd>
                                                 </dl>
                                                 <dl class="build-date">
-                                                    <dt>每月还本付息</dt>
-                                                    <dd>还款方式</dd>
-                                                </dl>
-                                                <dl class="operate trading">
-                                                    <dd>成功交易时间</dd>
-                                                    <dd class="datetime">2019-01-16</dd>
-                                                </dl>
-                                            </div>
-                                        </div>
-                                        <div class="item sell-out"
-                                             data-href="http://www.xiaoniu88.com/product/common/38227380">
-                                            <div class="info">
-                                                <dl class="title">
-                                                    <dt>小额消费借款</dt>
-                                                    <dd>
-                                                        <a href="javascript:;" title="消费贷D20190116-a1" class="name">消费贷D20190116-a1</a>
-                                                    </dd>
-                                                </dl>
-                                                <dl class="earnings">
-                                                    <dt>10.80<span>%</span></dt>
-                                                    <dd>参考利率<i class="icon icon-question risk-tips"
-                                                               title="小牛在线P2P互联网金融平台所有项目参考利率是在参考同类型工具历史数据得出，<br>并不代表实际收益，市场有风险，出借需谨慎。"></i>
-                                                    </dd>
-                                                </dl>
-                                                <dl class="limit">
-                                                    <dt>24个月<i class="text-tag">1个月可转</i></dt>
-                                                    <dd>期限</dd>
-                                                </dl>
-                                                <dl class="starting-amount">
-                                                    <dt>14,180.00元</dt>
-                                                    <dd>剩余金额</dd>
-                                                </dl>
-                                                <dl class="build-date">
-                                                    <dt>每月还本付息</dt>
-                                                    <dd>还款方式</dd>
-                                                </dl>
-                                                <dl class="operate trading">
-                                                    <dd>成功交易时间</dd>
-                                                    <dd class="datetime">2019-01-16</dd>
-                                                </dl>
-                                            </div>
-                                        </div>
-                                        <div class="item sell-out"
-                                             data-href="http://www.xiaoniu88.com/product/common/38227543">
-                                            <div class="info">
-                                                <dl class="title">
-                                                    <dt>小额消费借款</dt>
-                                                    <dd>
-                                                        <a href="javascript:;" title="消费贷D20190116-a11" class="name">消费贷D20190116-a11</a>
-                                                    </dd>
-                                                </dl>
-                                                <dl class="earnings">
-                                                    <dt>10.80<span>%</span></dt>
-                                                    <dd>参考利率<i class="icon icon-question risk-tips"
-                                                               title="小牛在线P2P互联网金融平台所有项目参考利率是在参考同类型工具历史数据得出，<br>并不代表实际收益，市场有风险，出借需谨慎。"></i>
-                                                    </dd>
-                                                </dl>
-                                                <dl class="limit">
-                                                    <dt>24个月<i class="text-tag">1个月可转</i></dt>
-                                                    <dd>期限</dd>
-                                                </dl>
-                                                <dl class="starting-amount">
-                                                    <dt>0.00元</dt>
-                                                    <dd>剩余金额</dd>
-                                                </dl>
-                                                <dl class="build-date">
-                                                    <dt>每月还本付息</dt>
+                                                    <dt>{{item.repay_type}}</dt>
                                                     <dd>还款方式</dd>
                                                 </dl>
                                                 <dl class="operate trading">
@@ -270,19 +217,18 @@
                                             </div>
                                         </div>
 
+
                                     </div>
                                 </div>
                                 <div id="page">
-                                    <div class="block">
-                                        <span class="demonstration">完整功能</span>
+                                    <div class="page-block">
                                         <el-pagination
-                                                @size-change=""
-                                                @current-change=""
-                                                :current-page="1"
-                                                :page-size="10"
                                                 layout="total, prev, pager, next, jumper"
-                                                :total="400">
-                                        </el-pagination>
+                                                :current-page="queryParameter.pageCurrent"
+                                                :page-size="queryParameter.pageSize"
+                                                :total="666"
+                                                @current-change="handleCurrentChange"
+                                        ></el-pagination>
                                     </div>
                                 </div>
                             </div>
@@ -344,116 +290,121 @@
 
 
     <!----------------------------------------- 弹出层 ----------------------------------------->
-    <!-- 登录层 -->
-    <el-dialog
-            :visible.sync="visitLogin"
-            width="520px"
-            :close-on-click-modal="false"
-            :lock-scroll="false"
-            :before-close="loginDialogClose"
-            center>
-        <div slot="title" id="user-login-header">
-            <img src="../../resources/images/logo/510-220-font-logo.png" alt="">
-        </div>
-        <div id="user-login">
-            <div id="user-login-main">
-                <div class="with-line with-line-a">使用手机号/用户名登录</div>
-                <div class="user-input">
-                    <input v-model="loginInfo.username" id="loginUsername" name="loginUsername"
-                           class="sk-user-input-style" placeholder="输入手机号或用户名"/>
-                    <input v-model="loginInfo.password" @keyup.enter="login" id="loginPassword" name="loginPassword"
-                           class="sk-user-input-style" placeholder="密码"/>
-                    <a @click="login" class="sk-user-btn" href="javascript:;">
-                        <span>登录</span>
-                    </a>
-                </div>
+    <div v-cloak>
+        <!-- 登录层 -->
+        <el-dialog
+                :visible.sync="visitLogin"
+                width="520px"
+                :close-on-click-modal="false"
+                :lock-scroll="false"
+                :before-close="loginDialogClose"
+                center>
+            <div slot="title" id="user-login-header">
+                <img src="../../resources/images/logo/510-220-font-logo.png" alt="">
             </div>
-        </div>
-        <!-- footer -->
-        <div slot="footer" id="user-login-foot">
-            <div id="sk-login-cc">
-                <div class="sk-login-forget">
-                    <a @click="toForget" href="javascript:;">忘记密码»</a>
-                </div>
-                <div class="sk-login-register">
-                    <span>还没有账号？</span><a @click="toRegister" href="javascript:;">点击注册»</a>
-                </div>
-            </div>
-        </div>
-    </el-dialog>
-    <!-- 注册层 -->
-    <el-dialog
-            :visible.sync="visitRegister"
-            width="520px"
-            :close-on-click-modal="false"
-            :lock-scroll="false"
-            :before-close="registerDialogClose"
-            center>
-        <div slot="title" id="user-register-header">
-            <img src="../../resources/images/logo/510-220-font-logo.png" alt="">
-        </div>
-        <div id="user-register">
-            <div id="user-register-main">
-                <div class="with-line with-line-a">注册</div>
-                <div class="user-input">
-                    <input v-model="registerInfo.username" id="regUsername" name="regUsername"
-                           class="sk-user-input-style" placeholder="用户名" maxlength="20"/>
-                    <div id="sk-register-send-code">
-                        <input v-model="registerInfo.phone" id="regPhone" name="regPhone" class="sk-user-input-style"
-                               placeholder="手机号码" maxlength="11"/>
-                        <a v-show="visitSendMessage" @click="sendMessage" href="javascript:;">发送验证码</a>
-                        <a v-show="!visitSendMessage"><span>{{lastTime}}</span>秒后发送短信</a>
+            <div id="user-login">
+                <div id="user-login-main">
+                    <div class="with-line with-line-a">使用手机号/用户名登录</div>
+                    <div class="user-input">
+                        <input v-model="loginInfo.username" id="loginUsername" name="loginUsername"
+                               class="sk-user-input-style" placeholder="输入手机号或用户名"/>
+                        <input v-model="loginInfo.password" @keyup.enter="login" id="loginPassword" name="loginPassword"
+                               class="sk-user-input-style" placeholder="密码"/>
+                        <a @click="login" class="sk-user-btn" href="javascript:;">
+                            <span>登录</span>
+                        </a>
                     </div>
-                    <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode"
-                           class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
-                    <input v-model="registerInfo.password" id="regPassword" name="regPassword" type="password"
-                           class="sk-user-input-style"
-                           placeholder="密码" maxlength="20"/>
-                    <input v-model="registerInfo.repassword" @keyup.enter="register" id="regRePassword"
-                           name="regRePassword" type="password" class="sk-user-input-style"
-                           placeholder="确认密码" maxlength="20"/>
-                    <a @click="register" class="sk-user-btn" href="javascript:;">
-                        <span>注册</span>
-                    </a>
                 </div>
             </div>
-        </div>
-        <div slot="footer" id="user-register-foot">
-            <div id="sk-register-cc">
-                <div class="sk-register-to-login">
-                    <span>已有账号？</span><a @click="toLogin" href="javascript:;">点击登录»</a>
+            <!-- footer -->
+            <div slot="footer" id="user-login-foot">
+                <div id="sk-login-cc">
+                    <div class="sk-login-forget">
+                        <a @click="toForget" href="javascript:;">忘记密码»</a>
+                    </div>
+                    <div class="sk-login-register">
+                        <span>还没有账号？</span><a @click="toRegister" href="javascript:;">点击注册»</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </el-dialog>
-    <!-- 找回密码层 -->
-    <el-dialog
-            :visible.sync="visitForget"
-            width="520px"
-            :close-on-click-modal="false"
-            :lock-scroll="false"
-            :before-close="forgetDialogClose"
-            center>
-        <div slot="title" id="user-forget-header">
-            <img src="../../resources/images/logo/510-220-font-logo.png" alt="">
-        </div>
-        <div id="user-forget">
-            <div id="user-forget-main">
-                <div class="with-line with-line-a">找回密码</div>
-                <div class="user-input">
-                    <input v-model="forgetInfo.phone" id="forgetPhone" name="forgetPhone" class="sk-user-input-style"
-                           placeholder="手机号码"/>
-                    <a @click="toForget" class="sk-user-btn" href="javascript:;">
-                        <span>重置</span>
-                    </a>
+        </el-dialog>
+        <!-- 注册层 -->
+        <el-dialog
+                :visible.sync="visitRegister"
+                width="520px"
+                :close-on-click-modal="false"
+                :lock-scroll="false"
+                :before-close="registerDialogClose"
+                center>
+            <div slot="title" id="user-register-header">
+                <img src="../../resources/images/logo/510-220-font-logo.png" alt="">
+            </div>
+            <div id="user-register">
+                <div id="user-register-main">
+                    <div class="with-line with-line-a">注册</div>
+                    <div class="user-input">
+                        <input v-model="registerInfo.username" id="regUsername" name="regUsername"
+                               class="sk-user-input-style" placeholder="用户名" maxlength="20"/>
+                        <div id="sk-register-send-code">
+                            <input v-model="registerInfo.phone" id="regPhone" name="regPhone"
+                                   class="sk-user-input-style"
+                                   placeholder="手机号码" maxlength="11"/>
+                            <a v-show="visitSendMessage" @click="sendMessage" href="javascript:;">发送验证码</a>
+                            <a v-show="!visitSendMessage"><span>{{lastTime}}</span>秒后发送短信</a>
+                        </div>
+                        <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode"
+                               class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
+                        <input v-model="registerInfo.password" id="regPassword" name="regPassword" type="password"
+                               class="sk-user-input-style"
+                               placeholder="密码" maxlength="20"/>
+                        <input v-model="registerInfo.repassword" @keyup.enter="register" id="regRePassword"
+                               name="regRePassword" type="password" class="sk-user-input-style"
+                               placeholder="确认密码" maxlength="20"/>
+                        <a @click="register" class="sk-user-btn" href="javascript:;">
+                            <span>注册</span>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div slot="footer" id="user-forget-foot">
+            <div slot="footer" id="user-register-foot">
+                <div id="sk-register-cc">
+                    <div class="sk-register-to-login">
+                        <span>已有账号？</span><a @click="toLogin" href="javascript:;">点击登录»</a>
+                    </div>
+                </div>
+            </div>
+        </el-dialog>
+        <!-- 找回密码层 -->
+        <el-dialog
+                :visible.sync="visitForget"
+                width="520px"
+                :close-on-click-modal="false"
+                :lock-scroll="false"
+                :before-close="forgetDialogClose"
+                center>
+            <div slot="title" id="user-forget-header">
+                <img src="../../resources/images/logo/510-220-font-logo.png" alt="">
+            </div>
+            <div id="user-forget">
+                <div id="user-forget-main">
+                    <div class="with-line with-line-a">找回密码</div>
+                    <div class="user-input">
+                        <input v-model="forgetInfo.phone" id="forgetPhone" name="forgetPhone"
+                               class="sk-user-input-style"
+                               placeholder="手机号码"/>
+                        <a @click="toForget" class="sk-user-btn" href="javascript:;">
+                            <span>重置</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div slot="footer" id="user-forget-foot">
 
-        </div>
-    </el-dialog>
-    <!-- 弹出层 -->
+            </div>
+        </el-dialog>
+        <!-- 弹出层 -->
+    </div>
+
 
 </div>
 </body>
@@ -484,7 +435,13 @@
             normalSortControl: 1,
             annualRateSortControl: 0,
             termSortControl: 0,
-            leftAmountSortControl: 0
+            leftAmountSortControl: 0,
+            queryParameter: {
+                pageSize: PERSION_BID.PAGE.SIZE,
+                pageCurrent: PERSION_BID.PAGE.NOW
+            },
+            productInfo: []
+
         },
         watch: {
             normalSortControl: {
@@ -587,6 +544,9 @@
             },
             leftAmountSort: function () {
                 leftAmountSort()
+            },
+            handleCurrentChange: function(val) {
+                this.queryParameter.pageCurrent = val
             }
         }
     })
@@ -595,6 +555,7 @@
 <script>
     window.onload = function () {
         initUser()
+        loadProduct()
     }
 
     function verifyCode() {
@@ -724,16 +685,20 @@
 </script>
 
 <script>
+    /**默认排序按钮被按下**/
     function normalSort() {
         // 隐藏其余
         initSortController(1)
+        initParameterSort()
         app.normalSortControl = 1
-        monitorSorController()
+        // monitorSorController()
     }
 
+    /**参考利率排序按钮被按下  0：关闭，1：降序，2：升序**/
     function annualRateSort() {
         // 显示参考利率
         initSortController(2)
+        initParameterSort()
         var flag = app.annualRateSortControl
 
         if (flag == 0) {
@@ -744,11 +709,13 @@
         } else if (flag == 2) {
             app.annualRateSortControl = 1
         }
-        monitorSorController()
+        // monitorSorController()
     }
 
+    /**期限排序按钮被按下**/
     function termSort() {
         initSortController(3)
+        initParameterSort()
         var flag = app.termSortControl
         if (flag == 0) {
             // 点击后默认是降序
@@ -758,11 +725,13 @@
         } else if (flag == 2) {
             app.termSortControl = 1
         }
-        monitorSorController()
+        // monitorSorController()
     }
 
+    /**剩余金额排序按钮 被按下**/
     function leftAmountSort() {
         initSortController(4)
+        initParameterSort()
         var flag = app.leftAmountSortControl
         if (flag == 0) {
             // 点击后默认是降序
@@ -772,12 +741,13 @@
         } else if (flag == 2) {
             app.leftAmountSortControl = 1
         }
-        monitorSorController()
+        // monitorSorController()
     }
 
+    /**默认排序状态 监听函数**/
     function normalSortControl(val, oldVal) {
         // 默认
-        console.log('默认 - 当前 ：%s，修改前：%s', val, oldVal)
+        // console.log('默认 - 当前 ：%s，修改前：%s', val, oldVal)
         switch (val) {
             case 0:
                 // 关闭自己就可以了
@@ -785,13 +755,17 @@
                 break;
             case 1: // 默认按钮被打开 重置其他按钮/默认
                 app.$refs.normalSort.classList.add('active')
+                // set request sort default
+                initParameterSort()
+                app.queryParameter.normalSort = PERSION_BID.SORT.DEFAULT.OPEN /**设置默认排序的请求参数**/
                 break;
         }
     }
 
+    /**参考年利率排序状态的监听函数**/
     function annualRateSortControl(val, oldVal) {
         // 参考利率
-        console.log('参考利率 - 当前 ：%s，修改前：%s', val, oldVal)
+        // console.log('参考利率 - 当前 ：%s，修改前：%s', val, oldVal)
         switch (val) {
             case 0:
                 // 重置active操作
@@ -808,6 +782,9 @@
                 app.$refs.annualRateSort.lastChild.classList.remove('icon-down')
                 app.$refs.annualRateSort.lastChild.classList.remove('icon-up-active')
                 app.$refs.annualRateSort.lastChild.classList.add('icon-down-active')
+                // 设置排序请求的参数
+                initParameterSort()
+                app.queryParameter.annualRateSort = PERSION_BID.SORT.ANNUAL_RATE.DESC
                 break;
             case 2: // 升序
                 // 重置active
@@ -815,14 +792,18 @@
                 app.$refs.annualRateSort.lastChild.classList.remove('icon-down')
                 app.$refs.annualRateSort.lastChild.classList.remove('icon-down-active')
                 app.$refs.annualRateSort.lastChild.classList.add('icon-up-active')
+                // 设置排序请求的参数 升序
+                initParameterSort()
+                app.queryParameter.annualRateSort = PERSION_BID.SORT.ANNUAL_RATE.ASC
                 break;
 
         }
     }
 
+    /**期限排序状态按钮的监听函数**/
     function termSortControl(val, oldVal) {
         // 控制 期限
-        console.log('期限 - 当前 ：%s，修改前：%s', val, oldVal)
+        // console.log('期限 - 当前 ：%s，修改前：%s', val, oldVal)
         switch (val) {
             case 0:
                 // 重置
@@ -839,6 +820,9 @@
                 app.$refs.termSort.lastChild.classList.remove('icon-down')
                 app.$refs.termSort.lastChild.classList.remove('icon-up-active')
                 app.$refs.termSort.lastChild.classList.add('icon-down-active')
+                // 设置排序的请求参数
+                initParameterSort()
+                app.queryParameter.termSort = PERSION_BID.SORT.TERM.DESC
                 break;
             case 2:
                 // 重置
@@ -847,13 +831,17 @@
                 app.$refs.termSort.lastChild.classList.remove('icon-down')
                 app.$refs.termSort.lastChild.classList.remove('icon-down-active')
                 app.$refs.termSort.lastChild.classList.add('icon-up-active')
+                // 设置排序的请求参数
+                initParameterSort()
+                app.queryParameter.termSort = PERSION_BID.SORT.TERM.ASC
                 break;
         }
     }
 
+    /**剩余金额排序状态的监听函数**/
     function leftAmountSortControl(val, oldVal) {
         // 剩余金额
-        console.log('剩余金额 - 当前 ：%s，修改前：%s', val, oldVal)
+        // console.log('剩余金额 - 当前 ：%s，修改前：%s', val, oldVal)
         switch (val) {
             case 0:
                 // 重置
@@ -870,6 +858,9 @@
                 app.$refs.leftAmountSort.lastChild.classList.remove('icon-down')
                 app.$refs.leftAmountSort.lastChild.classList.remove('icon-up-active')
                 app.$refs.leftAmountSort.lastChild.classList.add('icon-down-active')
+                // set sort request parameter
+                initParameterSort()
+                app.queryParameter.surplusAmountSort = PERSION_BID.SORT.LEFT_ANNUAL.DESC
                 break;
             case 2:
                 // init span
@@ -878,15 +869,27 @@
                 app.$refs.leftAmountSort.lastChild.classList.remove('icon-down')
                 app.$refs.leftAmountSort.lastChild.classList.remove('icon-down-active')
                 app.$refs.leftAmountSort.lastChild.classList.add('icon-up-active')
+                // set sort request parameter
+                initParameterSort()
+                app.queryParameter.surplusAmountSort = PERSION_BID.SORT.LEFT_ANNUAL.ASC
                 break;
         }
     }
 
-    // 初始化
-    function monitorSorController() {
-        console.log('默认：'+app.normalSortControl, '参考利率：'+ app.annualRateSortControl, '期限：' + app.termSortControl, '剩余金额：' + app.leftAmountSortControl)
+    /**初始化排序请求参数**/
+    function initParameterSort() {
+        delete app.queryParameter.normalSort
+        delete app.queryParameter.annualRateSort
+        delete app.queryParameter.termSort
+        delete app.queryParameter.surplusAmountSort
     }
 
+    // 输出各按钮的状态
+    function monitorSorController() {
+        console.log('默认：' + app.normalSortControl, '参考利率：' + app.annualRateSortControl, '期限：' + app.termSortControl, '剩余金额：' + app.leftAmountSortControl)
+    }
+
+    // 初始化各排序按钮的状态
     function initSortController(val) {
         switch (val) {
             case 1:
@@ -913,13 +916,13 @@
                 app.annualRateSortControl = 0
                 app.termSortControl = 0
                 break;
-
         }
     }
 
 </script>
 
 <script>
+    /**顶部搜索条件**/
     function active() {
         for (item of this.document.activeElement.parentNode.parentNode.children) {
             item.classList.remove('active')
@@ -927,5 +930,128 @@
         var ele = document.activeElement
         var data = this.document.activeElement.dataset
         ele.parentElement.classList.add('active')
+        queryDispatch(this.document.activeElement.parentNode.parentNode.className, this)
+    }
+
+    function queryDispatch(who, a) {
+        switch (who) {
+            case 'term':
+                configTerm(a);
+                break;
+            case 'annualRate':
+                configAnnualRate(a);
+                break;
+            case 'repayMode':
+                configRepayMode(a)
+                break;
+            case 'surplusAmount':
+                configSurplusAmount(a)
+                break;
+
+        }
+    }
+
+    function configTerm(a) {
+        var data = a.document.activeElement.dataset
+        var val = data.val
+        delete app.queryParameter.term
+        delete app.queryParameter.minTerm
+        delete app.queryParameter.maxTerm
+        if (val == PERSION_BID.QUERY.TERM.DEFAULT.VALUE) {
+            // default
+            delete app.queryParameter.term
+        } else if (val == PERSION_BID.QUERY.TERM.SCOPE_OF_ONE.VALUE) {
+            // three of month
+            app.queryParameter.minTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_ONE.MIN
+            app.queryParameter.maxTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_ONE.MAX
+        } else if (val == PERSION_BID.QUERY.TERM.SCOPE_OF_TWO.VALUE) {
+            app.queryParameter.minTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_TWO.MIN
+            app.queryParameter.maxTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_TWO.MAX
+        } else if (val == PERSION_BID.QUERY.TERM.SCOPE_OF_THREE.VALUE) {
+            app.queryParameter.minTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_THREE.MIN
+            app.queryParameter.maxTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_THREE.MAX
+        } else if (val == PERSION_BID.QUERY.TERM.SCOPE_OF_FOUR.VALUE) {
+            app.queryParameter.minTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_FOUR.MIN
+            app.queryParameter.maxTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_FOUR.MAX
+        } else if (val == PERSION_BID.QUERY.TERM.SCOPE_OF_FIVE.VALUE) {
+            app.queryParameter.minTerm = PERSION_BID.QUERY.TERM.SCOPE_OF_FIVE.MIN
+        }
+    }
+
+    function configAnnualRate(a) {
+        var data = a.document.activeElement.dataset
+        var val = data.val
+        delete app.queryParameter.annualRate
+        delete app.queryParameter.minAnnualRate
+        delete app.queryParameter.maxAnnualRate
+        if (val == PERSION_BID.QUERY.ANNUAL_RATE.DEFAULT.VALUE) {
+            // default
+            delete app.queryParameter.annualRate
+        } else if (val == PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_ONE.VALUE) {
+            // three of month
+            app.queryParameter.minAnnualRate = PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_ONE.MIN
+            app.queryParameter.maxAnnualRate = PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_ONE.MAX
+        } else if (val == PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_TWO.VALUE) {
+            app.queryParameter.minAnnualRate = PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_TWO.MIN
+            app.queryParameter.maxAnnualRate = PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_TWO.MAX
+        } else if (val == PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_THREE.VALUE) {
+            app.queryParameter.minAnnualRate = PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_THREE.MIN
+            app.queryParameter.maxAnnualRate = PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_THREE.MAX
+        } else if (val == PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_FOUR.VALUE) {
+            app.queryParameter.minAnnualRate = PERSION_BID.QUERY.ANNUAL_RATE.SCOPE_OF_FOUR.MIN
+        }
+    }
+
+    function configRepayMode(a) {
+        var data = a.document.activeElement.dataset
+        var val = data.val
+        delete app.queryParameter.repayType
+        if (val == PERSION_BID.QUERY.REPAY_MODE.DEFAULT.VALUE) {
+            // default
+            delete app.queryParameter.repayType
+        } else if (val == PERSION_BID.QUERY.REPAY_MODE.SCOPE_OF_ONE.VALUE) {
+            // three of month
+            app.queryParameter.repayType = PERSION_BID.QUERY.REPAY_MODE.SCOPE_OF_ONE.TYPE
+        } else if (val == PERSION_BID.QUERY.REPAY_MODE.SCOPE_OF_TWO.VALUE) {
+            app.queryParameter.repayType = PERSION_BID.QUERY.REPAY_MODE.SCOPE_OF_TWO.TYPE
+        }
+    }
+
+    function configSurplusAmount(a) {
+        var data = a.document.activeElement.dataset
+        var val = data.val
+        delete app.queryParameter.surplusAmount
+        delete app.queryParameter.minSurplusAmount
+        delete app.queryParameter.maxSurplusAmount
+        if (val == PERSION_BID.QUERY.LEFT_AMOUNT.DEFAULT.VALUE) {
+            // default
+            delete app.queryParameter.surplusAmount
+        } else if (val == PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_ONE.VALUE) {
+            // three of month
+            app.queryParameter.minSurplusAmount = PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_ONE.MIN
+            app.queryParameter.maxSurplusAmount = PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_ONE.MAX
+        } else if (val == PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_TWO.VALUE) {
+            app.queryParameter.minSurplusAmount = PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_TWO.MIN
+            app.queryParameter.maxSurplusAmount = PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_TWO.MAX
+        } else if (val == PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_THREE.VALUE) {
+            app.queryParameter.minSurplusAmount = PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_THREE.MIN
+            app.queryParameter.maxSurplusAmount = PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_THREE.MAX
+        } else if (val == PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_FOUR.VALUE) {
+            app.queryParameter.minSurplusAmount = PERSION_BID.QUERY.LEFT_AMOUNT.SCOPE_OF_FOUR.MIN
+        }
+    }
+</script>
+
+<script>
+    /****/
+    function loadProduct() {
+        axios({
+            method: 'post',
+            url: '/product/disperseBid',
+            data: app.queryParameter
+        }).then(function(response) {
+            console.log(response)
+            app.productInfo = response.data.data
+        })
     }
 </script>
