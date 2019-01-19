@@ -23,6 +23,10 @@
         [v-cloak] {
             display: none;
         }
+        #sk span {
+            color: #ffffff; !important;
+            font-family: 'Microsoft YaHei';
+        }
     </style>
 </head>
 <body>
@@ -203,16 +207,21 @@
                                                     <dd>期限</dd>
                                                 </dl>
                                                 <dl class="starting-amount">
-                                                    <dt>{{item.borrow_money}}.00元</dt>
+                                                    <dt>{{item.surplus_amount}}.00元</dt>
                                                     <dd>剩余金额</dd>
                                                 </dl>
                                                 <dl class="build-date">
-                                                    <dt>{{item.repay_type}}</dt>
+                                                    <dt>{{item.repayMode}}</dt>
                                                     <dd>还款方式</dd>
                                                 </dl>
-                                                <dl class="operate trading">
-                                                    <dd>成功交易时间</dd>
-                                                    <dd class="datetime">2019-01-16</dd>
+                                                <dl id="sk" class="operate trading">
+                                                    <!--<dd>成功交易时间</dd>-->
+                                                    <!--<dd class="datetime">2019-01-16</dd>-->
+
+                                                    <dd>
+                                                        <el-button v-if="item.surplus_amount>0" type="primary">立即投标</el-button>
+                                                        <img v-if="!item.surplus_amount>0" src="../../../resources/images/sellout-c3896bad67.png" width="120px"/>
+                                                    </dd>
                                                 </dl>
                                             </div>
                                         </div>
@@ -226,7 +235,7 @@
                                                 layout="total, prev, pager, next, jumper"
                                                 :current-page="queryParameter.pageCurrent"
                                                 :page-size="queryParameter.pageSize"
-                                                :total="666"
+                                                :total="pageInfo.dataTotal"
                                                 @current-change="handleCurrentChange"
                                         ></el-pagination>
                                     </div>
@@ -440,7 +449,10 @@
                 pageSize: PERSION_BID.PAGE.SIZE,
                 pageCurrent: PERSION_BID.PAGE.NOW
             },
-            productInfo: []
+            pageInfo: {
+            },
+            productInfo: [],
+            productResult: true
 
         },
         watch: {
@@ -523,15 +535,19 @@
             },
             productTerm: function () {
                 active()
+                loadProduct()
             },
             annualRate: function () {
                 active()
+                loadProduct()
             },
             repayMode: function () {
                 active()
+                loadProduct()
             },
             remainAmount: function () {
                 active()
+                loadProduct()
             },
             normalSort: function () {
                 normalSort()
@@ -547,6 +563,8 @@
             },
             handleCurrentChange: function(val) {
                 this.queryParameter.pageCurrent = val
+                console.log(app.queryParameter)
+                loadProduct()
             }
         }
     })
@@ -692,6 +710,7 @@
         initParameterSort()
         app.normalSortControl = 1
         // monitorSorController()
+
     }
 
     /**参考利率排序按钮被按下  0：关闭，1：降序，2：升序**/
@@ -710,6 +729,10 @@
             app.annualRateSortControl = 1
         }
         // monitorSorController()
+        for (key in app.queryParameter) {
+            console.log(key)
+        }
+
     }
 
     /**期限排序按钮被按下**/
@@ -760,12 +783,13 @@
                 app.queryParameter.normalSort = PERSION_BID.SORT.DEFAULT.OPEN /**设置默认排序的请求参数**/
                 break;
         }
+        loadProduct()
     }
 
     /**参考年利率排序状态的监听函数**/
     function annualRateSortControl(val, oldVal) {
         // 参考利率
-        // console.log('参考利率 - 当前 ：%s，修改前：%s', val, oldVal)
+        console.log('参考利率 - 当前 ：%s，修改前：%s', val, oldVal)
         switch (val) {
             case 0:
                 // 重置active操作
@@ -798,6 +822,7 @@
                 break;
 
         }
+        loadProduct()
     }
 
     /**期限排序状态按钮的监听函数**/
@@ -836,6 +861,7 @@
                 app.queryParameter.termSort = PERSION_BID.SORT.TERM.ASC
                 break;
         }
+        loadProduct()
     }
 
     /**剩余金额排序状态的监听函数**/
@@ -874,6 +900,7 @@
                 app.queryParameter.surplusAmountSort = PERSION_BID.SORT.LEFT_ANNUAL.ASC
                 break;
         }
+        loadProduct()
     }
 
     /**初始化排序请求参数**/
@@ -1052,6 +1079,7 @@
         }).then(function(response) {
             console.log(response)
             app.productInfo = response.data.data
+            app.pageInfo.dataTotal = response.data.object
         })
     }
 </script>

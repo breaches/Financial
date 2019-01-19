@@ -3,14 +3,106 @@
 <mapper namespace="com.breach.huajinbao.mapper.product.IProductMapper">
 
     <select id="disperseBid" resultType="map">
-      select *
-      from user_borrow_bid_apply_record
+      select
+        record.*,
+        repay.repayment_description as repayMode
+      from
+        user_borrow_bid_apply_record as record
+      left join
+        consumer_repayment_type AS repay
+      ON
+        record.repay_type = repay.id
       <where>
           publish_id > 0
           and trals_id = 0
           and retrals_id = 0
           and abandon_id = 0
+          -- 项目期限
+          <if test="minTerm != null and minTerm != ''">
+              and borrow_time_limit &gt;= #{minTerm}
+          </if>
+          <if test="maxTerm != null and maxTerm != ''">
+              and borrow_time_limit &lt;= #{maxTerm}
+          </if>
+          -- 参考利率
+          <if test="minAnnualRate != null and minAnnualRate != ''">
+              and lending_rate &gt;= #{minAnnualRate}
+          </if>
+          <if test="maxAnnualRate != null and maxAnnualRate != ''">
+              and lending_rate &lt;= #{maxAnnualRate}
+          </if>
+          -- 还款方式
+          <if test="repayType != null and repayType != ''">
+              and repay_type = #{repayType}
+          </if>
+          -- 剩余金额
+          <if test="minSurplusAmount != null and minSurplusAmount != ''">
+              and surplus_amount &gt;= #{minSurplusAmount}
+          </if>
+          <if test="maxSurplusAmount != null and maxSurplusAmount != ''">
+              and surplus_amount &lt;= #{maxSurplusAmount}
+          </if>
+          -- 参考利率排序方式 1：降序，2：升序
+          <if test="annualRateSort != null and annualRateSort == 1">
+             order by lending_rate desc
+          </if>
+          <if test="annualRateSort != null and annualRateSort == 2">
+             order by lending_rate asc
+          </if>
+          -- 期限排序方式 1：降序，2：升序
+          <if test="termSort != null and termSort == 1">
+             order by borrow_time_limit desc
+          </if>
+          <if test="termSort != null and termSort == 2">
+             order by borrow_time_limit asc
+          </if>
+          -- 剩余金额排序 1：降序，2：升序
+          <if test="surplusAmountSort != null and surplusAmountSort == 1">
+             order by surplus_amount desc
+          </if>
+          <if test="surplusAmountSort != null and surplusAmountSort == 2">
+             order by surplus_amount asc
+          </if>
       </where>
+        limit #{pageCurrent}, #{pageSize}
+    </select>
+
+    <select id="disperseBidTotal" resultType="integer">
+        select
+        count(*)
+        from
+        user_borrow_bid_apply_record
+        <where>
+            publish_id > 0
+            and trals_id = 0
+            and retrals_id = 0
+            and abandon_id = 0
+            -- 项目期限
+            <if test="minTerm != null and minTerm != ''">
+                and borrow_time_limit &gt;= #{minTerm}
+            </if>
+            <if test="maxTerm != null and maxTerm != ''">
+                and borrow_time_limit &lt;= #{maxTerm}
+            </if>
+            -- 参考利率
+            <if test="minAnnualRate != null and minAnnualRate != ''">
+                and lending_rate &gt;= #{minAnnualRate}
+            </if>
+            <if test="maxAnnualRate != null and maxAnnualRate != ''">
+                and lending_rate &lt;= #{maxAnnualRate}
+            </if>
+            -- 还款方式
+            <if test="repayType != null and repayType != ''">
+                and repay_type = #{repayType}
+            </if>
+            -- 剩余金额
+            <if test="minSurplusAmount != null and minSurplusAmount != ''">
+                and surplus_amount &gt;= #{minSurplusAmount}
+            </if>
+            <if test="maxSurplusAmount != null and maxSurplusAmount != ''">
+                and surplus_amount &lt;= #{maxSurplusAmount}
+            </if>
+        </where>
     </select>
 
 </mapper>

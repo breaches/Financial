@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-17
+ * @since 2019-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -50,11 +50,6 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
      * 头像
      */
     private String avatar;
-
-    /**
-     * 表示当前用户的状态 1：正常 2：冻结
-     */
-    private Integer state;
 
     private Boolean isCar;
 
@@ -97,6 +92,11 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
      * 用户审额的状态 1：未审额/从未申请 2：已提交/待审核/已申请 3：未通过 4：已通过
      */
     private Integer verifyState;
+
+    /**
+     * 表示当前用户的状态 1：正常 2：冻结
+     */
+    private Integer state;
 
 
     @Override

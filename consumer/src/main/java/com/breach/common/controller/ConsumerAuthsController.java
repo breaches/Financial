@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-17
+ * @since 2019-01-19
  */
 @Controller
 @RequestMapping("/consumerAuths")
