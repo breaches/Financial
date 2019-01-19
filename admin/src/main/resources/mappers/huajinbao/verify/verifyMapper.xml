@@ -11,26 +11,28 @@
     <sql id="Query">
         <where>
             <if test="name != null and name != ''">
-                and  c.name  like CONCAT('%',#{name},'%')
+                and  name  like CONCAT('%',#{name},'%')
             </if>
             <if test="beginDate != null and beginDate != '' ">
-                and  c.create_time &gt;  #{beginDate}
+                and  create_time &gt;  #{beginDate}
             </if>
             <if test="endDate != null and endDate != '' ">
-                and  c.create_time &lt;  #{endDate}
+                and  create_time &lt;  #{endDate}
             </if>
+            and state= 1
         </where>
     </sql>
 
 
     <select id="getAuthentication" resultType="map">
-        SELECT * FROM consumer_activate_verify_record c
+        SELECT * FROM consumer_activate_verify_record
         <include refid="Query" />
         limit #{page},#{count}
     </select>
 
     <select id="getTotal" resultType="java.lang.Integer">
-        select count(*) count from  consumer_activate_verify_record  c
+        select count(*) count from  consumer_activate_verify_record
+        <include refid="Query"/>
     </select>
 
 
@@ -176,7 +178,23 @@
           where
           record_number=#{recordNumber}
         </update>
+    <select id="getAccountId" resultType="java.lang.Integer">
 
+        select  account_id from  consumer_info where  id =#{consumerId}
+
+    </select>
+
+
+
+        <update id="setCreditLine">
+            update
+            consumer_account
+            set
+            credit_amount = 50000,
+            credit_balance = 50000
+            where
+            id = #{accountId}
+        </update>
 
 </mapper>
 

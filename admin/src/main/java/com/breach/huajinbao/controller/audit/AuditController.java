@@ -1,10 +1,7 @@
 package com.breach.huajinbao.controller.audit;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.breach.huajinbao.service.audit.IAuditService;
-
 import com.breach.huajinbao.util.audit.AuditQuery;
-
 import com.breach.huajinbao.util.audit.EditQuery;
 import com.breach.huajinbao.util.audit.PassQuery;
 import com.breach.huajinbao.util.audit.Result;
@@ -65,4 +62,18 @@ public class AuditController {
 
         return  auditService.goPass(passQuery);
     }
+    /**
+     * 招标不通过
+     * @param
+     * @return
+     *
+     */
+    @RequestMapping("/noPass")
+    public Result noPass(@RequestBody PassQuery passQuery){
+
+        return  auditService.noPass(passQuery);
+    }
+
+
+
 }

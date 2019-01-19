@@ -5,11 +5,9 @@ import com.breach.common.entity.EmployeeInfo;
 import com.breach.common.entity.UserBorrowBidPublishVerify;
 import com.breach.huajinbao.mapper.audit.IAuditMapper;
 import com.breach.huajinbao.service.audit.IAuditService;
-import com.breach.huajinbao.util.audit.AuditQuery;
-import com.breach.huajinbao.util.audit.EditQuery;
-import com.breach.huajinbao.util.audit.PassQuery;
-import com.breach.huajinbao.util.audit.Result;
+import com.breach.huajinbao.util.audit.*;
 import com.breach.huajinbao.util.base.EmployeeSessionUtil;
+import com.breach.huajinbao.util.verify.NewsMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +48,7 @@ public class AuditServiceImpl implements IAuditService {
     }
     /**
      * 招标初审订单信息详情(身份详细信息，招标详情信息),
-     * 1.凭id编号，找到用户的身份信息，
+     * 1.凭id编号，找到提交记录中用户的身份信息，
      * 2.通过用户信息找到子集信息，
      * 3.招标信息的查询，
      * 4.返回需求信息
@@ -78,9 +76,9 @@ public class AuditServiceImpl implements IAuditService {
     }
     /**
      * 招标审核通过时，
-     * 1.插入操作人的信息，返回id
+     * 1.插入操作人的信息，返回id（状态1）
      * 2.修改招标申请表的（招标审核关联）
-     * 3.回复招标申请通过信息给用户
+     * 3.回复招标申请成功   通知信息给用户
      * 4.返回通过提示
      *
      * @param passQuery 招标单号和同意理由（实体）
@@ -92,15 +90,45 @@ public class AuditServiceImpl implements IAuditService {
         //插入操作人的信息，返回id
         UserBorrowBidPublishVerify operator = new UserBorrowBidPublishVerify();
         EmployeeInfo emp =EmployeeSessionUtil.getEmp();
-
         operator.setBorrowNumber(passQuery.getBorrowNumber());
         operator.setEmployeeId(emp.getId());
         operator.setReason(passQuery.getText());
-        //operator.setVerifyTime(new Date());
-
-
-        //修改
-        //auditMapper.setBorrowNumber(borrowNumber);
+        operator.setVerifyTime(TimeUtil.getSqlTimeStamp());
+        operator.setState(1);
+        auditMapper.insertPublishVerify(operator);
+        //修改修改招标申请表的（招标审核关联）
+        auditMapper.setBorrowNumber(passQuery.getBorrowNumber(),operator.getId());
+        //回复招标申请通过信息给用户
+        Integer consumerId = auditMapper.selectUserId(passQuery.getBorrowNumber());
+        auditMapper.insertNews(NewsMode.SUCCESS_TITLE_AUDIT, NewsMode.SUCCESS_CONTENT_AUDIT, consumerId,new Date());
         return new Result(200,"招标审核通过");
+    }
+    /**
+     *   招标审核不通过时，
+     *  1.插入操作人的信息，返回id（状态2）
+     *  2.修改招标申请表的（招标审核关联）
+     *  3.回复招标申请失败 通知信息给用户
+     *  4.返回通过提示
+     * @param
+     * @return
+     *
+     */
+    @Override
+    public Result noPass(PassQuery passQuery) {
+        //插入操作人的信息，返回id
+        UserBorrowBidPublishVerify operator = new UserBorrowBidPublishVerify();
+        EmployeeInfo emp =EmployeeSessionUtil.getEmp();
+        operator.setBorrowNumber(passQuery.getBorrowNumber());
+        operator.setEmployeeId(emp.getId());
+        operator.setReason(passQuery.getText());
+        operator.setVerifyTime(TimeUtil.getSqlTimeStamp());
+        operator.setState(2);
+        auditMapper.insertPublishVerify(operator);
+        //修改修改招标申请表的（招标审核关联）
+        auditMapper.setBorrowNumber(passQuery.getBorrowNumber(),operator.getId());
+        //回复招标申请通过信息给用户
+        Integer consumerId = auditMapper.selectUserId(passQuery.getBorrowNumber());
+        auditMapper.insertNews(NewsMode.DEDEAT_TITLE_AUDIT, NewsMode.DEFEAT_CONTENT_AUDIT, consumerId,new Date());
+        return new Result(200,"招标审核未通过");
     }
 }

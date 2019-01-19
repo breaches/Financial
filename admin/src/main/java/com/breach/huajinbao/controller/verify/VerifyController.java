@@ -1,6 +1,5 @@
 package com.breach.huajinbao.controller.verify;
 
-import com.breach.common.entity.ConsumerActivateVerifyRecord;
 import com.breach.huajinbao.service.verify.IVerifyService;
 import com.breach.huajinbao.util.verify.Result;
 import com.breach.huajinbao.util.verify.VerifyQuery;
@@ -35,19 +34,18 @@ public class VerifyController {
 
         return verifyService.getUserInfo(info);
 
-        /**
-         * @Description: 获取实名认证信息的个人详情进行比对，（通过或不通过）
-         * @Param:  * @param info
-         * @return: java.util.Map<java.lang.String , java.lang.Object>
-         * @Author: wanghe
-         * @Date:
-         */
     }
+
+    /**
+     * @Description: 获取实名认证信息的个人详情进行比对，（通过或不通过）
+     * @Param:  * @param info
+     * @return: java.util.Map<java.lang.String , java.lang.Object>
+     * @Author: wanghe
+     * @Date:
+     */
 
     @RequestMapping("/getDetailed")
     public Map<String, Object> getDetailed(String record) {
-        //System.out.println(record);
-        //System.out.println(verifyService.getDetailed(record));
         return verifyService.getDetailed(record);
 
     }

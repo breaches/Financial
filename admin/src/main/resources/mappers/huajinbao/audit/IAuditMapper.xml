@@ -21,11 +21,12 @@
 			<if test="endDate != null and endDate != '' ">
 				and create_time &lt;  #{endDate}
 			</if>
+			and publish_id = 0
 		</where>
 	</sql>
 
 	<select id="getAuditTenderee" resultType="map">
-		select * from user_borrow_bid_apply_record where publish_id = 0
+		select * from  user_borrow_bid_apply_record
 		<include refid="auditQuery" />
 		limit #{page},#{count}
 	</select>
@@ -39,7 +40,7 @@
 	<!--查询单个的个体详情-->
 	<select id="getPerInfo"  resultType="com.breach.common.entity.ConsumerActivateVerifyRecord">
 
-        select * from  consumer_activate_verify_record where consumer_id = #{userId} and state = 2
+        select * from  consumer_activate_verify_record where consumer_id = #{userId}
     </select>
 
 
@@ -66,6 +67,57 @@
 	<select id="getBorrowNumber" resultType="map">
     SELECT * from  user_borrow_bid_apply_record   WHERE  borrow_number=#{borrowNumber}
     </select>
+
+
+	<!-- 添加招标审核记录，返回id， -->
+	<insert id="insertPublishVerify" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	insert into user_borrow_bid_publish_verify(
+	borrow_number,
+	employee_id,
+	verify_time,
+	reason,
+	state
+	)
+	values (
+	#{borrowNumber},
+	#{employeeId},
+	#{verifyTime},
+	#{reason},
+	#{state}
+	)
+	</insert>
+
+	<!--通过时   修改审核信息的初审外键（关联）-->
+	<update id="setBorrowNumber">
+          update
+          user_borrow_bid_apply_record
+          set
+          publish_id=#{id}
+          where
+          borrow_number=#{borrowNumber}
+     </update>
+	<select id="selectUserId" resultType="java.lang.Integer">
+	  select user_id from user_borrow_bid_apply_record where borrow_number=#{borrowNumber}
+	</select>
+
+	<!--給提交信息的用户回复招标审核消息-->
+	<insert id="insertNews">
+	    insert into consumer_message(
+	    consumer_id,
+	    title,
+	    content,
+	    time,
+	    state
+	    )
+	    values (
+	    #{consumerId},
+	    #{title},
+	    #{content},
+        #{date},
+        1
+	    )
+	</insert>
+
 </mapper>
 
 
