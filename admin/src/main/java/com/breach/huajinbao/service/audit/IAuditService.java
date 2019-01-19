@@ -35,4 +35,11 @@ public interface IAuditService {
      *
      */
     Result goPass(PassQuery passQuery);
+    /**
+     * 招标不通过
+     * @param
+     * @return
+     *
+     */
+    Result noPass(PassQuery passQuery);
 }

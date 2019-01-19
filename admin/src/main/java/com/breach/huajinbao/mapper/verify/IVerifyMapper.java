@@ -4,7 +4,6 @@ import com.breach.common.entity.ConsumerActivateVerifyRecord;
 import com.breach.common.entity.ConsumerAddress;
 import com.breach.huajinbao.util.verify.VerifyQuery;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -18,11 +17,26 @@ import java.util.Map;
 @Repository
 public interface IVerifyMapper {
 
-
+    /**
+     * 搜索所有的待审核的实名认证表
+     * @param
+     * @return
+     *
+     */
     List<Map<String, Object>> getAuthentication(VerifyQuery info);
-
+    /**
+     * 获取总个数
+     * @param
+     * @return
+     *
+     */
     Integer getTotal(VerifyQuery info);
-
+    /**
+     * 由认证订单的编号，获取信息
+     * @param
+     * @return
+     *
+     */
     ConsumerActivateVerifyRecord getDetailed(String record);
     /**
      * 学历
@@ -101,4 +115,21 @@ public interface IVerifyMapper {
      *
      */
     void insertBank(@Param("bankCode") String bankCode,@Param("consumerId") Integer consumerId);
+
+     /**
+      * 获取账户id
+      * @param
+      * @return
+      *
+      */
+    Integer getAccountId(Integer consumerId);
+    /**
+     * 激活信用额度
+     * @param
+     * @return
+     *
+     */
+    void setCreditLine(Integer accountId);
+
+
 }

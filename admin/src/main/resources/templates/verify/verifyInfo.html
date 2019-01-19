@@ -6,7 +6,11 @@
     <!--  VUE -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <!-- elementUI -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+
+    <!--<link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">-->
+
+
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -62,7 +66,7 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="认证详情" :before-close="handleClose" :visible.sync="dialogVisible" width="60%">
+    <el-dialog title="认证详情" :before-close="handleClose" :visible.sync="dialogVisible" width="980px">
 
         <div class="content">
             <div class="left_Info" style="float: left; height: 600px; width:400px">
@@ -123,8 +127,8 @@
             </div>
             <!--选择-->
             <div style="width: 800px">
-            <br/>
-            <p>认证是否通过？ 点击 通过 或 不通过</p>
+                <br/>
+                <p>认证是否通过？ 点击 通过 或 不通过</p>
                 <el-radio v-model="radio" label="1" @change="success">通过</el-radio>
                 <el-radio v-model="radio" label="2" @change="danger">不通过</el-radio>
                 <el-input

@@ -10,6 +10,16 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style type="text/css">
+        .table_Info{
+
+            border: 1px solid #545c64;
+
+        }
+
+
+
+    </style>
 </head>
 
 <body>
@@ -53,9 +63,9 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="发标审核" :before-close="handleClose" :visible.sync="dialogVisible" width="60%">
+    <el-dialog title="发标审核" :before-close="handleClose" :visible.sync="dialogVisible" width="980px">
         <div style="margin-left: 25px">
-            <table width="900px" border="1px" cellpadding="0px" cellspacing="0px">
+            <table class="table_Info"  width="900px" border="1px" cellpadding="0px" cellspacing="0px">
                 <tr height="50px">
                     <th>姓名:
                     </th>
@@ -135,14 +145,14 @@
                     <th>招标金额</th>
                     <td>{{auditInfo.borrow_money}}</td>
                     <th>招标期限</th>
-                    <td>{{auditInfo.bidding_time_limit}}</td>
-                    <th>招标类型</th>
+                    <td>{{auditInfo.bidding_time_limit}}天</td>
+                    <th width="">招标类型</th>
                     <td>{{auditInfo.repay_type}}</td>
                     <th>招标利率</th>
-                    <td>{{auditInfo.lending_rate}}</td>
+                    <td>{{auditInfo.lending_rate}}%</td>
 
                     <th>还款期限</th>
-                    <td>{{auditInfo.borrow_time_limit}}</td>
+                    <td>{{auditInfo.borrow_time_limit}}月</td>
                 </tr>
                 <tr height="80px">
 
@@ -213,7 +223,7 @@
             empTotal: 0,
             dialogVisible: false,
             auditInfo: {},
-            textarea: "认证成功",
+            textarea: "招标审核成功",
             radio: "1",
             Info: {},
         },
@@ -242,10 +252,10 @@
                 reload();
             },
             danger: function () {
-                this.textarea = "@请重试，提交信息有误";
+                this.textarea = "@招标审核失败，提交信息有误";
             },
             success: function () {
-                this.textarea = "@认证成功";
+                this.textarea = "@招标审核成功";
             },
             handleEdit: function (user) {
                 app.edit.borrowNumber=user.borrow_number;
@@ -282,7 +292,14 @@
                             app.Info.isSingle = "已婚";
                         } else {
                             app.Info.isSingle = "未婚"
+                        };
+                        if(app.auditInfo.repay_type=1){
+                            app.auditInfo.repay_type="等额本息";
+                        }else{
+                            app.auditInfo.repay_type="等额本金"
                         }
+
+
                         //显示弹框
                         app.dialogVisible = true;
                     });
@@ -343,8 +360,6 @@
 
         }
     });
-
-
     function reload() {
         axios.post('audit/auditTenderee', app.empQuery)
             .then(function (response) {
