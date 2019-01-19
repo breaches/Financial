@@ -11,6 +11,7 @@ import com.breach.huajinbao.util.verify.NewsMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +109,8 @@ public class AuditServiceImpl implements IAuditService {
      *  1.插入操作人的信息，返回id（状态2）
      *  2.修改招标申请表的（招标审核关联）
      *  3.回复招标申请失败 通知信息给用户
-     *  4.返回通过提示
+     *  4.给用户增加上原来的信用额度
+     *  5.返回通过提示
      * @param
      * @return
      *
@@ -124,11 +126,19 @@ public class AuditServiceImpl implements IAuditService {
         operator.setVerifyTime(TimeUtil.getSqlTimeStamp());
         operator.setState(2);
         auditMapper.insertPublishVerify(operator);
-        //修改修改招标申请表的（招标审核关联）
+        //修改招标申请表的（招标审核关联）
         auditMapper.setBorrowNumber(passQuery.getBorrowNumber(),operator.getId());
-        //回复招标申请通过信息给用户
+        //回复招标申请不通过信息给用户
         Integer consumerId = auditMapper.selectUserId(passQuery.getBorrowNumber());
         auditMapper.insertNews(NewsMode.DEDEAT_TITLE_AUDIT, NewsMode.DEFEAT_CONTENT_AUDIT, consumerId,new Date());
+        //给用户增加上原来的信用额度
+        BigDecimal money = auditMapper.getBorrowMoney(passQuery.getBorrowNumber());
+        //找到用户id
+        Integer  userId =auditMapper.getUserInfoId(passQuery.getBorrowNumber());
+        //找到用户账户的id
+        Integer accountId =auditMapper.getAccountId(userId);
+        //加上减去的额度
+        auditMapper.addCreditLimit(money,accountId);
         return new Result(200,"招标审核未通过");
     }
 }

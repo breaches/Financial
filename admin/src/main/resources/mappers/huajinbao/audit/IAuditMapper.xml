@@ -118,6 +118,34 @@
 	    )
 	</insert>
 
+	<!--由借款订单号，找的money (BigDecimal类型)-->
+	<select id="getBorrowMoney" resultType="java.math.BigDecimal">
+
+		select borrow_money from user_borrow_bid_apply_record where  borrow_number=#{borrowNumber}
+	</select>
+
+	<!--获取该招标订单用户的id-->
+	<select id="getUserInfoId" resultType="java.lang.Integer">
+
+		select user_id from user_borrow_bid_apply_record where  borrow_number=#{borrowNumber}
+	</select>
+	<!--找到用户id的账户表的id-->
+
+	<select id="getAccountId" resultType="java.lang.Integer">
+
+		select  account_id from consumer_info where id=#{userId}
+
+	</select>
+
+	<!--加上借的额度-->
+	<update id="addCreditLimit">
+		update
+		consumer_account
+		set
+		credit_balance=credit_balance + #{money}
+		where
+		id=#{accountId}
+	</update>
 </mapper>
 
 
