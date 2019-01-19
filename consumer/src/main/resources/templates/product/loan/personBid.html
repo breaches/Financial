@@ -182,12 +182,12 @@
                                             class="icon icon-down"></i></span>
                                 </div>
                                 <div id="list">
-                                    <div class="list" id="listModel">
+                                    <div v-cloak="" class="list" id="listModel">
 
                                         <div v-for="item in productInfo" class="item sell-out" data-href="">
                                             <div class="info">
                                                 <dl class="title">
-                                                    <dt>小额消费借款</dt>
+                                                    <dt>{{item.product_name}}</dt>
                                                     <dd>
                                                         <a href="javascript:;" title="消费贷D20190116-a2" class="name">{{item.borrow_number}}</a>
                                                     </dd>
