@@ -33,8 +33,8 @@ public class ProductServiceImpl implements IProductService {
         System.out.println("=====================================");
 
         List<Map<String, Object>> result =  productMapper.disperseBid(queryProduct);
+        Integer integer = productMapper.disperseBidTotal(queryProduct);
 
-
-        return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, result);
+        return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, result, integer);
     }
 }

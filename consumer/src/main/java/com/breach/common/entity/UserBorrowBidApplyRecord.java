@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-17
+ * @since 2019-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -50,6 +50,11 @@ public class UserBorrowBidApplyRecord extends Model<UserBorrowBidApplyRecord> {
      * 借款实际金额
      */
     private BigDecimal borrowMoney;
+
+    /**
+     * 剩余金额，还差多少钱达到自己需要借钱的总数
+     */
+    private BigDecimal surplusAmount;
 
     /**
      * 借款期限，借多久，借多少个月，月单位
@@ -105,6 +110,11 @@ public class UserBorrowBidApplyRecord extends Model<UserBorrowBidApplyRecord> {
      * 流标/废标审核表的关联id
      */
     private Integer abandonId;
+
+    /**
+     * 产品名：个人散标、经营贷等等
+     */
+    private String productName;
 
 
     @Override

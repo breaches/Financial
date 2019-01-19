@@ -57,5 +57,10 @@ public class ReturnUtil implements Serializable {
         this.message = message;
         this.object = object;
     }
+    public ReturnUtil(Integer code, List data, Object object) {
+        this.code = code;
+        this.data = data;
+        this.object = object;
+    }
 
 }

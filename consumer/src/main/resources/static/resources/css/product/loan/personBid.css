@@ -293,6 +293,47 @@ ul {
 
 /******主体 结束*****/
 
+.el-button:focus {
+    color: #E31725;
+    border-color: #E31725;
+    background-color: #E31725;
+    outline: 0;
+}
+
+.el-button:active {
+    color: #E31725;
+    border-color: #E31725;
+    outline: 0;
+}
+.el-button--primary:active {
+    background: #E31725;
+    border-color: #E31725;
+    color: #fff;
+}
+
+.el-button:hover {
+    border-color: #E31725;
+    background: #E31725;
+    color: #fff;
+}
+
+.el-button {
+    padding: 0 15px;
+    border-radius: 3px;
+    line-height: 36px;
+    text-shadow: none;
+    background: #EC414D;
+    color: #fff;
+    box-shadow: none;
+    border: 1px solid #EC414D;
+}
+
+.el-button {
+    width: 138px;
+    margin-top: 17px;
+}
+
+
 
 
 /***page**/

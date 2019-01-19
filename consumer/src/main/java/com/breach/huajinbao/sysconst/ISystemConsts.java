@@ -31,18 +31,34 @@ public interface ISystemConsts {
 
     /** 用户申请额度的状态 **/
     /** 【未申请】 1 **/
-    Integer CONSUMER_INFO_VERIFY_STATE_NEVER = 1;
+    int CONSUMER_INFO_VERIFY_STATE_NEVER = 1;
     /** 【已审额】 2 **/
-    Integer CONSUMER_INFO_VERIFY_STATE_WAIT = 2;
+    int CONSUMER_INFO_VERIFY_STATE_WAIT = 2;
     /** 【未通过】 3 **/
-    Integer CONSUMER_INFO_VERIFY_STATE_NO_PASS = 3;
+    int CONSUMER_INFO_VERIFY_STATE_NO_PASS = 3;
     /** 【已通过】 4 **/
-    Integer CONSUMER_INFO_VERIFY_STATE_PASS = 4;
+    int CONSUMER_INFO_VERIFY_STATE_PASS = 4;
 
     /** 验证 认证 **/
     /** 身份信息可以使用，目前没有被占用 **/
     Integer VERIFY_ID_INFO_ENABLE = 1001;
     /** 身份信息不可用，已被占用 **/
     Integer VERIFY_ID_INFO_DISABLE = 1002;
+
+
+
+    /**提交招标预审**/
+    /**招标预审提交成功**/
+    Integer BORROW_BID_APPLY_RECORD_SUCCESS = 2000;
+    /**招标预审提交失败，信用额度不足**/
+    Integer BORROW_BID_APPLY_RECORD_LACK_OF_CREDIT = 2001;
+    /**招标预审提交失败，提交失败**/
+    Integer BORROW_BID_APPLY_RECORD_ERROR = 2002;
+    /**招标预审提交失败，申请额度失败**/
+    Integer BORROW_BID_APPLY_RECORD_CREDIT_FAILURE = 2003;
+    /**招标预审提交失败，申请额处理中**/
+    Integer BORROW_BID_APPLY_RECORD_CREDIT_PROCESS = 2004;
+    /**招标预审提交失败，为申请额度**/
+    Integer BORROW_BID_APPLY_RECORD_CREDIT_NEVER = 2005;
 
 }
