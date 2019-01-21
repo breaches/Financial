@@ -107,7 +107,9 @@
     <select id="personBidDetail" resultType="java.util.Map">
         select
         record.*,
-        repay.repayment_description as repayment
+        repay.repayment_description as repayment,
+        repay.detail as repaymentDetail,
+        card.sex
         from
         user_borrow_bid_apply_record
         AS
@@ -118,6 +120,18 @@
         repay
         ON
         record.repay_type=repay.id
+        INNER JOIN
+        consumer_info
+        AS
+        info
+        ON
+        record.user_id=info.id
+        INNER JOIN
+        consumer_card
+        AS
+        card
+        ON
+        info.card_id=card.id
         where record.id = #{productID}
     </select>
 
