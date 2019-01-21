@@ -103,9 +103,11 @@
                     </ul>
                 </div>
                 <!-- body内容 -->
-                <div class="container detail-container" id="contanier">
+                <div v-cloak class="container detail-container" id="contanier">
                     <div class="shoulder" id="shoulderModel">
-                        <div class="neck"><h2 class="title">{{productDetail.borrow_number}}</h2>
+                        <div class="neck">
+                            <h2 class="title">{{productDetail.productID}}</h2>
+                            <span v-if="!isFull" style="color:#ec414d">剩余时间：{{remainTime}}</span>
                             <div class="tags"></div>
                             <a class="contract to-contract serviceContract" href="javascript:;"
                                data-url="/cms/contract/pcts/1/template/productId/39028192">《服务合同》</a> <a
@@ -137,18 +139,26 @@
                                 </div>
                                 <!--标的信息资料-->
                                 <div class="sub-left-bottom g-cf">
-                                    <dl>
+                                    <dl v-if="isFull">
                                         <dt>到期时间：</dt>
-                                        <dd>2020-01-19 00:00:00</dd>
+                                        <dd>{{productDetail.end_buy_time}}</dd>
+                                    </dl>
+                                    <dl v-if="!isFull">
+                                        <dt>结束时间：</dt>
+                                        <dd>{{productDetail.end_buy_time}}</dd>
                                     </dl>
                                     <dl>
                                         <dt>还款方式：</dt>
-                                        <dd>每月还本付息<i class="icon icon-question-mark js_poshytip"
-                                                     title="每月还本金及利息，其中还款本金每月相同。"></i></dd>
+                                        <dd>{{productDetail.repayment}}<i class="icon icon-question-mark js_poshytip"
+                                                     :title="productDetail.repaymentDetail"></i></dd>
                                     </dl>
-                                    <dl>
+                                    <dl v-if="isFull">
                                         <dt>起息日期：</dt>
                                         <dd>2019-01-19</dd>
+                                    </dl>
+                                    <dl v-if="!isFull">
+                                        <dt>开始时间：</dt>
+                                        <dd>{{productDetail.start_buy_time}}</dd>
                                     </dl>
                                     <dl>
                                         <dt>项目进度：</dt>
@@ -161,7 +171,7 @@
                                     </dl>
                                     <dl>
                                         <dt>募集期：</dt>
-                                        <dd>{{productDetail.bidding_time_limit}}</dd>
+                                        <dd>{{productDetail.bidding_time_limit + '天'}}</dd>
                                     </dl>
                                     <dl>
                                         <dt>产品等级：</dt>
@@ -173,17 +183,22 @@
                             </div>
                             <!--标右边的信息，可显示购买，售罄-->
                             <div class="sub-right">
-                                <!--<div class="sellout abs">
+                                <div v-if="isRetrals && isFull" class="sellout abs">
                                     <div class="info">成功交易时间：</div>
-                                    <div class="describe">2019-01-19 16:41:10</div>
-                                </div>-->
-                                <div class="during" id="during">
+                                    <div class="describe">满标复审通过后的时间</div>
+                                </div>
+                                <div v-if="!isRetrals && isFull" class="sellout abs">
+                                    <div class="info">通知：</div>
+                                    <div class="describe">后台审核中</div>
+                                </div>
+                                <div v-if="!isFull" class="during" id="during">
                                     <el-form :inline="true" class="demo-form-inline">
                                         <div class="remaining-amount g-cf">
                                             <label class="g-fl">网贷账户余额：</label>
-                                            <span class="g-fl">0.00</span>
-                                            <em class="g-fl">元</em>
-                                            <a class="to-recharge g-fr"
+                                            <span v-if="isLogin" class="g-fl">0.00</span>
+                                            <em v-if="isLogin" class="g-fl">元</em>
+                                            <em v-if="!isLogin">请登录</em>
+                                            <a v-if="isLogin" class="to-recharge g-fr"
                                                href="/consumerCenter">充值</a>
                                         </div>
                                         <div class="target-earnings">
@@ -194,12 +209,13 @@
                                         </div>
                                         <div class="purchase">
                                             <!--<input :disabled="true" name="buyAmount" type="text" id="buyMoney"
-                                                   placeholder="100元起投，100元递增" maxlength="20">-->
-                                            <el-input :disabled="true" placeholder="100元起投，100元递增"></el-input>
+                                                   placeholder="100元起投，100元递增" >-->
+                                            <el-input v-if="isLogin" :disabled="isLogin" id="buyMoney" maxlength="20" placeholder="100元起投，100元递增"></el-input>
+                                            <el-input v-if="!isLogin" :disabled="!isLogin" placeholder="请登录后再来投标"></el-input>
                                         </div>
                                         <div class="tips"></div>
-                                        <!--<a class="to-buy" href="javascript:;">立即投入</a>-->
-                                        <a class="to-buy" href="javascript:;">立即登录</a>
+                                        <a v-if="isLogin" class="to-buy" href="javascript:;">立即投入</a>
+                                        <a v-if="!isLogin" class="to-buy" href="javascript:;">立即登录</a>
                                         <input type="hidden" name="platform" value="1">
                                         <input type="hidden" name="productId" value="39038513">
                                         <input id="formBonusId" type="hidden" name="bonusId" value="">
@@ -209,8 +225,8 @@
                                         <input type="hidden" id="ooh.token.value" name="ooh.token.value"
                                                value="IEPM4YJG6YLJFXNP8QGA0H57IALATYLK">
 
-                                        <div class="remind">小牛提醒您：市场有风险 出借需谨慎
-                                            <a href="https://www.xiaoniu88.com/portal/guide/security" target="_blank">《查看保障》</a>
+                                        <div class="remind">华金宝提醒您：市场有风险 出借需谨慎
+                                            <a href="javascript:;" target="_blank">《查看保障》</a>
                                         </div>
                                     </el-form>
                                 </div>
@@ -230,12 +246,9 @@
                         <!--项目详情-->
                         <div class="items">
                             <div class="item introduce tableList" id="introduceModel"><h3 class="title">项目简介与风险评估</h3>
-                                <div class="extend-describe">本项借款属于个人借款，借款总金额17000.00元。借款人王女士个人资质已通过审核，
-                                    申请信息已核实，结合资料审查和风险项综合评估，其还款能力符合要求。根据借款人当前情况评估，其还款来源能够覆盖借款本息且还款意愿良好。但不排除未来因宏观经济、市场产品价格波动、经营不善等因素导致借款人经营情况、财务状况恶化，从而发生逾期的可能
-                                    。
-                                </div>
+                                <div class="extend-describe">{{productDetail.description}}</div>
                                 <h3 class="title">借款用途</h3>
-                                <div class="extend-describe">个人消费</div>
+                                <div class="extend-describe">{{productDetail.borrow_description}}</div>
                                 <h3 class="title" style="margin-bottom:0">常见问题</h3>
                                 <dl class="extend-question">
                                     <dt><span>问：</span>散标主要包括哪些项目？</dt>
@@ -281,7 +294,7 @@
         </div>
 
         <!-- 脚部 -->
-        <div id="foot">
+        <div v-cloak id="foot">
             <div class="sk-foot-main clear">
                 <div class="sk-foot-left left">
                     <div class="n-link">
@@ -484,7 +497,10 @@
             isLogin: false,
             userInfoBar: false,
             userInfo: {},
-            productDetail: {}
+            productDetail: {},
+            isFull: false,
+            isRetrals: false,
+            remainTime: '',
         },
         watch: {},
         methods: {
@@ -704,7 +720,15 @@
             console.log(response)
             app.productDetail = response.data.object
             console.log(app.productDetail)
+            // if(app.productDetail.hasOwnProperty())
+            setInterval(function() {app.remainTime = app.productDetail.end_buy_time - new Date().getTime()}, 1000)
         })
+    }
+
+    function aa() {
+        setInterval(function() {
+            app.remainTime = app.productDetail.end_buy_time - new Date().getTime()
+        }, 1000)
     }
 
 </script>

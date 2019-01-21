@@ -70,7 +70,9 @@ public interface ISystemConsts {
     /**散标详情页请求成功**/
     Integer PRODUCT_LOAN_PERSON_BID_DETAIL_SUCCESS = 3002;
     /**散标详情页请求失败**/
-    Integer PRODUCT_LOAN_PERSON_BID_DETAIL_ERROR = 30003;
+    Integer PRODUCT_LOAN_PERSON_BID_DETAIL_ERROR = 3003;
+    /**该标不存在**/
+    Integer PRODUCT_LOAN_PERSON_BIT_DETAIL_IS_NOT_EXIST = 3004;
 
 
 }
