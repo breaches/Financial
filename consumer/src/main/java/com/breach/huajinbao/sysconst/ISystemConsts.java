@@ -61,4 +61,16 @@ public interface ISystemConsts {
     /**招标预审提交失败，为申请额度**/
     Integer BORROW_BID_APPLY_RECORD_CREDIT_NEVER = 2005;
 
+
+    /**投标返回代码**/
+    /**散标列表请求成功**/
+    Integer PRODUCT_LOAN_PERSON_BID_LIST_SUCCESS = 3000;
+    /**散标列表请求失败**/
+    Integer PRODUCT_LOAN_PERSON_BID_LIST_ERROR = 3001;
+    /**散标详情页请求成功**/
+    Integer PRODUCT_LOAN_PERSON_BID_DETAIL_SUCCESS = 3002;
+    /**散标详情页请求失败**/
+    Integer PRODUCT_LOAN_PERSON_BID_DETAIL_ERROR = 30003;
+
+
 }

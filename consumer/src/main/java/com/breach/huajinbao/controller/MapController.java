@@ -1,7 +1,9 @@
 package com.breach.huajinbao.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @program: Financial
@@ -59,10 +61,16 @@ public class MapController {
         return "/product/borrow/personBorrowBid";
     }
 
-    /** 产品/信贷（借入） 散标 shaokang **/
+    /** 产品/信贷（借入） 散标商品列表页面 shaokang **/
     @RequestMapping("/product/loan/personBid")
     public String personBid() {
         return "/product/loan/personBid";
+    }
+
+    /** 产品/信贷（借入） 详情页面 商品列表页请求跳转到商品详情页面 shaokang **/
+    @RequestMapping("/product/loan/common/{a}")
+    public String commonBid() {
+        return "/product/loan/personBidDetail";
     }
 
 }
