@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Date:
  */ 
 @Controller
-public class TopUpController {
+public class JumpForController {
 
     /** 充值页面 wanghe **/
     @RequestMapping("/topup")
@@ -33,11 +33,15 @@ public class TopUpController {
     public String index4() {
         return "topup/consumer_yinlian";
     }
-
     /** 提现页面 **/
     @RequestMapping("/withdrawalpage")
     public String index5() {
         return "withdrawal/withdrawal";
+    }
+    /** 系统通知界面 **/
+    @RequestMapping("/message")
+    public String index6() {
+        return "message/messagePage";
     }
 
 }

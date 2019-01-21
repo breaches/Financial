@@ -11,15 +11,12 @@
     <!-- axios -->
     <script src="resources/lib/js/axios.js"></script>
     <style type="text/css">
+        body{
 
+            background: #ffffff;
+        }
         #app{
             margin-left: 150px;
-        }
-
-        .tixing{
-            margin-left: 85px;
-
-
         }
         #app-input{
             margin:30px 0px 48px 0px ;
@@ -31,7 +28,7 @@
 
         }
         .app-text{
-            background:#FFF5E7;
+            background:#ffffff;
             margin:60px 0px 0px 20px;
 
         }
@@ -48,6 +45,8 @@
 </div>
 
 <div id="app">
+
+
     <div id="demo" >
         可用金额：<span style="color: red">{{demo}}<span>
     </div>
@@ -70,7 +69,9 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="充值页面"   :before-close="handleClose"  :visible.sync="dialogVisible" width="600px">
+    <el-dialog title="充值页面"   :before-close="handleClose"  :visible.sync="dialogVisible" width="50%">
+
+
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">关闭</el-button>
             <el-button type="primary" >提交</el-button>
@@ -136,7 +137,7 @@
                 app.userInfo = response.data.user[0]
             } else {
                 // 未登录
-                window.location.href = '/'
+                window.top.location.href = '/'
             }
         })
     }
