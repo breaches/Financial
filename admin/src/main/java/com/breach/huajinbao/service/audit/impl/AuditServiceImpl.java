@@ -8,10 +8,12 @@ import com.breach.huajinbao.service.audit.IAuditService;
 import com.breach.huajinbao.util.audit.*;
 import com.breach.huajinbao.util.base.EmployeeSessionUtil;
 import com.breach.huajinbao.util.verify.NewsMode;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +82,12 @@ public class AuditServiceImpl implements IAuditService {
      * 1.插入操作人的信息，返回id（状态1）
      * 2.修改招标申请表的（招标审核关联）
      * 3.回复招标申请成功   通知信息给用户
-     * 4.返回通过提示
+     * 4.{
+     *     添加发布时间
+     *     添加开始时间
+     *     添加结束时间
+     * }
+     * 5.返回通过提示
      *
      * @param passQuery 招标单号和同意理由（实体）
      * @return
@@ -88,13 +95,26 @@ public class AuditServiceImpl implements IAuditService {
      */
     @Override
     public Result goPass(PassQuery passQuery){
+
+
+        LocalDateTime sqlTimeStamp = TimeUtil.getSqlTimeStamp();
+
+        //获取天数
+        Integer days  = auditMapper.SelectUserInfo(passQuery.getBorrowNumber());
+
         //插入操作人的信息，返回id
         UserBorrowBidPublishVerify operator = new UserBorrowBidPublishVerify();
         EmployeeInfo emp =EmployeeSessionUtil.getEmp();
         operator.setBorrowNumber(passQuery.getBorrowNumber());
         operator.setEmployeeId(emp.getId());
         operator.setReason(passQuery.getText());
-        operator.setVerifyTime(TimeUtil.getSqlTimeStamp());
+        operator.setVerifyTime(sqlTimeStamp);
+        //加时间
+        LocalDateTime localDateTime = TimeUtil.addSqlTimeStampByDays(sqlTimeStamp, days);
+
+        LocalDateTime localDateTime1 = TimeUtil.addSqlTimeStampByDays(sqlTimeStamp, 0);
+        auditMapper.addTimeList( passQuery.getBorrowNumber(),sqlTimeStamp,localDateTime1,localDateTime);
+
         operator.setState(1);
         auditMapper.insertPublishVerify(operator);
         //修改修改招标申请表的（招标审核关联）
