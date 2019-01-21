@@ -17,4 +17,5 @@ public interface IProductMapper {
 
     Integer disperseBidTotal(QueryProduct queryProduct);
 
+    Map<String, Object> personBidDetail(String productID);
 }

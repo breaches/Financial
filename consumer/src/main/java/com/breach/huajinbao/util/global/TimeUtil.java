@@ -1,9 +1,6 @@
 package com.breach.huajinbao.util.global;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -103,6 +100,11 @@ public class TimeUtil {
     /** 返回当前日期时间，经常用于创建订单的日期时间，创建各种日期等 **/
     public static LocalDateTime getSqlTimeStamp() {
         return convertDateToLDT(new Date());
+    }
+
+    /** LocalDateTime 加 x 天数 **/
+    public static LocalDateTime addSqlTimeStampByDays(LocalDateTime localDateTime, Integer days) {
+        return localDateTime.plus(Duration.ofDays(days));
     }
 
     /** 返回当前日期事件，经常用于创建订单的日期时间，创建各种日期等 **/

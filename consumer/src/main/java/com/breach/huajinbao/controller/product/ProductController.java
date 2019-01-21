@@ -27,5 +27,10 @@ public class ProductController {
         return productService.disperseBid(queryProduct);
     }
 
+    @RequestMapping("/loan/common")
+    public ReturnUtil personBidDetail(@RequestBody String productID) {
+        return productService.personBidDetail(productID.replace("=", ""));
+    }
+
 
 }

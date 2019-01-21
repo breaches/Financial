@@ -1,0 +1,2265 @@
+.product-menu-contanier {
+    width: 100%;
+    min-width: 1170px;
+    background: #fff;
+    border-top: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.product-menu {
+    width: 1170px;
+    margin: 0 auto;
+    padding-left: 40px;
+}
+
+.product-menu li {
+    padding: 19px 0;
+    float: left;
+    margin-right: 70px;
+}
+
+.product-menu li a {
+    font-size: 14px;
+    color: #333;
+}
+
+.product-menu li a.active, .product-menu li a:hover {
+    color: #ec414d;
+    text-decoration: none;
+}
+
+.product-menu li:nth-child(2) {
+    width: 70px;
+}
+
+.product-menu li:nth-child(1), .product-menu li:nth-child(3) {
+    width: 98px;
+}
+
+.tip-yellow {
+    z-index: 1000;
+    text-align: left;
+    border: 1px solid red;
+    padding: 7px;
+    min-width: 50px;
+    max-width: 530px;
+    color: #999;
+    background-color: #fef9d9;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/poshytip-1.2/src/tip-yellow/tip-yellow-e088f24cd7.png");
+}
+
+._qResult, ._qResult + p, .bottomTip, .btns, .fancybox-title-inside, .sub-area {
+    text-align: center;
+}
+
+.tip-yellow a {
+    color: #ff7136;
+}
+
+.tip-yellow .tip-inner {
+    font: 12px inherit;
+    margin-top: -2px;
+    padding: 0 3px 1px;
+}
+
+.tip-yellow .tip-arrow-top {
+    margin-top: -7px;
+    margin-left: 15px;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 10px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/poshytip-1.2/src/tip-yellow/tip-yellow_arrows-6bfad159d5.png") no-repeat;
+}
+
+.tip-yellow .tip-arrow-right {
+    margin-top: -9px;
+    margin-left: -4px;
+    top: 50%;
+    left: 100%;
+    width: 10px;
+    height: 20px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/poshytip-1.2/src/tip-yellow/tip-yellow_arrows-6bfad159d5.png") -16px 0 no-repeat;
+}
+
+.tip-yellow .tip-arrow-bottom {
+    margin-top: -6px;
+    margin-left: 15px;
+    top: 100%;
+    left: 0;
+    width: 16px;
+    height: 13px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/poshytip-1.2/src/tip-yellow/tip-yellow_arrows-6bfad159d5.png") -32px 0 no-repeat;
+}
+
+.tip-yellow .tip-arrow-left {
+    margin-top: -9px;
+    margin-left: -6px;
+    top: 50%;
+    left: 0;
+    width: 10px;
+    height: 20px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/poshytip-1.2/src/tip-yellow/tip-yellow_arrows-6bfad159d5.png") -48px 0 no-repeat;
+}
+
+.wenjuanCon {
+    width: 650px;
+    min-height: 300px;
+    max-height: 300px;
+    overflow: auto;
+    margin: 50px auto 0;
+}
+
+.subject {
+    padding: 10px 0;
+}
+
+._qList {
+    display: none;
+}
+
+#fancybox-title-wrap, .btns span, .sub-btn {
+    display: inline-block;
+}
+
+.opt-list {
+    position: relative;
+    padding: 5px 0 5px 20px;
+}
+
+.opt-list input {
+    margin-right: 10px;
+    position: relative;
+    top: 1px;
+}
+
+.sub-btn {
+    background: #fd7500;
+    padding: 7px 40px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btns span._Submit:hover, .btns span._qOk:hover, .btns span._toEnd:hover, .sub-btn:hover {
+    background: #e65827;
+}
+
+.sub-area {
+    margin: 50px auto;
+}
+
+.bottomTip {
+    height: 49px;
+    line-height: 49px;
+    color: #999;
+}
+
+.btns {
+    height: 30px;
+    padding: 10px 50px;
+}
+
+.btns span {
+    *display: inline;
+    *zoom: 1;
+    padding: 4px 15px;
+    border: 1px solid #ccc;
+    color: #ccc;
+    margin: 0 10px;
+    border-radius: 4px;
+}
+
+.btns span.abled {
+    cursor: pointer;
+    color: #08c;
+}
+
+.btns span._Next, .btns span._Prev {
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.btns span._Submit, .btns span._qOk, .btns span._toEnd {
+    float: right;
+    cursor: pointer;
+    background: #fd7500;
+    color: #fff;
+    font-size: 14px;
+    padding: 6px 25px;
+}
+
+.btns span._Submit, .btns span._toEnd {
+    display: none;
+}
+
+._qResult {
+    font-size: 21px;
+    color: #666;
+    padding: 100px 0 30px;
+}
+
+._qResult + p {
+    font-size: 14px;
+    margin-bottom: 50px;
+}
+
+.dialog-estimate .ZebraDialog_Title {
+    padding: 12px 20px;
+    background: #fd7500;
+    color: #fff;
+}
+
+#fancybox-close, #fancybox-loading div {
+    position: absolute;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-11e57e492e.png");
+}
+
+#fancy-bg-n, #fancy-bg-s, #fancybox-title-main {
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-x-168696d8a6.png");
+}
+
+#fancy-bg-e, #fancy-bg-w {
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-y-36a58859be.png");
+}
+
+.dialog-estimate.ZebraDialog .ZebraDialog_BodyOuter {
+    border-radius: 0 0 6px 6px;
+    min-height: 449px;
+}
+
+.tipso_bubble, .tipso_bubble > .tipso_arrow {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.tipso_bubble {
+    position: absolute;
+    text-align: left;
+    border-radius: 6px;
+    z-index: 999999;
+    padding: 10px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.tipso_style {
+    cursor: help;
+    border-bottom: 1px dotted;
+}
+
+.tipso_bubble > .tipso_arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 8px solid;
+    pointer-events: none;
+}
+
+.tipso_bubble.top > .tipso_arrow {
+    border-color: #000 transparent transparent;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+}
+
+.tipso_bubble.bottom > .tipso_arrow {
+    border-color: transparent transparent #000;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -8px;
+}
+
+.tipso_bubble.left > .tipso_arrow {
+    border-color: transparent transparent transparent #000;
+    top: 50%;
+    left: 100%;
+    margin-top: -8px;
+}
+
+.tipso_bubble.right > .tipso_arrow {
+    border-color: transparent #000 transparent transparent;
+    top: 50%;
+    right: 100%;
+    margin-top: -8px;
+}
+
+#fancybox-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 40px;
+    width: 40px;
+    margin-top: -20px;
+    margin-left: -20px;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1104;
+    display: none;
+}
+
+* html #fancybox-loading {
+    position: absolute;
+    margin-top: 0;
+}
+
+#fancybox-loading div {
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 480px;
+}
+
+#fancybox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    z-index: 1100;
+    display: none;
+}
+
+* html #fancybox-overlay {
+    position: absolute;
+    width: 100%;
+}
+
+#fancybox-tmp {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow: auto;
+    display: none;
+}
+
+#fancybox-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 20px;
+    z-index: 1101;
+    display: none;
+}
+
+#fancybox-outer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+#fancybox-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    overflow: hidden;
+}
+
+#fancybox-hide-sel-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 0 0;
+}
+
+#fancybox-close {
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    background-position: -40px 0;
+    cursor: pointer;
+    z-index: 1103;
+    display: none;
+}
+
+#fancybox_error {
+    color: #444;
+    font: 12px/20px Arial;
+    padding: 7px;
+    margin: 0;
+}
+
+#fancybox-content {
+    height: auto;
+    width: auto;
+    padding: 0;
+    margin: 0;
+}
+
+#fancybox-frame, #fancybox-img {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#fancybox-img {
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    line-height: 0;
+    vertical-align: top;
+    -ms-interpolation-mode: bicubic;
+}
+
+#fancybox-frame {
+    position: relative;
+    display: block;
+}
+
+#fancybox-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-family: Arial;
+    font-size: 12px;
+    z-index: 1102;
+}
+
+.fancybox-title-inside {
+    padding: 10px 0;
+    color: #333;
+}
+
+#fancybox-title-left, #fancybox-title-right {
+    padding-left: 15px;
+    background-repeat: no-repeat;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-11e57e492e.png");
+}
+
+.fancybox-title-outside {
+    padding-top: 5px;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+}
+
+.fancybox-title-over {
+    color: #fff;
+    text-align: left;
+}
+
+#fancybox-title-over {
+    padding: 10px;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_title_over-b886fd165d.png");
+    display: block;
+}
+
+#fancybox-title-wrap span {
+    height: 32px;
+    float: left;
+}
+
+#fancybox-title-left {
+    background-position: -40px -90px;
+}
+
+#fancybox-title-main {
+    font-weight: 700;
+    line-height: 29px;
+    background-position: 0 -40px;
+    color: #fff;
+}
+
+#fancybox-title-right {
+    background-position: -55px -90px;
+}
+
+#fancybox-left, #fancybox-right {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 35%;
+    cursor: pointer;
+    outline: 0;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/blank-3254726015.gif");
+    z-index: 1102;
+    display: none;
+}
+
+#fancybox-left {
+    left: 0;
+}
+
+#fancybox-right {
+    right: 0;
+}
+
+#fancybox-left-ico, #fancybox-right-ico {
+    position: absolute;
+    top: 50%;
+    left: -9999px;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    cursor: pointer;
+    z-index: 1102;
+    display: block;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-11e57e492e.png");
+    background-position: -40px -30px;
+}
+
+#fancybox-right-ico {
+    background-position: -40px -60px;
+}
+
+#fancybox-left:hover, #fancybox-right:hover {
+    visibility: visible;
+}
+
+.paginator, .privilege-list .list i.hide {
+    visibility: hidden;
+}
+
+#fancybox-left:hover span {
+    left: 20px;
+}
+
+#fancybox-right:hover span {
+    left: auto;
+    right: 20px;
+}
+
+.fancy-bg {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 1001;
+}
+
+#fancy-bg-n {
+    top: -20px;
+    left: 0;
+    width: 100%;
+}
+
+#fancy-bg-ne {
+    top: -20px;
+    right: -20px;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-11e57e492e.png");
+    background-position: -40px -162px;
+}
+
+#fancy-bg-e {
+    top: 0;
+    right: -20px;
+    height: 100%;
+    background-position: -20px 0;
+}
+
+#fancy-bg-se {
+    bottom: -20px;
+    right: -20px;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-11e57e492e.png");
+    background-position: -40px -182px;
+}
+
+#fancy-bg-s {
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    background-position: 0 -20px;
+}
+
+#fancy-bg-sw {
+    bottom: -20px;
+    left: -20px;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-11e57e492e.png");
+    background-position: -40px -142px;
+}
+
+#fancy-bg-w {
+    top: 0;
+    left: -20px;
+    height: 100%;
+}
+
+#fancy-bg-nw {
+    top: -20px;
+    left: -20px;
+    background-image: url("//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancybox-11e57e492e.png");
+    background-position: -40px -122px;
+}
+
+#fancybox-loading.fancybox-ie div {
+    background: 0 0;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_loading-b1d54c240c.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancybox-close {
+    background: 0 0;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_close-6e2879a324.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancybox-title-over {
+    background: 0 0;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_title_over-b886fd165d.png', sizingMethod='scale');
+    zoom: 1;
+}
+
+.fancybox-ie #fancybox-title-left {
+    background: 0 0;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_title_left-1582ac2d3b.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancybox-title-main {
+    background: 0 0;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_title_main-38dad6c1ed.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancybox-title-right {
+    background: 0 0;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_title_right-6cbe0c9355.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancybox-left-ico {
+    background: 0 0;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_nav_left-3f3e406102.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancybox-right-ico {
+    background: 0 0;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_nav_right-216e4bde5b.png', sizingMethod='scale');
+}
+
+.fancybox-ie .fancy-bg {
+    background: 0 0 !important;
+}
+
+.fancybox-ie #fancy-bg-n {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_shadow_n-18cde16379.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancy-bg-ne {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_shadow_ne-63adf788ac.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancy-bg-e {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_shadow_e-fd4f491080.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancy-bg-se {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_shadow_se-a8afd5a008.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancy-bg-s {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_shadow_s-9b9e5c8880.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancy-bg-sw {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_shadow_sw-f81cc0fee5.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancy-bg-w {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_shadow_w-59b0e63eb0.png', sizingMethod='scale');
+}
+
+.fancybox-ie #fancy-bg-nw {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//image.xiaoniu88.com/static/WebXn/dist/plugIn/fancybox/images/fancy_shadow_nw-c820c878ae.png', sizingMethod='scale');
+}
+
+.loading-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 50px;
+}
+
+.loading-bg {
+    background: 0 0;
+}
+
+.loading-container .loading-inner {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    transform: translateY(-50%);
+}
+
+.icon-no-data, .sub-left-top .curRate {
+    position: relative;
+}
+
+.paginator, .paginator-main {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+.paginator {
+    line-height: 30px;
+    margin: 0 auto;
+    height: 30px;
+}
+
+.paginator-main {
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+}
+
+.paginator-info {
+    float: left;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #333;
+}
+
+.paginator-main .paginator-list {
+    height: 35px;
+    float: left;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.paginator-main .paginator-left, .paginator-main .paginator-right {
+    float: left;
+}
+
+.paginator-main ol li {
+    padding: 0 10px 0 0;
+    margin: 0;
+    float: left;
+    text-align: center;
+    overflow: hidden;
+}
+
+.paginator-main .paginator-jump a, .paginator-main ol li a {
+    text-decoration: none;
+    font-size: 12px;
+    border: 1px solid #c9c9c9;
+    color: #666;
+}
+
+.paginator-main ol li a {
+    width: 100%;
+    display: block;
+}
+
+.paginator-main ol li a.current {
+    background: #fd7500;
+    border: 1px solid #fd7500;
+    color: #fff;
+    font-weight: 700;
+}
+
+.paginator-main .paginator-jump a:hover, .paginator-main ol li a:hover {
+    color: #fd7500;
+    background: #fff;
+    text-decoration: none;
+}
+
+.paginator-main ol li a.current:hover {
+    color: #fff;
+    background: #fd7500;
+}
+
+.paginator-main ol li a.disabled {
+    background: #eee;
+    color: #bbb;
+}
+
+.paginator-main ol li a.disabled:hover {
+    background: #eee;
+    cursor: default;
+}
+
+.paginator-main .paginator-list li {
+    width: 25px;
+}
+
+.paginator-main .paginator-left li, .paginator-main .paginator-right li {
+    width: 60px;
+}
+
+.paginator-main .paginator-jump {
+    float: left;
+    font-size: 12px;
+}
+
+.paginator-main .paginator-jump input {
+    border: 1px solid #c9c9c9;
+    height: 30px;
+    line-height: 30px;
+    width: 40px;
+    text-align: center;
+    margin-left: 10px;
+    padding: 0 5px;
+    outline: 0;
+    vertical-align: top;
+}
+
+.paginator-main .paginator-jump a {
+    display: inline-block;
+    padding: 0 10px;
+    margin-left: 10px;
+}
+
+.icon-no-data {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    width: 26px;
+    height: 26px;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAANlBMVEX////Z2dnb29v9/f3W1tbd3d36+vrw8PDe3t7z8/Pj4+Pg4OD19fXr6+v39/fU1NTn5+ft7e265avVAAABTElEQVQoz32OWY7EMAhEDWYxeEvuf9kpJxqNuj8mElaFV0CVf79aa6lH2FSv3/RAK2PvHHCs+sFOx5XTX9/vuleHx3KPsLf5N1R9rtMCtc9bf506fLzi3Wkgv0csfBjksyMi3WxEjBgj1vKMYUCeRCyNuBFRYzzMKOqz9KOV8SOim1VVdiPQLHiasChJP35hTD5GLcp8JYxCjpK87/vaAqYF1lVTsLxi2p80q5ESF2axMrpQGnHa3ETdbmWhwk3Cx82UlXlY7sZy1X4QXGvOlZKlS73oSV+SqRXIOmmYdpytSby3Ur060wlvk3J5s0ZlEmlviimMomzKdptA4W0rwpaEBVM6bqRyg2uOSYIV0XDxIL9ZpRsS8r1izrDOSrglfCEX3ruR6Az3qUIdCNXak1gbHUHKm6D0HBRhGBT4OJgYXuZe4lK0vj4EuOIHxtMMJJ0ENz0AAAAASUVORK5CYII=") 50% 0 no-repeat;
+    top: 3px;
+    margin-right: 10px;
+}
+
+.list-no-data {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.list-no-data img {
+    margin-bottom: 18px;
+}
+
+.list-no-data p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.list-no-data p span {
+    font-size: 14px;
+    color: #999;
+}
+
+.list-no-data p a {
+    display: block;
+    width: 124px;
+    height: 36px;
+    font-size: 14px;
+    background: #ff7136;
+    line-height: 36px;
+    color: #eeefef;
+    margin: 32px auto;
+    border-radius: 3px;
+}
+
+.ZebraDialog .dialog-invest-risk {
+    padding: 50px;
+    width: auto;
+}
+
+.ZebraDialog .dialog-invest-risk h4 {
+    margin-bottom: 10px;
+}
+
+.ZebraDialog .dialog-invest-risk p {
+    text-indent: 2em;
+    line-height: 1.8;
+}
+
+.ZebraDialog .dialog-invest-risk p a {
+    color: #2d77bc;
+}
+
+.ZebraDialog .dialog-invest-risk .operation {
+    padding: 0;
+    margin-top: 50px;
+}
+
+.ZebraDialog .dialog-invest-risk .operation a {
+    width: 210px;
+    letter-spacing: 0;
+}
+
+.e-signature {
+    padding: 20px 50px;
+    text-align: center;
+}
+
+.e-signature.result {
+    padding: 50px;
+}
+
+.e-signature p {
+    font-size: 18px;
+    line-height: 26px;
+}
+
+.e-signature .protocol {
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.e-signature .protocol a {
+    color: #0084ff;
+    text-decoration: none;
+}
+
+.e-signature .submit {
+    display: inline-block;
+    width: 124px;
+    height: 36px;
+    text-align: center;
+    line-height: 36px;
+    color: #fff;
+    background: #ff7136;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 0 auto;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.e-signature .submit:hover {
+    background: #d94f00;
+}
+
+.ZebraDialog.eSignature .ZebraDialog_BodyOuter {
+    border-radius: 0 0 10px 10px !important;
+}
+
+body {
+    background: #f3f3f3;
+}
+
+.container {
+    width: 1170px;
+    margin: 0 auto;
+}
+
+.detail-container {
+    min-height: 480px;
+    font-size: 14px;
+}
+
+.color-blue {
+    color: #2d77bc;
+}
+
+.color-orange, .sub-left-bottom .countdown em {
+    color: #ec414d;
+}
+
+.color-red {
+    color: #ec414d;
+}
+
+.purchase input::-webkit-input-placeholder {
+    color: #cecece;
+}
+
+.purchase input:-moz-placeholder, .purchase input::-moz-placeholder {
+    color: #cecece;
+}
+
+.purchase input:-ms-input-placeholder {
+    color: #cecece;
+}
+
+.vipIcon {
+    height: 13px;
+    width: 13px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/user/member/img/member-icon-ba1e26bf0b.png") no-repeat;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin: 5px 5px 0 0;
+    vertical-align: top;
+}
+
+.icon-vip0 {
+    background-position: 0 -13px;
+}
+
+.icon-vip1 {
+    background-position: 0 -52px;
+}
+
+.icon-vip2 {
+    background-position: 0 0;
+}
+
+.icon-vip3 {
+    background-position: 0 -39px;
+}
+
+.icon-vip4 {
+    background-position: 0 -65px;
+}
+
+.icon-vip5 {
+    background-position: 0 -26px;
+}
+
+.detail-container .shoulder {
+    margin-top: 27px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+}
+
+.shoulder .neck {
+    height: 75px;
+    line-height: 75px;
+    padding: 0 20px;
+}
+
+.shoulder .neck .title {
+    margin-right: 10px;
+    color: #474e5d;
+    font-size: 18px;
+    float: left;
+    font-weight: 500;
+}
+
+.shoulder .tags {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.shoulder .contract {
+    font-size: 12px;
+    float: right;
+    color: #cecece;
+}
+
+.shoulder .contract:hover {
+    color: #ec414d;
+}
+
+.shoulder .subject {
+    position: relative;
+    padding: 0;
+    border-top: 1px solid #e5e5e5;
+    background: #fefafa;
+}
+
+.sub-left {
+    width: 714px;
+    min-height: 336px;
+    float: left;
+    background: #fff;
+}
+
+.sub-left-top {
+    padding: 65px 0 45px;
+}
+
+.sub-left-top dl {
+    display: inline-block;
+    padding: 0 30px;
+    min-width: 127px;
+}
+
+.sub-left-top dl + dl {
+    border-left: 1px dashed #e5e5e5;
+}
+
+.sub-left-top .earnings {
+    padding-left: 54px;
+}
+
+.sub-left-top dt {
+    height: 43px;
+    line-height: 31px;
+    white-space: nowrap;
+}
+
+.sub-left-top dd {
+    color: #999;
+    font-size: 14px;
+}
+
+.sub-left-top .curRate .tag {
+    position: absolute;
+    top: -26px;
+    right: 0;
+}
+
+.sub-left-top .curRate span {
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
+}
+
+.sub-left-top .curRate i {
+    font-size: 18px;
+    font-style: normal;
+    color: #ef7a46;
+    vertical-align: text-bottom;
+}
+
+.sub-left-top .f-rate {
+    font-size: 34px;
+    font-family: Arial;
+}
+
+.sub-left-top .s-rate {
+    font-size: 30px;
+    color: #ef7a46;
+    font-family: Arial;
+}
+
+.sub-left-top .f-rest {
+    font-size: 24px;
+    font-family: Arial;
+}
+
+.sub-right {
+    float: left;
+    width: 454px;
+    background: #fefafa;
+    min-height: 272px;
+}
+
+.sub-right .afoot {
+    padding: 0 50px;
+}
+
+.sub-right .expired {
+    padding: 0 50px;
+    min-height: inherit;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/expired-bg.png") right bottom no-repeat;
+}
+
+.sub-right .expired span, .sub-right .novice span {
+    font-size: 18px;
+    padding: 0 2px;
+    color: #e08152;
+}
+
+.sub-right .expired .info {
+    color: #999;
+    padding-top: 67px;
+}
+
+.sub-right .expired .describe {
+    color: #999;
+    padding-top: 5px;
+}
+
+.sub-right .transfer {
+    padding: 0 50px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/transfer-bg.png") right bottom no-repeat;
+    min-height: inherit;
+}
+
+.sub-right .sellout {
+    background: url("/resources/images/sellout-c3896bad67.png") right bottom no-repeat;
+    padding: 0 50px;
+}
+
+.abs {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 354px;
+}
+
+.sub-right .sellout .info {
+    color: #999;
+    padding-top: 67px;
+}
+
+.sub-right .sellout .describe {
+    color: #999;
+    padding-top: 5px;
+}
+
+.sub-right .entrust, .sub-right .prepayment {
+    padding: 0 50px;
+    min-height: inherit;
+}
+
+.sub-right .entrust .info {
+    color: #999;
+    padding-top: 67px;
+}
+
+.sub-right .entrust .describe {
+    color: #999;
+    padding-top: 5px;
+}
+
+.sub-right .entrust .delegation {
+    font-size: 18px;
+    color: #ef7a46;
+    margin-top: 60px;
+}
+
+.sub-right .prepayment {
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/prepayment-bg-05fcbbaaa9.png") right bottom no-repeat;
+}
+
+.sub-right .prepayment .info {
+    color: #999;
+    padding-top: 67px;
+}
+
+.sub-right .prepayment .describe {
+    color: #999;
+    padding-top: 5px;
+}
+
+.sub-right .novice {
+    padding: 0 50px;
+    min-height: inherit;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/novice-bg-0d06bf671d.png") right bottom no-repeat;
+}
+
+.sub-right .novice span {
+    font-size: 16px;
+}
+
+.sub-right .novice .info {
+    color: #999;
+    padding-top: 67px;
+}
+
+.sub-right .novice .describe {
+    color: #999;
+    padding-top: 5px;
+}
+
+.sub-right .during {
+    padding: 40px 50px 30px;
+}
+
+.sub-right .remaining-amount {
+    height: 45px;
+    line-height: 45px;
+}
+
+.sub-right .remaining-amount span {
+    color: #ec414d;
+    font-size: 30px;
+    margin-top: -4px;
+}
+
+.sub-right .remaining-amount .to-login {
+    margin-right: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.sub-right .remaining-amount em {
+    padding-left: 5px;
+    color: #ef7a46;
+}
+
+.blue-text, .sub-right .remaining-amount a, .sub-right .remaining-amount a:visited {
+    color: #2d77bc;
+}
+
+.sub-right .during label {
+    color: #999;
+}
+
+.target-earnings {
+    height: 19px;
+}
+
+.sub-right .purchase {
+    margin-top: 13px;
+    position: relative;
+    height: 36px;
+    line-height: 36px;
+    width: 352px;
+    border: 1px solid #cecece;
+    background: #fff;
+}
+
+.sub-right .purchase input {
+    float: left;
+    width: 352px;
+    height: 36px;
+    line-height: 36px;
+    border: none;
+    text-indent: 20px;
+    color: #666;
+    outline: 0;
+}
+
+.sub-right .purchase input::-ms-clear {
+    display: none;
+}
+
+.sub-right .purchase.active {
+    border: 1px solid #ef7a46;
+}
+
+.sub-right .purchase a {
+    position: absolute;
+    right: 0;
+    top: -1px;
+    bottom: -1px;
+    width: 50px;
+    line-height: 36px;
+    text-align: center;
+    color: #ef7a46;
+    text-decoration: none;
+}
+
+.sub-right .purchase a:hover, .sub-right .purchase.active a, .sub-right .to-buy {
+    text-decoration: none;
+    background: #EC414D;
+    color: #fff;
+}
+
+.sub-right .to-buy {
+    width: 354px;
+    height: 36px;
+    line-height: 36px;
+    display: block;
+    text-align: center;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.layer-box .operation a.ensure:hover, .sub-right .to-buy:hover {
+    background: #e31725;
+}
+
+.sub-right .to-buy.disabled {
+    opacity: .5;
+    filter: alpha(opacity=50);
+    color: #999;
+    background: #dededd;
+    cursor: not-allowed;
+}
+
+.sub-right .tips {
+    height: 20px;
+    font-size: 12px;
+    padding-top: 5px;
+    color: #ff7136;
+}
+
+.sub-right .tips i {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin-right: 5px;
+    width: 15px;
+    height: 15px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/images/icon/icon-tip-ae9e49b9b6.png") center center no-repeat;
+    vertical-align: text-bottom;
+}
+
+.sub-right .tips a {
+    color: #2d77bc;
+}
+
+.sub-right .entTime, .sub-right .preferential {
+    font-size: 12px;
+    color: #999;
+    padding-top: 10px;
+}
+
+.sub-right .entTime span {
+    color: #ff7136;
+    padding: 0 2px;
+}
+
+.sub-right .preferential i {
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+}
+
+.sub-right .preferential a {
+    color: #2d77bc;
+    padding: 0 1px;
+}
+
+.subject .remind {
+    width: 405px;
+    font-size: 12px;
+    color: #999;
+    position: absolute;
+    bottom: 25px;
+    right: 0;
+}
+
+.extend .items .item .describe a, .subject .remind a {
+    color: #2d77bc;
+}
+
+.icon {
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/icon-36122bc84f.png") no-repeat;
+    display: inline-block;
+}
+
+.icon-project {
+    height: 22px;
+    width: 22px;
+    background-position: -22px 0;
+}
+
+.icon-preferential {
+    height: 13px;
+    width: 17px;
+    background-position: -235px -118px;
+}
+
+.icon-audit-through {
+    height: 26px;
+    width: 29px;
+    background-position: -208px 0;
+}
+
+.icon-invest, .icon-issue, .icon-trading {
+    height: 22px;
+    width: 22px;
+    background-position: 0 0;
+}
+
+.icon-analyze, .icon-borrowing {
+    height: 22px;
+    width: 22px;
+    background-position: -66px 0;
+}
+
+.extend {
+    background: #fff;
+    margin: 20px 0 30px;
+}
+
+.extend .tab {
+    height: 86px;
+    padding: 0 53px;
+    border-bottom: 2px solid #e2e2e2;
+}
+
+.extend .tab li {
+    width: 266px;
+    float: left;
+    text-align: center;
+    padding: 40px 0 19px;
+}
+
+.extend .tab li.current {
+    background: url("/resources/images/extend-current-bg-020880a21b.png") center 77px no-repeat;
+}
+
+.extend .tab li i {
+    position: relative;
+    right: 4px;
+    top: 4px;
+}
+
+.extend .tab li span {
+    cursor: pointer;
+}
+
+.extend-loader {
+    height: 50px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/images/loading-44bbc291bc.gif") center center no-repeat;
+}
+
+.extend .items {
+    min-height: 290px;
+    width: 1000px;
+    margin: 40px auto;
+    padding-bottom: 30px;
+}
+
+.extend .items .item {
+    margin-bottom: 30px;
+}
+
+.extend .items .item .title {
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.extend-describe {
+    margin-bottom: 60px;
+    line-height: 28px;
+}
+
+.item .mortgage-info {
+    width: 1000px;
+    border: 1px solid #e2e2e2;
+    line-height: 0;
+}
+
+.item .mortgage-info div {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 38px;
+    line-height: 38px;
+}
+
+.item .mortgage-info .name {
+    width: 120px;
+    text-align: right;
+    color: #999;
+}
+
+.item .mortgage-info .content {
+    width: 200px;
+    text-align: left;
+}
+
+.extend .no-result {
+    text-align: center;
+    padding: 60px 0;
+    color: #666;
+}
+
+.extend .no-result a {
+    padding: 0 2px;
+    color: #ef7a46;
+    text-decoration: underline;
+}
+
+.extend-question {
+    margin-bottom: 25px;
+    padding-top: 25px;
+}
+
+.extend-question + .extend-question {
+    border-top: 1px solid #e1e1e1;
+}
+
+.extend-question span {
+    color: #f53a31;
+    font-size: 18px;
+}
+
+.extend-question dd span {
+    position: absolute;
+}
+
+.extend .tab li, .extend-question dt, .layer-box h6 {
+    color: #333;
+    font-size: 18px;
+}
+
+.extend-question dd {
+    font-size: 14px;
+    color: #333;
+    margin-top: 20px;
+    line-height: 28px;
+    position: relative;
+}
+
+.extend-question dd p {
+    padding-left: 36px;
+}
+
+.extend .sequence {
+    width: 1000px;
+    margin: 50px auto 0;
+    color: #666;
+}
+
+.extend .sequence span {
+    font-size: 18px;
+    color: #ef7a46;
+    top: 2px;
+    position: relative;
+    padding: 0 2px;
+}
+
+.extend .panel {
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.extend .panel .box {
+    width: 500px;
+    height: 270px;
+    padding: 20px 0;
+    float: left;
+    overflow: hidden;
+    text-align: center;
+}
+
+.extend .map h6, .extend .panel .box h6 {
+    font-size: 14px;
+    color: #999;
+    text-align: left;
+    height: 30px;
+    line-height: 30px;
+}
+
+.extend .panel .chart {
+    width: 500px;
+    height: 240px;
+    position: relative;
+}
+
+.extend .highcharts-series-group {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+}
+
+.extend .panel .key {
+    color: #999;
+    position: relative;
+    right: 20px;
+}
+
+.extend .panel .value {
+    color: #666;
+}
+
+.extend .map {
+    height: 420px;
+    padding: 30px 0 50px;
+    position: relative;
+    display: none;
+}
+
+.extend .map table {
+    position: relative;
+    left: 50px;
+    top: 50px;
+    width: 200px;
+}
+
+.extend .map table tr {
+    height: 30px;
+    line-height: 30px;
+    color: #999;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.extend .map .index {
+    width: 20%;
+}
+
+.extend .map .index span {
+    padding: 0 5px;
+}
+
+.extend .map .index span.hot {
+    background: #6a7988;
+    color: #fff;
+}
+
+.extend .map .name {
+    width: 50%;
+}
+
+.extend .map .ratio {
+    color: #ef7a46;
+    width: 30%;
+}
+
+.extend .map .regionMapWrap {
+    position: absolute;
+    right: 50px;
+    top: 50px;
+}
+
+.vector-chinamap {
+    width: 600px;
+    height: 400px;
+}
+
+.item.recordList table {
+    width: 720px;
+    margin: 30px auto 20px;
+}
+
+.item.recordList table tr {
+    height: 60px;
+}
+
+.item.recordList table tr.head {
+    border-bottom: 1px solid #eee;
+}
+
+.item.recordList table tr.even {
+    background: #f7f7f7;
+}
+
+.item.recordList table tr th {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    padding: 0 20px;
+    font-weight: initial;
+}
+
+.item.recordList table tr td {
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    padding: 0 20px 0 70px;
+}
+
+.item.recordList table tr td.nape {
+    width: 215px;
+    text-align: center;
+    background: #f7f7f7;
+}
+
+.item.recordList .sequence {
+    padding-left: 140px;
+}
+
+.stateTip {
+    position: absolute;
+    padding: 5px 0 8px 20px;
+    background: #fff;
+    border: 2px solid #2385b1;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: Tahoma;
+    color: #333;
+}
+
+.stateTip i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-top: 3px;
+    line-height: 20px;
+    font-style: normal;
+    background: #aeaeae;
+    color: #fff;
+    font-size: 11px;
+    font-family: Tahoma;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.stateTip i.active {
+    background: #e27f21;
+}
+
+.stateTip span {
+    padding: 0 6px;
+}
+
+.stateTip b {
+    font-weight: 400;
+    color: #2770b5;
+}
+
+.ZebraDialog .ZebraDialog_BodyOuter, .layer-box {
+    padding: 0;
+    border-radius: 10px;
+}
+
+.ZebraDialog.depository-dialog .ZebraDialog_BodyOuter {
+    border-radius: 0 0 10px 10px;
+}
+
+.ZebraDialog.contract .ZebraDialog_BodyOuter {
+    padding: 0;
+    border-radius: 0 !important;
+}
+
+.ZebraDialog a.ZebraDialog_Close {
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/icon-36122bc84f.png") -108px -109px no-repeat;
+    height: 26px;
+    width: 26px;
+    right: -13px;
+    top: -13px;
+    text-indent: 26px;
+    overflow: hidden;
+}
+
+.layer-box {
+    background: #fff;
+    width: 570px;
+    padding: 50px 55px;
+}
+
+.layer-box h6 {
+    color: #010101;
+    font-weight: inherit;
+}
+
+.layer-box .shoulder {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #666;
+    background: #fffbf4;
+    width: 500px;
+    padding: 15px 35px;
+    margin-bottom: 20px;
+}
+
+.layer-box .shoulder .name {
+    height: 25px;
+    list-style: outside;
+}
+
+.layer-box .shoulder .notify {
+    color: #333;
+    margin-top: 5px;
+}
+
+.layer-box .shoulder .notify span {
+    color: #ef7a46;
+    font-size: 18px;
+    padding: 0 2px;
+}
+
+.privilege-list {
+    margin: 30px 0;
+    display: none;
+}
+
+.privilege-list .title {
+    color: #666;
+    font-size: 14px;
+    padding: 0 40px;
+}
+
+.privilege-list .list {
+    height: 62px;
+    margin: 10px 0;
+}
+
+.privilege-list .list i {
+    display: block;
+    width: 35px;
+    height: 52px;
+    float: left;
+    cursor: pointer;
+}
+
+.privilege-list .list i.to-forward {
+    height: 20px;
+    width: 11px;
+    margin: 21px 10px 21px 14px;
+    background-position: -155px 0;
+}
+
+.privilege-list .list i.to-forward.disable {
+    background-position: -135px 0;
+}
+
+.privilege-list .list i.to-backward {
+    height: 20px;
+    width: 11px;
+    margin: 21px 14px 21px 10px;
+    background-position: -171px 0;
+}
+
+.privilege-list .list i.to-backward.disable {
+    background-position: -188px 0;
+}
+
+.privilege-list .list .ul-wrap {
+    height: 52px;
+    overflow: hidden;
+    width: 500px;
+    float: left;
+    padding: 5px 0;
+}
+
+.privilege-list .list .ul-wrap ul {
+    height: 100%;
+    min-width: 500px;
+    position: relative;
+    left: 0;
+}
+
+.privilege-list .list .ul-wrap ul li {
+    cursor: pointer;
+    height: 52px;
+    width: 90px;
+    text-align: center;
+    color: #fff;
+    float: left;
+    margin: 0 5px 5px;
+    position: relative;
+    filter: alpha(opacity=90);
+    -moz-opacity: .9;
+    opacity: .9;
+}
+
+.privilege-list .list .ul-wrap ul li:hover {
+    filter: alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}
+
+.privilege-list .list .ul-wrap ul li.disable {
+    background-position: 0 -92px !important;
+}
+
+.privilege-list.packet-list .list .ul-wrap ul li {
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/icon-36122bc84f.png") 0 -34px no-repeat;
+    line-height: 52px;
+    font-size: 20px;
+}
+
+.privilege-list.rate-list .list .ul-wrap ul li {
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/icon-36122bc84f.png") -103px -34px no-repeat;
+}
+
+.privilege-list.rate-list .list .ul-wrap ul li span.tag {
+    margin-top: 6px;
+    width: 100%;
+    display: block;
+}
+
+.privilege-list.rate-list .list .ul-wrap ul li span.amplitude {
+    font-size: 18px;
+    width: 100%;
+    display: block;
+    position: relative;
+    top: -2px;
+}
+
+.privilege-list .list .ul-wrap ul li i.state {
+    height: 21px;
+    width: 21px;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+}
+
+.privilege-list .list .ul-wrap ul li.sel i.state {
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/icon-36122bc84f.png") -158px -116px no-repeat;
+}
+
+.layer-box .operation {
+    height: 50px;
+    margin-top: 25px;
+    padding: 0 35px;
+}
+
+.layer-box .operation a {
+    width: 240px;
+    height: 50px;
+    display: block;
+    text-align: center;
+    line-height: 50px;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 5px;
+    letter-spacing: 5px;
+    text-decoration: none;
+}
+
+.layer-box .operation a.ensure {
+    background: #ef7a46;
+    float: left;
+}
+
+.layer-box .operation a.cancel {
+    background: #dedede;
+    float: right;
+}
+
+.layer-box .interest-type {
+    color: #666;
+}
+
+.layer-box .interest-type i {
+    margin-left: 2px;
+    position: relative;
+    top: 2px;
+    border: none;
+}
+
+.layer-box .agreement, .layer-box .interest-type {
+    padding: 0 35px;
+    margin-top: 15px;
+}
+
+.layer-box .agreement .icon-common {
+    cursor: pointer;
+    position: relative;
+    top: 3px;
+}
+
+.layer-box .agreement span {
+    font-size: 12px;
+}
+
+.layer-box .agreement span a {
+    color: #0084ff;
+}
+
+.preferential-layer {
+    background: #fff;
+    width: 350px;
+    padding: 20px 50px;
+}
+
+.preferential-layer .list-box {
+    padding: 10px 0 28px;
+    border-bottom: 1px dashed #aaa;
+}
+
+.preferential-layer .list-box .type-title {
+    height: 50px;
+    font-size: 16px;
+    line-height: 50px;
+    color: #333;
+}
+
+.preferential-layer .list-box ul {
+    padding-left: 20px;
+    max-height: 100px;
+    overflow: auto;
+}
+
+.preferential-layer .list-box ul li {
+    line-height: 26px;
+    height: 26px;
+    color: #777;
+    font-size: 14px;
+    list-style-type: initial;
+}
+
+.special-box {
+    text-align: center;
+    color: #999;
+    margin-top: 20px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/stop-autonym-bca53bc205.png") center 23px no-repeat;
+}
+
+.special-box .info {
+    color: #ef7a46;
+    font-size: 14px;
+    padding-top: 132px;
+}
+
+.special-box .describe {
+    padding-top: 25px;
+    line-height: 24px;
+}
+
+.special-box .describe .font-blue {
+    color: #30abe5;
+}
+
+.special-box .describe .font-yellow {
+    color: #ef7a46;
+}
+
+.sub-right .countdown {
+    height: 36px;
+    font-size: 24px;
+    margin: 120px auto 8px;
+}
+
+.sub-right .countdown em {
+    color: #e08152;
+}
+
+.sub-right .countdown, .sub-right .countdownDesc {
+    color: #666;
+    text-align: center;
+}
+
+.sub-left-bottom {
+    padding: 25px 0 30px;
+    margin: 0 30px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.sub-left-bottom dl {
+    float: left;
+    width: 50%;
+    height: 35px;
+}
+
+.sub-left-bottom dd, .sub-left-bottom dt {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.icon-question-mark {
+    height: 15px;
+    width: 15px;
+    background-position: -203px -119px;
+    cursor: pointer;
+    margin: -3px 0 0 5px;
+    vertical-align: middle;
+}
+
+.percentage, .schedule {
+    position: relative;
+    width: 100px;
+    height: 4px;
+    background: #eee;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.percentage {
+    margin: -1px 5px 0 0;
+}
+
+.percentage i {
+    display: block;
+    height: 4px;
+    background: #ef7a46;
+}
+
+.borrowing .queue {
+    width: 1000px;
+    margin: 40px auto;
+    padding-bottom: 30px;
+    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/audit-through-7e4dcad274.png") 700px 60px no-repeat;
+}
+
+.borrowing .queue .node {
+    padding-top: 25px;
+}
+
+.borrowing .queue .node.first .model {
+    border-top: 1px solid #fff;
+    padding-top: 0;
+}
+
+.borrowing .queue .node .model {
+    font-size: 14px;
+    color: #ef7a46;
+    border-top: 1px solid #e1e1e1;
+    padding: 30px 0 15px;
+}
+
+.borrowing .queue .node .model i {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: #ef7a46;
+    border-radius: 45px;
+    position: relative;
+    top: -3px;
+    left: 30px;
+}
+
+.borrowing .queue .node .model span {
+    padding-left: 43px;
+}
+
+.borrowing .queue .node .infos {
+    margin: 0 200px 0 50px;
+    color: #333;
+    font-size: 14px;
+    width: 700px;
+    overflow: hidden;
+}
+
+.borrowing .queue .node .infos span {
+    width: 45%;
+    display: inline-block;
+    float: left;
+    padding: 10px 5% 10px 0;
+}
+
+.extend .items .item.borrowing .queue .node table {
+    margin: 0 200px 0 50px;
+    padding-bottom: 30px;
+    color: #333;
+    font-size: 14px;
+    width: 700px;
+}
+
+.extend .items .item.borrowing .queue .node table td {
+    width: 50%;
+    height: 38px;
+}
+
+.extend .items .item .describe {
+    color: #333;
+    line-height: 28px;
+    margin-bottom: 40px;
+    font-size: 14px;
+}
+
+.extend .items .item .describe.img {
+    border: 1px solid #efefef;
+    padding: 17px;
+    text-align: center;
+}
+
+.extend .items .item .describe table {
+    width: 100%;
+    text-align: center;
+    margin: 20px auto 40px;
+    border-left: 1px solid #e2e2e2 !important;
+    border-top: 1px solid #e2e2e2 !important;
+    border-right: 1px solid #e2e2e2 !important;
+}
+
+.extend .items .item .describe table td, .extend .items .item .describe table th {
+    border-bottom: 1px solid #e2e2e2 !important;
+    border-right: 0 !important;
+    height: 60px !important;
+}
+
+.borrow-amount .text-tag {
+    margin-left: 8px;
+}
+
+.target-earnings .blue-text {
+    margin-left: 15px;
+}
+
+.repay-plans .ZebraDialog_Title {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 20px 0 20px 55px;
+}
+
+.repay-plans .reimburse-plan-dialog {
+    margin: 0 auto;
+    padding: 40px;
+    max-height: 700px;
+}
+
+.repay-plans .ZebraDialog_BodyOuter {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.repay-plans .reimburse-plan-dialog table {
+    width: 100%;
+}
+
+.repay-plans .reimburse-plan-dialog td, .repay-plans .reimburse-plan-dialog th {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.repay-plans .reimburse-plan-dialog th {
+    font-weight: 400;
+    background: #f5f5f5;
+}
+
+.schedule {
+    margin-right: 8px;
+}
+
+.schedule > b {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #f53a31;
+}

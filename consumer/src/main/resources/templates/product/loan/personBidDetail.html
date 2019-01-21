@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--  VUE -->
+    <script src="/resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <link rel="stylesheet" href="/resources/lib/css/index.css">
+    <script src="/resources/lib/js/index.js"></script>
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <!-- axios -->
+    <script src="/resources/lib/js/axios.js"></script>
+    <!--gre-->
+    <link rel="stylesheet" href="/resources/css/login.css">
+    <link rel="stylesheet" href="/resources/css/product/loan/personBidDetail.css">
+    <link rel="stylesheet" href="/resources/css/product/loan/detail-1ecb570584.css">
+    <link rel="stylesheet" href="/resources/css/product/loan/base-ab068c2816.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        .el-input input {
+            font-family: "microsoft yahei";
+        }
+    </style>
+</head>
+<body style="background-color: #f3f3f3">
+<div id="app">
+    <div id="wrapper">
+        <!-- 头部 -->
+        <div id="header">
+            <!-- 放入主图 用来居中 -->
+            <div id="header_main" v-cloak>
+                <!-- logo -->
+                <div id="logo">
+                    <img src="/resources/images/logo/logo-youse-lo.png" height="150" width="300"/>
+                </div>
+                <!-- 导航菜单 -->
+                <div id="nav">
+                    <ul>
+                        <li v-for="(item, index) in nav" :key="index">
+                            <a v-cloak target="_blank" :href="item.url">{{item.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 用户信息简单展示 -->
+                <!-- 登录入口 -->
+                <div v-cloak id="user">
+                    <a v-if="loginBtn" @click="visitLogin = true" class="sk-login" href="javascript:;">登录</a>
+                    <div id="userInfo" v-if="isLogin">
+                        <div class="user-info">
+                            <img class="hat_index" src="/resources/images/tou.png"/>
+                        </div>
+                        <div id="user-topbar-info" style="z-index: 99;">
+                            <!-- 头部 -->
+                            <div class="user-info-header">
+                                用户：<span>{{userInfo.username}}</span>
+                                <p>
+                                    <span>未实名认证</span>
+                                </p>
+                            </div>
+                            <!-- 主体 -->
+                            <div class="user-info-middle"></div>
+                            <!-- 底部 -->
+                            <div class="user-info-footer">
+                                <div class="user-info-footer-left">
+                                    <a href="/consumerCenter">个人中心</a>
+                                </div>
+                                <div class="user-info-footer-right">
+                                    <a @click="logout" href="javascript:;">
+                                        <span>退出登录</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- banner -->
+        <div id="banner">
+            <!--<img src="/resources/images/banner/jk_banner1.jpg" alt="">-->
+        </div>
+
+        <!-- 主要内容 -->
+        <div id="content">
+            <div id="content-box">
+                <!--在这里写页面标签-->
+                <!--产品列表导航-->
+                <div class="product-menu-contanier" id="productMenu">
+                    <ul class="product-menu clearfix">
+                        <li>
+                            <a href="" id="menu_optimize">安心投 (<em id="optimizeCount" data-count="10">?</em>)</a>
+                        </li>
+                        <li>
+                            <a href="" id="menu_common" class=" active">散标 (<em id="commonCount">?</em>)</a>
+                        </li>
+                        <li>
+                            <a href="" id="menu_transfer">转让专区 (<em id="transferCount">?</em>)</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- body内容 -->
+                <div class="container detail-container" id="contanier">
+                    <div class="shoulder" id="shoulderModel">
+                        <div class="neck"><h2 class="title">{{productDetail.borrow_number}}</h2>
+                            <div class="tags"></div>
+                            <a class="contract to-contract serviceContract" href="javascript:;"
+                               data-url="/cms/contract/pcts/1/template/productId/39028192">《服务合同》</a> <a
+                                    class="contract to-contract loanContract" href="javascript:;"
+                                    data-url="/cms/contract/pcts/2/template/productId/39028192">《借款合同》</a><a
+                                    class="contract dialog-risk-info" href="javascript:;">《风险提示函》</a></div>
+                        <div class="subject g-cf">
+                            <div class="sub-left">
+                                <!--头 标的编号 合同 协议等-->
+                                <div class="sub-left-top">
+                                    <dl class="earnings">
+                                        <dt class="curRate"><b class="f-rate color-red">{{productDetail.lending_rate}}<span>%</span></b></dt>
+                                        <dd>参考利率<i class="icon icon-question-mark js_poshytip"
+                                                   title="小牛在线P2P互联网金融平台所有项目参考利率是在参考同类型工具历史数据得出，&lt;br&gt;并不代表实际收益，市场有风险，出借需谨慎。"></i>
+                                        </dd>
+                                    </dl>
+                                    <dl class="borrow-amount">
+                                        <dt>
+                                            <span class="f-rate js_term">{{productDetail.bidding_time_limit}}</span>
+                                            <span>个月</span>
+                                            <i class="text-tag" title="持满1个月且剩余期限不能少于1个月">1个月可转</i>
+                                        </dt>
+                                        <dd>项目期限</dd>
+                                    </dl>
+                                    <dl class="lock-day">
+                                        <dt><span class="f-rest">{{productDetail.borrow_money}}</span> 元</dt>
+                                        <dd>项目金额</dd>
+                                    </dl>
+                                </div>
+                                <!--标的信息资料-->
+                                <div class="sub-left-bottom g-cf">
+                                    <dl>
+                                        <dt>到期时间：</dt>
+                                        <dd>2020-01-19 00:00:00</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>还款方式：</dt>
+                                        <dd>每月还本付息<i class="icon icon-question-mark js_poshytip"
+                                                     title="每月还本金及利息，其中还款本金每月相同。"></i></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>起息日期：</dt>
+                                        <dd>2019-01-19</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>项目进度：</dt>
+                                        <dd>
+                                            <span class="schedule">
+                                                <b style="width:100%"></b>
+                                            </span>
+                                            <span>100%</span>
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>募集期：</dt>
+                                        <dd>{{productDetail.bidding_time_limit}}</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>产品等级：</dt>
+                                        <dd>AAA级<i class="icon icon-question-mark js_poshytip"
+                                                   title="产品等级&lt;br&gt;（一）AAA：优质资产，资信状况好，安全系数高且本金收益稳定&lt;br&gt;（二）AA：优良资产，资信状况良好，安全系数较高且本金收益较稳定&lt;br&gt;（三）A：一般性资产，资信状况和安全系数一般，本金收益有一定程度的波动"></i>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <!--标右边的信息，可显示购买，售罄-->
+                            <div class="sub-right">
+                                <!--<div class="sellout abs">
+                                    <div class="info">成功交易时间：</div>
+                                    <div class="describe">2019-01-19 16:41:10</div>
+                                </div>-->
+                                <div class="during" id="during">
+                                    <el-form :inline="true" class="demo-form-inline">
+                                        <div class="remaining-amount g-cf">
+                                            <label class="g-fl">网贷账户余额：</label>
+                                            <span class="g-fl">0.00</span>
+                                            <em class="g-fl">元</em>
+                                            <a class="to-recharge g-fr"
+                                               href="/consumerCenter">充值</a>
+                                        </div>
+                                        <div class="target-earnings">
+                                            <div id="earningsWrap" class="g-dn">
+                                                <label>3个月目标收益：</label>
+                                                <span id="realEarnings">0.00</span>元
+                                            </div>
+                                        </div>
+                                        <div class="purchase">
+                                            <!--<input :disabled="true" name="buyAmount" type="text" id="buyMoney"
+                                                   placeholder="100元起投，100元递增" maxlength="20">-->
+                                            <el-input :disabled="true" placeholder="100元起投，100元递增"></el-input>
+                                        </div>
+                                        <div class="tips"></div>
+                                        <!--<a class="to-buy" href="javascript:;">立即投入</a>-->
+                                        <a class="to-buy" href="javascript:;">立即登录</a>
+                                        <input type="hidden" name="platform" value="1">
+                                        <input type="hidden" name="productId" value="39038513">
+                                        <input id="formBonusId" type="hidden" name="bonusId" value="">
+                                        <input id="formAddRateId" type="hidden" name="addRateId" value="">
+                                        <input type="hidden" id="ooh.token.name" name="ooh.token.name"
+                                               value="622e98fd2df9472c8ab2413e6f4a8153">
+                                        <input type="hidden" id="ooh.token.value" name="ooh.token.value"
+                                               value="IEPM4YJG6YLJFXNP8QGA0H57IALATYLK">
+
+                                        <div class="remind">小牛提醒您：市场有风险 出借需谨慎
+                                            <a href="https://www.xiaoniu88.com/portal/guide/security" target="_blank">《查看保障》</a>
+                                        </div>
+                                    </el-form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="extend" id="extendModel">
+                        <!--详情菜单-->
+                        <ul class="tab">
+                            <li data-type="introduce" class="extend-trigger current"><i
+                                    class="icon icon-project"></i><span>项目详情</span></li>
+                            <li data-type="borrowing" class="extend-trigger"><i class="icon icon-borrowing"></i><span>借款人信息</span>
+                            </li>
+                            <li data-type="investList" class="extend-trigger"><i
+                                    class="icon icon-invest"></i><span>投标记录</span></li>
+                        </ul>
+                        <!--项目详情-->
+                        <div class="items">
+                            <div class="item introduce tableList" id="introduceModel"><h3 class="title">项目简介与风险评估</h3>
+                                <div class="extend-describe">本项借款属于个人借款，借款总金额17000.00元。借款人王女士个人资质已通过审核，
+                                    申请信息已核实，结合资料审查和风险项综合评估，其还款能力符合要求。根据借款人当前情况评估，其还款来源能够覆盖借款本息且还款意愿良好。但不排除未来因宏观经济、市场产品价格波动、经营不善等因素导致借款人经营情况、财务状况恶化，从而发生逾期的可能
+                                    。
+                                </div>
+                                <h3 class="title">借款用途</h3>
+                                <div class="extend-describe">个人消费</div>
+                                <h3 class="title" style="margin-bottom:0">常见问题</h3>
+                                <dl class="extend-question">
+                                    <dt><span>问：</span>散标主要包括哪些项目？</dt>
+                                    <dd><span>答：</span>
+                                        <p>散标主要包括信用借款、消费分期借款、房产抵押借款、车辆抵押借款等项目。</p>
+                                    </dd>
+                                </dl>
+                                <dl class="extend-question">
+                                    <dt><span>问：</span>散标项目的亮点是什么？</dt>
+                                    <dd><span>答：</span>
+                                        <p>（1）100元起投，7%-13%的参考利率，门槛低，收益稳健</p>
+                                        <p>（2）1个月及以上等多种期限</p>
+                                        <p>（3）透明的购买过程，更安心</p>
+                                        <p>（4）一次性还款、等额本息还款等多种还款方式</p>
+                                    </dd>
+                                </dl>
+                                <dl class="extend-question">
+                                    <dt><span>问：</span>散标项目安全吗？有担保吗？</dt>
+                                    <dd><span>答：</span>
+                                        <p>散标项目经过严格的风控审查，包括征信报告、资金流水、资产状况、还款能力等；散标项目对应逾期借款均由其资产推荐方提供代偿或回购。</p>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <!--借款人信息-->
+                            <div class="item borrowing tableList" id="borrowingModel" style="display: none;">
+                                <div class="extend-loader">
+                                    123
+                                </div>
+                            </div>
+                            <!--投标记录-->
+                            <div class="item recordList investList g-dn" id="investListModel" style="display: none;">
+                                <div class="content">
+                                    <div class="extend-loader">
+                                        123321321321312
+                                    </div>
+                                </div>
+                                <div class="page"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 脚部 -->
+        <div id="foot">
+            <div class="sk-foot-main clear">
+                <div class="sk-foot-left left">
+                    <div class="n-link">
+                        <a href="http://www.itrust.org.cn/home/index/itrust_certifi/wm/19671944XX.html" target="_blank">
+                            <img src="/resources/images/foot/index-integrity-icon.png" alt="">
+                        </a>
+                        <a href="http://gawa.bjchy.gov.cn/websearch/" target="_blank">
+                            <img src="/resources/images/foot/jingcha.png" alt="">
+                        </a>
+                        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=*.9fgroup.com&amp;lang=zh_cn"
+                           target="_blank">
+                            <img src="/resources/images/foot/norton.png" alt="">
+                        </a>
+                        <a href="http://webscan.360.cn/index/checkwebsite/url/www.9fgroup.com"
+                           name="6d18753f3a834479ee835f4f9bc009ec">
+                            <img src="/resources/images/foot/360.png" alt="">
+                        </a>
+                        <a id="_pingansec_bottomimagelarge_p2p"
+                           href="http://si.trustutn.org/info?sn=420180312000632784551&amp;certType=4">
+                            <img src="/resources/images/foot/p2p_official_large.jpg">
+                        </a>
+                    </div>
+                    <p>Copyright©2018-2019 <span>华金宝个人学习项目使用</span> <a href="http://http://www.miitbeian.gov.cn">豫ICP备18045023号-1</a>
+                    </p>
+
+                </div>
+                <dl class="right">
+                    <dt><img src="/resources/images/foot/huajinbao.png" alt=""></dt>
+                    <dd>
+                        <div class="sk-icon">
+                            <a target="_blank" href="javascript;;">
+                                <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+                            </a>
+                            <a target="_blank" href="javascript;;">
+                                <i class="fa fa-qq fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <p class="n-text">QQ群：</p>
+                        <p class="n-tel">965903855
+                            <small>9:30-21:00</small>
+                        </p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div id="ly-side-bar" style="left: 81.5292%; bottom: 0px; margin-bottom: 120px;"
+             class="ly-side-bar side-bar-xn">
+            <a href="javascript:;" class="side-bar-app"></a>
+            <a href="javascript:;" class="side-bar-interest"></a>
+            <a href="javascript:;" class="side-bar-kefu" data-callback="kefu"></a>
+            <a href="javascript:;" class="side-bar-calculator" data-callback="calculator"></a>
+            <a href="javascript:;" class="side-bar-wenjuan" data-callback="wenjuan"></a>
+            <a @click="backTop" href="javascript:;" class="side-bar-top" data-callback="top"></a>
+        </div>
+    </div>
+
+
+    <!----------------------------------------- 弹出层 ----------------------------------------->
+    <div v-cloak>
+        <!-- 登录层 -->
+        <el-dialog
+                :visible.sync="visitLogin"
+                width="520px"
+                :close-on-click-modal="false"
+                :lock-scroll="false"
+                :before-close="loginDialogClose"
+                center>
+            <div slot="title" id="user-login-header">
+                <img src="/resources/images/logo/510-220-font-logo.png" alt="">
+            </div>
+            <div id="user-login">
+                <div id="user-login-main">
+                    <div class="with-line with-line-a">使用手机号/用户名登录</div>
+                    <div class="user-input">
+                        <input v-model="loginInfo.username" id="loginUsername" name="loginUsername"
+                               class="sk-user-input-style" placeholder="输入手机号或用户名"/>
+                        <input v-model="loginInfo.password" @keyup.enter="login" id="loginPassword" name="loginPassword"
+                               class="sk-user-input-style" placeholder="密码"/>
+                        <a @click="login" class="sk-user-btn" href="javascript:;">
+                            <span>登录</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- footer -->
+            <div slot="footer" id="user-login-foot">
+                <div id="sk-login-cc">
+                    <div class="sk-login-forget">
+                        <a @click="toForget" href="javascript:;">忘记密码»</a>
+                    </div>
+                    <div class="sk-login-register">
+                        <span>还没有账号？</span><a @click="toRegister" href="javascript:;">点击注册»</a>
+                    </div>
+                </div>
+            </div>
+        </el-dialog>
+        <!-- 注册层 -->
+        <el-dialog
+                :visible.sync="visitRegister"
+                width="520px"
+                :close-on-click-modal="false"
+                :lock-scroll="false"
+                :before-close="registerDialogClose"
+                center>
+            <div slot="title" id="user-register-header">
+                <img src="/resources/images/logo/510-220-font-logo.png" alt="">
+            </div>
+            <div id="user-register">
+                <div id="user-register-main">
+                    <div class="with-line with-line-a">注册</div>
+                    <div class="user-input">
+                        <input v-model="registerInfo.username" id="regUsername" name="regUsername"
+                               class="sk-user-input-style" placeholder="用户名" maxlength="20"/>
+                        <div id="sk-register-send-code">
+                            <input v-model="registerInfo.phone" id="regPhone" name="regPhone"
+                                   class="sk-user-input-style"
+                                   placeholder="手机号码" maxlength="11"/>
+                            <a v-show="visitSendMessage" @click="sendMessage" href="javascript:;">发送验证码</a>
+                            <a v-show="!visitSendMessage"><span>{{lastTime}}</span>秒后发送短信</a>
+                        </div>
+                        <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode"
+                               class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
+                        <input v-model="registerInfo.password" id="regPassword" name="regPassword" type="password"
+                               class="sk-user-input-style"
+                               placeholder="密码" maxlength="20"/>
+                        <input v-model="registerInfo.repassword" @keyup.enter="register" id="regRePassword"
+                               name="regRePassword" type="password" class="sk-user-input-style"
+                               placeholder="确认密码" maxlength="20"/>
+                        <a @click="register" class="sk-user-btn" href="javascript:;">
+                            <span>注册</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div slot="footer" id="user-register-foot">
+                <div id="sk-register-cc">
+                    <div class="sk-register-to-login">
+                        <span>已有账号？</span><a @click="toLogin" href="javascript:;">点击登录»</a>
+                    </div>
+                </div>
+            </div>
+        </el-dialog>
+        <!-- 找回密码层 -->
+        <el-dialog
+                :visible.sync="visitForget"
+                width="520px"
+                :close-on-click-modal="false"
+                :lock-scroll="false"
+                :before-close="forgetDialogClose"
+                center>
+            <div slot="title" id="user-forget-header">
+                <img src="/resources/images/logo/510-220-font-logo.png" alt="">
+            </div>
+            <div id="user-forget">
+                <div id="user-forget-main">
+                    <div class="with-line with-line-a">找回密码</div>
+                    <div class="user-input">
+                        <input v-model="forgetInfo.phone" id="forgetPhone" name="forgetPhone"
+                               class="sk-user-input-style"
+                               placeholder="手机号码"/>
+                        <a @click="toForget" class="sk-user-btn" href="javascript:;">
+                            <span>重置</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div slot="footer" id="user-forget-foot">
+
+            </div>
+        </el-dialog>
+        <!-- 弹出层 -->
+    </div>
+
+
+</div>
+</body>
+</html>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            nav: [
+                {title: '首页', url: '/'},
+                {title: '我要出借', url: '#'},
+                {title: '我要借款', url: '#'},
+                {title: '信息披露', url: '#'},
+                {title: '关于我们', url: '#'}
+            ],
+            lastTime: 60,
+            loginInfo: {},
+            registerInfo: {},
+            forgetInfo: {},
+            visitLogin: false,
+            visitRegister: false,
+            visitForget: false,
+            visitSendMessage: true,
+            loginBtn: false,
+            isLogin: false,
+            userInfoBar: false,
+            userInfo: {},
+            productDetail: {}
+        },
+        watch: {},
+        methods: {
+            toForget: function () {
+                app.visitRegister = false
+                app.visitLogin = false
+                app.visitForget = true
+                app.forgetInfo = {}
+            },
+            toRegister: function () {
+                app.visitForget = false
+                app.visitLogin = false
+                app.visitRegister = true
+                app.registerInfo = {}
+            },
+            toLogin: function () {
+                app.visitForget = false
+                app.visitRegister = false
+                app.visitLogin = true
+                app.loginInfo = {}
+            },
+            login: function () {
+                login()
+            },
+            logout: function () {
+                logout()
+            },
+            register: function () {
+                register()
+            },
+            loginDialogClose: function (done) {
+                setTimeout(_ => {
+                    initAllDialogInfo()
+                }, 100)
+                done()
+            },
+            registerDialogClose: function (done) {
+                setTimeout(_ => {
+                    initAllDialogInfo()
+                }, 100)
+                done()
+            },
+            forgetDialogClose: function (done) {
+                setTimeout(_ => {
+                    initAllDialogInfo()
+                }, 100)
+                done()
+            },
+            sendMessage: function () {
+                sendRegisterSmsCode()
+            },
+            verifyCode: function () {
+                verifyCode()
+            },
+            backTop: function () {
+                backTop()
+            }
+        }
+    })
+</script>
+
+<script>
+    window.onload = function () {
+        initUser()
+        var url = decodeURI(window.location.href).split('/')
+        a(url[url.length - 1])
+    }
+
+    function verifyCode() {
+        axios({
+            method: 'post',
+            url: '/consumer/register/verifyCode',
+            data: app.registerInfo
+        }).then(function (response) {
+
+        })
+    }
+
+    function sendRegisterSmsCode() {
+        axios({
+            method: 'post',
+            url: '/consumer/register/sendMessage',
+            data: app.registerInfo
+        }).then(function (response) {
+            app.visitSendMessage = false
+            app.lastTime = 60
+            var time = setInterval(function () {
+                app.lastTime--
+                console.log(app.lastTime)
+                if (app.lastTime <= 0) {
+                    app.visitSendMessage = true
+                    clearInterval(time)
+                }
+            }, 1000)
+        })
+    }
+
+    function register() {
+        axios({
+            method: 'post',
+            url: '/consumer/register/verifyCode',
+            data: app.registerInfo
+        }).then(function (response) {
+            visitAllDialog(false)
+        })
+    }
+
+    function logout() {
+        axios({
+            method: 'post',
+            url: '/consumer/logout'
+        }).then(function (response) {
+            app.isLogin = false
+            app.loginBtn = true
+            initAllDialogInfo()
+            initUserInfo()
+        })
+    }
+
+    function login() {
+        axios({
+            method: 'post',
+            url: '/consumer/login',
+            data: app.loginInfo
+        }).then(function (response) {
+            app.userInfo.username = response.data.object.username
+            app.userInfo.id = response.data.object.consumerId
+            app.visitLogin = false // 隐藏登录窗口
+            app.loginBtn = false // 隐藏登录按钮
+            app.isLogin = true // 已登录
+            initAllDialogInfo()
+        });
+    }
+
+    function visitAllDialog(boolean) {
+        visitLogin(boolean)
+        visitRegister(boolean)
+        visitForget(boolean)
+    }
+
+    function visitForget(boolean) {
+        app.visitForget = boolean
+    }
+
+    function visitRegister(boolean) {
+        app.visitRegister = boolean
+    }
+
+    function visitLogin(boolean) {
+        app.visitLogin = boolean
+    }
+
+    function initUserInfo() {
+        app.userInfo = {}
+    }
+
+    function initAllDialogInfo() {
+        initLoginInfo()
+        initRegisterInfo()
+        initForgetInfo()
+    }
+
+    function initLoginInfo() {
+        app.loginInfo = {}
+    }
+
+    function initRegisterInfo() {
+        app.registerInfo = {}
+    }
+
+    function initForgetInfo() {
+        app.forgetInfo = {}
+    }
+
+    function initUser() {
+        axios({
+            method: 'post',
+            url: '/consumer/getUserInfoAfterLogin'
+        }).then(function (response) {
+            console.log(response)
+            if (response.data.user != null) {
+                // 已登录
+                app.userInfo = response.data.user[0]
+                app.loginBtn = false
+                app.isLogin = true
+            } else {
+                // 未登录
+                app.isLogin = false
+                app.loginBtn = true
+            }
+        })
+    }
+</script>
+
+<script>
+    function backTop() {
+        var scrollToTop = window.setInterval(function () {
+            var pos = window.pageYOffset;
+            if (pos > 0) {
+                window.scrollTo(0, pos - 20); // how far to scroll on each step
+            } else {
+                window.clearInterval(scrollToTop);
+            }
+        }, 16); // how fast to scroll (this equals roughly 60 fps)
+    }
+</script>
+
+<script>
+
+    function a(productId) {
+        console.log(productId)
+        axios({
+            method: 'post',
+            url: '/product/loan/common',
+            data: productId
+        }).then(function (response) {
+            console.log(response)
+            app.productDetail = response.data.object
+            console.log(app.productDetail)
+        })
+    }
+
+</script>

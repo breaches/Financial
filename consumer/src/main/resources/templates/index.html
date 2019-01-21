@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="resources/css/login.css">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
+        #logo img {
+            margin-top: -5px;
+        }
         #banner {
             position: relative;
             overflow: hidden;
@@ -44,7 +47,7 @@
             <div id="header_main">
                 <!-- logo -->
                 <div id="logo">
-                    <img src="resources/images/logo/logo.png" height="150" width="300"/>
+                    <a href="/"><img src="resources/images/logo/logo.png" height="150" width="300"/></a>
                 </div>
                 <!-- 导航菜单 -->
                 <div id="nav">
@@ -57,7 +60,7 @@
                 </div>
                 <!-- 登录入口 -->
                 <div id="user">
-                    <a v-if="loginBtn" @click="signIn = true" class="sk-login">登录</a>
+                    <a v-if="loginBtn" @click="signIn = true" class="sk-login" href="javascript:;">登录</a>
                     <div id="userInfo" v-if="user" @mousemove="showUserInfoBar" onmouseleave="" @mouseout="displayUserInfoBar">
                         <div class="user-info">
                             <img class="hat_index" src="resources/images/tou.png" />

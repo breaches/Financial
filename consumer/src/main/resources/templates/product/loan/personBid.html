@@ -27,6 +27,12 @@
             color: #ffffff; !important;
             font-family: 'Microsoft YaHei';
         }
+        a {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +57,7 @@
                 <!-- 用户信息简单展示 -->
                 <!-- 登录入口 -->
                 <div v-cloak id="user">
-                    <a v-if="loginBtn" @click="visitLogin = true" class="sk-login">登录</a>
+                    <a v-if="loginBtn" @click="visitLogin = true" class="sk-login" href="javascript:;">登录</a>
                     <div id="userInfo" v-if="isLogin">
                         <div class="user-info">
                             <img class="hat_index" src="../../resources/images/tou.png"/>
@@ -93,12 +99,12 @@
                 <!--在这里写页面标签-->
                 <!--产品列表导航-->
                 <div class="product-menu-contanier" id="productMenu">
-                    <ul class="product-menu clearfix">
+                    <ul v-cloak="" class="product-menu clearfix">
                         <li>
-                            <a href="javascript:;" id="menu_optimize">投标工具 (<em id="optimizeCount">0</em>)</a>
+                            <a href="javascript:;" id="menu_optimize">安心投 (<em id="optimizeCount">0</em>)</a>
                         </li>
                         <li>
-                            <a href="javascript:;" id="menu_common">散标 (<em id="commonCount">0</em>)</a>
+                            <a href="" id="menu_common">散标 (<em id="commonCount">{{pageInfo.dataTotal}}</em>)</a>
                         </li>
                         <li>
                             <a href="javascript:;" id="menu_transfer">转让专区 (<em id="transferCount">0</em>)</a>
@@ -218,9 +224,11 @@
                                                     <!--<dd>成功交易时间</dd>-->
                                                     <!--<dd class="datetime">2019-01-16</dd>-->
 
-                                                    <dd>
-                                                        <el-button v-if="item.surplus_amount>0" type="primary">立即投标</el-button>
-                                                        <img v-if="!item.surplus_amount>0" src="../../../resources/images/sellout-c3896bad67.png" width="120px"/>
+                                                    <dd v-if="item.surplus_amount>0">
+                                                        <a target="_blank" :href="'/product/loan/common/' + item.id"><el-button type="primary">立即投标</el-button></a>
+                                                    </dd>
+                                                    <dd v-if="!item.surplus_amount>0">
+                                                        <img src="../../../resources/images/sellout-c3896bad67.png" width="120px"/>
                                                     </dd>
                                                 </dl>
                                             </div>
@@ -294,6 +302,16 @@
                     </dd>
                 </dl>
             </div>
+        </div>
+
+        <!--侧面固定工具条-->
+        <div id="ly-side-bar" style="left: 81.5292%; bottom: 0px; margin-bottom: 120px;" class="ly-side-bar side-bar-xn">
+            <a href="javascript:;" class="side-bar-app"></a>
+            <a href="javascript:;" class="side-bar-interest"></a>
+            <a href="javascript:;" class="side-bar-kefu" data-callback="kefu"></a>
+            <a href="javascript:;" class="side-bar-calculator" data-callback="calculator"></a>
+            <a href="javascript:;" class="side-bar-wenjuan" data-callback="wenjuan"></a>
+            <a onclick="backTop()" href="javascript:;" class="side-bar-top" data-callback="top"></a>
         </div>
     </div>
 
@@ -509,19 +527,19 @@
             register: function () {
                 register()
             },
-            loginDialogClose: function () {
+            loginDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
                 done()
             },
-            registerDialogClose: function () {
+            registerDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
                 done()
             },
-            forgetDialogClose: function () {
+            forgetDialogClose: function (done) {
                 setTimeout(_ => {
                     initAllDialogInfo()
                 }, 100)
@@ -1081,5 +1099,18 @@
             app.productInfo = response.data.data
             app.pageInfo.dataTotal = response.data.object
         })
+    }
+</script>
+
+<script>
+    function backTop() {
+        var scrollToTop = window.setInterval(function() {
+            var pos = window.pageYOffset;
+            if ( pos > 0 ) {
+                window.scrollTo( 0, pos - 20 ); // how far to scroll on each step
+            } else {
+                window.clearInterval( scrollToTop );
+            }
+        }, 16); // how fast to scroll (this equals roughly 60 fps)
     }
 </script>
