@@ -2123,7 +2123,7 @@ body {
     width: 1000px;
     margin: 40px auto;
     padding-bottom: 30px;
-    background: url("//image.xiaoniu88.com/static/WebXn/dist/page/product/common/img/audit-through-7e4dcad274.png") 700px 60px no-repeat;
+    background: url("/resources/images/audit-through-7e4dcad274.png") 700px 60px no-repeat;
 }
 
 .borrowing .queue .node {
@@ -2137,7 +2137,7 @@ body {
 
 .borrowing .queue .node .model {
     font-size: 14px;
-    color: #ef7a46;
+    color: #ec414d;
     border-top: 1px solid #e1e1e1;
     padding: 30px 0 15px;
 }
@@ -2146,7 +2146,7 @@ body {
     display: inline-block;
     width: 7px;
     height: 7px;
-    background: #ef7a46;
+    background: #ec414d;
     border-radius: 45px;
     position: relative;
     top: -3px;
