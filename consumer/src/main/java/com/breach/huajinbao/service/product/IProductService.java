@@ -1,6 +1,7 @@
 package com.breach.huajinbao.service.product;
 
 import com.breach.huajinbao.util.product.QueryProduct;
+import com.breach.huajinbao.util.product.TradingInfo;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 
 /**
@@ -32,4 +33,11 @@ public interface IProductService {
      * @return
      */
     ReturnUtil getBorrowerInfo(String borrowNumber, String consumerID);
+
+    /**
+     * 投标
+     * @param tradingInfo
+     * @return
+     */
+    ReturnUtil trading(TradingInfo tradingInfo);
 }

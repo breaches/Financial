@@ -12,6 +12,7 @@ import com.breach.huajinbao.service.global.IGlobalService;
 import com.breach.huajinbao.sysconst.ISystemConsts;
 import com.breach.huajinbao.util.global.GlobalConsumerUtil;
 import com.breach.huajinbao.util.global.GlobalData;
+import com.breach.huajinbao.util.global.IPAddressUtil;
 import com.breach.huajinbao.util.sign.ConsumerSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,5 +77,11 @@ public class GlobalServiceImpl implements IGlobalService {
             return new GlobalData(ISystemConsts.AJAX_SUCCESS, consumerAccount);
         }
         return new GlobalData(ISystemConsts.AJAX_IS_NOT_LOGIN);
+    }
+
+    @Override
+    public GlobalData getIP() {
+        String clientIP = IPAddressUtil.getClientIP();
+        return new GlobalData(200, clientIP);
     }
 }

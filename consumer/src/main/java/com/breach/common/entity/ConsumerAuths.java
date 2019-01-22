@@ -3,6 +3,7 @@ package com.breach.common.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-21
+ * @since 2019-01-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -48,6 +49,11 @@ public class ConsumerAuths extends Model<ConsumerAuths> {
      * 客户状态 1：可用 2：冻结
      */
     private Integer state;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
 
     @Override

@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-21
+ * @since 2019-01-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -60,6 +60,11 @@ public class ConsumerAccount extends Model<ConsumerAccount> {
      * 冻结资金
      */
     private BigDecimal frozenCapital;
+
+    /**
+     * 添加版本，为了安全
+     */
+    private Integer version;
 
 
     @Override

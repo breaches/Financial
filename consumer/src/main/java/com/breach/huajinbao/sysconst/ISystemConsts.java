@@ -60,6 +60,19 @@ public interface ISystemConsts {
     Integer BORROW_BID_APPLY_RECORD_CREDIT_PROCESS = 2004;
     /**招标预审提交失败，为申请额度**/
     Integer BORROW_BID_APPLY_RECORD_CREDIT_NEVER = 2005;
+    /**标到期了**/
+    Integer BORROW_BID_APPLY_RECORD_IS_OUT_OF_DATE_TIME = 1;
+    /**买标的与招标的是同一个人**/
+    Integer TRADING_BID_IS_SAME_PEOPLE = 4000;
+    /**账户余额不足**/
+    Integer TRADING_BID_OUT_OF_AVAILABLE_BALANCE = 4001;
+    /**可投金额小于投入金额，投入金额>可投金额**/
+    Integer TRADING_BID_OUT_OF_SURPLUS_AMOUNT = 4002;
+    /**投入成功**/
+    Integer TRADING_BID_SUCCESS = 4003;
+    /**满标了**/
+    Integer TRADING_BID_SUCCESS_AND_IS_FULL = 4002;
+
 
 
     /**投标返回代码**/
@@ -75,6 +88,8 @@ public interface ISystemConsts {
     Integer PRODUCT_LOAN_PERSON_BID_DETAIL_IS_NOT_EXIST = 3004;
     /**发表人用户信息返回成功**/
     Integer PRODUCT_LOAN_PERSON_BID_DETAIL_GET_BORROWER_INFO_SUCCESS = 3005;
+
+
 
 
 }

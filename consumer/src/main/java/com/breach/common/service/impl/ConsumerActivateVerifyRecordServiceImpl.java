@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-21
+ * @since 2019-01-22
  */
 @Service
 public class ConsumerActivateVerifyRecordServiceImpl extends ServiceImpl<IConsumerActivateVerifyRecordMapper, ConsumerActivateVerifyRecord> implements IConsumerActivateVerifyRecordService {
