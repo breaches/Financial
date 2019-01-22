@@ -2,6 +2,7 @@ package com.breach.huajinbao.controller.global;
 
 import com.breach.huajinbao.service.global.IGlobalService;
 import com.breach.huajinbao.util.global.GlobalData;
+import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,5 +27,10 @@ public class GlobalController {
     @RequestMapping("/consumer/getAmount")
     public GlobalData getAmount() {
         return globalService.getAmount();
+    }
+
+    @RequestMapping("/getIP")
+    public GlobalData getIP() {
+        return globalService.getIP();
     }
 }

@@ -2,6 +2,7 @@ package com.breach.huajinbao.controller.product;
 
 import com.breach.huajinbao.service.product.IProductService;
 import com.breach.huajinbao.util.product.QueryProduct;
+import com.breach.huajinbao.util.product.TradingInfo;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 import groovy.transform.AutoClone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,13 @@ public class ProductController {
     @RequestMapping("/loan/common/getBorrowerInfo")
     public ReturnUtil getBorrowerInfo(String borrowNumber, String consumerID) {
         return productService.getBorrowerInfo(borrowNumber, consumerID);
+    }
+
+    /**投标**/
+    @RequestMapping("/loan/common/trading")
+    public ReturnUtil trading(@RequestBody TradingInfo tradingInfo) {
+        System.out.println(tradingInfo);
+        return productService.trading(tradingInfo);
     }
 
 

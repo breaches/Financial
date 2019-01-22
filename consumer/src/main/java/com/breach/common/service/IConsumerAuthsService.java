@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-21
+ * @since 2019-01-22
  */
 public interface IConsumerAuthsService extends IService<ConsumerAuths> {
 
