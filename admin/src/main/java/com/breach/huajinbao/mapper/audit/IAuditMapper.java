@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -123,5 +124,19 @@ public interface IAuditMapper {
      *
      */
     void addCreditLimit(@Param("money") BigDecimal money, @Param("accountId") Integer accountId);
-
+    /**
+     * 查询招标天数
+     * @param
+     * @return
+     *
+     */
+    Integer SelectUserInfo(String borrowNumber);
+    /**
+     *
+     * @param
+     * @param borrowNumber
+     * @return
+     *
+     */
+    void addTimeList(@Param("borrowNumber") String borrowNumber,@Param("time") LocalDateTime sqlTimeStamp,@Param("beginTime") LocalDateTime localDateTime1,@Param("endTime") LocalDateTime localDateTime);
 }

@@ -146,6 +146,28 @@
 		where
 		id=#{accountId}
 	</update>
+
+
+
+	<!--按订单编号查询天数-->
+	<select id="SelectUserInfo" resultType="java.lang.Integer">
+		select  bidding_time_limit from  user_borrow_bid_apply_record where  borrow_number=#{borrowNumber}
+	</select>
+
+
+	<!--插入时间-->
+	<update id="addTimeList">
+		update
+		user_borrow_bid_apply_record
+		set
+		publish_time=#{time},
+		start_buy_time=#{beginTime},
+		end_buy_time=#{endTime}
+		where
+		borrow_number=#{borrowNumber}
+	</update>
+
+
 </mapper>
 
 
