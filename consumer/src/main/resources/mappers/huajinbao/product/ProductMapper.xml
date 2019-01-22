@@ -3,67 +3,67 @@
 <mapper namespace="com.breach.huajinbao.mapper.product.IProductMapper">
 
     <select id="disperseBid" resultType="map">
-      select
+        select
         record.*,
         repay.repayment_description as repayMode
-      from
+        from
         user_borrow_bid_apply_record as record
-      left join
+        left join
         consumer_repayment_type AS repay
-      ON
+        ON
         record.repay_type = repay.id
-      <where>
-          publish_id > 0
-          and trals_id = 0
-          and retrals_id = 0
-          and abandon_id = 0
-          -- 项目期限
-          <if test="minTerm != null and minTerm != ''">
-              and borrow_time_limit &gt;= #{minTerm}
-          </if>
-          <if test="maxTerm != null and maxTerm != ''">
-              and borrow_time_limit &lt;= #{maxTerm}
-          </if>
-          -- 参考利率
-          <if test="minAnnualRate != null and minAnnualRate != ''">
-              and lending_rate &gt;= #{minAnnualRate}
-          </if>
-          <if test="maxAnnualRate != null and maxAnnualRate != ''">
-              and lending_rate &lt;= #{maxAnnualRate}
-          </if>
-          -- 还款方式
-          <if test="repayType != null and repayType != ''">
-              and repay_type = #{repayType}
-          </if>
-          -- 剩余金额
-          <if test="minSurplusAmount != null and minSurplusAmount != ''">
-              and surplus_amount &gt;= #{minSurplusAmount}
-          </if>
-          <if test="maxSurplusAmount != null and maxSurplusAmount != ''">
-              and surplus_amount &lt;= #{maxSurplusAmount}
-          </if>
-          -- 参考利率排序方式 1：降序，2：升序
-          <if test="annualRateSort != null and annualRateSort == 1">
-             order by lending_rate desc
-          </if>
-          <if test="annualRateSort != null and annualRateSort == 2">
-             order by lending_rate asc
-          </if>
-          -- 期限排序方式 1：降序，2：升序
-          <if test="termSort != null and termSort == 1">
-             order by borrow_time_limit desc
-          </if>
-          <if test="termSort != null and termSort == 2">
-             order by borrow_time_limit asc
-          </if>
-          -- 剩余金额排序 1：降序，2：升序
-          <if test="surplusAmountSort != null and surplusAmountSort == 1">
-             order by surplus_amount desc
-          </if>
-          <if test="surplusAmountSort != null and surplusAmountSort == 2">
-             order by surplus_amount asc
-          </if>
-      </where>
+        <where>
+            publish_id > 0
+            and trals_id = 0
+            and retrals_id = 0
+            and abandon_id = 0
+            -- 项目期限
+            <if test="minTerm != null and minTerm != ''">
+                and borrow_time_limit &gt;= #{minTerm}
+            </if>
+            <if test="maxTerm != null and maxTerm != ''">
+                and borrow_time_limit &lt;= #{maxTerm}
+            </if>
+            -- 参考利率
+            <if test="minAnnualRate != null and minAnnualRate != ''">
+                and lending_rate &gt;= #{minAnnualRate}
+            </if>
+            <if test="maxAnnualRate != null and maxAnnualRate != ''">
+                and lending_rate &lt;= #{maxAnnualRate}
+            </if>
+            -- 还款方式
+            <if test="repayType != null and repayType != ''">
+                and repay_type = #{repayType}
+            </if>
+            -- 剩余金额
+            <if test="minSurplusAmount != null and minSurplusAmount != ''">
+                and surplus_amount &gt;= #{minSurplusAmount}
+            </if>
+            <if test="maxSurplusAmount != null and maxSurplusAmount != ''">
+                and surplus_amount &lt;= #{maxSurplusAmount}
+            </if>
+            -- 参考利率排序方式 1：降序，2：升序
+            <if test="annualRateSort != null and annualRateSort == 1">
+                order by lending_rate desc
+            </if>
+            <if test="annualRateSort != null and annualRateSort == 2">
+                order by lending_rate asc
+            </if>
+            -- 期限排序方式 1：降序，2：升序
+            <if test="termSort != null and termSort == 1">
+                order by borrow_time_limit desc
+            </if>
+            <if test="termSort != null and termSort == 2">
+                order by borrow_time_limit asc
+            </if>
+            -- 剩余金额排序 1：降序，2：升序
+            <if test="surplusAmountSort != null and surplusAmountSort == 1">
+                order by surplus_amount desc
+            </if>
+            <if test="surplusAmountSort != null and surplusAmountSort == 2">
+                order by surplus_amount asc
+            </if>
+        </where>
         limit #{pageCurrent}, #{pageSize}
     </select>
 
@@ -107,7 +107,9 @@
     <select id="personBidDetail" resultType="java.util.Map">
         select
         record.*,
-        repay.repayment_description as repayment
+        repay.repayment_description as repayment,
+        repay.detail as repaymentDetail,
+        card.sex
         from
         user_borrow_bid_apply_record
         AS
@@ -118,7 +120,64 @@
         repay
         ON
         record.repay_type=repay.id
+        INNER JOIN
+        consumer_info
+        AS
+        info
+        ON
+        record.user_id=info.id
+        INNER JOIN
+        consumer_card
+        AS
+        card
+        ON
+        info.card_id=card.id
         where record.id = #{productID}
+    </select>
+    <select id="getBorrowerInfo" resultType="java.util.Map">
+        SELECT DISTINCT
+            record.name,
+            record.borrow_money,
+            record.borrow_time_limit,
+            repay.repayment_description,
+            record.borrow_description,
+            record.lending_rate,
+            record.payment,
+            record.publish_time,
+            auth.create_time,
+            card.sex,
+            TIMESTAMPDIFF(
+                YEAR,
+                card.brithday,
+                CURDATE()
+            ) as age,
+            card.code,
+            address.province,
+            address.city,
+            address.area,
+            address.address,
+            info.is_marry,
+            info.is_car,
+            info.is_house,
+            income.range,
+            WORK.industry,
+            WORK.position,
+            work.income_range_id as income,
+            work.address as wordAddress,
+            auth.create_time AS joinTime
+        FROM
+            user_borrow_bid_apply_record AS record
+        INNER JOIN consumer_repayment_type AS repay ON record.repay_type = repay.id
+        INNER JOIN consumer_auths AS auth ON record.user_id = auth.consumer_id
+        INNER JOIN consumer_info AS info ON record.user_id = info.id
+        INNER JOIN consumer_card AS card ON info.card_id = card.id
+        INNER JOIN consumer_address AS address ON info.address_id = address.id
+        INNER JOIN consumer_activate_verify_record AS verify ON verify.CODE = card.CODE
+        INNER JOIN consumer_income_range AS income ON verify.income_range_id = income.id
+        AND verify.state = 2
+        LEFT JOIN consumer_work AS WORK ON info.word_id = WORK.id
+        WHERE
+            record.borrow_number = #{borrowNumber} and record.user_id=#{consumerID}
     </select>
 
 </mapper>

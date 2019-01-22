@@ -1,13 +1,12 @@
 package com.breach.huajinbao.service.product.impl;
 
-import com.breach.common.entity.UserBorrowBidApplyRecord;
 import com.breach.huajinbao.mapper.product.IProductMapper;
 import com.breach.huajinbao.service.product.IProductService;
 import com.breach.huajinbao.sysconst.ISystemConsts;
+import com.breach.huajinbao.util.product.ProductUtil;
 import com.breach.huajinbao.util.product.QueryProduct;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,13 +27,14 @@ public class ProductServiceImpl implements IProductService {
 
     /**
      * 散标列表页面加载后请求散标的数据
+     *
      * @param queryProduct
      * @return
      */
     @Override
     public ReturnUtil disperseBid(QueryProduct queryProduct) {
 
-        List<Map<String, Object>> result =  productMapper.disperseBid(queryProduct);
+        List<Map<String, Object>> result = productMapper.disperseBid(queryProduct);
         Integer integer = productMapper.disperseBidTotal(queryProduct);
 
         return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, result, integer);
@@ -42,14 +42,43 @@ public class ProductServiceImpl implements IProductService {
 
     /**
      * 散标的详情数据页面的请求
+     *
      * @param productID
      * @return
      */
     @Override
     public ReturnUtil personBidDetail(String productID) {
-        System.out.println(productID);
         Map<String, Object> data = productMapper.personBidDetail(productID);
+        // 判空
+        if (data == null) {
+            return new ReturnUtil(
+                    ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_IS_NOT_EXIST,
+                    "对不起，标不存在。"
+            );
+        } else {
+            return new ReturnUtil(
+                    ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_SUCCESS,
+                    ProductUtil.getData(data)
+            );
+        }
+
+    }
+
+    /**
+     * 获取借款人信息
+     * @param borrowNumber
+     * @param consumerID
+     * @return
+     */
+    @Override
+    public ReturnUtil getBorrowerInfo(String borrowNumber, String consumerID) {
+        // 获取基础信息
+        Map<String, Object> data = productMapper.getBorrowerInfo(borrowNumber, consumerID);
         System.out.println(data);
-        return new ReturnUtil(ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_SUCCESS, data);
+
+        return new ReturnUtil(
+                ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_GET_BORROWER_INFO_SUCCESS,
+                ProductUtil.getBorrowerInfo(data)
+        );
     }
 }
