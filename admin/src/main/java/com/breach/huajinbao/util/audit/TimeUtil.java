@@ -1,12 +1,11 @@
 package com.breach.huajinbao.util.audit;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.ZoneId;
+import java.text.SimpleDateFormat;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -121,5 +120,19 @@ public class TimeUtil {
         time = time.substring(time.length() - 4, time.length());
         return time;
     }
+
+    /** LocalDateTime 加 x 天数 **/
+    public static LocalDateTime addSqlTimeStampByDays(LocalDateTime localDateTime, Integer days) {
+        return localDateTime.plus(Duration.ofDays(days));
+    }
+
+
+    /**
+     * 获取当天0点0分0秒（00:00:00）
+     *
+     * @return
+     */ public static String getTimesmorning() {
+         Calendar cal = Calendar.getInstance();
+         cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0); Date beginOfDate = cal.getTime(); SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); return formatter.format(beginOfDate); }
 
 }
