@@ -1,6 +1,7 @@
 package com.breach.huajinbao.mapper.product;
 
 import com.breach.huajinbao.util.product.QueryProduct;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,6 @@ public interface IProductMapper {
     Integer disperseBidTotal(QueryProduct queryProduct);
 
     Map<String, Object> personBidDetail(String productID);
+
+    Map<String, Object> getBorrowerInfo(@Param("borrowNumber") String borrowNumber, @Param("consumerID") String consumerID);
 }

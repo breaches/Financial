@@ -1,9 +1,10 @@
 package com.breach.huajinbao.util.product;
 
-import com.breach.huajinbao.util.sign.ReturnUtil;
+import com.sun.xml.internal.ws.spi.db.DatabindingException;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @program: Financial
@@ -13,6 +14,101 @@ import java.util.Map;
  **/
 public class ProductUtil {
 
+    /**
+     * 获取整理好的借款人信息
+     *
+     * @param data
+     * @return
+     */
+    public static Map<String, Object> getBorrowerInfo(Map data) {
+        // 男女
+        if (data.get("sex") != null) {
+            data.put("sex", getSex(data.get("sex")));
+        }
+        // 加密姓名
+        if (data.get("name") != null) {
+            data.put("name", getFirstName(data.get("name")) + "**");
+        }
+        // 加密身份证号码
+        if (data.get("code") != null) {
+            data.put("code", getCodePlus(data.get("code")));
+        }
+        // 加密居住地
+        if (data.get("address") != null) {
+            data.put("address", getAddressPlus(data));
+        }
+        // 婚姻状况
+        if (data.get("is_marry") != null) {
+            data.put("is_marry", getMarry(data.get("is_marry")));
+        }
+        // 格式化利率
+        if (data.get("lending_rate") != null) {
+            data.put("lending_rate", annualRatePlus(data.get("lending_rate")));
+        }
+        // 修改借款金额格式
+        if (data.get("borrow_money") != null) {
+            data.put("borrow_money", getBorrowerMoney(data.get("borrow_money")));
+        }
+        // 有无房产
+        if (data.get("is_house") != null) {
+            data.put("is_house", getHouse(data.get("is_house")));
+        }
+        // 有无车辆
+        if (data.get("is_car") != null) {
+            data.put("is_car", getCar(data.get("is_car")));
+        }
+        // 是否补充行业信息
+        if (data.get("industry") == null) {
+            data.put("industry", "待补充");
+        }
+        // 是否补充岗位
+        if (data.get("position") == null) {
+            data.put("position", "待补充");
+        }
+        // 工作地点
+        if (data.get("wordAddress") == null) {
+            data.put("workAddress", "待补充");
+        } else {
+            data.put(
+                    "workAddress",
+                    ((String) data.get("wordAddress")).substring(0, 3)
+            );
+        }
+        // 月收入
+        if(data.get("income") == null) {
+            data.put("income", "待补充");
+        }
+
+        return data;
+    }
+
+    /**
+     * 有无房产
+     *
+     * @param house
+     * @return
+     */
+    public static String getHouse(Object house) {
+        return ((Boolean) house) ? "有" : "无";
+    }
+
+    /**
+     * 有无车辆
+     *
+     * @param car
+     * @return
+     */
+    public static String getCar(Object car) {
+        return ((Boolean) car) ? "有" : "无";
+    }
+
+
+    /**
+     * 返回整理好的标的详细信息
+     *
+     * @param data
+     * @return
+     */
     public static Map<String, Object> getData(Map data) {
 
         // 产品名 + 产品单子编号
@@ -31,7 +127,23 @@ public class ProductUtil {
                 data.get("sex"),
                 data.get("borrow_money")
         ));
+
+        // 剩余金额
+        if(data.get("surplus_amount") != null) {
+            data.put("surplus_amount", getBorrowerMoney(data.get("surplus_amount")));
+        }
+        // 借款金额
+        if(data.get("borrow_money") != null) {
+            data.put("borrow_money", getBorrowerMoney(data.get("borrow_money")));
+        }
+
+
         return data;
+    }
+
+    public static String getBorrowerMoney(Object money) {
+        BigDecimal bigDecimal = ((BigDecimal) money).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return bigDecimal.toString();
     }
 
     /**
@@ -41,6 +153,9 @@ public class ProductUtil {
      * @return
      */
     public static String annualRatePlus(Object rate) {
+        // 先判断是否有小数点，没有小数点的增加小数点，有小数点的另外计算
+
+
         StringBuilder annualRate = new StringBuilder();
         annualRate.append(rate);
         int length = (((BigDecimal) rate).toString()).length();
@@ -107,4 +222,54 @@ public class ProductUtil {
         return name.substring(0, 1);
     }
 
+    public static String getFirstName(Object name) {
+        return ((String) name).substring(0, 1);
+    }
+
+    /**
+     * 获取男女性别
+     *
+     * @param sex
+     * @return
+     */
+    public static String getSex(Object sex) {
+        return (Boolean) sex ? "男" : "女";
+    }
+
+    /**
+     * 加密身份证号码 显示前三位以及末尾三位
+     *
+     * @param code
+     * @return
+     */
+    public static String getCodePlus(Object code) {
+        String c = (String) code;
+        return c.substring(0, 3) + "************" + c.substring(c.length() - 3);
+    }
+
+
+    /**
+     * 加密居住地址/详细地址
+     *
+     * @param data
+     * @return
+     */
+    private static String getAddressPlus(Map data) {
+        StringBuilder address = new StringBuilder();
+        address.append(data.get("province"));
+        address.append(data.get("city"));
+        address.append(data.get("area"));
+        address.append(((String) data.get("address")).substring(0, 3) + "******");
+        return address.toString();
+    }
+
+    /**
+     * 获取婚姻状况 true：已婚，false：未婚
+     *
+     * @param marry
+     * @return
+     */
+    private static String getMarry(Object marry) {
+        return (Boolean) marry ? "已婚" : "未婚";
+    }
 }

@@ -222,7 +222,7 @@
                                                       placeholder="100元起投，100元递增"></el-input>
                                             <el-input v-if="!isLogin" :disabled="!isLogin"
                                                       placeholder="请登录后再来投标"></el-input>
-                                            <em>666</em>
+                                            <em>剩余：{{productDetail.surplus_amount}}</em>
                                         </div>
                                         <div class="tips"></div>
                                         <a v-if="isLogin" class="to-buy" href="javascript:;">立即投入</a>
@@ -301,32 +301,32 @@
                                 <div v-if="isLogin" class="queue">
                                     <div class="node first">
                                         <div class="model"><i></i><span>借款基础信息</span></div>
-                                        <div class="infos"><span>借款金额：27000元</span> <span>借款期限：12个月</span> <span>还款方式：每月还本付息</span>
-                                            <span>借款用途：个人消费</span> <span>签约时间：2018-11-06</span> <span>约定利率：12 %</span>
-                                            <span>还款来源：工资收入</span> <span>还款保障措施：该笔借款由深圳市华金宝普惠投资管理有限公司提供担保。（其中华金宝普惠与华金宝在线为同一控制人控制下的关联方）</span>
+                                        <div class="infos"><span>借款金额：{{borrowerInfo.borrow_money + '元'}}</span> <span>借款期限：{{borrowerInfo.borrow_time_limit}}个月</span> <span>还款方式：{{borrowerInfo.repayment_description}}</span>
+                                            <span>借款用途：{{borrowerInfo.borrow_description}}</span> <span>签约时间：{{(new Date(borrowerInfo.joinTime)).Format('yyyy-MM-dd hh:mm:ss')}}</span> <span>约定利率：{{borrowerInfo.lending_rate}} %</span>
+                                            <span>还款来源：{{borrowerInfo.payment}}</span> <span>还款保障措施：该笔借款由深圳市华金宝普惠投资管理有限公司提供担保。（其中华金宝普惠与华金宝在线为同一控制人控制下的关联方）</span>
                                         </div>
                                     </div>
                                     <div class="node">
                                         <div class="model"><i></i><span>借款人基础信息</span></div>
-                                        <div class="infos"><span>借款人：程**</span> <span>性别：女</span> <span>年龄：25</span>
-                                            <span>身份证：34*****09</span> <span>居住地点：浙江省宁波市北仑区******</span>
-                                            <span>所属城市：北仑区</span> <span>婚姻状况：已婚</span></div>
+                                        <div class="infos"><span>借款人：{{borrowerInfo.name}}</span> <span>性别：{{borrowerInfo.sex}}</span> <span>年龄：{{borrowerInfo.age}}</span>
+                                            <span>身份证：{{borrowerInfo.code}}</span> <span>居住地点：{{borrowerInfo.address}}</span>
+                                            <span>所属城市：{{borrowerInfo.area}}</span> <span>婚姻状况：{{borrowerInfo.is_marry}}</span></div>
                                     </div>
                                     <div class="node">
                                         <div class="model"><i></i><span>工作信息</span></div>
-                                        <div class="infos"><span>工作行业/性质：文化、体育和娱乐业</span>
-                                            <span>工作地点：浙江省宁波市北仑区******</span> <span>工作职位：工人</span> <span>月收入<i
+                                        <div class="infos"><span>工作行业/性质：{{borrowerInfo.industry}}</span>
+                                            <span>工作地点：{{borrowerInfo.workAddress}}</span> <span>工作职位：{{borrowerInfo.position}}</span> <span>月收入<i
                                                     class="icon icon-question-mark icon__question__mark"
-                                                    title="月收入指月打卡工资收入"></i> ：12000元</span></div>
+                                                    title="月收入指月打卡工资收入"></i> ：{{borrowerInfo.income}}</span></div>
                                     </div>
                                     <div class="node">
                                         <div class="model"><i></i><span>资产信息</span></div>
-                                        <div class="infos"><span>名下房产：无</span> <span>名下车辆：无</span></div>
+                                        <div class="infos"><span>名下房产：{{borrowerInfo.is_house}}</span> <span>名下车辆：{{borrowerInfo.is_car}}</span></div>
                                     </div>
                                     <div class="node">
                                         <div class="model"><i></i><span>信用信息</span></div>
                                         <div class="infos"><span>历史借款金额：0元</span> <span>历史借款次数：0次</span>
-                                            <span>历史结清次数：0次</span> <span>最近一次借款时间：2019-01-21</span> <span>当前待还本息<i
+                                            <span>历史结清次数：0次</span> <span>最近一次借款时间：{{(new Date(borrowerInfo.publish_time)).Format('yyyy-MM-dd hh:mm:ss')}}</span> <span>当前待还本息<i
                                                     class="icon icon-question-mark icon__question__mark"
                                                     title="当前待还本息只包括已募集完成并且处于还款中的借款"></i> ：  0  元 </span>
                                             <span>征信报告说明：无</span> <span>在本平台逾期次数：0次</span> <span>在本平台逾期总金额：0元</span>
@@ -620,6 +620,7 @@
             isRetrals: false,
             remainTime: '',
             productDescription: 1,
+            borrowerInfo: {}
         },
         watch: {
             productDescription: function(val, oldVal) {
@@ -631,6 +632,7 @@
                     case 2:
                         // 请求后台，显示用户信息
                         console.log(2)
+                        loadBorrowerInfo()
                         break;
                     case 3:
                         // 请求后台，显示购买记录
@@ -696,6 +698,29 @@
             }
         }
     })
+</script>
+
+<script>
+    function loadBorrowerInfo() {
+        var borrowNumber = app.productDetail.borrow_number
+        var data = new URLSearchParams()
+        data.append("borrowNumber", borrowNumber)
+        data.append("consumerID", app.productDetail.user_id)
+
+        if(JSON.stringify(app.borrowerInfo) == '{}') {
+            // null
+            axios({
+                method: 'post',
+                url: '/product/loan/common/getBorrowerInfo',
+                data: data
+            }).then(function(response) {
+                console.log(response)
+                app.borrowerInfo = response.data.object
+            })
+        } else {
+            // not first
+        }
+    }
 </script>
 
 <script>

@@ -1,6 +1,5 @@
 package com.breach.huajinbao.service.product.impl;
 
-import com.breach.common.entity.UserBorrowBidApplyRecord;
 import com.breach.huajinbao.mapper.product.IProductMapper;
 import com.breach.huajinbao.service.product.IProductService;
 import com.breach.huajinbao.sysconst.ISystemConsts;
@@ -8,7 +7,6 @@ import com.breach.huajinbao.util.product.ProductUtil;
 import com.breach.huajinbao.util.product.QueryProduct;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,7 +52,7 @@ public class ProductServiceImpl implements IProductService {
         // 判空
         if (data == null) {
             return new ReturnUtil(
-                    ISystemConsts.PRODUCT_LOAN_PERSON_BIT_DETAIL_IS_NOT_EXIST,
+                    ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_IS_NOT_EXIST,
                     "对不起，标不存在。"
             );
         } else {
@@ -64,5 +62,23 @@ public class ProductServiceImpl implements IProductService {
             );
         }
 
+    }
+
+    /**
+     * 获取借款人信息
+     * @param borrowNumber
+     * @param consumerID
+     * @return
+     */
+    @Override
+    public ReturnUtil getBorrowerInfo(String borrowNumber, String consumerID) {
+        // 获取基础信息
+        Map<String, Object> data = productMapper.getBorrowerInfo(borrowNumber, consumerID);
+        System.out.println(data);
+
+        return new ReturnUtil(
+                ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_GET_BORROWER_INFO_SUCCESS,
+                ProductUtil.getBorrowerInfo(data)
+        );
     }
 }
