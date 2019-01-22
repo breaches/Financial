@@ -24,4 +24,12 @@ public interface IProductService {
      * @return
      */
     ReturnUtil personBidDetail(String productID);
+
+    /**
+     * 获取借款人信息
+     * @param borrowNumber
+     * @param consumerID
+     * @return
+     */
+    ReturnUtil getBorrowerInfo(String borrowNumber, String consumerID);
 }
