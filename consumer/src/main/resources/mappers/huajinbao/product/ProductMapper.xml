@@ -44,6 +44,7 @@
         update
         consumer_account
         set
+        frozen_capital = frozen_capital + #{frozenCapital},
         available_balance = #{availableBalance},
         version = version+1
         where
@@ -173,7 +174,8 @@
         repay.repayment_description as repayment,
         repay.detail as repaymentDetail,
         card.sex,
-        retrials.verify_time as fullTime
+        retrials.verify_time as fullTime,
+        account.available_balance as balance
         from
         user_borrow_bid_apply_record
         AS
@@ -199,6 +201,10 @@
         LEFT JOIN
         user_borrow_bid_full_retrials
         AS retrials ON record.borrow_number=retrials.borrow_number
+        LEFT JOIN
+        consumer_info AS info1 ON info1.id=#{consumerID}
+        INNER JOIN
+        consumer_account AS account ON account.id=info1.account_id
         where record.id = #{productID}
     </select>
     <select id="getBorrowerInfo" resultType="java.util.Map">

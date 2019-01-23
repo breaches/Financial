@@ -72,7 +72,7 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ReturnUtil personBidDetail(String productID) {
-        Map<String, Object> data = productMapper.personBidDetail(productID);
+        Map<String, Object> data = productMapper.personBidDetail(productID, ConsumerSessionUtil.getConsumer().getConsumerId());
         // 判空
         if (data == null) {
             return new ReturnUtil(
@@ -144,9 +144,10 @@ public class ProductServiceImpl implements IProductService {
                         // 进一步判断要购买的金额是否大于该标剩余可买金额，这里应该是  ---===可购买金额>购买金额===---
                         // 开始购买流程
 
-                        // 先扣款 ---- 条件：发标id不能与投标id相同，标的版本要相同，
+                        // 先扣款 ---- 条件：发标id不能与投标id相同，标的版本要相同，----扣除余额的同时，应该增加冻结资金
                         productMapper.tradingAccount(
                                 consumerInfo.getAccountId(),
+                                tradingInfo.getAmount().setScale(2, BigDecimal.ROUND_HALF_UP),
                                 consumerAccount.getAvailableBalance().subtract(tradingInfo.getAmount()).setScale(2, BigDecimal.ROUND_HALF_UP),
                                 consumerAccount.getVersion()
                         );
