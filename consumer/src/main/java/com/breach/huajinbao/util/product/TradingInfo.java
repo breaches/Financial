@@ -19,6 +19,12 @@ public class TradingInfo {
 //    private Integer consumerId;
     private String borrowNumber;
     private BigDecimal amount;
+    private Integer pageCurrent;
+    private Integer pageSize;
+
+    public Integer getPageCurrent() {
+        return (pageCurrent-1) * this.pageSize;
+    }
 
     /**保留两位小数**/
     public BigDecimal getAmount() {

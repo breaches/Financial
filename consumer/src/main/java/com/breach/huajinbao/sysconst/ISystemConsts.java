@@ -72,6 +72,8 @@ public interface ISystemConsts {
     Integer TRADING_BID_SUCCESS = 4003;
     /**满标了**/
     Integer TRADING_BID_SUCCESS_AND_IS_FULL = 4002;
+    /**获取投标记录成功**/
+    Integer TRADING_BID_RECORD_GET_SUCCESS = 4004;
 
 
 

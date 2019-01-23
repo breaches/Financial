@@ -1,6 +1,7 @@
 package com.breach.huajinbao.mapper.product;
 
 import com.breach.huajinbao.util.product.QueryProduct;
+import com.breach.huajinbao.util.product.TradingInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
@@ -92,4 +93,18 @@ public interface IProductMapper {
             @Param("fullTime") LocalDateTime sqlTimeStamp,
             @Param("isFull") boolean b
     );
+
+    /**
+     * 获取投标记录
+     * @param tradingInfo
+     * @return
+     */
+    List<Map<String, Object>> getTradingRecord(TradingInfo tradingInfo);
+
+    /**
+     * 获取投标记录的总数
+     * @param tradingInfo
+     * @return
+     */
+    Integer getTotalTradingRecord(TradingInfo tradingInfo);
 }
