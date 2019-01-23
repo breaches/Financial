@@ -100,8 +100,29 @@ public class ProductUtil {
     }
 
 
+    public static Map getDataAfterLogin(Map account) {
+        if(account.get("balance") != null) {
+            account.put("balance", getBorrowerMoney(account.get("balance")));
+        }
+        return account;
+    }
+
     /**
-     * 返回整理好的标的详细信息
+     * 返回整理好的标的详细信息，这是登陆后的
+     * @param data
+     * @param account
+     * @return
+     */
+    public static Map getData(Map<String, Object> data, Map account) {
+        Map<String, Object> data1 = getData(data);
+        if(account.get("balance") != null) {
+            account.put("balance", getBorrowerMoney(account.get("balance")));
+        }
+        return null;
+    }
+
+    /**
+     * 返回整理好的标的详细信息，这是没有登录的
      *
      * @param data
      * @return
@@ -325,5 +346,6 @@ public class ProductUtil {
 
         return data;
     }
+
 
 }

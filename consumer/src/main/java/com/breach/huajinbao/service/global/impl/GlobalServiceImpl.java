@@ -1,5 +1,6 @@
 package com.breach.huajinbao.service.global.impl;
 
+import com.aliyun.oss.internal.SignUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.breach.common.entity.ConsumerAccount;
 import com.breach.common.entity.ConsumerAuths;
@@ -14,6 +15,7 @@ import com.breach.huajinbao.util.global.GlobalConsumerUtil;
 import com.breach.huajinbao.util.global.GlobalData;
 import com.breach.huajinbao.util.global.IPAddressUtil;
 import com.breach.huajinbao.util.sign.ConsumerSessionUtil;
+import com.breach.huajinbao.util.sign.SignInUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,16 @@ public class GlobalServiceImpl implements IGlobalService {
             map.put("id", consumer.getId());
             map.put("username", consumer.getUsername());
             data.add(map);
+
+            /*ConsumerInfo queryConsumerInfo = new ConsumerInfo();
+            queryConsumerInfo.setId(consumer.getId());
+            ConsumerInfo consumerInfo = consumerInfoMapper.selectOne(new QueryWrapper<>(queryConsumerInfo));
+
+            ConsumerAccount queryConsumerAccount = new ConsumerAccount();
+            queryConsumerAccount.setId(consumerInfo.getAccountId());
+            ConsumerAccount consumerAccount = consumerAccountMapper.selectOne(new QueryWrapper<>(queryConsumerAccount));*/
+
+//            return new GlobalData(SignInUtil.processSignInInfo(consumerInfo, consumerAccount));
             return new GlobalData(data);
         }
         return null;

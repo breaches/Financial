@@ -21,7 +21,7 @@ public interface IProductMapper {
 
     Integer disperseBidTotal(QueryProduct queryProduct);
 
-    Map<String, Object> personBidDetail(@Param("productID") String productID, @Param("consumerID") Integer consumerId);
+    Map<String, Object> personBidDetail(@Param("productID") String productID);
 
     Map<String, Object> getBorrowerInfo(@Param("borrowNumber") String borrowNumber, @Param("consumerID") String consumerID);
 
@@ -109,4 +109,6 @@ public interface IProductMapper {
      * @return
      */
     Integer getTotalTradingRecord(TradingInfo tradingInfo);
+
+    Map getAccount(@Param("consumerID") Integer consumerId);
 }

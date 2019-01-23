@@ -205,7 +205,7 @@
                                     <el-form :inline="true" class="demo-form-inline">
                                         <div class="remaining-amount g-cf">
                                             <label v-cloak class="g-fl">网贷账户余额：</label>
-                                            <span v-cloak v-if="isLogin" class="g-fl">{{productDetail.balance}}</span>
+                                            <span v-cloak v-if="isLogin" class="g-fl">{{accountInfo.balance}}</span>
                                             <em v-cloak v-if="isLogin" class="g-fl">元</em>
                                             <em v-cloak v-if="!isLogin">请登录</em>
                                             <a v-cloak v-if="isLogin" class="to-recharge g-fr"
@@ -593,6 +593,7 @@
             isLogin: false,
             userInfoBar: false,
             userInfo: {},
+            accountInfo: {},
             productDetail: {},
             isFull: false,
             isRetrals: false,
@@ -758,16 +759,17 @@
             data: productId
         }).then(function (response) {
             console.log(response)
-            app.productDetail = response.data.object
+            app.productDetail = response.data.detail
+            app.accountInfo = response.data.account
             console.log(app.productDetail)
             // if(app.productDetail.hasOwnProperty())
-            if (response.data.object.user_id == app.userInfo.id) {
+            if (response.data.detail.user_id == app.userInfo.id) {
                 app.isSelf = true // 自己
             }
-            if(response.data.object.is_full) {
+            if(response.data.detail.is_full) {
                 app.isFull = true // 满标
             }
-            if(response.data.object.fullTime != null){
+            if(response.data.detail.fullTime != null){
                 app.isRetrals = true
             }
             TimeDown(app.productDetail.end_buy_time);

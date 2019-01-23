@@ -4,7 +4,6 @@ import com.breach.huajinbao.service.product.IProductService;
 import com.breach.huajinbao.util.product.QueryProduct;
 import com.breach.huajinbao.util.product.TradingInfo;
 import com.breach.huajinbao.util.sign.ReturnUtil;
-import groovy.transform.AutoClone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
