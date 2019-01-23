@@ -247,4 +247,26 @@
             record.borrow_number = #{borrowNumber} and record.user_id=#{consumerID}
     </select>
 
+    <select id="getTradingRecord" resultType="java.util.Map">
+        SELECT
+            record.trading_amount as amount,
+            record.create_time as time,
+            info.phone
+        FROM
+            user_borrow_transaction_record AS record
+        INNER JOIN consumer_info AS info ON record.consumer_id = info.id
+        WHERE
+	    record.borrow_number = #{borrowNumber}
+	    limit #{pageCurrent}, #{pageSize}
+    </select>
+    <select id="getTotalTradingRecord" resultType="integer">
+        SELECT
+            count(*)
+        FROM
+            user_borrow_transaction_record AS record
+        INNER JOIN consumer_info AS info ON record.consumer_id = info.id
+        WHERE
+	    record.borrow_number = #{borrowNumber}
+    </select>
+
 </mapper>

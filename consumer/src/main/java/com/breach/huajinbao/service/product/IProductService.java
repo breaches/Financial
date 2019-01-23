@@ -40,4 +40,12 @@ public interface IProductService {
      * @return
      */
     ReturnUtil trading(TradingInfo tradingInfo);
+
+    /**
+     * 获取投标记录
+     * @param tradingInfo
+     * @return
+     */
+    ReturnUtil getTradingRecord(TradingInfo tradingInfo);
+
 }

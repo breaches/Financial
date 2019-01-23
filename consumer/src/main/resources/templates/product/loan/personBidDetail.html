@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/resources/css/product/loan/detail-1ecb570584.css">
     <link rel="stylesheet" href="/resources/css/product/loan/base-ab068c2816.css">
     <script src="/resources/js/AppUtil.js"></script>
+    <script src="/resources/js/ProductConfig.js"></script>
     <style>
         [v-cloak] {
             display: none;
@@ -219,7 +220,7 @@
                                         <div class="purchase">
                                             <!--<input :disabled="true" name="buyAmount" type="text" id="buyMoney"
                                                    placeholder="100元起投，100元递增" >-->
-                                            <el-input v-model="tradingInfo.amount" v-if="isLogin" :disabled="!isLogin" id="buyMoney" maxlength="20"
+                                            <el-input v-model="queryTradingInfo.amount" v-if="isLogin" :disabled="!isLogin" id="buyMoney" maxlength="20"
                                                       placeholder="100元起投，100元递增"></el-input>
                                             <el-input v-if="!isLogin" :disabled="!isLogin"
                                                       placeholder="请登录后再来投标"></el-input>
@@ -352,7 +353,7 @@
                                  id="investListModel"
                                  style="display: block; text-align: center;">
                                 <div class="content">
-                                    <div class="sequence g-tl"> 购买人数<span>4</span>人</div>
+                                    <div class="sequence g-tl"> 购买人数<span>{{tradingRecord.headcount}}</span>人</div>
                                     <table>
                                         <thead>
                                         <tr class="head">
@@ -362,61 +363,24 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr class="even">
-                                            <td><i class="vipIcon icon-vipgold_member"></i>x****87</td>
-                                            <td>1,222.46</td>
-                                            <td>2019-01-21 11:40:31</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td><i class="vipIcon icon-vipplatinum_member"></i>x****35</td>
-                                            <td>12,000.00</td>
-                                            <td>2019-01-21 11:40:21</td>
-                                        </tr>
-                                        <tr class="even">
-                                            <td><i class="vipIcon icon-vipdiamond_member"></i>x****54</td>
-                                            <td>12,000.00</td>
-                                            <td>2019-01-21 11:40:10</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td><i class="vipIcon icon-vipgold_member"></i>a****02</td>
-                                            <td>1,777.54</td>
-                                            <td>2019-01-21 11:39:50</td>
+                                        <tr v-for="(item, index) in tradingRecord.info" :style="index" :class="{'even':index%2==0}">
+                                            <td><i class="vipIcon icon-vipgold_member"></i>{{item.phone}}</td>
+                                            <td>{{item.amount}}</td>
+                                            <td>{{(new Date(item.time)).Format('yyyy-MM-dd hh:mm:ss')}}</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="page paginator" style="visibility: hidden;">
-                                    <div class="paginator-main" id="paginator-main" style="display: block;">
-                                        <div class="paginator-info">第1页/共1页</div>
-                                        <div class="paginator-left">
-                                            <ol>
-                                                <li><a href="javascript:;" data-role="first" class="disabled">首页</a>
-                                                </li>
-                                                <li><a href="javascript:;" data-role="prev" class="disabled">上一页</a>
-                                                </li>
-                                            </ol>
-                                        </div>
-                                        <div class="paginator-list" style="width: 35px;">
-                                            <ol class="paginator-list-main" style="width: 35px;">
-                                                <li><a href="javascript:;" data-role="1" class="current">1</a></li>
-                                            </ol>
-                                        </div>
-                                        <div class="paginator-right">
-                                            <ol>
-                                                <li><a href="javascript:;" data-role="next" class="disabled">下一页</a>
-                                                </li>
-                                                <li><a href="javascript:;" data-role="last" class="disabled">末页</a></li>
-                                            </ol>
-                                        </div>
-                                        <div class="paginator-jump">
-                                            <input type="tel" value="" maxlength="10">
-                                            <a href="javascript:;" data-role="jump">跳转</a>
-                                        </div>
+                                <div id="page">
+                                    <div class="page-block">
+                                        <el-pagination
+                                                layout="total, prev, pager, next, jumper"
+                                                :current-page="queryTradingInfo.pageCurrent"
+                                                :page-size="queryTradingInfo.pageSize"
+                                                :total="tradingRecord.totalData"
+                                                @current-change="handleCurrentChange"
+                                        ></el-pagination>
                                     </div>
-                                    <p class="paginator-none" style="display:none;">
-                                        <i class="icon icon-no-data"></i>
-                                        <span>您暂时没有数据可显示</span>
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -636,7 +600,11 @@
             remainTime: '',
             productDescription: 1,
             borrowerInfo: {},
-            tradingInfo: {}
+            queryTradingInfo: {
+                pageCurrent: 1,
+                pageSize: 10
+            },
+            tradingRecord: {}
         },
         watch: {
             productDescription: function (val, oldVal) {
@@ -653,6 +621,7 @@
                     case 3:
                         // 请求后台，显示购买记录
                         console.log(3)
+                        loadTradingRecord()
                         break;
                 }
             }
@@ -714,6 +683,10 @@
             },
             trading: function() {
                 trading()
+            },
+            handleCurrentChange: function(val) {
+                this.queryTradingInfo.pageCurrent = val
+                loadTradingRecord()
             }
         }
     })
@@ -721,12 +694,32 @@
 
 <!--必要函数-->
 <script>
+
+    function loadTradingRecord() {
+        app.queryTradingInfo.borrowNumber = app.productDetail.borrow_number
+        console.log('in')
+            // 获取记录
+            axios({
+                method: 'post',
+                url: '/product/loan/common/getTradingRecord',
+                data: app.queryTradingInfo
+            }).then(function(response) {
+                console.log('-------------------------------')
+                console.log(response)
+                console.log('-------------------------------')
+                app.tradingRecord = response.data.object
+            })
+    }
+
+    /**
+     * 投标
+     */
     function trading() {
-        app.tradingInfo.borrowNumber = app.productDetail.borrow_number
+        app.queryTradingInfo.borrowNumber = app.productDetail.borrow_number
         axios({
             method: 'post',
             url: '/product/loan/common/trading',
-            data: app.tradingInfo
+            data: app.queryTradingInfo
         }).then(function(response) {
             console.log(response)
             if(response.data.code == 4003) {

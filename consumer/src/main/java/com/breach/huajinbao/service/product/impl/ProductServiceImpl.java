@@ -23,6 +23,7 @@ import com.breach.huajinbao.util.sign.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.Produces;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -197,5 +198,18 @@ public class ProductServiceImpl implements IProductService {
             }
         }
         return new ReturnUtil(ISystemConsts.AJAX_IS_NOT_LOGIN, "请登录后再来操作");
+    }
+
+    /**
+     * 获取投标记录
+     * @param tradingInfo
+     * @return
+     */
+    @Override
+    public ReturnUtil getTradingRecord(TradingInfo tradingInfo) {
+        List<Map<String, Object>> record = productMapper.getTradingRecord(tradingInfo);
+        Integer totalTradingRecord = productMapper.getTotalTradingRecord(tradingInfo);
+        Map tradingRecordInfo = ProductUtil.getTradingRecordInfo(record, totalTradingRecord);
+        return new ReturnUtil(ISystemConsts.TRADING_BID_RECORD_GET_SUCCESS, tradingRecordInfo);
     }
 }

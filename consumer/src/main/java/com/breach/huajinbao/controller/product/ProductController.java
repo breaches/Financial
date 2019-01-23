@@ -48,5 +48,11 @@ public class ProductController {
         return productService.trading(tradingInfo);
     }
 
+    /**获取投标记录**/
+    @RequestMapping("/loan/common/getTradingRecord")
+    public ReturnUtil getTradingRecord(@RequestBody TradingInfo tradingInfo) {
+        return productService.getTradingRecord(tradingInfo);
+    }
+
 
 }
