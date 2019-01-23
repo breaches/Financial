@@ -93,7 +93,7 @@ public class ProductServiceImpl implements IProductService {
             }
             ReturnUtil returnUtil = new ReturnUtil();
             returnUtil.setCode(ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_SUCCESS);
-            returnUtil.setDetail(data);
+            returnUtil.setDetail(ProductUtil.getData(data));
             return returnUtil;
         }
 
