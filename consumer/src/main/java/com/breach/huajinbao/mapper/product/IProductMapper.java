@@ -21,19 +21,21 @@ public interface IProductMapper {
 
     Integer disperseBidTotal(QueryProduct queryProduct);
 
-    Map<String, Object> personBidDetail(String productID);
+    Map<String, Object> personBidDetail(@Param("productID") String productID, @Param("consumerID") Integer consumerId);
 
     Map<String, Object> getBorrowerInfo(@Param("borrowNumber") String borrowNumber, @Param("consumerID") String consumerID);
 
     /**
      * 扣除账户的金额，购买标后的金额
      * @param consumerId
+     * @param scale
      * @param setScale
      * @param version
      * @return
      */
     Integer tradingAccount(
             @Param("accountID") Integer consumerId,
+            @Param("frozenCapital") BigDecimal scale,
             @Param("availableBalance") BigDecimal setScale,
             @Param("version") Integer version
     );

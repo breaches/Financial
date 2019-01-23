@@ -134,6 +134,11 @@ public class ProductUtil {
             data.put("borrow_money", getBorrowerMoney(data.get("borrow_money")));
         }
 
+        // 个人可用余额
+        if(data.get("balance") != null) {
+            data.put("balance", getBorrowerMoney(data.get("balance")));
+        }
+
 
         return data;
     }
@@ -320,4 +325,5 @@ public class ProductUtil {
 
         return data;
     }
+
 }

@@ -205,7 +205,7 @@
                                     <el-form :inline="true" class="demo-form-inline">
                                         <div class="remaining-amount g-cf">
                                             <label v-cloak class="g-fl">网贷账户余额：</label>
-                                            <span v-cloak v-if="isLogin" class="g-fl">0.00</span>
+                                            <span v-cloak v-if="isLogin" class="g-fl">{{productDetail.balance}}</span>
                                             <em v-cloak v-if="isLogin" class="g-fl">元</em>
                                             <em v-cloak v-if="!isLogin">请登录</em>
                                             <a v-cloak v-if="isLogin" class="to-recharge g-fr"
