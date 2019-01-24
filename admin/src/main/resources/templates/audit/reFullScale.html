@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>满标复审页面</title>
+    <meta charset="UTF-8"/>
+    <!--  VUE -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- elementUI -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style type="text/css">
+        .table_Info {
+
+            border: 1px solid #545c64;
+
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<div id="app">
+    <!-- 工具条  -->
+    <div>
+        姓名:
+        <el-input v-model="empQuery.name" placeholder="请输入内容" clearable style="width:200px"></el-input>
+        时间段:
+        <el-date-picker v-model="empQuery.beginDate" type="date" placeholder="选择开始日期"></el-date-picker>
+        -------
+        <el-date-picker type="date" v-model="empQuery.endDate" placeholder="选择结束日期"></el-date-picker>
+        <el-button icon="el-icon-search" @click="empSearch" circle></el-button>
+    </div>
+
+    <el-table :data="tableData" @selection-change="handleSelectionChange" style="width:100%">
+        <el-table-column type="index"></el-table-column>
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column prop="borrow_number" label="满标编号" align="center" width="180"></el-table-column>
+        <el-table-column prop="user_id" label="用户编号" align="center" width="180"></el-table-column>
+        <el-table-column prop="name" label="用户名" align="center" width="150"></el-table-column>
+        <el-table-column prop="borrow_description" label="投标描述" align="center" width="180"></el-table-column>
+        <el-table-column prop="full_tender_time" label="满标时间" align="center" sortable :formatter="formatDate"
+                         width="180"></el-table-column>
+        <el-table-column prop="retrals_id" label="状态" align="center" :formatter="stateFormatter"></el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button size="mini" type="success" @click="handleEdit(scope.row)">个人信息</el-button>
+                <el-button size="mini" type="success" @click="operation(scope.row)">操作</el-button>
+            </template>
+        </el-table-column>
+
+    </el-table>
+    <!-- 分页条  -->
+    <div>
+        <el-pagination @size-change="handleSizeChange" :current-page="empQuery.page"
+                       @current-change="handleCurrentChange"
+                       :page-sizes="[5, 10, 15, 20]" :page-size="100" layout="total, sizes, prev, pager, next, jumper"
+                       :total="empTotal">
+        </el-pagination>
+    </div>
+
+    <!-- 弹框 -->
+    <el-dialog title="个人招标信息" :visible.sync="dialogVisible" width="980px">
+        <div style="margin-left: 25px">
+            <table class="table_Info" width="900px" border="1px" cellpadding="0px" cellspacing="0px">
+                <tr height="50px">
+                    <th>姓名:
+                    </th>
+                    <td colspan="3">
+                        {{Info.name}}
+                    </td>
+                    <th>性别:
+                    </th>
+                    <td>
+                        {{Info.sex}}
+
+                    </td>
+                    <th>身份证号:
+                    </th>
+                    <td colspan="3">
+                        {{Info.code}}
+                    </td>
+                </tr>
+                <tr height="50px">
+                    <th>学历:
+                    </th>
+                    <td>
+                        {{Info.educationId}}
+                    </td>
+                    <th>汽车:</th>
+                    <td>
+                        {{Info.isHaveCar}}
+
+                    </td>
+                    <th>住房:</th>
+                    <td>
+                        {{Info.isHaveHouse}}
+
+                    </td>
+                    <th>婚姻
+                    </th>
+                    <td>
+                        {{Info.isSingle}}
+                    </td>
+                    <th>收入</th>
+                    <td>
+                        {{Info.incomeRangeId}}
+                    </td>
+
+                </tr>
+                <tr height="50px">
+                    <th>详细地址：</th>
+                    <td colspan="9">
+                        {{Info.codeProvince}}&nbsp
+                        {{Info.codeCity}}&nbsp
+                        {{Info.codeArea}}&nbsp
+                        {{Info.address}}
+
+                    </td>
+
+                </tr>
+                <tr height="50px">
+                    <th>紧急联系人：</th>
+                    <td colspan="2">
+                        {{Info.contactsName}}
+                    </td>
+                    <th>紧急联系方式：</th>
+                    <td colspan="3">
+                        {{Info.contactsPhone}}
+
+
+                    </td>
+                    <th>相关关系：</th>
+                    <td colspan="2">
+                        {{Info.contactsRelation}}
+
+                    </td>
+
+                </tr>
+
+                <tr height="50">
+                    <th>招标金额</th>
+                    <td>{{auditInfo.borrow_money}}</td>
+                    <th>招标期限</th>
+                    <td>{{auditInfo.bidding_time_limit}}天</td>
+                    <th width="">招标类型</th>
+                    <td>{{auditInfo.repay_type}}</td>
+                    <th>招标利率</th>
+                    <td>{{auditInfo.lending_rate}}%</td>
+
+                    <th>还款期限</th>
+                    <td>{{auditInfo.borrow_time_limit}}月</td>
+                </tr>
+                <tr height="80px">
+
+                    <th>招标描述</th>
+                    <td colspan="9">{{auditInfo.borrow_description}}</td>
+
+                </tr>
+
+                <tr height="150px">
+                    <th>身份证正面照
+                    </td>
+                    <td colspan="4">
+                        <img :src="Info.idCardFrontImage" style="width: 400px ;height: 200px"/>
+
+                    </td>
+                    <th>身份证反面照
+                    </td>
+                    <td colspan="4">
+                        <img :src="Info.idCardBackImage" style="width: 400px ;height: 200px"/>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">关闭</el-button>
+        </div>
+
+    </el-dialog>
+    <el-dialog title="投标人信息" :before-close="handleClose" :visible.sync="reDialogVisible" width="980px">
+        <el-table
+                :data="tableData1"
+                border
+                height="500"
+                :summary-method="getSummaries"
+                show-summary
+                style="width: 100%; margin-top: 20px">
+            <el-table-column
+                    align="center"
+                    sortable :formatter="formatDate"
+                    prop="create_time"
+                    label="日期"
+            >
+            </el-table-column>
+            <el-table-column
+                    align="center"
+                    prop="name"
+                    label="姓名">
+            </el-table-column>
+            <el-table-column
+                    align="center"
+                    prop="trading_amount"
+                    label="交易金额（元）">
+            </el-table-column>
+        </el-table>
+
+        <br/>
+        <p>认证是否通过？ 点击 通过 或 不通过</p>
+        <el-radio v-model="radio" label="1" @change="success">通过</el-radio>
+        <el-radio v-model="radio" label="2" @change="danger">不通过</el-radio>
+        <el-input
+                type="textarea"
+                :rows="3"
+                placeholder="请输入内容"
+                v-model="textarea">
+        </el-input>
+
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="reDialogVisible = false">关闭</el-button>
+            <el-button type="primary" @click="changeEmp">提交</el-button>
+        </div>
+
+    </el-dialog>
+
+
+</div>
+
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            tableData: [],
+            tableData1: [],
+            empQuery: {
+                page: 1,
+                count: 5,
+                name: "",
+                beginDate: "",
+                endDate: ""
+            },
+            edit: {
+                borrowNumber: "",
+                userId: ""
+            },
+            passInfo: {
+                borrowNumber: "",
+                text: ""
+
+            },
+            tenderBorrowNumber:"",
+            empTotal: 0,
+            dialogVisible: false,
+            reDialogVisible: false,
+            auditInfo: {},
+            textarea: "满标复审成功",
+            radio: "1",
+            Info: {},
+        },
+        methods: {
+            getSummaries(param) {
+                const { columns, data } = param;
+                const sums = [];
+                columns.forEach((column, index) => {
+                    if (index === 0) {
+                        sums[index] = '合计';
+                        return;
+                    }
+                    const values = data.map(item => Number(item[column.property]));
+                    if (!values.every(value => isNaN(value))) {
+                        sums[index] = values.reduce((prev, curr) => {
+                            const value = Number(curr);
+                            if (!isNaN(value)) {
+                                return prev + curr;
+                            } else {
+                                return prev;
+                            }
+                        }, 0);
+                        sums[index] += ' 元';
+                    } else {
+                        sums[index] = 'N/A';
+                    }
+                });
+
+                return sums;
+            }
+
+            ,handleClose(done) {
+                this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {
+                    });
+            },
+            stateFormatter: function (row, column, cellValue, index) {
+                return cellValue == 0 ? "待审核" : "审核成功";
+            },
+            handleSizeChange: function (val) {
+                this.empQuery.count = val;
+                this.empQuery.page = 1;
+                reload();
+            },
+            handleCurrentChange: function (val) {
+                this.empQuery.page = val;
+                reload();
+            },
+            empSearch: function () {
+                reload();
+            },
+            danger: function () {
+                this.textarea = "@满标复审失败";
+            },
+            success: function () {
+                this.textarea = "@满标复审成功";
+            },
+            operation: function (val) {
+                app.edit.borrowNumber=val.borrow_number;
+                axios.post('audit/getReTenderList', app.edit)
+                    .then(function (response) {
+                        app.tableData1 = response.data.dataList;
+                        app.tenderBorrowNumber = response.data.borrowNumber;
+
+
+
+                    });
+                //显示弹框
+                app.reDialogVisible = true;
+            },
+
+            handleEdit: function (user) {
+                app.edit.borrowNumber = user.borrow_number;
+                app.edit.userId = user.user_id;
+                axios.post('audit/getAudit', app.edit)
+                    .then(function (response) {
+                        app.Info = response.data.data;
+                        app.Info.educationId = response.data.sonInfo1;
+                        app.Info.incomeRangeId = response.data.sonInfo2;
+                        app.Info.codeProvince = response.data.sonInfo3;
+                        app.Info.codeCity = response.data.sonInfo4;
+                        app.Info.codeArea = response.data.sonInfo5;
+                        app.auditInfo = response.data.tender;
+
+                        if (app.Info.sex = 1) {
+                            app.Info.sex = "男";
+                        } else {
+                            app.Info.sex = "女"
+                        }
+                        ;
+                        if (app.Info.isHaveCar = true) {
+                            app.Info.isHaveCar = "有";
+                        } else {
+                            app.Info.isHaveCar = "无"
+                        }
+                        ;
+                        if (app.Info.isHaveHouse = true) {
+                            app.Info.isHaveHouse = "有";
+                        } else {
+                            app.Info.isHaveHouse = "无"
+                        }
+                        ;
+                        if (app.Info.isSingle = true) {
+                            app.Info.isSingle = "已婚";
+                        } else {
+                            app.Info.isSingle = "未婚"
+                        }
+                        ;
+                        if (app.auditInfo.repay_type = 1) {
+                            app.auditInfo.repay_type = "等额本息";
+                        } else {
+                            app.auditInfo.repay_type = "等额本金"
+                        }
+
+
+                        //显示弹框
+                        app.dialogVisible = true;
+                    });
+
+            },
+            handleSelectionChange: function (val) {
+                this.deleteArr = val;
+            },
+            //同意提交页面
+            changeEmp: function () {
+
+                app.passInfo.text = app.textarea;
+                app.passInfo.borrowNumber = app.tenderBorrowNumber;
+
+                var url = "";
+                if (app.radio == 1) {
+                    url = "audit/goReFullScalePass";
+                } else {
+                    url = "audit/noReFullScalePass";
+                }
+                axios.post(url, app.passInfo)
+                    .then(function (response) {
+                        app.reDialogVisible = false;
+                        app.$message({
+                            message: response.data.msg,
+                            type: 'success'
+                        });
+                        reload();
+                    });
+            },
+            formatDate: function (row, column, cellValue, index) {
+                if (cellValue != null) {
+                    var date = new Date(cellValue);
+                    Y = date.getFullYear(),
+                        m = date.getMonth() + 1,
+                        d = date.getDate(),
+                        H = date.getHours(),
+                        i = date.getMinutes(),
+                        s = date.getSeconds();
+                    if (m < 10) {
+                        m = '0' + m;
+                    }
+                    if (d < 10) {
+                        d = '0' + d;
+                    }
+                    if (H < 10) {
+                        H = '0' + H;
+                    }
+                    if (i < 10) {
+                        i = '0' + i;
+                    }
+                    if (s < 10) {
+                        s = '0' + s;
+                    }
+                    var t = Y + '-' + m + '-' + d + ' ' + H + ':' + i;
+                    return t;
+                }
+
+            }
+
+        }
+    });
+
+    function reload() {
+        axios.post('audit/getReFullScaleList', app.empQuery)
+            .then(function (response) {
+                app.tableData = response.data.auditdata;
+                app.empTotal = response.data.audittotal;
+            });
+    }
+
+    reload();
+
+
+</script>
+</body>
+</html>
+

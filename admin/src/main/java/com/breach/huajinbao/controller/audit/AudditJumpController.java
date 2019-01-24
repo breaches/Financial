@@ -19,6 +19,45 @@ public class AudditJumpController {
         return "audit/auditInfo";
     }
 
+    /**跳转满标初审界面
+     *
+     * @param
+     * @return
+     *
+     */
+    @RequestMapping("/toFullScale")
+    public String toFullScale(){
+
+        return "audit/fullScale";
+
+    }
+
+    /**跳转满标复审界面
+     *
+     * @param
+     * @return
+     *
+     */
+    @RequestMapping("/reFullScale")
+    public String reFullScale(){
+
+        return "audit/reFullScale";
+
+    }
+    /**跳转流标界面
+     *
+     * @param
+     * @return
+     *
+     */
+    @RequestMapping("/toFlowStandard")
+    public String toFlowStandard(){
+
+        return "audit/toFlowStandard";
+
+    }
+
+
 
 
 }
