@@ -1,5 +1,6 @@
 package com.breach.huajinbao.service.global.impl;
 
+import com.aliyun.oss.internal.SignUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.breach.common.entity.ConsumerAccount;
 import com.breach.common.entity.ConsumerAuths;
@@ -14,6 +15,7 @@ import com.breach.huajinbao.util.global.GlobalConsumerUtil;
 import com.breach.huajinbao.util.global.GlobalData;
 import com.breach.huajinbao.util.global.IPAddressUtil;
 import com.breach.huajinbao.util.sign.ConsumerSessionUtil;
+import com.breach.huajinbao.util.sign.SignInUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,11 +51,33 @@ public class GlobalServiceImpl implements IGlobalService {
         ConsumerAuths consumer = ConsumerSessionUtil.getConsumer();
 
         if(consumer != null) {
+            // get consumer info
+            ConsumerInfo consumerInfo = consumerInfoMapper.selectById(consumer.getId());
+
+            // set query parameter for account
+            ConsumerAccount queryConsumerAccount = new ConsumerAccount();
+            queryConsumerAccount.setId(consumerInfo.getAccountId());
+
+            // result as account
+            ConsumerAccount consumerAccount = consumerAccountMapper.selectOne(new QueryWrapper<>(queryConsumerAccount));
+
+            // process userInfo
             List data = new ArrayList();
             Map map = new HashMap();
             map.put("id", consumer.getId());
             map.put("username", consumer.getUsername());
+            map.put("account", consumerAccount.getId());
             data.add(map);
+
+            /*ConsumerInfo queryConsumerInfo = new ConsumerInfo();
+            queryConsumerInfo.setId(consumer.getId());
+            ConsumerInfo consumerInfo = consumerInfoMapper.selectOne(new QueryWrapper<>(queryConsumerInfo));
+
+            ConsumerAccount queryConsumerAccount = new ConsumerAccount();
+            queryConsumerAccount.setId(consumerInfo.getAccountId());
+            ConsumerAccount consumerAccount = consumerAccountMapper.selectOne(new QueryWrapper<>(queryConsumerAccount));*/
+
+//            return new GlobalData(SignInUtil.processSignInInfo(consumerInfo, consumerAccount));
             return new GlobalData(data);
         }
         return null;

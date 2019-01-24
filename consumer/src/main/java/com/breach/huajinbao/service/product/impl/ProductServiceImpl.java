@@ -72,7 +72,8 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ReturnUtil personBidDetail(String productID) {
-        Map<String, Object> data = productMapper.personBidDetail(productID, ConsumerSessionUtil.getConsumer().getConsumerId());
+        // 取详情标信息
+        Map<String, Object> data = productMapper.personBidDetail(productID);
         // 判空
         if (data == null) {
             return new ReturnUtil(
@@ -80,11 +81,24 @@ public class ProductServiceImpl implements IProductService {
                     "对不起，标不存在。"
             );
         } else {
-            return new ReturnUtil(
-                    ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_SUCCESS,
-                    ProductUtil.getData(data)
-            );
+            // 标存在
+            if(GlobalConsumerUtil.isLogin()) {
+                // 取登录用户的账户
+                Map account = productMapper.getAccount(ConsumerSessionUtil.getConsumer().getConsumerId());
+                return new ReturnUtil(
+                        ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_SUCCESS,
+                        ProductUtil.getData(data),
+                        ProductUtil.getDataAfterLogin(account)
+                );
+            }
+            ReturnUtil returnUtil = new ReturnUtil();
+            returnUtil.setCode(ISystemConsts.PRODUCT_LOAN_PERSON_BID_DETAIL_SUCCESS);
+            returnUtil.setDetail(ProductUtil.getData(data));
+            return returnUtil;
         }
+
+
+
 
     }
 

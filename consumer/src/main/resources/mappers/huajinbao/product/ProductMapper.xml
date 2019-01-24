@@ -174,8 +174,7 @@
         repay.repayment_description as repayment,
         repay.detail as repaymentDetail,
         card.sex,
-        retrials.verify_time as fullTime,
-        account.available_balance as balance
+        retrials.verify_time as fullTime
         from
         user_borrow_bid_apply_record
         AS
@@ -201,10 +200,6 @@
         LEFT JOIN
         user_borrow_bid_full_retrials
         AS retrials ON record.borrow_number=retrials.borrow_number
-        LEFT JOIN
-        consumer_info AS info1 ON info1.id=#{consumerID}
-        INNER JOIN
-        consumer_account AS account ON account.id=info1.account_id
         where record.id = #{productID}
     </select>
     <select id="getBorrowerInfo" resultType="java.util.Map">
@@ -273,6 +268,15 @@
         INNER JOIN consumer_info AS info ON record.consumer_id = info.id
         WHERE
 	    record.borrow_number = #{borrowNumber}
+    </select>
+    <select id="getAccount" resultType="java.util.Map">
+        select
+        account.available_balance as balance
+        from
+        consumer_account as account
+        inner join
+        consumer_info as info on account.id=info.account_id
+        where info.id = #{consumerID}
     </select>
 
 </mapper>

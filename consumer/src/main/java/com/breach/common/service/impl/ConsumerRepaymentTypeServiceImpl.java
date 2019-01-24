@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-22
+ * @since 2019-01-24
  */
 @Service
 public class ConsumerRepaymentTypeServiceImpl extends ServiceImpl<IConsumerRepaymentTypeMapper, ConsumerRepaymentType> implements IConsumerRepaymentTypeService {

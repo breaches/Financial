@@ -31,6 +31,10 @@ public class ReturnUtil implements Serializable {
     private Map map;
     /** 对象 **/
     private Object object;
+    /**detail**/
+    private Map detail;
+    /**account**/
+    private Map account;
 
 
     public ReturnUtil(Integer code) {
@@ -65,6 +69,15 @@ public class ReturnUtil implements Serializable {
         this.code = code;
         this.data = data;
         this.object = object;
+    }
+    public ReturnUtil(Integer code, Map detail, Map account) {
+        this.code = code;
+        this.detail = detail;
+        this.account = account;
+    }
+    public ReturnUtil(Map detail, Map account) {
+        this.detail = detail;
+        this.account = account;
     }
 
 }
