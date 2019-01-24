@@ -77,7 +77,7 @@ public class TopUpServiceImpl implements ITopUpService {
         ConsumerInfo consumerInfo = consumerInfoMapper.selectById(ConsumerSessionUtil.getConsumer().getId());
         // 设置当前的用户
         ConsumerTopUpAlipayRecord consumerTopUpAlipayRecord = new ConsumerTopUpAlipayRecord();
-        consumerTopUpAlipayRecord.setConsumerId(consumerInfo.getAccountId());
+        consumerTopUpAlipayRecord.setConsumerId(consumerInfo.getId());
         consumerTopUpAlipayRecord.setOutTradeNo(alipayBackBean.getOut_trade_no());
         consumerTopUpAlipayRecord.setTradeNo(alipayBackBean.getTrade_no());
         consumerTopUpAlipayRecord.setTotalAmount(alipayBackBean.getTotal_amount());
