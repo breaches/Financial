@@ -42,4 +42,79 @@ public interface IAuditService {
      *
      */
     Result noPass(PassQuery passQuery);
+    /**
+     *
+     * 满标初审列表（分页和查询）
+     * @param
+     * @return
+     *
+     */
+    Map<String, Object> getFullScaleList(AuditQuery audit);
+    /**
+     * 按编号找到投标人信息
+     * @param
+     * @return
+     *
+     */
+    Map<String, Object> getTenderList(String borrowNumber);
+    /**
+     * 满标初审通过
+     * @param passQuery (评论内容和订单编号)
+     * @return
+     *
+     */
+    Result goFullScalePass(PassQuery passQuery);
+    /**
+     * 满标初审不通过时
+     * @param passQuery (评论内容和订单编号)
+     * @return
+     *
+     */
+    Result noFullScalePass(PassQuery passQuery);
+    /**
+     *
+     * 满标复审列表（分页和查询）
+     * @param
+     * @return
+     *
+     */
+    Map<String, Object> getReFullScaleList(AuditQuery audit);
+    /**
+     * 满标复审投标人
+     *getReTenderList
+     * @param
+     * @return
+     *
+     */
+    Map<String, Object> getReTenderList(String borrowNumber);
+    /**
+     * 满标复审通过
+     * @param passQuery (评论内容和订单编号)
+     * @return
+     *
+     */
+    Result goReFullScalePass(PassQuery passQuery);
+    /**
+     * 满标复审不通过
+     * @param passQuery (评论内容和订单编号)
+     * @return
+     *
+     */
+    Result noReFullScalePass(PassQuery passQuery);
+
+    /**
+     * 流标列表
+     * @param
+     * @return
+     *
+     */
+
+    Map<String, Object> getFailure(AuditQuery audit);
+    /**
+     * 同意流标
+     * @param
+     * @return
+     *
+     */
+    Result goFailurePass(PassQuery passQuery);
 }

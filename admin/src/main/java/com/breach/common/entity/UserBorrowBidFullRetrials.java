@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-21
+ * @since 2019-01-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -40,7 +40,7 @@ public class UserBorrowBidFullRetrials extends Model<UserBorrowBidFullRetrials> 
     /**
      * 满标复审的审核时间
      */
-    private LocalDateTime varifyTime;
+    private LocalDateTime verifyTime;
 
     /**
      * 满标复审的审核理由

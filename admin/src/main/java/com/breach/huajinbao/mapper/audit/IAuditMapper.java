@@ -1,7 +1,6 @@
 package com.breach.huajinbao.mapper.audit;
 
-import com.breach.common.entity.ConsumerActivateVerifyRecord;
-import com.breach.common.entity.UserBorrowBidPublishVerify;
+import com.breach.common.entity.*;
 import com.breach.huajinbao.util.audit.AuditQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -96,13 +95,7 @@ public interface IAuditMapper {
      *
      */
     BigDecimal getBorrowMoney(String borrowNumber);
-//    /**
-//     * 把投标申请剪掉的额度加上去
-//     * @param
-//     * @return
-//     *
-//     */
-//    void addCreditLimit(BigDecimal money);
+
     /**
      * 获取订单的用户Id
      * @param
@@ -132,11 +125,115 @@ public interface IAuditMapper {
      */
     Integer SelectUserInfo(String borrowNumber);
     /**
-     *
+     * 插入时间
      * @param
-     * @param borrowNumber
      * @return
      *
      */
     void addTimeList(@Param("borrowNumber") String borrowNumber,@Param("time") LocalDateTime sqlTimeStamp,@Param("beginTime") LocalDateTime localDateTime1,@Param("endTime") LocalDateTime localDateTime);
+    /**
+     * 获取满标列表
+     * @param
+     * @return
+     *
+     */
+    List<Map<String, Object>> getFullScaleList(AuditQuery audit);
+    /**
+     * 满标列表总个数
+     * @param
+     * @return
+     *
+     */
+    Integer getFullScaleTotal(AuditQuery audit);
+    /**
+     * 找到投标人列表
+     * @param
+     * @return
+     *
+     */
+    List<Map<String, Object>> getTenderList(String borrowNumber);
+    /**
+     * 插入满标初审记录
+     * @param
+     * @return
+     *
+     */
+    void insertTrials(UserBorrowBidFullTrials info);
+    /**
+     *插入总记录表中初审id（关联）
+     * @param
+     * @return
+     *
+     */
+    void setTralsId(@Param("borrowNumber") String borrowNumber,@Param("id") Integer id);
+    /**
+     * 冻结资金解除，投标金额返回
+     * @param
+     * @return
+     *
+     */
+    void addUserMoney(String borrowNumber);
+
+    /**
+     * 复审分页查询和总数
+     * @param
+     * @return
+     *
+     */
+    List<Map<String, Object>> getReFullScaleList(AuditQuery audit);
+    Integer getReFullScaleTotal(AuditQuery audit);
+
+    /**
+     * 满标复审投标人信息
+     *
+     * @param
+     * @return
+     *
+     */
+    List<Map<String, Object>> getReTenderList(String borrowNumber);
+    /**
+     * 插入满标审核记录
+     * @param
+     * @return
+     *
+     */
+    void insertReTrials(UserBorrowBidFullRetrials info);
+    /**
+     * 修改满标复审id（关联）
+     * @param
+     * @return
+     *
+     */
+    void setReTralsId(@Param("borrowNumber") String borrowNumber,@Param("id") Integer id);
+    /**
+     * 给借款人打款
+     * @param
+     * @return
+     *
+     */
+    void setAvailableBalance(@Param("accountId") Integer accountId,@Param("money") BigDecimal money);
+
+    /**
+     * 流标分页（关联）
+     * @param
+     * @param sqlTimeStamp
+     * @return
+     *
+     */
+    List<Map<String, Object>> getFailureList(@Param("audit") AuditQuery audit, @Param("time") LocalDateTime sqlTimeStamp);
+    Integer getFailureTotal(@Param("audit") AuditQuery auditQuery,@Param("time") LocalDateTime sqlTimeStamp);
+    /**
+     * 插入流标记录
+     * @param
+     * @return
+     *
+     */
+    void insertFailure(UserBorrowBidAbandonVerify info);
+    /**
+     * 修改abandon_id（关联）
+     * @param
+     * @return
+     *
+     */
+    void setAbandonId(@Param("borrowNumber") String borrowNumber, @Param("id") Integer id);
 }
