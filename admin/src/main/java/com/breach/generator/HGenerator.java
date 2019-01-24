@@ -28,7 +28,16 @@ public class HGenerator {
                 "employee_role",
                 "employee_role_permission",
                 "employee_state",
-                "department"
+                "department",
+                "consumer_activate_verify_record",
+                "consumer_address",
+                "consumer_card",
+                "user_borrow_bid_apply_record",
+                "user_borrow_bid_publish_verify",
+                "user_borrow_bid_full_trials",
+                "user_borrow_bid_full_retrials",
+                "user_borrow_bid_abandon_verify"
+
         };
         generateByTables(packageName, tables);
     }

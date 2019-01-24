@@ -7,34 +7,378 @@
 <mapper namespace="com.breach.huajinbao.mapper.audit.IAuditMapper">
 
 
+    <!-- 查询待审核招标信息 -->
+    <!-- 分页+查询 -->
+    <sql id="auditQuery">
+        <where>
+            <if test="name != null and name != ''">
+                and name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                and create_time &gt; #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                and create_time &lt; #{endDate}
+            </if>
+            and publish_id = 0
+        </where>
+    </sql>
 
-    <!-- 查询待审核信息 -->
-	<!-- 分页+查询 -->
-	<sql id="auditQuery">
-		<where>
-			<if test="name != null and name != ''">
-				and e.bidding_name  like CONCAT('%',#{name},'%')
-			</if>
-			<if test="beginDate != null and beginDate != '' ">
-				and e.bidding_time &gt;  #{beginDate}
-			</if>
-			<if test="endDate != null and endDate != '' ">
-				and e.bidding_time &lt;  #{endDate}
-			</if>
-		</where>
-	</sql>
+    <select id="getAuditTenderee" resultType="map">
+        select * from user_borrow_bid_apply_record
+        <include refid="auditQuery"/>
+        limit #{page},#{count}
+    </select>
+
+    <select id="getAuditTotal" resultType="java.lang.Integer">
+        select count(*) count from user_borrow_bid_apply_record
+        <include refid="auditQuery"/>
+    </select>
 
 
-	<select id="getauditTenderee" resultType="map">
-		select bidding_id id,user_id uid ,bidding_name name ,bidding_time time ,bidding_verifier verifyid,bidding_verify_time verifytime, state  from user_bidding_info e
-		<include refid="auditQuery" />
-		limit #{page},#{count}
+    <!--查询单个的个体详情-->
+    <select id="getPerInfo" resultType="com.breach.common.entity.ConsumerActivateVerifyRecord">
+
+        select * from  consumer_activate_verify_record where consumer_id = #{userId}
+    </select>
+
+
+    <!--查学历getEducation-->
+    <select id="getEducation" resultType="java.lang.String">
+        select  education_type  from consumer_education where id=#{educationId}
+    </select>
+    <!--查收入-->
+    <select id="getIncomeRange" resultType="java.lang.String">
+        select s.range from  consumer_income_range s where  s.id =#{incomeRangeId}
+    </select>
+    <!--现地址-->
+    <select id="getCodeProvince" resultType="java.lang.String">
+    SELECT s.name from region_province s  WHERE s.code_province  =#{codeProvince}
+    </select>
+    <select id="getCodeCity" resultType="java.lang.String">
+    SELECT s.name from region_city s  WHERE s.code_city  =#{codeCity}
+    </select>
+
+    <select id="getCodeArea" resultType="java.lang.String">
+    SELECT s.name from region_area s WHERE s.code_area  =#{codeArea}
+    </select>
+    <!--查选中的招标信息getBorrowNumber-->
+    <select id="getBorrowNumber" resultType="map">
+    SELECT * from  user_borrow_bid_apply_record   WHERE  borrow_number=#{borrowNumber}
+    </select>
+
+
+    <!-- 添加招标审核记录，返回id， -->
+    <insert id="insertPublishVerify" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	insert into user_borrow_bid_publish_verify(
+	borrow_number,
+	employee_id,
+	verify_time,
+	reason,
+	state
+	)
+	values (
+	#{borrowNumber},
+	#{employeeId},
+	#{verifyTime},
+	#{reason},
+	#{state}
+	)
+	</insert>
+
+    <!--通过时   修改审核信息的初审外键（关联）-->
+    <update id="setBorrowNumber">
+          update
+          user_borrow_bid_apply_record
+          set
+          publish_id=#{id}
+          where
+          borrow_number=#{borrowNumber}
+     </update>
+
+    <select id="selectUserId" resultType="java.lang.Integer">
+	  select user_id from user_borrow_bid_apply_record where borrow_number=#{borrowNumber}
 	</select>
 
-	<select id="getAuditTotal" resultType="java.lang.Integer">
-		select count(*) c from user_bidding_info e
-		<include refid="auditQuery" />
+    <!--給提交信息的用户回复招标审核消息-->
+    <insert id="insertNews">
+	    insert into consumer_message(
+	    consumer_id,
+	    title,
+	    content,
+	    time,
+	    state
+	    )
+	    values (
+	    #{consumerId},
+	    #{title},
+	    #{content},
+        #{date},
+        1
+	    )
+	</insert>
+
+    <!--由借款订单号，找的money (BigDecimal类型)-->
+    <select id="getBorrowMoney" resultType="java.math.BigDecimal">
+
+		select borrow_money from user_borrow_bid_apply_record where  borrow_number=#{borrowNumber}
 	</select>
+
+    <!--获取该招标订单用户的id-->
+    <select id="getUserInfoId" resultType="java.lang.Integer">
+
+		select user_id from user_borrow_bid_apply_record where  borrow_number=#{borrowNumber}
+	</select>
+    <!--找到用户id的账户表的id-->
+
+    <select id="getAccountId" resultType="java.lang.Integer">
+
+		select  account_id from consumer_info where id=#{userId}
+
+	</select>
+
+    <!--加上借的额度-->
+    <update id="addCreditLimit">
+		update
+		consumer_account
+		set
+		credit_balance=credit_balance + #{money}
+		where
+		id=#{accountId}
+	</update>
+
+
+    <!--按订单编号查询天数-->
+    <select id="SelectUserInfo" resultType="java.lang.Integer">
+		select  bidding_time_limit from  user_borrow_bid_apply_record where  borrow_number=#{borrowNumber}
+	</select>
+
+
+    <!--插入时间-->
+    <update id="addTimeList">
+		update
+		user_borrow_bid_apply_record
+		set
+		publish_time=#{time},
+		start_buy_time=#{beginTime},
+		end_buy_time=#{endTime}
+		where
+		borrow_number=#{borrowNumber}
+	</update>
+
+    <!--满标列表-->
+
+    <!-- 分页+查询 -->
+    <sql id="Query">
+        <where>
+            <if test="name != null and name != ''">
+                and name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                and full_tender_time &gt; #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                and full_tender_time &lt; #{endDate}
+            </if>
+            and is_full = 1 and trals_id = 0
+        </where>
+    </sql>
+
+    <select id="getFullScaleList" resultType="map">
+        select * from user_borrow_bid_apply_record
+        <include refid="Query"/>
+        limit #{page},#{count}
+    </select>
+
+    <select id="getFullScaleTotal" resultType="java.lang.Integer">
+        select count(*) count from user_borrow_bid_apply_record
+        <include refid="Query"/>
+    </select>
+    <!--投标人列表-->
+
+    <select id="getTenderList" resultType="map">
+		select u.*,i.name from  user_borrow_transaction_record u JOIN consumer_info i on u.consumer_id=i.id  where borrow_number=#{borrowNumber}
+	</select>
+
+    <!-- 添加满标审核记录，返回id， -->
+    <insert id="insertTrials" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	insert into user_borrow_bid_full_trials(
+	borrow_number,
+	employee_id,
+	verify_time,
+	reason,
+	state
+	)
+	values (
+	#{borrowNumber},
+	#{employeeId},
+	#{verifyTime},
+	#{reason},
+	#{state}
+	)
+	</insert>
+    <!--满标初审通过时   修改审核信息的初审外键（关联）-->
+    <update id="setTralsId">
+          update
+          user_borrow_bid_apply_record
+          set
+          trals_id=#{id}
+          where
+          borrow_number=#{borrowNumber}
+     </update>
+
+    <!--投标人的投资回去，冻结资金解除-->
+    <update id="addUserMoney">
+		UPDATE consumer_account AS acc
+            INNER JOIN (
+                SELECT
+                    record.consumer_id,
+                    sum(record.trading_amount) AS s,
+                    account.*
+                FROM
+                    user_borrow_transaction_record AS record
+                INNER JOIN consumer_info AS info ON record.consumer_id = info.id
+                INNER JOIN consumer_account AS account ON info.account_id = account.id
+                WHERE
+                    record.borrow_number = #{borrowNumber}
+                GROUP BY
+                    record.consumer_id
+            ) AS result ON acc.id = result.id
+            SET acc.available_balance = acc.available_balance + result.s,
+             acc.frozen_capital = acc.frozen_capital - result.s
+
+	</update>
+
+
+    <!-- 分页+查询 -->
+    <sql id="reQuery">
+        <where>
+            <if test="name != null and name != ''">
+                and name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                and full_tender_time &gt; #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                and full_tender_time &lt; #{endDate}
+            </if>
+            and is_full = 1 and retrals_id = 0
+        </where>
+    </sql>
+
+    <select id="getReFullScaleList" resultType="map">
+        select * from user_borrow_bid_apply_record
+        <include refid="reQuery"/>
+        limit #{page},#{count}
+    </select>
+    <select id="getReFullScaleTotal" resultType="java.lang.Integer">
+        select count(*) count from user_borrow_bid_apply_record
+        <include refid="reQuery"/>
+    </select>
+
+    <!--投标人列表-->
+
+    <select id="getReTenderList" resultType="map">
+		select u.*,i.name from  user_borrow_transaction_record u JOIN consumer_info i on u.consumer_id=i.id  where borrow_number=#{borrowNumber}
+	</select>
+
+    <!-- 添加满标审核记录，返回id， -->
+    <insert id="insertReTrials" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	insert into user_borrow_bid_full_retrials(
+	borrow_number,
+	employee_id,
+	verify_time,
+	reason,
+	state
+	)
+	values (
+	#{borrowNumber},
+	#{employeeId},
+	#{verifyTime},
+	#{reason},
+	#{state}
+	)
+	</insert>
+
+    <!--满标复审通过时   修改审核信息的初审外键（关联）-->
+    <update id="setReTralsId">
+          update
+          user_borrow_bid_apply_record
+          set
+          retrals_id=#{id}
+          where
+          borrow_number=#{borrowNumber}
+     </update>
+
+
+    <update id="setAvailableBalance">
+        update
+		consumer_account
+		set
+		available_balance=available_balance + #{money}
+		where
+		id=#{accountId}
+
+    </update>
+
+    <!-- 流标 的分页+查询 -->
+    <!--当前时间>招标时间 剩余金额大于0 -->
+    <sql id="failureQuery">
+        <where>
+            <if test="name != null and name != ''">
+                and name like CONCAT('%',#{audit.name},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                and full_tender_time &gt; #{audit.beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                and full_tender_time &lt; #{audit.endDate}
+            </if>
+            and #{time} > end_buy_time and end_buy_time!=null and end_buy_time!='' and is_full =0
+        </where>
+    </sql>
+
+    <select id="getReFullScaleList" resultType="map">
+        select * from user_borrow_bid_apply_record
+        <include refid="failureQuery"/>
+        limit #{audit.page},#{audit.count}
+    </select>
+    <select id="getReFullScaleTotal" resultType="java.lang.Integer">
+        select count(*) count from user_borrow_bid_apply_record
+        <include refid="failureQuery"/>
+    </select>
+    <!--insertFailure 插入流标记录           -->
+    <!-- 添加满标审核记录，返回id， -->
+    <insert id="insertFailure" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	insert into user_borrow_bid_abandon_verify(
+	borrow_number,
+	employee_id,
+	verify_time,
+	reason,
+	state
+	)
+	values (
+	#{borrowNumber},
+	#{employeeId},
+	#{verifyTime},
+	#{reason},
+	#{state}
+	)
+	</insert>
+
+
+    <!--流标  修改审核信息的流标id外键（关联）-->
+    <update id="setAbandonId">
+          update
+          user_borrow_bid_apply_record
+          set
+          abandon_id=#{id}
+          where
+          borrow_number=#{borrowNumber}
+     </update>
+
+
+
 
 </mapper>
 
