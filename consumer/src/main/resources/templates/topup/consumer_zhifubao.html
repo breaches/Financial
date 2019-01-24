@@ -1,147 +1,417 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>支付宝充值</title>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
     <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
     <!--  VUE -->
-    <script src="resources/lib/js/vue.js"></script>
+    <script src="/resources/lib/js/vue.js"></script>
     <!-- elementUI -->
-    <script src="resources/lib/js/index.js"></script>
+    <script src="/resources/lib/js/index.js"></script>
     <!-- axios -->
-    <script src="resources/lib/js/axios.js"></script>
+    <script src="/resources/lib/js/axios.js"></script>
+    <!-- 个人 -->
+    <link rel="stylesheet" href="/resources/css/consumer/consumerCenter.css">
     <style type="text/css">
 
-        #app{
+        #app {
             margin-left: 150px;
 
-
         }
 
-        .tixing{
+        .tixing {
             margin-left: 85px;
 
+        }
+
+        #app-input {
+            margin: 30px 0px 48px 0px;
 
         }
-        #app-input{
-            margin:30px 0px 48px 0px ;
 
-
-        }
-        #app-submit{
-            margin:0px 0px 15px 0px ;
+        #app-submit {
+            margin: 0px 0px 15px 0px;
 
         }
-        .xieyi{
-              margin:0px 0px 3px 0px ;
+
+        .xieyi {
+            margin: 0px 0px 3px 0px;
         }
-        p{
-            margin:0px 0px 0px 0px ;
+
+        p {
+            margin: 0px 0px 0px 0px;
 
         }
-        .app-text{
-            background:#FFF5E7;
-            margin:60px 0px 0px 20px;
+
+        .app-text {
+            background: #FFF5E7;
+            margin: 60px 0px 0px 20px;
 
         }
     </style>
 </head>
-
 <body>
-<div>
-    <h2>支付宝支付:</h2>
-    <div style="height: 80px"></div>
-</div>
 
 <div id="app">
-
-    <div id="app-input" >
-      充值金额： <el-input v-model="input" placeholder="单笔大于0" style="width: 200px"></el-input><br/>
-    <span class="tixing" style="font-size: 13px">华金宝提醒您，充值金额超过50000元时，请切换到网银充值</span>
-    </div>
-
-    <div id="app-submit">
-        <span class="xieyi" style="font-size: 13px"><input type="checkbox" checked="true">记住我 我同意并接受华金宝相关的<a href="#">电子协议</a></span><br/>
-        <el-button  style="width:350px"  @click="submit"  type="danger">充值</el-button>
-    </div>
-
-    <!-- 弹框 -->
-    <el-dialog title="充值页面"   :before-close="handleClose"  :visible.sync="dialogVisible" width="600px">
-
-
-
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">关闭</el-button>
-            <el-button type="primary" >提交</el-button>
+    <div id="wrapper">
+        <!-- 头部 -->
+        <div id="header">
+            <!-- 放入主图 用来居中 -->
+            <div id="header_main">
+                <!-- logo -->
+                <div id="logo">
+                    <img src="/resources/images/logo/logo-youse-lo.png" height="150" width="300"/>
+                </div>
+                <!-- 导航菜单 -->
+                <div id="nav">
+                    <ul>
+                        <li v-for="(item, index) in nav" :key="index">
+                            <a target="_blank" :href="item.url">{{item.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 用户信息简单展示 -->
+                <div id="user">
+                    <div id="userInfo" v-if="user">
+                        <div class="user-info">{{userInfo.username}}</div>
+                        <div id="user-topbar-info" v-if="userInfoBar">
+                            <div class="user-info-header"></div>
+                            <div class="user-info-middle"></div>
+                            <div class="user-info-footer">
+                                <div class="user-info-footer-left">
+                                    <a href="consumerCenter">个人中心</a>
+                                </div>
+                                <div class="user-info-footer-right">
+                                    <a @click="logout" href="javascript:;">
+                                        <span>退出登录</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </el-dialog>
+
+        <!-- 主要内容 -->
+        <div id="content">
+            <div id="user_center">
+                <!-- 用户的简单数据 -->
+                <div id="user_card">
+                    <!--  -->
+                    <div class="hat"></div>
+                    <div class="inner card_content clearfix">
+                        <div class="hat_img">
+                            <div class="img">
+                                <img src="/resources/images/tou.png"/>
+                            </div>
+                        </div>
+                        <div class="hat_line">
+                            <div class="username">{{userInfo.username}}</div>
+                        </div>
+                        <ul class="introduction"></ul>
+                        <div class="about clearfix">
+                            <div>
+                                <img src="/resources/images/idv.png" alt="" width="20px">
+                                <span>已通过实名认证</span>
+                            </div>
+                        </div>
+                        <div id="consumer-amount-box" class="clearfix">
+                            <div class="consumer-amount">
+                                <div>
+                                    账户余额
+                                    <span>{{amountInfo.availableBalance}}</span>
+                                </div>
+                            </div>
+                            <div class="consumer-amount">
+                                <div>
+                                    我的额度
+                                    <span>{{amountInfo.creditBalance}}</span>
+                                </div>
+                            </div>
+                            <div class="consumer-amount">
+                                <div>
+                                    冻结资金
+                                    <span>{{amountInfo.frozenCapital}}</span>
+                                </div>
+                            </div>
+                            <div class="consumer-amount">
+                                <div>
+                                    待收本金
+                                    <span>{{amountInfo.principalMoney}}</span>
+                                </div>
+                            </div>
+                            <div class="consumer-amount">
+                                <div>
+                                    待收红利
+                                    <span>{{amountInfo.principalIncome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="setting btn btn14">
+                                <i class="icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tabs">
+                        <a href="/zhifubao" class="tab"></a>
+                        <a v-for="item in tabs" :href="item.url" class="tab" target="center_main">{{item.title}}</a>
+                        <div class="search-hint"></div>
+                    </div>
+                </div>
+                <!-- 主要内容 导航 内容 -->
+                <div id="user_center_main">
+                    <div id="aaa" class="sort-lists clearfix sortable">
+                        <div>
+                            <h2>支付宝支付:</h2>
+                            <div style="height: 80px"></div>
+                        </div>
+                        <div id="ada">
+
+                            <div id="app-input">
+                                <!--充值金额：
+                                <el-input v-model="alipayInfo.amount" placeholder="单笔大于0" style="width: 200px"></el-input>
+                                <br/>
+                                <span class="tixing" style="font-size: 13px">华金宝提醒您，充值金额超过50000元时，请切换到网银充值</span>-->
+                                <a target="_top"></a>-->
+                                <form action="/pay/alipay" method="post">
+                                       <input type="hidden" :value="userInfo.id" name="consumerID"><br>
+                                       <input type="hidden" :value="userInfo.account" name="accountID"><br>
+                                       充值金额：<br>
+                                       <input style="width: 200px" type="text" value="" name="amount"><br>
+                                       <input type="submit" value="充值">
+                                </form>
+                            </div>
+
+                            <div id="app-submit">
+                                <span class="xieyi" style="font-size: 13px"><input type="checkbox" checked="true">记住我 我同意并接受华金宝相关的<a href="#">电子协议</a></span><br/>
+                                <el-button style="width:350px" @click="" type="danger">充值</el-button>
+                            </div>
+
+                            <!-- 弹框 -->
+                            <!--<el-dialog title="充值页面" :before-close="handleClose" :visible.sync="dialogVisible" width="600px">
 
 
+                                <div slot="footer" class="dialog-footer">
+                                    <el-button @click="dialogVisible = false">关闭</el-button>
+                                    <el-button @click="alipay" type="primary">提交</el-button>
+                                </div>
+                            </el-dialog>-->
+
+
+                        </div>
+                        <div class="app-text">
+                            <span style="color: red">*</span>温馨提示：
+                            <p> 1. 投资人充值过程全程免费，不收取任何手续费。</p>
+                            <p> 2. 为防止套现，所充资金必须经投标回款后才能提现。</p>
+                            <p>3. 使用快捷支付进行充值，可能会受到不同银行的限制，如需大额充值请使用网银充值进行操作。</p>
+                            <p>4. 充值/提现必须为银行借记卡，不支持存折、信用卡充值。</p>
+                            <p>5. 严禁利用充值功能进行信用卡套现、转账、洗钱等行为，一经发现，将封停账号30天。</p>
+                            <p>6. 充值期间，请勿关闭浏览器，待充值成功并返回首页后，所充资金才能入账，如有疑问，请联系客服。</p>
+                            <p>7. 充值需开通银行卡网上支付功能，如有疑问请咨询开户行客服。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 脚部 -->
+        <div id="foot">
+            <div class="sk-foot-main clear">
+                <div class="sk-foot-left left">
+                    <div class="n-link">
+                        <a href="http://www.itrust.org.cn/home/index/itrust_certifi/wm/19671944XX.html" target="_blank">
+                            <img src="/resources/images/foot/index-integrity-icon.png" alt="">
+                        </a>
+                        <a href="http://gawa.bjchy.gov.cn/websearch/" target="_blank">
+                            <img src="/resources/images/foot/jingcha.png" alt="">
+                        </a>
+                        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=*.9fgroup.com&amp;lang=zh_cn"
+                           target="_blank">
+                            <img src="/resources/images/foot/norton.png" alt="">
+                        </a>
+                        <a href="http://webscan.360.cn/index/checkwebsite/url/www.9fgroup.com"
+                           name="6d18753f3a834479ee835f4f9bc009ec">
+                            <img src="/resources/images/foot/360.png" alt="">
+                        </a>
+                        <a id="_pingansec_bottomimagelarge_p2p"
+                           href="http://si.trustutn.org/info?sn=420180312000632784551&amp;certType=4">
+                            <img src="/resources/images/foot/p2p_official_large.jpg">
+                        </a>
+                    </div>
+                    <p>Copyright©2018-2019 <span>华金宝个人学习项目使用</span> <a href="http://http://www.miitbeian.gov.cn">豫ICP备18045023号-1</a>
+                    </p>
+
+                </div>
+                <dl class="right">
+                    <dt><img src="/resources/images/foot/huajinbao.png" alt=""></dt>
+                    <dd>
+                        <div class="sk-icon">
+                            <a target="_blank" href="javascript;;">
+                                <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+                            </a>
+                            <a target="_blank" href="javascript;;">
+                                <i class="fa fa-qq fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <p class="n-text">QQ群：</p>
+                        <p class="n-tel">965903855
+                            <small>9:30-21:00</small>
+                        </p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="app-text">
-    <span style="color: red">*</span>温馨提示：
-    <p> 1. 投资人充值过程全程免费，不收取任何手续费。</p>
-    <p> 2. 为防止套现，所充资金必须经投标回款后才能提现。</p>
-    <p>3. 使用快捷支付进行充值，可能会受到不同银行的限制，如需大额充值请使用网银充值进行操作。</p>
-    <p>4. 充值/提现必须为银行借记卡，不支持存折、信用卡充值。</p>
-    <p>5. 严禁利用充值功能进行信用卡套现、转账、洗钱等行为，一经发现，将封停账号30天。</p>
-    <p>6. 充值期间，请勿关闭浏览器，待充值成功并返回首页后，所充资金才能入账，如有疑问，请联系客服。</p>
-    <p>7. 充值需开通银行卡网上支付功能，如有疑问请咨询开户行客服。</p>
-</div>
 
-<script type="text/javascript">
+</body>
+</html>
+
+<script>
     var app = new Vue({
-        el: "#app",
-        data:{
-            input:"",
-            checked:true,
-            dialogVisible:false,
+        el: '#app',
+        data: {
+            nav: [
+                {title: '首页', url: '/'},
+                {title: '我要出借', url: '#'},
+                {title: '我要借款', url: '#'},
+                {title: '信息披露', url: '#'},
+                {title: '关于我们', url: '#'}
+            ],
+            tabs: [
+                {title: '提现', url: 'withdrawalpage'},
+                {title: '账户总览', url: 'http://www.baidu.com'},
+                {title: '还款', url: 'http://www.huaban.com'},
+                {title: '资金记录', url: '/'},
+                {title: '投资记录', url: '#'},
+                {title: '我的招标', url: 'myborrow'},
+                {title: '实名认证', url: '/consumerCenter/verifyInfomation'},
+                {title: '房屋认证', url: '#'},
+                {title: '车辆认证', url: '#'},
+                {title: '系统通知', url: '#'}
+            ],
+            foot: [
+                {}
+            ],
+            user: true, // 存放请求到的用户信息资料
+            userInfoBar: false, // 用户信息面板 控制是否显示
+            userInfo: {}, // 用户的信息
+            amountInfo: { // 账户信息
+                creditAmount: '',
+                creditBalance: '',
+                availableBalance: '',
+                principalMoney: '',
+                principalIncome: '',
+                frozenCapital: ''
+            },
+            dialogVisible: false,
+            alipayInfo: {}
         },
-
-        methods:{
+        methods: {
+            // 退出登录
+            logout: function () {
+                axios({
+                    method: 'post',
+                    url: '/consumer/logout'
+                }).then(function (response) {
+                    // 退出登录之后 清空用户信息
+                    app.userInfo = {}
+                    console.log('--------------------logout--------------------')
+                    console.log(app.userInfo)
+                    console.log('----------------------------------------------')
+                    window.location.href = "index"
+                })
+            },
             handleClose(done) {
                 this.$confirm('确认关闭充值页面吗？')
                     .then(_ => {
                         done();
                     })
-                    .catch(_ => {});
-            },
-            submit:function () {
-
-                axios.post("#", app.input)
-                    .then(function (response) {
-                        app.dialogVisible = true;
-
-
+                    .catch(_ => {
                     });
+            },
+            alipay: function() {
+                alipay()
             }
-
-        },
-
-    });
+        }
+    })
 </script>
+
+<!--必要函数-->
+<script>
+    function alipay() {
+        axios({
+            method: 'post',
+            url: '/pay/alipay',
+            data: app.alipayInfo
+        }).then(function(response) {
+            console.log(response)
+        })
+    }
+</script>
+
+<!--初始化-->
 <script>
     window.onload = function () {
         axios({
             method: 'post',
-            url: 'consumer/getUserInfoAfterLogin',
+            url: '/consumer/getUserInfoAfterLogin',
         }).then(function (response) {
             // 页面加载后请求用户信息，判断是否已经登录
             // 如果登录则 隐藏登录按钮 显示用户
             // 如果未登录 显示登录按钮 隐藏用户
             console.log(response)
             if (response.data.user != null) {
-                // 已登录
+                // 把用户的信息存入 userInfo 并且显示 顶部的个人...
+                initAmount()
                 app.userInfo = response.data.user[0]
+                app.userInfoBar = false
+                app.user = true
+                console.log('-----------------------------window.onload-----------------------------')
+                console.log('!=null')
+                console.log(app.userInfo)
+                console.log('-----------------------------------------------------------------------')
             } else {
-                // 未登录
-                window.location.href = '/'
+                // 登录失败
+                app.user = false
+                console.log('-----------------------------window.onload-----------------------------')
+                console.log('==null')
+                console.log('-----------------------------------------------------------------------')
+                window.location.href = "/index"
             }
         })
     }
 </script>
 
+<script>
+    function initAmount() {
+        if(isLogin()) {
+            axios({
+                method: 'post',
+                url: '/consumer/getAmount'
+            }).then(function(response) {
+                console.log(response)
+                app.amountInfo.creditAmount = parseFloat(response.data.object.creditAmount).toFixed(2) // 总信用额度
+                app.amountInfo.creditBalance = parseFloat(response.data.object.creditBalance).toFixed(2) // 信用余额
+                app.amountInfo.availableBalance = parseFloat(response.data.object.availableBalance).toFixed(2) // 可用余额
+                app.amountInfo.principalMoney = parseFloat(response.data.object.principalMoney).toFixed(2) // 待收本金
+                app.amountInfo.principalIncome = parseFloat(response.data.object.principalIncome).toFixed(2) // 待收红利
+                app.amountInfo.frozenCapital = parseFloat(response.data.object.frozenCapital).toFixed(2) // 冻结资金
+            })
+        }
+    }
 
-</body>
-</html>
-
+    function isLogin() {
+        var username = app.userInfo.username
+        if(username == '') {
+            // 如果等于空
+            window.top.location.href = '/'
+            return false
+        } else {
+            // 如果不等于空，已登陆
+            return true
+        }
+    }
+</script>

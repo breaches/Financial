@@ -6,10 +6,11 @@ import java.util.UUID;
 
 /**
  * @program: Financial
- * @description:
+ * @description: 订单号
  * @author: shaokang
  * @create: 2019-01-12 14:17
  **/
+@SuppressWarnings(value="all")
 public class SerialUtil {
 
     /**

@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-22
+ * @since 2019-01-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -34,14 +34,14 @@ public class UserBorrowTransactionRecord extends Model<UserBorrowTransactionReco
     private Integer consumerId;
 
     /**
-     * 订单编号
-     */
-    private Integer borrowNumber;
-
-    /**
      * 订单的id
      */
     private Integer borrowId;
+
+    /**
+     * 订单编号
+     */
+    private String borrowNumber;
 
     /**
      * 交易总额
@@ -49,14 +49,19 @@ public class UserBorrowTransactionRecord extends Model<UserBorrowTransactionReco
     private BigDecimal tradingAmount;
 
     /**
-     * 什么时间购买的标
+     * 购买成功后，标剩余可买金额
      */
-    private LocalDateTime createTime;
+    private BigDecimal surplusAmount;
 
     /**
      * 存储ip地址
      */
     private String ip;
+
+    /**
+     * 什么时间购买的标
+     */
+    private LocalDateTime createTime;
 
 
     @Override

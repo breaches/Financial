@@ -51,10 +51,22 @@ public class GlobalServiceImpl implements IGlobalService {
         ConsumerAuths consumer = ConsumerSessionUtil.getConsumer();
 
         if(consumer != null) {
+            // get consumer info
+            ConsumerInfo consumerInfo = consumerInfoMapper.selectById(consumer.getId());
+
+            // set query parameter for account
+            ConsumerAccount queryConsumerAccount = new ConsumerAccount();
+            queryConsumerAccount.setId(consumerInfo.getAccountId());
+
+            // result as account
+            ConsumerAccount consumerAccount = consumerAccountMapper.selectOne(new QueryWrapper<>(queryConsumerAccount));
+
+            // process userInfo
             List data = new ArrayList();
             Map map = new HashMap();
             map.put("id", consumer.getId());
             map.put("username", consumer.getUsername());
+            map.put("account", consumerAccount.getId());
             data.add(map);
 
             /*ConsumerInfo queryConsumerInfo = new ConsumerInfo();

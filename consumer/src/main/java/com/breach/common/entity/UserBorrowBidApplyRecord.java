@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-22
+ * @since 2019-01-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -145,6 +145,11 @@ public class UserBorrowBidApplyRecord extends Model<UserBorrowBidApplyRecord> {
      * 流标/废标审核表的关联id
      */
     private Integer abandonId;
+
+    /**
+     * 0：没满标，1：满标
+     */
+    private Boolean isFull;
 
     /**
      * 控制版本，为了安全。
