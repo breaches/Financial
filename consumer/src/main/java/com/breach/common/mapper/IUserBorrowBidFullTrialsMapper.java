@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-21
+ * @since 2019-01-22
  */
 public interface IUserBorrowBidFullTrialsMapper extends BaseMapper<UserBorrowBidFullTrials> {
 

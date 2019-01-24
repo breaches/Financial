@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-21
+ * @since 2019-01-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -122,7 +122,7 @@ public class UserBorrowBidApplyRecord extends Model<UserBorrowBidApplyRecord> {
     private LocalDateTime expireDate;
 
     /**
-     * 起息日，计息日，生效日(满标日，满标就开始计算）
+     * 起息日，计息日，生效日(满标日，满标通过）
      */
     private LocalDateTime valueDate;
 
@@ -145,6 +145,11 @@ public class UserBorrowBidApplyRecord extends Model<UserBorrowBidApplyRecord> {
      * 流标/废标审核表的关联id
      */
     private Integer abandonId;
+
+    /**
+     * 控制版本，为了安全。
+     */
+    private Integer version;
 
 
     @Override

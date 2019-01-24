@@ -2,6 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breach.huajinbao.mapper.product.IProductMapper">
 
+    <insert id="tradingRecord">
+        insert into
+        user_borrow_transaction_record(
+        consumer_id,
+        borrow_number,
+        borrow_id,
+        trading_amount,
+        surplus_amount,
+        ip,
+        create_time
+        )
+        values(
+        #{consumerID},
+        #{borrowNumber},
+        #{borrowID},
+        #{tradingAmount},
+        #{surplusAmount},
+        #{clientIP},
+        #{createTime}
+        )
+    </insert>
+
+    <update id="tradingBid">
+        update
+        user_borrow_bid_apply_record
+        set
+        surplus_amount = #{bidSurplusAmount},
+        version = version+1
+        where
+        id=#{borrowID}
+        and
+        borrow_number = #{borrowNumber}
+        and
+        user_id=#{borrowConsumerID}
+        and
+        version = #{version}
+    </update>
+
+    <update id="tradingAccount">
+        update
+        consumer_account
+        set
+        frozen_capital = frozen_capital + #{frozenCapital},
+        available_balance = #{availableBalance},
+        version = version+1
+        where
+        id=#{accountID}
+        and
+        version=#{version}
+    </update>
+    <update id="fullBid">
+        update
+        user_borrow_bid_apply_record
+        set
+        full_tender_time=#{fullTime},
+        is_full=#{isFull}
+        where
+        id=#{borrowID}
+        and
+        user_id=#{borrowConsumerID}
+        and
+        borrow_number=#{borrowNumber}
+    </update>
+
     <select id="disperseBid" resultType="map">
         select
         record.*,
@@ -109,7 +173,9 @@
         record.*,
         repay.repayment_description as repayment,
         repay.detail as repaymentDetail,
-        card.sex
+        card.sex,
+        retrials.verify_time as fullTime,
+        account.available_balance as balance
         from
         user_borrow_bid_apply_record
         AS
@@ -132,6 +198,13 @@
         card
         ON
         info.card_id=card.id
+        LEFT JOIN
+        user_borrow_bid_full_retrials
+        AS retrials ON record.borrow_number=retrials.borrow_number
+        LEFT JOIN
+        consumer_info AS info1 ON info1.id=#{consumerID}
+        INNER JOIN
+        consumer_account AS account ON account.id=info1.account_id
         where record.id = #{productID}
     </select>
     <select id="getBorrowerInfo" resultType="java.util.Map">
@@ -178,6 +251,28 @@
         LEFT JOIN consumer_work AS WORK ON info.word_id = WORK.id
         WHERE
             record.borrow_number = #{borrowNumber} and record.user_id=#{consumerID}
+    </select>
+
+    <select id="getTradingRecord" resultType="java.util.Map">
+        SELECT
+            record.trading_amount as amount,
+            record.create_time as time,
+            info.phone
+        FROM
+            user_borrow_transaction_record AS record
+        INNER JOIN consumer_info AS info ON record.consumer_id = info.id
+        WHERE
+	    record.borrow_number = #{borrowNumber}
+	    limit #{pageCurrent}, #{pageSize}
+    </select>
+    <select id="getTotalTradingRecord" resultType="integer">
+        SELECT
+            count(*)
+        FROM
+            user_borrow_transaction_record AS record
+        INNER JOIN consumer_info AS info ON record.consumer_id = info.id
+        WHERE
+	    record.borrow_number = #{borrowNumber}
     </select>
 
 </mapper>

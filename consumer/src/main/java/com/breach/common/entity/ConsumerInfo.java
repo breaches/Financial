@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shaokang
- * @since 2019-01-21
+ * @since 2019-01-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -77,6 +77,11 @@ public class ConsumerInfo extends Model<ConsumerInfo> {
      * 关联用户学历信息表
      */
     private Integer educationId;
+
+    /**
+     * 关联用户的工作信息表
+     */
+    private Integer wordId;
 
     /**
      * 关联vip信息表 超级用户 VIP

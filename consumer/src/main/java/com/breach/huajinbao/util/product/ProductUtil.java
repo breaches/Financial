@@ -1,10 +1,7 @@
 package com.breach.huajinbao.util.product;
 
-import com.sun.xml.internal.ws.spi.db.DatabindingException;
-
 import java.math.BigDecimal;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @program: Financial
@@ -75,7 +72,7 @@ public class ProductUtil {
             );
         }
         // 月收入
-        if(data.get("income") == null) {
+        if (data.get("income") == null) {
             data.put("income", "待补充");
         }
 
@@ -129,12 +126,17 @@ public class ProductUtil {
         ));
 
         // 剩余金额
-        if(data.get("surplus_amount") != null) {
+        if (data.get("surplus_amount") != null) {
             data.put("surplus_amount", getBorrowerMoney(data.get("surplus_amount")));
         }
         // 借款金额
-        if(data.get("borrow_money") != null) {
+        if (data.get("borrow_money") != null) {
             data.put("borrow_money", getBorrowerMoney(data.get("borrow_money")));
+        }
+
+        // 个人可用余额
+        if(data.get("balance") != null) {
+            data.put("balance", getBorrowerMoney(data.get("balance")));
         }
 
 
@@ -272,4 +274,56 @@ public class ProductUtil {
     private static String getMarry(Object marry) {
         return (Boolean) marry ? "已婚" : "未婚";
     }
+
+    /**
+     * 加密手机号码
+     * @param phone
+     * @return
+     */
+    private static String getPhone(Object phone) {
+        String p = (String) phone;
+        return p.substring(0, 3) + "****" + p.substring(p.length() - 4, p.length() - 1);
+    }
+
+    /**
+     * 加工获取到的数据结果，投标记录数据
+     *
+     * @param record
+     * @return
+     */
+    public static List<Map<String, Object>> getTradingRecord(List<Map<String, Object>> record) {
+        for (Map<String, Object> item : record) {
+            // 加密手机号码
+            if(item.get("phone") != null) {
+                item.put("phone", getPhone(item.get("phone")));
+            }
+            // 处理货币
+            if(item.get("amount") != null) {
+                item.put("amount", getBorrowerMoney(item.get("amount")));
+            }
+        }
+        return record;
+    }
+
+    /**
+     * 加工分页数据与总数等
+     * @param record
+     * @param totalTradingRecord
+     * @return
+     */
+    public static Map getTradingRecordInfo(List<Map<String, Object>> record, Integer totalTradingRecord) {
+        Map data = new HashMap();
+        Set who = new HashSet();
+
+        List<Map<String, Object>> tradingRecord = getTradingRecord(record);
+        for (Map<String, Object> item: tradingRecord) {
+            who.add(item.get("phone"));
+        }
+        data.put("info", record);
+        data.put("headcount", who.size());
+        data.put("totalData", totalTradingRecord);
+
+        return data;
+    }
+
 }

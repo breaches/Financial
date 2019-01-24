@@ -14,8 +14,8 @@ import org.springframework.stereotype.Controller;
  * @since 2019-01-22
  */
 @Controller
-@RequestMapping("/consumerInfo")
-public class ConsumerInfoController {
+@RequestMapping("/userBorrowTransactionRecord")
+public class UserBorrowTransactionRecordController {
 
 }
 

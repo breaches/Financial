@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: Financial
@@ -26,8 +27,11 @@ public class ReturnUtil implements Serializable {
     private String message;
     /** 数据 **/
     private List data;
+    /**map**/
+    private Map map;
     /** 对象 **/
     private Object object;
+
 
     public ReturnUtil(Integer code) {
         this.code = code;

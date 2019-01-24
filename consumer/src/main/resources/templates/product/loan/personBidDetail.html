@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/resources/css/product/loan/detail-1ecb570584.css">
     <link rel="stylesheet" href="/resources/css/product/loan/base-ab068c2816.css">
     <script src="/resources/js/AppUtil.js"></script>
+    <script src="/resources/js/ProductConfig.js"></script>
     <style>
         [v-cloak] {
             display: none;
@@ -156,7 +157,8 @@
                                     <dl>
                                         <dt>还款方式：</dt>
                                         <dd>{{productDetail.repayment}}
-                                            <i class="icon icon-question-mark js_poshytip" :title="productDetail.repaymentDetail"></i>
+                                            <i class="icon icon-question-mark js_poshytip"
+                                               :title="productDetail.repaymentDetail"></i>
                                         </dd>
                                     </dl>
                                     <dl v-if="isFull">
@@ -190,23 +192,23 @@
                                 </div>
                             </div>
                             <!--标右边的信息，可显示购买，售罄-->
-                            <div class="sub-right">
-                                <div v-if="isRetrals && isFull" class="sellout abs">
+                            <div v-cloak class="sub-right">
+                                <div v-cloak v-if="isRetrals && isFull" class="sellout abs">
                                     <div class="info">成功交易时间：</div>
-                                    <div class="describe">满标复审通过后的时间</div>
+                                    <div class="describe">{{productDetail.fullTime}}</div>
                                 </div>
-                                <div v-if="!isRetrals && isFull" class="sellout abs">
+                                <div v-cloak v-if="!isRetrals && isFull" class="sellout abs">
                                     <div class="info">通知：</div>
-                                    <div class="describe">后台审核中</div>
+                                    <div class="describe">该标已满，后台正在审核中。</div>
                                 </div>
-                                <div v-if="!isFull" class="during" id="during">
+                                <div v-cloak v-if="!isFull" class="during" id="during">
                                     <el-form :inline="true" class="demo-form-inline">
                                         <div class="remaining-amount g-cf">
-                                            <label class="g-fl">网贷账户余额：</label>
-                                            <span v-if="isLogin" class="g-fl">0.00</span>
-                                            <em v-if="isLogin" class="g-fl">元</em>
-                                            <em v-if="!isLogin">请登录</em>
-                                            <a v-if="isLogin" class="to-recharge g-fr"
+                                            <label v-cloak class="g-fl">网贷账户余额：</label>
+                                            <span v-cloak v-if="isLogin" class="g-fl">{{productDetail.balance}}</span>
+                                            <em v-cloak v-if="isLogin" class="g-fl">元</em>
+                                            <em v-cloak v-if="!isLogin">请登录</em>
+                                            <a v-cloak v-if="isLogin" class="to-recharge g-fr"
                                                href="/consumerCenter">充值</a>
                                         </div>
                                         <div class="target-earnings">
@@ -218,15 +220,16 @@
                                         <div class="purchase">
                                             <!--<input :disabled="true" name="buyAmount" type="text" id="buyMoney"
                                                    placeholder="100元起投，100元递增" >-->
-                                            <el-input v-if="isLogin" :disabled="!isLogin" id="buyMoney" maxlength="20"
+                                            <el-input v-model="queryTradingInfo.amount" v-if="isLogin" :disabled="!isLogin" id="buyMoney" maxlength="20"
                                                       placeholder="100元起投，100元递增"></el-input>
                                             <el-input v-if="!isLogin" :disabled="!isLogin"
                                                       placeholder="请登录后再来投标"></el-input>
-                                            <em>剩余：{{productDetail.surplus_amount}}</em>
+                                            <em style="font-size: 12px;">剩余：{{productDetail.surplus_amount}}</em>
                                         </div>
                                         <div class="tips"></div>
-                                        <a v-if="isLogin" class="to-buy" href="javascript:;">立即投入</a>
                                         <a v-if="!isLogin" class="to-buy" href="javascript:;">立即登录</a>
+                                        <a v-if="isLogin && isSelf" @click="app.$message({message:'不能投自己的标', type: 'warning'})" class="to-buy" href="javascript:;">不能购买自己的标</a>
+                                        <a v-if="isLogin && !isSelf" @click="trading" class="to-buy" href="javascript:;">立即投入</a>
                                         <input type="hidden" name="platform" value="1">
                                         <input type="hidden" name="productId" value="39038513">
                                         <input id="formBonusId" type="hidden" name="bonusId" value="">
@@ -247,15 +250,18 @@
                     <div class="extend" id="extendModel">
                         <!--详情菜单-->
                         <ul class="tab">
-                            <li data-type="introduce" :class="{'current': productDescription==1 }" class="extend-trigger">
+                            <li data-type="introduce" :class="{'current': productDescription==1 }"
+                                class="extend-trigger">
                                 <i class="icon icon-project"></i>
                                 <span @click="productDescription=1">项目详情</span>
                             </li>
-                            <li data-type="borrowing" :class="{'current': productDescription==2 }" class="extend-trigger">
+                            <li data-type="borrowing" :class="{'current': productDescription==2 }"
+                                class="extend-trigger">
                                 <i class="icon icon-borrowing"></i>
                                 <span @click="productDescription=2">借款人信息</span>
                             </li>
-                            <li data-type="investList" :class="{'current': productDescription==3 }" class="extend-trigger">
+                            <li data-type="investList" :class="{'current': productDescription==3 }"
+                                class="extend-trigger">
                                 <i class="icon icon-invest"></i>
                                 <span @click="productDescription=3">投标记录</span>
                             </li>
@@ -301,32 +307,40 @@
                                 <div v-if="isLogin" class="queue">
                                     <div class="node first">
                                         <div class="model"><i></i><span>借款基础信息</span></div>
-                                        <div class="infos"><span>借款金额：{{borrowerInfo.borrow_money + '元'}}</span> <span>借款期限：{{borrowerInfo.borrow_time_limit}}个月</span> <span>还款方式：{{borrowerInfo.repayment_description}}</span>
-                                            <span>借款用途：{{borrowerInfo.borrow_description}}</span> <span>签约时间：{{(new Date(borrowerInfo.joinTime)).Format('yyyy-MM-dd hh:mm:ss')}}</span> <span>约定利率：{{borrowerInfo.lending_rate}} %</span>
+                                        <div class="infos"><span>借款金额：{{borrowerInfo.borrow_money + '元'}}</span> <span>借款期限：{{borrowerInfo.borrow_time_limit}}个月</span>
+                                            <span>还款方式：{{borrowerInfo.repayment_description}}</span>
+                                            <span>借款用途：{{borrowerInfo.borrow_description}}</span> <span>签约时间：{{(new Date(borrowerInfo.joinTime)).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+                                            <span>约定利率：{{borrowerInfo.lending_rate}} %</span>
                                             <span>还款来源：{{borrowerInfo.payment}}</span> <span>还款保障措施：该笔借款由深圳市华金宝普惠投资管理有限公司提供担保。（其中华金宝普惠与华金宝在线为同一控制人控制下的关联方）</span>
                                         </div>
                                     </div>
                                     <div class="node">
                                         <div class="model"><i></i><span>借款人基础信息</span></div>
-                                        <div class="infos"><span>借款人：{{borrowerInfo.name}}</span> <span>性别：{{borrowerInfo.sex}}</span> <span>年龄：{{borrowerInfo.age}}</span>
-                                            <span>身份证：{{borrowerInfo.code}}</span> <span>居住地点：{{borrowerInfo.address}}</span>
-                                            <span>所属城市：{{borrowerInfo.area}}</span> <span>婚姻状况：{{borrowerInfo.is_marry}}</span></div>
+                                        <div class="infos"><span>借款人：{{borrowerInfo.name}}</span> <span>性别：{{borrowerInfo.sex}}</span>
+                                            <span>年龄：{{borrowerInfo.age}}</span>
+                                            <span>身份证：{{borrowerInfo.code}}</span>
+                                            <span>居住地点：{{borrowerInfo.address}}</span>
+                                            <span>所属城市：{{borrowerInfo.area}}</span>
+                                            <span>婚姻状况：{{borrowerInfo.is_marry}}</span></div>
                                     </div>
                                     <div class="node">
                                         <div class="model"><i></i><span>工作信息</span></div>
                                         <div class="infos"><span>工作行业/性质：{{borrowerInfo.industry}}</span>
-                                            <span>工作地点：{{borrowerInfo.workAddress}}</span> <span>工作职位：{{borrowerInfo.position}}</span> <span>月收入<i
+                                            <span>工作地点：{{borrowerInfo.workAddress}}</span> <span>工作职位：{{borrowerInfo.position}}</span>
+                                            <span>月收入<i
                                                     class="icon icon-question-mark icon__question__mark"
                                                     title="月收入指月打卡工资收入"></i> ：{{borrowerInfo.income}}</span></div>
                                     </div>
                                     <div class="node">
                                         <div class="model"><i></i><span>资产信息</span></div>
-                                        <div class="infos"><span>名下房产：{{borrowerInfo.is_house}}</span> <span>名下车辆：{{borrowerInfo.is_car}}</span></div>
+                                        <div class="infos"><span>名下房产：{{borrowerInfo.is_house}}</span> <span>名下车辆：{{borrowerInfo.is_car}}</span>
+                                        </div>
                                     </div>
                                     <div class="node">
                                         <div class="model"><i></i><span>信用信息</span></div>
                                         <div class="infos"><span>历史借款金额：0元</span> <span>历史借款次数：0次</span>
-                                            <span>历史结清次数：0次</span> <span>最近一次借款时间：{{(new Date(borrowerInfo.publish_time)).Format('yyyy-MM-dd hh:mm:ss')}}</span> <span>当前待还本息<i
+                                            <span>历史结清次数：0次</span> <span>最近一次借款时间：{{(new Date(borrowerInfo.publish_time)).Format('yyyy-MM-dd hh:mm:ss')}}</span>
+                                            <span>当前待还本息<i
                                                     class="icon icon-question-mark icon__question__mark"
                                                     title="当前待还本息只包括已募集完成并且处于还款中的借款"></i> ：  0  元 </span>
                                             <span>征信报告说明：无</span> <span>在本平台逾期次数：0次</span> <span>在本平台逾期总金额：0元</span>
@@ -335,10 +349,11 @@
                                 </div>
                             </div>
                             <!--投标记录-->
-                            <div v-if="productDescription==3" class="item recordList investList g-dn" id="investListModel"
+                            <div v-if="productDescription==3" class="item recordList investList g-dn"
+                                 id="investListModel"
                                  style="display: block; text-align: center;">
                                 <div class="content">
-                                    <div class="sequence g-tl"> 购买人数<span>4</span>人</div>
+                                    <div class="sequence g-tl"> 购买人数<span>{{tradingRecord.headcount}}</span>人</div>
                                     <table>
                                         <thead>
                                         <tr class="head">
@@ -348,61 +363,24 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr class="even">
-                                            <td><i class="vipIcon icon-vipgold_member"></i>x****87</td>
-                                            <td>1,222.46</td>
-                                            <td>2019-01-21 11:40:31</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td><i class="vipIcon icon-vipplatinum_member"></i>x****35</td>
-                                            <td>12,000.00</td>
-                                            <td>2019-01-21 11:40:21</td>
-                                        </tr>
-                                        <tr class="even">
-                                            <td><i class="vipIcon icon-vipdiamond_member"></i>x****54</td>
-                                            <td>12,000.00</td>
-                                            <td>2019-01-21 11:40:10</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td><i class="vipIcon icon-vipgold_member"></i>a****02</td>
-                                            <td>1,777.54</td>
-                                            <td>2019-01-21 11:39:50</td>
+                                        <tr v-for="(item, index) in tradingRecord.info" :style="index" :class="{'even':index%2==0}">
+                                            <td><i class="vipIcon icon-vipgold_member"></i>{{item.phone}}</td>
+                                            <td>{{item.amount}}</td>
+                                            <td>{{(new Date(item.time)).Format('yyyy-MM-dd hh:mm:ss')}}</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="page paginator" style="visibility: hidden;">
-                                    <div class="paginator-main" id="paginator-main" style="display: block;">
-                                        <div class="paginator-info">第1页/共1页</div>
-                                        <div class="paginator-left">
-                                            <ol>
-                                                <li><a href="javascript:;" data-role="first" class="disabled">首页</a>
-                                                </li>
-                                                <li><a href="javascript:;" data-role="prev" class="disabled">上一页</a>
-                                                </li>
-                                            </ol>
-                                        </div>
-                                        <div class="paginator-list" style="width: 35px;">
-                                            <ol class="paginator-list-main" style="width: 35px;">
-                                                <li><a href="javascript:;" data-role="1" class="current">1</a></li>
-                                            </ol>
-                                        </div>
-                                        <div class="paginator-right">
-                                            <ol>
-                                                <li><a href="javascript:;" data-role="next" class="disabled">下一页</a>
-                                                </li>
-                                                <li><a href="javascript:;" data-role="last" class="disabled">末页</a></li>
-                                            </ol>
-                                        </div>
-                                        <div class="paginator-jump">
-                                            <input type="tel" value="" maxlength="10">
-                                            <a href="javascript:;" data-role="jump">跳转</a>
-                                        </div>
+                                <div id="page">
+                                    <div class="page-block">
+                                        <el-pagination
+                                                layout="total, prev, pager, next, jumper"
+                                                :current-page="queryTradingInfo.pageCurrent"
+                                                :page-size="queryTradingInfo.pageSize"
+                                                :total="tradingRecord.totalData"
+                                                @current-change="handleCurrentChange"
+                                        ></el-pagination>
                                     </div>
-                                    <p class="paginator-none" style="display:none;">
-                                        <i class="icon icon-no-data"></i>
-                                        <span>您暂时没有数据可显示</span>
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -618,12 +596,18 @@
             productDetail: {},
             isFull: false,
             isRetrals: false,
+            isSelf: false,
             remainTime: '',
             productDescription: 1,
-            borrowerInfo: {}
+            borrowerInfo: {},
+            queryTradingInfo: {
+                pageCurrent: 1,
+                pageSize: 10
+            },
+            tradingRecord: {}
         },
         watch: {
-            productDescription: function(val, oldVal) {
+            productDescription: function (val, oldVal) {
                 switch (val) {
                     case 1:
                         // 显示1
@@ -637,6 +621,7 @@
                     case 3:
                         // 请求后台，显示购买记录
                         console.log(3)
+                        loadTradingRecord()
                         break;
                 }
             }
@@ -695,25 +680,68 @@
             },
             backTop: function () {
                 backTop()
+            },
+            trading: function() {
+                trading()
+            },
+            handleCurrentChange: function(val) {
+                this.queryTradingInfo.pageCurrent = val
+                loadTradingRecord()
             }
         }
     })
 </script>
 
+<!--必要函数-->
 <script>
+
+    function loadTradingRecord() {
+        app.queryTradingInfo.borrowNumber = app.productDetail.borrow_number
+        console.log('in')
+            // 获取记录
+            axios({
+                method: 'post',
+                url: '/product/loan/common/getTradingRecord',
+                data: app.queryTradingInfo
+            }).then(function(response) {
+                console.log('-------------------------------')
+                console.log(response)
+                console.log('-------------------------------')
+                app.tradingRecord = response.data.object
+            })
+    }
+
+    /**
+     * 投标
+     */
+    function trading() {
+        app.queryTradingInfo.borrowNumber = app.productDetail.borrow_number
+        axios({
+            method: 'post',
+            url: '/product/loan/common/trading',
+            data: app.queryTradingInfo
+        }).then(function(response) {
+            console.log(response)
+            if(response.data.code == 4003) {
+                // 购买成功
+                reloadDetailBid()
+            }
+        })
+    }
+
     function loadBorrowerInfo() {
         var borrowNumber = app.productDetail.borrow_number
         var data = new URLSearchParams()
         data.append("borrowNumber", borrowNumber)
         data.append("consumerID", app.productDetail.user_id)
 
-        if(JSON.stringify(app.borrowerInfo) == '{}') {
+        if (JSON.stringify(app.borrowerInfo) == '{}') {
             // null
             axios({
                 method: 'post',
                 url: '/product/loan/common/getBorrowerInfo',
                 data: data
-            }).then(function(response) {
+            }).then(function (response) {
                 console.log(response)
                 app.borrowerInfo = response.data.object
             })
@@ -721,13 +749,68 @@
             // not first
         }
     }
+
+    function loadDetailBid(productId) {
+        console.log(productId)
+        axios({
+            method: 'post',
+            url: '/product/loan/common',
+            data: productId
+        }).then(function (response) {
+            console.log(response)
+            app.productDetail = response.data.object
+            console.log(app.productDetail)
+            // if(app.productDetail.hasOwnProperty())
+            if (response.data.object.user_id == app.userInfo.id) {
+                app.isSelf = true // 自己
+            }
+            if(response.data.object.is_full) {
+                app.isFull = true // 满标
+            }
+            if(response.data.object.fullTime != null){
+                app.isRetrals = true
+            }
+            TimeDown(app.productDetail.end_buy_time);
+        })
+    }
+
+    function TimeDown(endDateStr) {
+        //结束时间
+        var endDate = new Date(endDateStr);
+        //当前时间
+        var nowDate = new Date();
+        //相差的总秒数
+        var totalSeconds = parseInt((endDate - nowDate) / 1000);
+        //天数
+        var days = Math.floor(totalSeconds / (60 * 60 * 24));
+        //取模（余数）
+        var modulo = totalSeconds % (60 * 60 * 24);
+        //小时数
+        var hours = Math.floor(modulo / (60 * 60));
+        modulo = modulo % (60 * 60);
+        //分钟
+        var minutes = Math.floor(modulo / 60);
+        //秒
+        var seconds = modulo % 60;
+        //输出到页面
+        app.remainTime = days + "天" + hours + "小时" + minutes + "分钟" + seconds + "秒";
+        //延迟一秒执行自己
+        setTimeout(function () {
+            TimeDown(endDateStr);
+        }, 1000)
+    }
 </script>
 
 <script>
     window.onload = function () {
         initUser()
+        reloadDetailBid()
+    }
+
+    function reloadDetailBid() {
         var url = decodeURI(window.location.href).split('/')
-        a(url[url.length - 1])
+        // 加载该单子的详情
+        loadDetailBid(url[url.length - 1])
     }
 
     function verifyCode() {
@@ -867,31 +950,4 @@
             }
         }, 16); // how fast to scroll (this equals roughly 60 fps)
     }
-</script>
-
-<script>
-
-    function a(productId) {
-        console.log(productId)
-        axios({
-            method: 'post',
-            url: '/product/loan/common',
-            data: productId
-        }).then(function (response) {
-            console.log(response)
-            app.productDetail = response.data.object
-            console.log(app.productDetail)
-            // if(app.productDetail.hasOwnProperty())
-            setInterval(function () {
-                app.remainTime = app.productDetail.end_buy_time - new Date().getTime()
-            }, 1000)
-        })
-    }
-
-    function aa() {
-        setInterval(function () {
-            app.remainTime = app.productDetail.end_buy_time - new Date().getTime()
-        }, 1000)
-    }
-
 </script>

@@ -1,6 +1,6 @@
 package com.breach.common.mapper;
 
-import com.breach.common.entity.UserBorrowBidFullRetrials;
+import com.breach.common.entity.UserBorrowTransactionRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author shaokang
  * @since 2019-01-22
  */
-public interface IUserBorrowBidFullRetrialsMapper extends BaseMapper<UserBorrowBidFullRetrials> {
+public interface IUserBorrowTransactionRecordMapper extends BaseMapper<UserBorrowTransactionRecord> {
 
 }

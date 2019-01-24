@@ -1,5 +1,6 @@
 package com.breach.common.entity;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -11,10 +12,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户登录授权表
-目前两种方式直接进行登录：
-用户名
-手机号码
+ * 
  * </p>
  *
  * @author shaokang
@@ -23,7 +21,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ConsumerAuths extends Model<ConsumerAuths> {
+public class UserBorrowTransactionRecord extends Model<UserBorrowTransactionRecord> {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,29 +29,34 @@ public class ConsumerAuths extends Model<ConsumerAuths> {
     private Integer id;
 
     /**
-     * 用户名
-     */
-    private String username;
-
-    /**
-     * 密码
-     */
-    private String password;
-
-    /**
-     * 关联用户信息表，当前账号绑定的是哪个用户
+     * 用户id,是谁购买的标
      */
     private Integer consumerId;
 
     /**
-     * 客户状态 1：可用 2：冻结
+     * 订单编号
      */
-    private Integer state;
+    private Integer borrowNumber;
 
     /**
-     * 创建时间
+     * 订单的id
+     */
+    private Integer borrowId;
+
+    /**
+     * 交易总额
+     */
+    private BigDecimal tradingAmount;
+
+    /**
+     * 什么时间购买的标
      */
     private LocalDateTime createTime;
+
+    /**
+     * 存储ip地址
+     */
+    private String ip;
 
 
     @Override
