@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>消息界面</title>
+
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="resources/css/consumer/verifyInfomation.css">
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <!--<link rel="stylesheet" href="resources/lib/css/index.css">-->
+    <script src="resources/lib/js/index.js"></script>
+    <!-- axios -->
+    <script src="resources/lib/js/axios.js"></script>
+</head>
+<body>
+<div id="app">
+    <div style="margin-left: 20px" >
+    <el-button @click="deleteMessage" plain>删除</el-button>
+    <el-button @click="editMessage" plain>标记为已读</el-button>
+    </div>
+    <div style="float: right; margin-right: 20px">
+        <span>显示最近段时间的信息:共{{messageTotal}}条消息，未读有{{unread}}条</span>
+
+    </div>
+    <el-table
+            @expand-change="tabChange"
+            ref="multipleTable"
+            tooltip-effect="dark"
+            @selection-change="handleSelectionChange"
+            :data="tableData"
+            style="width: 100%">
+        <el-table-column
+                type="selection"
+                width="55">
+        </el-table-column>
+
+        <el-table-column  type="expand">
+            <template slot-scope="props">
+                <el-form label-position="left" inline class="demo-table-expand">
+                    <el-form-item label="主要内容：">
+                        <br/>
+                        <span>{{ props.row.content }}</span>
+                    </el-form-item>
+                </el-form>
+            </template>
+        </el-table-column>
+        <el-table-column
+                label="标记"
+                :formatter="stateFormatter"
+                prop="state">
+        </el-table-column>
+        <el-table-column
+                label="标题"
+                prop="title">
+        </el-table-column>
+
+        <el-table-column
+                label="发送时间"
+                sortable
+                :formatter="formatDate"
+                prop="time">
+        </el-table-column>
+    </el-table>
+
+    <!-- 分页条  -->
+    <div>
+        <el-pagination @size-change="handleSizeChange" :current-page="messageQuery.page"
+                       @current-change="handleCurrentChange"
+                       :page-sizes="[10, 20, 50, 100]" :page-size="10" layout="total, sizes, prev, pager, next, jumper"
+                       :total="messageTotal">
+        </el-pagination>
+    </div>
+
+
+</div>
+</body>
+</html>
+
+
+<script>
+    var app = new Vue({
+            el: '#app',
+            data: {
+                tableData: [],
+                messageQuery: {
+                    page: 1,
+                    count: 10,
+                    name: "",
+                    beginDate: "",
+                    endDate: ""
+                },
+                multipleSelection: [],
+                messageTotal: 0,
+                unread:""
+            },
+            methods: {
+                tabChange:function(row,expandedRows){
+                    if(expandedRows.length>1){
+                        expandedRows.shift()
+                    }
+                    axios.get('/getMessage/setState?id='+row.id)
+                        .then(function (response) {
+                            row.state=2;
+                            app.unread=response.data.unread;
+
+                        });
+
+
+                }
+                ,deleteMessage: function () {
+                    if (this.multipleSelection.length > 0) {
+                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'error'
+                        }).then(function () {
+                            var ids = [];
+                            for (var i = 0; i < app.multipleSelection.length; i++) {
+                                ids.push(app.multipleSelection[i].id);
+                            }
+                            axios.post('/getMessage/deleteMessage',ids)
+                                .then(function (response) {
+                                    reload();
+                                });
+                        });
+
+                    } else {
+                        this.$notify.info({
+                            title: '温馨提示',
+                            message: '删除请至少勾选一行'
+                        });
+
+                    }
+
+                }, editMessage: function () {
+                    if (this.multipleSelection.length > 0) {
+                        var ids = [];
+                        for (var i = 0; i < app.multipleSelection.length; i++) {
+                            ids.push(app.multipleSelection[i].id);
+                        }
+                        axios.post('/getMessage/updateMessage', ids)
+                            .then(function (response) {
+                                reload();
+                            });
+
+                    } else {
+                        this.$notify.info({
+                            title: '温馨提示',
+                            message: '请至少勾选一行'
+                        });
+
+                    }
+
+                },
+                handleSizeChange: function (val) {
+                    this.messageQuery.count = val;
+                    this.messageQuery.page = 1;
+                    reload();
+                },
+                handleCurrentChange: function (val) {
+                    this.messageQuery.page = val;
+                    reload();
+                },
+                handleSelectionChange: function(val) {
+                    this.multipleSelection = val;
+                },
+                formatDate: function (row, column, cellValue, index) {
+                    if (cellValue != null) {
+                        var date = new Date(cellValue);
+                        Y = date.getFullYear(),
+                            m = date.getMonth() + 1,
+                            d = date.getDate(),
+                            H = date.getHours(),
+                            i = date.getMinutes(),
+                            s = date.getSeconds();
+                        if (m < 10) {
+                            m = '0' + m;
+                        }
+                        if (d < 10) {
+                            d = '0' + d;
+                        }
+                        if (H < 10) {
+                            H = '0' + H;
+                        }
+                        if (i < 10) {
+                            i = '0' + i;
+                        }
+                        if (s < 10) {
+                            s = '0' + s;
+                        }
+                        var t = Y + '-' + m + '-' + d + ' ' + H + ':' + i;
+                        return t;
+                    }
+                },
+                stateFormatter: function (row, column, cellValue, index) {
+                    return cellValue == 1 ? "未读" : "已读";
+                },
+            }
+        });
+    function reload() {
+        axios.post('getMessage/getMessageList', app.messageQuery)
+            .then(function (response) {
+                app.tableData = response.data.data;
+                app.messageTotal = response.data.total;
+                app.unread=response.data.unread;
+            });
+    }
+
+    reload();
+
+</script>
+
+<script>
+    window.onload = function () {
+        // 判断是否登录
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (respons) {
+            // 页面加载后请求用户信息，判断是否已经登录
+            // 如果登录则 隐藏登录按钮 显示用户
+            // 如果未登录 显示登录按钮 隐藏用户
+            console.log(response);
+            if (response.data.user != null) {
+                // 已登录
+                app.userInfo = response.data.user[0]
+            } else {
+                // 未登录
+                window.top.location.href = '/'
+            }
+        })
+    }
+</script>
+
+

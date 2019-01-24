@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breach.huajinbao.mapper.topup.IMessageMapper">
+
+
+
+    <!-- 分页+查询（最新时间） -->
+
+
+    <select id="getMessage" resultType="map">
+    SELECT * FROM consumer_message c where consumer_id=#{id} ORDER BY time DESC
+    limit #{message.page},#{message.count}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+    select count(*) count from  consumer_message  c where  consumer_id =#{id}
+    </select>
+
+    <select id="getUnread" resultType="java.lang.Integer">
+    select count(*) count from  consumer_message  c where  consumer_id =#{id} and state = 1
+    </select>
+
+
+
+    <!--由未读变已读-->
+    <update id="updateMessage">
+        update
+        consumer_message
+        set
+        state =2
+        where id
+        in
+        <foreach collection="array" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--删除，批量删除-->
+    <delete id="deleteMessage">
+        delete
+        from
+        consumer_message
+        where
+        id
+        in
+        <foreach collection="array" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <!--修改为已读-->
+    <update id="setState">
+         update
+        consumer_message
+        set
+        state =2
+        where id=#{id}
+    </update>
+
+</mapper>

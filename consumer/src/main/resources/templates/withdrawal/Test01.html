@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="resources/css/consumer/verifyInfomation.css">
+    <!--  VUE -->
+    <script src="resources/lib/js/vue.js"></script>
+    <!-- elementUI -->
+    <!--<link rel="stylesheet" href="resources/lib/css/index.css">-->
+    <script src="resources/lib/js/index.js"></script>
+    <!-- axios -->
+    <script src="resources/lib/js/axios.js"></script>
+</head>
+<body>
+<div id="app">
+    <div id="wrapper">
+        <!--头-->
+        <div id="header">
+            <el-button @click="submit">提交</el-button>
+        </div>
+        <!--主体-->
+        <div id="middle">
+            <div >
+
+                <!--显示三种支付方式-->
+                <div >
+
+                    <transition name="el-fade-in-linear">
+                        <div v-show="show1" class="transition-box">
+                            <!-- 显示支付宝的支付页面 -->
+                                    1111
+                        </div>
+                    </transition>
+
+                </div>
+
+
+                <div >
+                    <transition name="el-fade-in-linear">
+                        <div v-show="show2" class="transition-box">
+                            <!-- 显示微信的支付页面 -->
+                                    2222
+
+                        </div>
+                    </transition>
+                </div>
+
+
+                <div>
+                    <transition name="el-fade-in-linear">
+                        <div v-show="show3" class="transition-box">
+                            <!-- 显示填写资料的页面 -->
+                                    33333
+
+                        </div>
+                    </transition>
+                </div>
+
+
+            </div>
+
+        </div>
+        <!--脚-->
+        <div id="foot">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            show1:true,
+            show2:false,
+            show3:false,
+        },
+        methods: {
+            submit:function () {
+                    app.show1=false;
+                    app.show2=true;
+            }
+        }
+    })
+</script>
+
+<script>
+    window.onload = function () {
+        // 判断是否登录
+        axios({
+            method: 'post',
+            url: 'consumer/getUserInfoAfterLogin',
+        }).then(function (response) {
+            // 页面加载后请求用户信息，判断是否已经登录
+            // 如果登录则 隐藏登录按钮 显示用户
+            // 如果未登录 显示登录按钮 隐藏用户
+            console.log(response);
+            if (response.data.user != null) {
+                // 已登录
+                app.userInfo = response.data.user[0]
+            } else {
+                // 未登录
+                window.top.location.href = '/'
+            }
+        })
+    }
+</script>
+
+
