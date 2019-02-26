@@ -9,6 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 /**
  * @Description: 充值页面跳转
  * @Param:
@@ -60,7 +64,9 @@ public class JumpForController {
      */
     @ResponseBody
     @RequestMapping("/pay/alipay")
-    public String alipay( AlipayBean alipayBean) {
+    public String alipay( AlipayBean alipayBean) throws UnsupportedEncodingException {
+
+
         System.out.println("0000000000000000000000000000000000000000");
         System.out.println("alipay");
         System.out.println("0000000000000000000000000000000000000000");

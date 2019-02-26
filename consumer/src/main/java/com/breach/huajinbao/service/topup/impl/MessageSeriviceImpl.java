@@ -25,7 +25,7 @@ public class MessageSeriviceImpl  implements IMessageSerivice {
     private IMessageMapper messageMapper;
 
     /**
-     * 获取消息表格
+     * 获取消息表格1
      * @param
      * @return
      *

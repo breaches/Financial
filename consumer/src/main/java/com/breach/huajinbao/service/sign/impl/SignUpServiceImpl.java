@@ -16,9 +16,11 @@ import com.breach.huajinbao.util.sign.RegisterData;
 import com.breach.huajinbao.util.sign.ReturnUtil;
 import jdk.nashorn.internal.objects.Global;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @program: Financial
@@ -37,6 +39,9 @@ public class SignUpServiceImpl implements ISignUpService {
     IConsumerAuthsMapper consumerAuthsMapper;
     @Autowired
     IConsumerAccountMapper consumerAccountMapper;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
 
     @Override
@@ -60,7 +65,11 @@ public class SignUpServiceImpl implements ISignUpService {
         String phone = registerData.getPhone();
         if (phone != null && !phone.equals("")) {
             // 有电话号码
-            MessageUtil.sendMessage(phone, IApiConsts.TEMPLATE_REGISTER);
+            String code = MessageUtil.sendMessage(phone, IApiConsts.TEMPLATE_REGISTER);
+            // 把 手机号码 与 随即验证码 一并存入 redis
+            redisTemplate.opsForValue().set(phone, code);
+            redisTemplate.expire("aaa", 5, TimeUnit.MINUTES);
+
             return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
         }
         return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
@@ -75,19 +84,27 @@ public class SignUpServiceImpl implements ISignUpService {
     @Override
     public ReturnUtil verifyCode(RegisterData registerData) {
         System.out.println("================================================");
+        System.out.println("开始验证");
         System.out.println(registerData);
         System.out.println("================================================");
         // 验证短信验证码是否正确
-        String randomCode = MessageUtil.getRandomCode();
+        String randomCode = (String) redisTemplate.opsForValue().get(registerData.getPhone());
+        if(randomCode == null) {
+            return new ReturnUtil(ISystemConsts.AJAX_ERROR, "手机号码错误");
+        }
         String code = registerData.getCode();
         if (!code.equals("") && code != null) {
             if (randomCode.equals(code)) {
                 // 验证成功 验证码正确
+                System.out.println("验证成功");
                 return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
             }
-            // 接收到的验证码是空的
+
+            System.out.println("错误验证码");
             return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
         }
+        // 接收到的验证码是空的
+        System.out.println("空验证码");
         return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
     }
 
