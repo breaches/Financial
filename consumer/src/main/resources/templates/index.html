@@ -453,6 +453,7 @@
             ],
             visitSendMessage: true,
             visitMessageCodeSuccess: true,
+            isSendMessage: false,
             lastTime: 0,
             signIn: false, // 登录 dialog
             signUp: false, // 注册 dialog
@@ -559,25 +560,43 @@
                                 clearInterval(time)
                             }
                         }, 1000)
-
-
                 })
             },
             verifyCode: function() {
+                // 验证码 6 位
                 // 提交验证码，验证是否正确
-                axios({
-                    method: 'post',
-                    url: 'consumer/register/verifyCode',
-                    data: app.registerInfo
-                }).then(function(response) {
-                    console.log(response)
-                    var code = response.data.code
-                    if (code != 200) {
-                        app.visitMessageCodeSuccess = false
-                    } else {
-                        app.visitMessageCodeSuccess = true
-                    }
-                })
+                var code = app.registerInfo.code
+                var isSend = app.isSendMessage
+
+                if (
+                    (!isSend && code == undefined)
+                    || (!isSend && code == '')
+                    || (!isSend && code.length != 6)
+                ) {
+
+                } else if (
+                    (isSend && code == undefined)
+                    || (isSend && code == '')
+                    || (isSend && code.length != 6)
+                ) {
+                    // 验证码位数不足或者为空 不正确
+                    app.visitMessageCodeSuccess = false
+                } else {
+                    app.visitMessageCodeSuccess = true
+                    axios({
+                        method: 'post',
+                        url: 'consumer/register/verifyCode',
+                        data: app.registerInfo
+                    }).then(function(response) {
+                        console.log(response)
+                        var code = response.data.code
+                        if (code != 200) {
+                            app.visitMessageCodeSuccess = false
+                        } else {
+                            app.visitMessageCodeSuccess = true
+                        }
+                    })
+                }
             },
             register: function() {
                 // 提交注册用户的信息数据
