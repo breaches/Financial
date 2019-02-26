@@ -36,6 +36,10 @@
             left: 50%;
             margin-left: -960px;
         }
+        #sk-register-send-code
+        .isSendMessageCss {
+            background-color: #dddddd; !important;
+        }
     </style>
 </head>
 <body>
@@ -368,7 +372,7 @@
                 <div class="user-input">
                     <input v-model="registerInfo.username" id="regUsername" name="regUsername" class="sk-user-input-style" placeholder="用户名" maxlength="20"/>
                     <div id="sk-register-send-code">
-                        <input v-model="registerInfo.phone" id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码" maxlength="11"/>
+                        <input :disabled="isSendMessage" v-bind:class="{ isSendMessageCss: isSendMessage }" v-model="registerInfo.phone" id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码" maxlength="11"/>
                         <a v-show="visitSendMessage" @click="sendMessage" href="javascript:;">发送验证码</a>
                         <a v-show="!visitSendMessage"><span>{{lastTime}}</span>秒后发送短信</a>
                     </div>
