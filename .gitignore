@@ -98,3 +98,4 @@ gen
 !/admin/src/main/java/com/breach/common/mapper/impl/*
 /admin/src/main/java/com/breach/common/mapper/impl/DepartmentMapper.xml
 !/admin/src/main/java/com/breach/common/mapper/impl/DepartmentMapper.xml
+/consumer/src/main/java/com/breach/huajinbao/service/topup/impl/MessageSeriviceImpl.java
