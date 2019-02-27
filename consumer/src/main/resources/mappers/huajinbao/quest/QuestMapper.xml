@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breach.huajinbao.mapper.quest.QuestMapper">
+    <insert id="Quest">
+        insert into
+        consumer_questionnaire(
+        age,
+        income,
+        layout,
+        experience,
+        target,
+        time_limit,
+        mood
+        )
+        values(
+        #{age},
+        #{income},
+        #{layout},
+        #{experience},
+        #{target},
+        #{timeLimit},
+        #{mood}
+        )
+    </insert>
+</mapper>

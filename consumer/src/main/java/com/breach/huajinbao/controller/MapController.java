@@ -72,5 +72,10 @@ public class MapController {
     public String commonBid() {
         return "/product/loan/personBidDetail";
     }
+    /**用户问卷调查表**/
+    @RequestMapping("/question")
+    public String question(){
+        return "/consumer/Questionnaire";
+    }
 
 }
