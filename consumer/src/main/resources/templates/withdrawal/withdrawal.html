@@ -48,33 +48,58 @@
 
 
     <div id="demo" >
-        可用金额：<span style="color: red">{{demo}}<span>
+        可用金额：<span style="color: red">{{balance}}<span>
     </div>
 
     <div id="app-input" >
-      提现金额： <el-input v-model="input" placeholder="单笔大于0" style="width: 200px"></el-input>
+        <el-form label-width="100px" class="demo-ruleForm" :rules="rules" ref="money">
+            <el-form-item label="提现金额" prop="blmoney">
+                <el-input type="text" v-model="money" autocomplete="off"></el-input>
+            </el-form-item>
+
+
+            <el-form-item>
+                <div id="app-submit">
+                    <el-button  style="width:200px"  @click="submit"  type="primary">提现</el-button>
+                </div>
+            </el-form-item>
+        </el-form>
+
+
     </div>
 
-    <div id="demo1" >
-        提现费用：<span style="color: red">{{demo}}<span>
+    <!--<div id="demo1" >
+        提现费用：<span style="color: red">{{Withdraw}}<span>
     </div>
 
     <div id="demo2" >
-        实际到账金额：<span style="color: red">{{demo}}<span>
-    </div>
+        实际到账金额：<span style="color: red">{{reality}}<span>
+    </div>-->
 
 
-    <div id="app-submit">
-        <el-button  style="width:200px"  @click="submit"  type="primary">提现</el-button>
-    </div>
+
 
     <!-- 弹框 -->
-    <el-dialog title="充值页面"   :before-close="handleClose"  :visible.sync="dialogVisible" width="50%">
+    <el-dialog title="提现提示" :visible.sync="dialogVisible" width="30%">
+        <el-form status-icon :model="bl" ref="loginFrom" label-width="100px" class="demo-ruleForm">
 
+            <el-form-item label="姓名" prop="name">
+                <el-input type="text" v-model="bl.name" autocomplete="off":disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="银行卡号" prop="card">
+                <el-input type="text" v-model="bl.card" autocomplete="off":disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="手续费" prop="money">
+                <el-input type="text" v-model="bl.money" autocomplete="off":disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="最终到账" prop="commission">
+                <el-input type="text" v-model="bl.commission" autocomplete="off":disabled="true"></el-input>
+            </el-form-item>
+        </el-form>
 
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">关闭</el-button>
-            <el-button type="primary" >提交</el-button>
+            <el-button type="primary" @click="notarize">确定提现</el-button>
         </div>
     </el-dialog>
 
@@ -86,41 +111,83 @@
     2、请务必在提现时使用持卡人与身份认证一致的银行卡号，且确保填写信息准确无误；<br/>
     3、工作日当天16:00前提交的提现申请将在当天处理，默认为T+1到账；<br/>
     4、提现金额单笔上限为50万元，单日累计总额不可超过100万元；<br/>
-    5、提现手续费为提现金额的0.1%，最低每笔2元，100元封顶，手续费由第三方托管账户收取，用户自行承担。<br/>
+    5、提现手续费为提现金额的0.02%，最低每笔2元，手续费由第三方托管账户收取，用户自行承担。<br/>
 </div>
 
 <script type="text/javascript">
     var app = new Vue({
         el: "#app",
         data:{
-            input:"",
+
             checked:true,
             dialogVisible:false,
-            demo:"假100000",
+            balance:"",
+            money:"",
+            rules:{
+                blmoney:[{
 
+                    required: true,
+                    message: '请输入提现金额',
+                }]
+
+            },
+            bl:{
+                commission:"",
+                money:""
+
+            },
         },
 
+
         methods:{
-            handleClose(done) {
-                this.$confirm('确认关闭充值页面吗？')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {});
-            },
+            notarize:function(){
+
+                axios.post('/bl/notarize',app.bl)
+                    .then(function(response) {
+                            app.dialogVisible=false;
+                            reload();
+                            app.$message({
+                                message:response.data.msg,
+                                type:'success'
+
+                            });
+                            reload();
+                    }
+
+                    ) },
+
+
             submit:function () {
+                        if(app.money>0&&app.money<app.balance) {
+                            axios.get('/bl/blMoney?money=' + app.money)
+                                .then(function (response) {
 
-                axios.post("#", app.input)
-                    .then(function (response) {
-                        app.dialogVisible = true;
 
+                                    app.bl = response.data.aaa;
+                                    app.bl.money = response.data.ccc;
+                                    app.bl.commission = response.data.ddd;
+                                    app.dialogVisible = true;
 
-                    });
+                                });
+                        }else{
+                            app.$message.error('请输入正确金额');
+
+                        }
             }
 
         },
 
+
     });
+    //定义的刷新函数
+    function reload() {
+    axios.post('/bl/getMoney')
+        .then(function(response) {
+            app.balance = response.data.wi;
+        })};
+    reload();
+
+
 </script>
 <script>
     window.onload = function () {
