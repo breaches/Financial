@@ -36,6 +36,10 @@
             left: 50%;
             margin-left: -960px;
         }
+        #sk-register-send-code
+        .isSendMessageCss {
+            background-color: #dddddd; !important;
+        }
     </style>
 </head>
 <body>
@@ -368,11 +372,15 @@
                 <div class="user-input">
                     <input v-model="registerInfo.username" id="regUsername" name="regUsername" class="sk-user-input-style" placeholder="用户名" maxlength="20"/>
                     <div id="sk-register-send-code">
-                        <input v-model="registerInfo.phone" id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码" maxlength="11"/>
+                        <input :disabled="isSendMessage" v-bind:class="{ isSendMessageCss: isSendMessage }" v-model="registerInfo.phone" id="regPhone" name="regPhone" class="sk-user-input-style" placeholder="手机号码" maxlength="11"/>
                         <a v-show="visitSendMessage" @click="sendMessage" href="javascript:;">发送验证码</a>
                         <a v-show="!visitSendMessage"><span>{{lastTime}}</span>秒后发送短信</a>
                     </div>
-                    <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode" class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
+                    <div id="sk-register-vify-code">
+                        <input @blur="verifyCode" v-model="registerInfo.code" id="regCode" name="regCode" class="sk-user-input-style sk-register-regCode" placeholder="验证码" maxlength="6"/>
+                        <a v-show="!visitMessageCodeSuccess" style="color: red">验证码错误</a>
+                        <a v-show="visitMessageCodeSuccess"></a>
+                    </div>
                     <input v-model="registerInfo.password" id="regPassword" name="regPassword" type="password" class="sk-user-input-style"
                            placeholder="密码" maxlength="20"/>
                     <input v-model="registerInfo.repassword" @keyup.enter="register" id="regRePassword" name="regRePassword" type="password" class="sk-user-input-style"
@@ -448,6 +456,8 @@
                 }
             ],
             visitSendMessage: true,
+            visitMessageCodeSuccess: true,
+            isSendMessage: false,
             lastTime: 0,
             signIn: false, // 登录 dialog
             signUp: false, // 注册 dialog
@@ -554,29 +564,58 @@
                                 clearInterval(time)
                             }
                         }, 1000)
-
-
                 })
             },
             verifyCode: function() {
+                // 验证码 6 位
                 // 提交验证码，验证是否正确
-                axios({
-                    method: 'post',
-                    url: 'consumer/register/verifyCode',
-                    data: app.registerInfo
-                }).then(function(response) {
+                var code = app.registerInfo.code
+                var isSend = app.isSendMessage
 
-                })
+                if (
+                    (!isSend && code == undefined)
+                    || (!isSend && code == '')
+                    || (!isSend && code.length != 6)
+                ) {
+
+                } else if (
+                    (isSend && code == undefined)
+                    || (isSend && code == '')
+                    || (isSend && code.length != 6)
+                ) {
+                    // 验证码位数不足或者为空 不正确
+                    app.visitMessageCodeSuccess = false
+                } else {
+                    app.visitMessageCodeSuccess = true
+                    axios({
+                        method: 'post',
+                        url: 'consumer/register/verifyCode',
+                        data: app.registerInfo
+                    }).then(function(response) {
+                        console.log(response)
+                        var code = response.data.code
+                        if (code != 200) {
+                            app.visitMessageCodeSuccess = false
+                        } else {
+                            app.visitMessageCodeSuccess = true
+                        }
+                    })
+                }
             },
             register: function() {
                 // 提交注册用户的信息数据
-                axios({
-                    method: 'post',
-                    url: 'consumer/register',
-                    data: app.registerInfo
-                }).then(function(response) {
+                if (app.visitMessageCodeSuccess) {
+                    //
+                    axios({
+                        method: 'post',
+                        url: 'consumer/register',
+                        data: app.registerInfo
+                    }).then(function(response) {
 
-                })
+                    })
+                } else {
+                    alert("请输入正确的验证码")
+                }
             },
             showUserInfoBar: function() {
                 app.userInfoBar = true

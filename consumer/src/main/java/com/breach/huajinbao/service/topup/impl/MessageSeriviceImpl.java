@@ -1,4 +1,4 @@
-package com.breach.huajinbao.service.topup.impl;
+package com.breach.huajinbao.service.topup.Impl;
 
 import com.breach.common.entity.ConsumerAuths;
 import com.breach.huajinbao.mapper.topup.IMessageMapper;
@@ -16,7 +16,6 @@ import java.util.Map;
 
 /**
  * Created by wanghehe on 2019年01月11日
- * ..11333
  */
 @Service
 public class MessageSeriviceImpl  implements IMessageSerivice {

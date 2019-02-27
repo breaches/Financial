@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breach.huajinbao.mapper.sign.IWmoneyMapper">
+
+    <!--<insert id="addConsumer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">-->
+      <!--insert into consumer_info (nickname, phone) values (#{nickname}, #{phone})-->
+    <!--</insert>-->
+        <select id="wi" resultType="java.math.BigDecimal">
+            SELECT
+            ca.available_balance ab
+            from consumer_info ci LEFT JOIN
+            consumer_account ca
+            on ci.account_id=ca.id where ci.id=#{id}
+
+
+        </select>
+
+
+
+    <select id="blMoney" resultType="map">
+
+        select
+        ci.name name,cb.number card
+        from consumer_info ci LEFT JOIN
+        consumer_account ca
+        on ci.account_id=ca.id
+		LEFT JOIN consumer_bank
+        cb on cb.consumer_id=ci.id where ci.id=2
+    </select>
+    <select id="getId" resultType="int">
+       select ca.id id  from consumer_info ci LEFT JOIN
+
+        consumer_account ca on ci.account_id=ca.id
+        where ci.id=#{id}
+
+    </select>
+    <update id="notarize">
+       UPDATE amount_account_pool set total_amount =total_amount+#{money},total_withdraw_charge=total_withdraw_charge+#{money}
+    </update>
+    <update id="notarizes" >
+
+    UPDATE consumer_account set available_balance=available_balance-#{blmoney}
+        where id=#{id}
+
+    </update>
+</mapper>
