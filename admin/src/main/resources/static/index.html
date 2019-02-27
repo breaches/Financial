@@ -11,26 +11,40 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <style>
+    <style type="text/css">
         #app {
-            width: 500px;
+            width: 400px;
+            height:340px;
             margin: 200px auto;
+            padding:20px 35px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 0 25px #cac6c6
         }
+
+        button{
+            width:100%;
+
+        }
+
     </style>
 </head>
 
 <body>
 <div id="app">
-    <el-form status-icon :model="loginInfo" :rules="rules" ref="loginFrom" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="账号" prop="employeeUsername">
-            <el-input type="text" v-model="loginInfo.employeeUsername" autocomplete="off"></el-input>
+    <center><h3>系统登录</h3></center>
+    <el-form status-icon :model="loginInfo" :rules="rules" ref="loginFrom"  class="demo-ruleForm">
+        <el-form-item  prop="employeeUsername">
+            <el-input type="text" v-model="loginInfo.employeeUsername" placeholder="账户" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="employeePassword">
-            <el-input type="password" v-model="loginInfo.employeePassword" autocomplete="off"></el-input>
+        <el-form-item  prop="employeePassword">
+            <el-input type="password" v-model="loginInfo.employeePassword" placeholder="密码" autocomplete="off"></el-input>
         </el-form-item>
+        <el-checkbox v-model="checked">记住密码</el-checkbox>
+        <br/>
+        <br/>
         <el-form-item>
             <el-button type="primary" @click="submit">提交</el-button>
-            <el-button>重置</el-button>
+
         </el-form-item>
     </el-form>
 </div>
@@ -38,6 +52,7 @@
     var app = new Vue({
         el: "#app",
         data: {
+            checked:true,
             loginInfo: {},
             rules: {
                 employeeUsername: [{
