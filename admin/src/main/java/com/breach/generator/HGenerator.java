@@ -85,7 +85,7 @@ public class HGenerator {
                 .setController("controller")
                 .setService("service")
                 .setMapper("mapper")
-                .setXml("mapper.impl")
+                .setXml("mapper.Impl")
                 .setEntity("entity");
 
         // 5.自定义配置
