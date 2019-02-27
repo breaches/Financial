@@ -195,7 +195,16 @@
             where
             id = #{accountId}
         </update>
+    <select id="getDate" resultType="map">
 
+        SELECT
+	DATE_FORMAT(create_time,'%Y-%m') AS month,
+	sum(formalities) AS money
+FROM
+	amount_account_pool_record
+GROUP BY
+	month(create_time)
+    </select>
 </mapper>
 
 

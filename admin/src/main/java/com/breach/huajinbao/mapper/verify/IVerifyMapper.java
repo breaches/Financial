@@ -131,5 +131,11 @@ public interface IVerifyMapper {
      */
     void setCreditLine(Integer accountId);
 
-
+    /**
+     * 按月查收入
+     * @param
+     * @return
+     *
+     */
+    List<Map<String, Object>> getDate();
 }
