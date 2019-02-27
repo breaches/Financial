@@ -1,7 +1,6 @@
 package com.breach.huajinbao.mapper.quest;
 
 import com.breach.common.entity.ConsumerQuestionnaire;
-import com.breach.common.entity.Questionnaire;
 import org.springframework.stereotype.Component;
 
 
