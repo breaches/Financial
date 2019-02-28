@@ -12,8 +12,12 @@ public class jumpVerifyController {
 
     @RequestMapping("/toVerify")
 
-
     public String toAudit(){
         return "verify/verifyInfo";
+    }
+    @RequestMapping("/getEcharts")
+
+    public String getEcharts(){
+        return "verify/echarts";
     }
 }
