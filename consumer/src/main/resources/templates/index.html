@@ -558,7 +558,6 @@
                     var time = setInterval(function() {
                             // 倒计时
                             app.lastTime --
-                            console.log(app.lastTime)
                             if(app.lastTime <= 0) {
                                 app.visitSendMessage = true
                                 clearInterval(time)
@@ -611,7 +610,14 @@
                         url: 'consumer/register',
                         data: app.registerInfo
                     }).then(function(response) {
-
+                        if(response.data.code != 200) {
+                            alert("注册异常")
+                        } else {
+                            //...
+                            app.signUp = false
+                            app.registerInfo = ""
+                            alert("注册成功，请登录。")
+                        }
                     })
                 } else {
                     alert("请输入正确的验证码")
