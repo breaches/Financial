@@ -74,4 +74,18 @@ public class VerifyController {
         return verifyService.submitNoInfo(recordNumber);
     }
 
+
+    /**
+     * 财务统计
+     * @param
+     * @return
+     *
+     */
+    @RequestMapping("/getDate")
+    public  Map<String,Object> getDate(){
+
+        return verifyService.getDate();
+    }
+
+
 }

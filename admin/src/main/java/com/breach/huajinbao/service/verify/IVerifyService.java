@@ -3,6 +3,7 @@ package com.breach.huajinbao.service.verify;
 import com.breach.huajinbao.util.verify.Result;
 import com.breach.huajinbao.util.verify.VerifyQuery;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,4 +41,15 @@ public interface IVerifyService {
      *
      */
     Result submitNoInfo(String recordNumber);
+
+    /**
+     * 财务统计
+     * @param
+     * @return
+     *
+     */
+
+    Map<String, Object> getDate();
+
+
 }

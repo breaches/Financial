@@ -12,10 +12,8 @@ import com.breach.huajinbao.util.verify.Result;
 import com.breach.huajinbao.util.verify.VerifyQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * Created by wanghehe on 2019年01月05日
@@ -148,6 +146,33 @@ public class VerifyServiceImpl implements IVerifyService {
         EmployeeInfo emp = EmployeeSessionUtil.getEmp();
         verifyMapper.setStateForConsumerAgain(emp.getEmployeeAccountId(), new Date(), recordNumber);
         return new Result(200, "不通过，提交成功");
+    }
+    /**
+     * @Description:
+     * @Param:  * @param null
+     * @return: 财务统计
+     * @Author: wanghe
+     * @Date: 2019/2/27 16:57
+     */
+    @Override
+    public Map<String, Object> getDate() {
+
+        //按月查收入
+        List<Map<String, Object>> date = verifyMapper.getDate();
+         System.out.println(date);
+
+        List<Object> list1=new ArrayList<Object>();
+        List<Object> list2=new ArrayList<Object>();
+
+        for (Map<String, Object> li : date) {
+
+            list1.add(li.get("month")+"月");
+            list2.add( li.get("money"));
+        }
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("day",list1);
+        map.put("money",list2);
+        return  map;
     }
 
 
