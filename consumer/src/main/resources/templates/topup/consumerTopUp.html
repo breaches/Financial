@@ -11,7 +11,6 @@
     <!-- axios -->
     <script src="resources/lib/js/axios.js"></script>
     <style type="text/css">
-
         #left {
             background-color: #ffffff;
             color: #000000;
@@ -20,9 +19,7 @@
             line-height: 40px;
             height:800px;
             float: left;
-
         }
-
         #main {
             width: 934px;
             background-color: #ffffff;
@@ -34,46 +31,28 @@
         .img{
             width:128px;
             height: 60px;
-
         }
     </style>
 </head>
 
 <body>
-
 <div id="app">
 
-
-        <!--left-->
-        <div id="left"  >
-            请选择充值方式：<br/>
-            <!-- 导航菜单 -->
-            <div width="200px">
-                <a  href="zhifubao" class="tab" target="left-page"><img src="resources/images/topup/zhifb.jpg" class="img" /></a><br/>
-                <a  href="weixin" class="tab" target="left-page"><img src="resources/images/topup/weixin.jpg" class="img" /></a><br/>
-                <a  href="yinlian" class="tab" target="left-page"><img src="resources/images/topup/yinlian.jpg" class="img" /></a>
-
-            </div>
-
+    <!--left-->
+    <div id="left"  >
+        请选择充值方式：<br/>
+        <!-- 导航菜单 -->
+        <div width="200px">
+            <a  href="/weixin" class="tab" target="left-page"><img src="resources/images/topup/weixin.jpg" class="img" /></a><br/>
+            <a  href="/zhifubao" class="tab" target="_top"><img src="resources/images/topup/zhifb.jpg" class="img" /></a><br/>
+            <a  href="/yinlian" class="tab" target="left-page"><img src="resources/images/topup/yinlian.jpg" class="img" /></a>
         </div>
+    </div>
 
-        <!--right-->
-        <div id="main">
-
-
-                <iframe  name="left-page" src="/zhifubao"  frameborder="0" style="width: 99%;height: 99%;border:0;">
-
-
-
-                </iframe>
-
-
-
-
-
-
-        </div>
-
+    <!--right-->
+    <div id="main">
+        <iframe name="left-page" src="/weixin" frameborder="0" style="width: 99%;height: 99%;border:0;"></iframe>
+    </div>
 </div>
 
 
@@ -116,3 +95,5 @@
 </body>
 </html>
 
+<script type="text/javascript">
+</script>

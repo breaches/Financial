@@ -118,7 +118,7 @@
                         </div>
                     </div>
                     <div class="tabs">
-                        <a href="/zhifubao" class="tab">充值</a>
+                        <!--<a href="/topup" class="tab">充值</a>-->
                         <a v-for="item in tabs" :href="item.url" class="tab" target="center_main">{{item.title}}</a>
                         <div class="search-hint"></div>
                     </div>
@@ -198,7 +198,9 @@
                 {title: '关于我们', url: '#'}
             ],
             tabs: [
-                {title: '提现', url: 'withdrawalpage'},
+                // {title: '提现', url: 'withdrawalpage'},
+                {title: '充值', url: '/topup'},
+                {title: '提现', url: '/withdrawalpage'},
                 {title: '账户总览', url: 'http://www.baidu.com'},
                 {title: '还款', url: 'http://www.huaban.com'},
                 {title: '资金记录', url: '/'},
