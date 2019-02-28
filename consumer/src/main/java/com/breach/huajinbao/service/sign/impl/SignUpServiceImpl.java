@@ -89,13 +89,17 @@ public class SignUpServiceImpl implements ISignUpService {
         System.out.println("================================================");
         // 验证短信验证码是否正确
         String randomCode = (String) redisTemplate.opsForValue().get(registerData.getPhone());
+        System.out.println(registerData.getPhone());
+        System.out.println(randomCode);
         if(randomCode == null) {
+            System.out.println("手机号码错误");
             return new ReturnUtil(ISystemConsts.AJAX_ERROR, "手机号码错误");
         }
         String code = registerData.getCode();
         if (!code.equals("") && code != null) {
             if (randomCode.equals(code)) {
                 // 验证成功 验证码正确
+
                 System.out.println("验证成功");
                 return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
             }
