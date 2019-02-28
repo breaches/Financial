@@ -37,7 +37,7 @@ public class MapController {
         return "/consumer/myborrow";
     }
 
-    /** 产品 展示借款（借出）/借贷产品 shaokang **/
+    /** 产品 展示借款（借出）投资/借贷产品 shaokang **/
     @RequestMapping("/product/loan")
     public String product() {
         return "/product/loan";

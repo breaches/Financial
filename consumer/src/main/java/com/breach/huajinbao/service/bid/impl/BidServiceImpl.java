@@ -89,6 +89,7 @@ public class BidServiceImpl implements IBidService {
                     userBorrowBidApplyRecord.setUserId(ConsumerSessionUtil.getConsumer().getConsumerId()); // 设置用户id
                     userBorrowBidApplyRecord.setName(consumerInfo.getName()); // 设置用户姓名
                     userBorrowBidApplyRecord.setCreateTime(TimeUtil.getSqlTimeStamp()); // 设置当时创建的时间
+                    userBorrowBidApplyRecord.setSurplusAmount(userBorrowBidApplyRecord.getBorrowMoney());
                     System.out.println(userBorrowBidApplyRecord);
                     userBorrowBidApplyRecordMapper.insert(userBorrowBidApplyRecord);
 

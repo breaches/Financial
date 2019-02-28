@@ -414,7 +414,14 @@
             data: app.borrowApplyInfo
         }).then(function (response) {
             //
+            console.log("申请结果")
             console.log(response)
+            if(response.data.code != 200) {
+                alert(response.data.message)
+            } else {
+                app.borrowApplyInfo = ""
+                alert("申请成功")
+            }
         })
     }
 
