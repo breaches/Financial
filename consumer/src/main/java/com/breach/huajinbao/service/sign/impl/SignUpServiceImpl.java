@@ -64,13 +64,19 @@ public class SignUpServiceImpl implements ISignUpService {
         // 发送短信
         String phone = registerData.getPhone();
         if (phone != null && !phone.equals("")) {
-            // 有电话号码
-            String code = MessageUtil.sendMessage(phone, IApiConsts.TEMPLATE_REGISTER);
-            // 把 手机号码 与 随即验证码 一并存入 redis
-            redisTemplate.opsForValue().set(phone, code);
-            redisTemplate.expire("aaa", 5, TimeUnit.MINUTES);
+            Object o = redisTemplate.opsForValue().get(phone);
+            if(o != null) {
+                // 有存
+                redisTemplate.delete(phone);
+            } else {
+                // 有电话号码
+                String code = MessageUtil.sendMessage(phone, IApiConsts.TEMPLATE_REGISTER);
+                // 把 手机号码 与 随即验证码 一并存入 redis
+                redisTemplate.opsForValue().set(phone, code);
+                redisTemplate.expire("aaa", 5, TimeUnit.MINUTES);
 
-            return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
+                return new ReturnUtil(ISystemConsts.AJAX_SUCCESS, "success");
+            }
         }
         return new ReturnUtil(ISystemConsts.AJAX_ERROR, "error");
     }
