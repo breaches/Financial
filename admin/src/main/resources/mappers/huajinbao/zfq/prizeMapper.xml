@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.breach.huajinbao.mapper.zfq.IPrizeMapper">
+
+
+
+    <!-- 分页+查询 -->
+    <sql id="Prize">
+        <where>
+            <if test="name != null and name != ''">
+                and ub.borrow_number like CONCAT('%',#{name},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                and ub.verify_time &gt;  #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                and ub.verify_time &lt;  #{endDate}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPrize" resultType="map">
+        SELECT ub.borrow_number borrow_number,
+        ub.verify_time verify_time,ub.reason reason,
+        ub.state state ,
+        ei.employee_name employee_name
+        from user_borrow_bid_full_trials ub LEFT JOIN
+
+        employee_info ei  on ub.employee_id=ei.id
+        <include refid="Prize"/>
+        limit #{page},#{count}
+    </select>
+
+    <select id="getPrizeTotal" resultType="java.lang.Integer">
+        select count(*) c from user_borrow_bid_full_trials ub LEFT JOIN
+
+        employee_info ei  on ub.employee_id=ei.id
+        <include refid="Prize"/>
+    </select>
+
+
+
+
+    <select id="recheck" resultType="map">
+        SELECT ub.borrow_number borrow_number,
+        ub.verify_time verify_time,ub.reason reason,
+        ub.state state ,
+        ei.employee_name employee_name
+        from user_borrow_bid_full_retrials ub LEFT JOIN
+
+        employee_info ei  on ub.employee_id=ei.id
+        <include refid="Prize"/>
+        limit #{page},#{count}
+    </select>
+
+    <select id="recheckTotal" resultType="java.lang.Integer">
+        select count(*) c from user_borrow_bid_full_retrials ub LEFT JOIN
+
+        employee_info ei  on ub.employee_id=ei.id
+        <include refid="Prize"/>
+    </select>
+
+
+
+
+    <select id="failure" resultType="map">
+        SELECT ub.borrow_number borrow_number,
+        ub.verify_time verify_time,ub.reason reason,
+        ub.state state ,
+        ei.employee_name employee_name
+        from user_borrow_bid_abandon_verify ub LEFT JOIN
+
+        employee_info ei  on ub.employee_id=ei.id
+        <include refid="Prize"/>
+        limit #{page},#{count}
+    </select>
+
+    <select id="failureTotal" resultType="java.lang.Integer">
+        select count(*) c from user_borrow_bid_abandon_verify ub LEFT JOIN
+
+        employee_info ei  on ub.employee_id=ei.id
+        <include refid="Prize"/>
+    </select>
+
+
+
+
+
+    <select id="Invitation" resultType="map">
+        SELECT ub.borrow_number borrow_number,
+        ub.verify_time verify_time,ub.reason reason,
+        ub.state state ,
+        ei.employee_name employee_name
+        from user_borrow_bid_publish_verify ub LEFT JOIN
+
+        employee_info ei  on ub.employee_id=ei.id
+        <include refid="Prize"/>
+        limit #{page},#{count}
+    </select>
+
+    <select id="InvitationTotal" resultType="java.lang.Integer">
+        select count(*) c from user_borrow_bid_publish_verify ub LEFT JOIN
+
+        employee_info ei  on ub.employee_id=ei.id
+        <include refid="Prize"/>
+    </select>
+</mapper>
+
+
+
+
+
