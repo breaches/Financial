@@ -52,6 +52,8 @@ public class JumpForController {
     public String index6() {
         return "message/messagePage";
     }
+    @RequestMapping("/moneyrecord")
+    public String index7(){ return "record/MoneryRecord";}
 
     /**
      * 调用支付接口

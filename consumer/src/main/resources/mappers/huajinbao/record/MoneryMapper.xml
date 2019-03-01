@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breach.huajinbao.mapper.record.IEmpMapper">
+
+    <!-- 分页+查询 -->
+    <sql id="empQuery">
+        <where>
+            <if test="beginDate != null and beginDate != '' ">
+                and create_time &gt;  #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                and create_time &lt;  #{endDate}
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="getEmp" resultType="map">
+        SELECT ub.borrow_number borrow_number,ub.trading_amount trading_amount,ub.create_time create_time, ub.surplus_amount surplus_amount, ub.id id,ci.name name from user_borrow_transaction_record ub LEFT JOIN consumer_info ci ON ub.consumer_id=ci.id
+        <include refid="empQuery" />
+        limit #{page},#{count}
+    </select>
+    <select id="getEmpTotal" resultType="java.lang.Integer">
+        select count(*)  from user_borrow_transaction_record
+        <include refid="empQuery" />
+    </select>
+
+
+    <!-- 根据id获取用户-->
+    <select id="getEmpByID" resultType="com.breach.huajinbao.util.record.EmpMonery">
+      SELECT ub.borrow_number borrow_number,ub.trading_amount trading_amount,ub.create_time create_time, ub.surplus_amount surplus_amount, ub.id id,ci.name name from user_borrow_transaction_record ub LEFT JOIN consumer_info ci ON ub.consumer_id=ci.id WHERE ub.id= #{id}
+    </select>
+</mapper>

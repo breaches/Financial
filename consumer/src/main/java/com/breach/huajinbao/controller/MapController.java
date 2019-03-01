@@ -72,5 +72,11 @@ public class MapController {
     public String commonBid() {
         return "/product/loan/personBidDetail";
     }
+    /** 资金记录 **/
+    @RequestMapping("/record/monery")
+    public String monery(){return "/record/Monery";}
+    /** 投资记录**/
+    @RequestMapping("/record/Investment")
+    public String Investment(){return "/record/Investment";}
 
 }

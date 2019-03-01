@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>home.html</title>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div id="app">
+
+    日期:
+    <el-date-picker v-model="empQuery.beginDate" type="date" placeholder="开始日期">
+    </el-date-picker>---------
+    <el-date-picker v-model="empQuery.endDate" type="date" placeholder="结束日期">
+    </el-date-picker>
+    <el-button icon="el-icon-search" @click="empSearch" circle></e  l-button>
+
+    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" stripe="true" style="width: 100%" height="600" >
+        <el-table-column type="selection" width="55">
+        </el-table-column>
+        <el-table-column type="index">
+        </el-table-column>
+        <el-table-column prop="borrow_number" label="单号" width="120">
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" width="120">
+        </el-table-column>
+        <el-table-column prop="trading_amount" label="支出金额" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="surplus_amount" label="账户余额" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="create_time" label="记录时间" sortable :formatter="formatDate" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button size="mini" type="primary"  @click="handleEdit(scope.row)" >详情</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+
+
+    <!--分页条-->
+    <div>
+    <el-pagination @size-change="handleSizeChange" :current-page="empQuery.page"
+                  @current-change="handleCurrentChange" :page-sizes="[3, 6,9,12]" :page-size="3" layout="total, sizes, prev, pager, next, jumper" :total="total">
+    </el-pagination>
+    </div>
+
+    <!-- 弹框 -->
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+        <el-form status-icon :model="empInfo" ref="loginFrom" label-width="100px" class="demo-ruleForm">
+            <el-input type="hidden" v-model="empInfo.id" autocomplete="off"></el-input>
+            <el-form-item label="姓名" prop="name">
+                <el-input type="text" v-model="empInfo.name" autocomplete="off"></el-input>
+            </el-form-item>
+
+
+
+        </el-form>
+
+
+
+        <span slot="footer" class="dialog-footer">
+					<el-button @click="dialogVisible = false">取 消</el-button>
+					<el-button type="primary">确 定</el-button>
+				</span>
+    </el-dialog>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            tableData: [],
+            dialogVisible:false,
+            empQuery: {
+                page: 1,
+                count: 3,
+                beginDate: "",
+                endDate: ""
+            },
+            total:0,
+            empInfo:{}
+        },
+        methods:{
+            formatDate: function (row, column, cellValue, index) {
+                if (cellValue != null) {
+                    var date = new Date(cellValue);
+                    Y = date.getFullYear(),
+                        m = date.getMonth() + 1,
+                        d = date.getDate(),
+                        H = date.getHours(),
+                        i = date.getMinutes(),
+                        s = date.getSeconds();
+                    if (m < 10) {
+                        m = '0' + m;
+                    }
+                    if (d < 10) {
+                        d = '0' + d;
+                    }
+                    if (H < 10) {
+                        H = '0' + H;
+                    }
+                    if (i < 10) {
+                        i = '0' + i;
+                    }
+                    if (s < 10) {
+                        s = '0' + s;
+                    }
+                    var t = Y + '-' + m + '-' + d + ' ' + H + ':' + i;
+                    return t;
+                }
+            },
+            handleSelectionChange:function(val){
+                this.deleteArr = val;
+            },
+            stateFormatter:function(row, column, cellValue, index){
+                return cellValue == 1 ? "审核通过":"审核未通过";
+            },
+            handleSizeChange:function(val){
+                this.empQuery.count = val;
+                this.empQuery.page = 1;
+                reload();
+            },
+            handleCurrentChange:function(val){
+                this.empQuery.page = val;
+                reload();
+            },
+            empSearch:function () {
+                reload();
+            },
+            handleEdit:function (gg) {
+                app.dialogVisible = true;
+                axios.get('/emp/getEditEmp?id='+gg.id)
+                    .then(function(response) {
+                        app.empInfo=response.data;
+
+                    });
+            }
+        }
+
+    });
+
+    function reload() {
+        axios.post('/emp/getEmp', app.empQuery)
+            .then(function(response) {
+                app.tableData = response.data.data;
+                app.total = response.data.total;
+            });
+    }
+    reload();
+
+
+</script>
+</body>
+
+</html>
